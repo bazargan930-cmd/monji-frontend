@@ -1,114 +1,69 @@
 "use client";
 
-import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
+import SalaryTaxResult from "@/components/salary-tax/SalaryTaxResult";
 import SalaryTaxForm from "./SalaryTaxForm";
 
-export default function SalaryTaxpage() {
-  const { control, register, handleSubmit } = useForm({
-    defaultValues: {
-      rows: [
-        {
-          nationalId: "",
-          firstName: "",
-          lastName: "",
-          baseSalary: "",
-          deductedTax: "",
-          year: new Date().getFullYear().toString(),
-        },
-      ],
+export default function SalaryTaxPage() {
+  const [result, setResult] = useState<null | {
+    taxableSalary: number;
+    taxAmount: number;
+    exemptionAmount: number;
+    effectiveTaxRate: number;
+  }>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleCalculate = async (formData: any) => {
+  setLoading(true);
+  setError("");
+  setResult(null);
+
+  const token = localStorage.getItem("access_token");
+
+  const requestBody = {
+    salaryComponents: {
+      baseSalary: Number(formData.monthlySalary),
+      bonuses: Number(formData.bonuses),
+      overtime: Number(formData.overtime),
     },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "rows",
-  });
-
-  const [result, setResult] = useState(null);
-
-  const onSubmit = async (data: any) => {
-    try {
-      const res = await fetch("/api/simulators/salary-tax/batch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entries: data.rows }),
-      });
-      const json = await res.json();
-      setResult(json);
-    } catch (error) {
-      console.error("خطا در ارسال داده:", error);
-    }
+    insurance: Number(formData.insurance),
+    month: 2,
+    year: 1404,
   };
 
+  try {
+    const res = await fetch("http://localhost:3001/simulators/salary-tax/calculate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!res.ok) throw new Error("خطا در دریافت پاسخ");
+
+    const data = await res.json();
+    setResult(data);
+  } catch (err: any) {
+    setError(err.message || "خطای نامشخص");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">ورود اطلاعات حقوق کارکنان</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <table className="w-full border border-gray-300 text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border px-2 py-1">کد ملی</th>
-              <th className="border px-2 py-1">نام</th>
-              <th className="border px-2 py-1">نام خانوادگی</th>
-              <th className="border px-2 py-1">حقوق مستمر</th>
-              <th className="border px-2 py-1">مالیات کسر شده</th>
-              <th className="border px-2 py-1">سال</th>
-              <th className="border px-2 py-1">عملیات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fields.map((item: any, index: number) => (
-              <tr key={item.id}>
-                <td className="border px-2 py-1">
-                  <input {...register(`rows.${index}.nationalId`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1">
-                  <input {...register(`rows.${index}.firstName`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1">
-                  <input {...register(`rows.${index}.lastName`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1">
-                  <input type="number" {...register(`rows.${index}.baseSalary`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1">
-                  <input type="number" {...register(`rows.${index}.deductedTax`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1">
-                  <input {...register(`rows.${index}.year`)} className="w-full border px-1" />
-                </td>
-                <td className="border px-2 py-1 text-center">
-                  <button type="button" onClick={() => remove(index)} className="text-red-500">حذف</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <main className="p-6 max-w-3xl mx-auto space-y-6">
+    <h1 className="text-2xl font-bold">محاسبه مالیات حقوق</h1>
 
-        <div className="flex justify-between items-center">
-          <button
-            type="button"
-            onClick={() => append({ nationalId: "", firstName: "", lastName: "", baseSalary: "", deductedTax: "", year: new Date().getFullYear().toString() })}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            افزودن پرسنل جدید به فهرست
-          </button>
+    <SalaryTaxForm onSubmit={handleCalculate} />
 
-          <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded">
-            ارسال و محاسبه
-          </button>
-        </div>
-      </form>
-
-      {result && (
-        <div className="mt-6">
-          <h3 className="font-bold">نتیجه محاسبه:</h3>
-          <pre className="bg-gray-100 p-4 rounded text-sm">
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </div>
-      )}
-    </div>
-  );
+    {loading && <p className="text-blue-600">در حال محاسبه...</p>}
+    {error && <p className="text-red-600">خطا: {error}</p>}
+    {result && <SalaryTaxResult result={result} />}
+  </main>
+);
 }
