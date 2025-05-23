@@ -1,4 +1,24 @@
 // src/components/salary-tax/SalaryTaxResult.tsx
+
+
+export type SalaryResult = {
+  index: number;
+  status: 'success' | 'error';
+  result?: {
+    totalIncome: number;
+    totalTaxableIncome: number;
+    insurance: number;
+    taxAmount: number;
+    taxRate: number;
+    effectiveTaxRate: number;
+    exemptionsApplied: number;
+  };
+  message?: string;
+};
+
+
+
+
 type SalaryTaxResultProps = {
   result: {
     taxableSalary?: number;
@@ -8,16 +28,19 @@ type SalaryTaxResultProps = {
   };
 };
 
-export default function SalaryTaxResult({ result }: SalaryTaxResultProps) {
+export default function SalaryTaxResult({ result }: { result: SalaryResult }) {
+  if (result.status === 'error') {
+    return <div className="text-red-600">خطا: {result.message}</div>;
+  }
+
   return (
-    <div className="border rounded-xl p-6 shadow-md bg-white w-full max-w-xl space-y-4">
-      <h2 className="text-xl font-bold text-gray-800">نتیجه محاسبه مالیات</h2>
-      <div className="text-sm text-gray-700">
-        <p>حقوق مشمول مالیات: <span className="font-semibold">{result.taxableSalary?.toLocaleString() ?? "—"} تومان</span></p>
-        <p>میزان معافیت: <span className="font-semibold">{result.exemptionAmount?.toLocaleString() ?? "—"} تومان</span></p>
-        <p>میزان مالیات محاسبه‌شده: <span className="font-semibold text-red-600">{result.taxAmount?.toLocaleString() ?? "—"} تومان</span></p>
-        <p>نرخ مؤثر مالیاتی: <span className="font-semibold">{result.effectiveTaxRate?.toFixed(2) ?? "—"}٪</span></p>
-      </div>
+    <div className="border rounded p-2 bg-gray-50 mt-2 text-sm">
+      <div>درآمد کل: {result.result?.totalIncome.toLocaleString()}</div>
+      <div>درآمد مشمول مالیات: {result.result?.totalTaxableIncome.toLocaleString()}</div>
+      <div>بیمه: {result.result?.insurance.toLocaleString()}</div>
+      <div>میزان مالیات: {result.result?.taxAmount.toLocaleString()}</div>
+      <div>نرخ مالیات: {result.result?.taxRate * 100}٪</div>
+      <div>تعداد معافیت: {result.result?.exemptionsApplied}</div>
     </div>
   );
 }
