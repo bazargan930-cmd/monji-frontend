@@ -1,62 +1,39 @@
-'use client';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-import { useEffect, useState } from 'react';
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
-interface Simulator {
-  id: number;
-  title: string;
-  slug: string;
-  description: string;
-  accessLevel: string;
-}
+  if (!accessToken) {
+    redirect('/auth/login');
+  }
 
+  // ارسال درخواست به بک‌اند NestJS (فرض بر این است که 3001 API Nest است)
+  const resUser = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/api/utils/user-info`, {
+    credentials: 'include',
+    headers: {
+      Cookie: `accessToken=${accessToken}`,
+    },
+    cache: 'no-store',
+  });
 
-export default function DashboardPage() {
-  const [simulators, setSimulators] = useState<Simulator[]>([]);
-  const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-  const fetchSimulators = async () => {
-    const token = localStorage.getItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJyb2xlcyI6WyJ1c2VyIl0sImFjY2Vzc0xldmVsIjoiRlJFRSIsImlhdCI6MTc0NzMzMjc1OCwiZXhwIjoxNzQ3NDE5MTU4fQ.JElBJIYiYndaON5LE9FMlGXOkWPg5MbVEiIa-2TJzbE');
-    const res = await fetch('http://localhost:3001/simulators/user-simulators', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  if (!resUser.ok) {
+    redirect('/auth/login');
+  }
 
-    const data = await res.json();
-    console.log('✅ API response:', data);
+  const user = await resUser.json();
+  const allowedLevels = ['NORMAL', 'PRO', 'VIP', 'ADMIN'];
 
-    if (Array.isArray(data)) {
-      setSimulators(data);
-    } else {
-      console.error('❌ Expected array, got:', data);
-      setSimulators([]);
-    }
+  if (!allowedLevels.includes(user.accessLevel)) {
+    redirect('/auth/login');
+  }
 
-    setLoading(false);
-  };
-
-  fetchSimulators();
-}, []);
-
-
+  // می‌توان ادامه داد به نمایش داشبورد
   return (
     <main className="p-6">
       <h1 className="text-2xl font-bold mb-4">🎛 داشبورد شبیه‌سازها</h1>
-      {loading ? (
-        <p>در حال دریافت اطلاعات...</p>
-      ) : (
-        <ul className="space-y-3">
-          {simulators.map((sim) => (
-            <li key={sim.id} className="p-4 bg-gray-100 rounded shadow">
-              <h2 className="text-lg font-semibold">{sim.title}</h2>
-              <p className="text-sm text-gray-600">{sim.description}</p>
-              <span className="text-xs text-blue-600">دسترسی: {sim.accessLevel}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* ادامه نمایش شبیه‌سازها */}
     </main>
   );
 }

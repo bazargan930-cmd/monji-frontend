@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { InsuranceResult } from '../../interfaces/tax-result.interface';
+import { InsuranceResult } from '../../../../components/insurance/tax-result.interface';
 
 type PayrollItem = {
   code: string;

@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 export type SalaryRow = {
   firstName: string;
   lastName: string;
-  nationalCode: string;
+  nationalId: string;
   baseSalary: number;
   bonuses: number;
   overtime: number;
@@ -36,7 +36,7 @@ export default function SalaryTaxBatchPage() {
     {
       firstName: '',
       lastName: '',
-      nationalCode: '',
+      nationalId: '',
       baseSalary: 0,
       bonuses: 0,
       overtime: 0,
@@ -72,7 +72,7 @@ export default function SalaryTaxBatchPage() {
       {
         firstName: '',
         lastName: '',
-        nationalCode: '',
+        nationalId: '',
         baseSalary: 0,
         bonuses: 0,
         overtime: 0,
@@ -97,7 +97,7 @@ export default function SalaryTaxBatchPage() {
           return;
         }
 
-        if (!/^\d{10}$/.test(row.nationalCode)) {
+        if (!/^\d{10}$/.test(row.nationalId)) {
           alert(`کد ملی در ردیف ${i + 1} نامعتبر است. باید 10 رقم باشد.`);
           return;
         }
@@ -206,7 +206,7 @@ const handleDownloadExcel = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input type="text" placeholder="نام" value={row.firstName} onChange={(e) => handleChange(index, 'firstName', e.target.value)} className="input" />
           <input type="text" placeholder="نام خانوادگی" value={row.lastName} onChange={(e) => handleChange(index, 'lastName', e.target.value)} className="input" />
-          <input type="text" placeholder="کد ملی" value={row.nationalCode} onChange={(e) => handleChange(index, 'nationalCode', e.target.value)} className="input" />
+          <input type="text" placeholder="کد ملی" value={row.nationalId} onChange={(e) => handleChange(index, 'nationalId', e.target.value)} className="input" />
           <input type="number" placeholder="حقوق پایه" value={row.baseSalary} onChange={(e) => handleChange(index, 'baseSalary', e.target.value)} className="input" />
           <input type="number" placeholder="پاداش" value={row.bonuses} onChange={(e) => handleChange(index, 'bonuses', e.target.value)} className="input" />
           <input type="number" placeholder="اضافه کار" value={row.overtime} onChange={(e) => handleChange(index, 'overtime', e.target.value)} className="input" />
