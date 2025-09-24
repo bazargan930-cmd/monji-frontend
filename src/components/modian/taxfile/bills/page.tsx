@@ -3,10 +3,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ModianHeader from '@/components/layout/ModianHeader';
-import ModianSubHeader from '@/components/layout/ModianSubHeader';
-import ModianSidebar from '@/components/modian/ModianSidebar';
-import HelpGuideButton from '@/components/common/HelpGuideButton';
 import { FiEdit2, FiTrash2, FiSearch, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 // ⬇️ ایمپورت لیست شعب  تایپ آن
 import {
@@ -14,7 +10,7 @@ import {
   BranchInfo,
 } from '@/components/modian/taxfile/registration-information/page';
 import { getBills, createBill, updateBill, deleteBill, type GetOpts } from '@/lib/modianApi';
-import ModianFooter from '../../../layout/ModianFooter';
+// صفحه «Content-only»: Chrome مشترک در Layout رندر می‌شود
 
 type Bill = {
   id: number;
@@ -249,26 +245,13 @@ export default function BillsPage() {
           }
         };
 
-  
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* هدر اصلی و ساب‌هدر */}
-      <ModianHeader />
-      <ModianSubHeader />
-
-      {/* بدنه با منوی سمت راست */}
-      <div className="flex flex-1 p-4 gap-4 bg-gray-50">
-        {/* سایدبار سمت راست (ثابت) */}
-        <div className="w-80 shrink-0">
-          <ModianSidebar />
-        </div>
-
-        {/* محتوای اصلی – بدون margin منفی تا با سایدبار همپوشانی نداشته باشد */}
-        <main className="flex-1">
-          {/* تیتر و کلید راهنما (بدون -mr-*) */}
-          <div className="flex items-center justify-between mb-3">
-            <h1 className="text-lg font-semibold text-gray-800 pr-0">قبوض</h1>
-            <HelpGuideButton lines={helpLinesBills} />
+      <>
+        {/* محتوای اصلی صفحه قبوض – بدون Chrome مشترک */}
+        <div className="px-0">
+          {/* تیتر صفحه (راهنما در لایهٔ ادمین رندر می‌شود) */}
+          <div className="flex items-center mb-3">
+            <h1 className="relative -top-6 leading-tight text-lg font-semibold text-gray-800 pr-0">قبوض</h1>
           </div>
 
            {/* کادر بزرگ جستجو مثل سایت اصلی */}
@@ -335,7 +318,7 @@ export default function BillsPage() {
              </div>
           </div>
 
-          {/* جدول قبوض – در محدوده flex-1 می‌ماند و روی سایدبار نمی‌رود */}
+          {/* جدول قبوض */}
           <div className="bg-white border rounded-md shadow-sm p-0 overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
@@ -664,12 +647,10 @@ export default function BillsPage() {
                     </div>
                   </div>
                 )}
-        </main>        
-      </div>
-      {/* Footer inside the same container */}
-        <div className="mt-auto w-full">
-          <ModianFooter />
         </div>
-    </div>
-  );
-}
+      {/* مودال‌ها پایین نگه داشته شوند */}
+    </>
+   );
+ }
+ 
+

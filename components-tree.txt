@@ -1,0 +1,85 @@
+src\components
+├─ admin/
+│  └─ NoticeForm.tsx
+├─ auth/
+│  ├─ ChangePasswordForm.tsx
+│  └─ LoginForm.tsx
+├─ common/
+│  ├─ Captcha.tsx
+│  ├─ HelpGuideButton.tsx
+│  └─ InputField.tsx
+├─ insurance/
+│  ├─ InputGroup.tsx
+│  ├─ InsuranceResultBox.tsx
+│  ├─ InsuranceSingleForm.tsx
+│  └─ tax-result.interface.ts
+├─ landing/
+│  ├─ ArticlePreview.tsx
+│  ├─ DemoCard.tsx
+│  ├─ FeatureCard.tsx
+│  ├─ HeroSection.tsx
+│  └─ LandingFooter.tsx
+├─ layout/
+│  ├─ ModianFooter.tsx
+│  ├─ ModianHeader.tsx
+│  ├─ ModianShell.tsx
+│  └─ ModianSubHeader.tsx
+├─ modian/
+│  ├─ common/
+│  │  ├─ memoryKey.utils.ts
+│  │  ├─ ToolbarControls.tsx
+│  │  ├─ UploadPublicKeyModal.tsx
+│  │  └─ useMemoryPublicKey.ts
+│  ├─ otp/
+│  │  └─ page.tsx
+│  ├─ taxfile/
+│  │  ├─ bank-accounts/
+│  │  │  └─ page.tsx
+│  │  ├─ bills/
+│  │  │  └─ page.tsx
+│  │  ├─ memory-uid/
+│  │  │  ├─ add/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ details/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ edit/
+│  │  │  │  └─ page.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ payments/
+│  │  │  └─ page.tsx
+│  │  ├─ pos-uid/
+│  │  │  └─ page.tsx
+│  │  ├─ registration-information/
+│  │  │  ├─ page.tsx
+│  │  │  └─ types.ts
+│  │  ├─ trusted-companies/
+│  │  │  └─ page.tsx
+│  │  ├─ layout.tsx
+│  │  ├─ page.tsx
+│  │  └─ TaxfileSubmenu.tsx
+│  ├─ faq-data.ts
+│  ├─ InvoiceForm.tsx
+│  ├─ karpooshe-code-search.tsx
+│  ├─ menu-items.ts
+│  ├─ ModianFaqTab.tsx
+│  ├─ ModianHome.tsx
+│  ├─ ModianLoginForm.tsx
+│  ├─ ModianNoticesTabs.tsx
+│  ├─ ModianOtpForm.tsx
+│  ├─ ModianPortal.tsx
+│  ├─ ModianQuickAccess.tsx
+│  ├─ ModianSidebar.tsx
+│  └─ ModianWorkspace.tsx
+├─ salary-tax/
+│  ├─ page.tsx
+│  ├─ SalaryTaxForm.tsx
+│  ├─ SalaryTaxResult.tsx
+│  └─ SimulatorHeader.tsx
+├─ simulators/
+│  └─ karpooshe/
+│     └─ KarpoosheLoginForm.tsx
+├─ ui/
+│  ├─ button.tsx
+│  ├─ card.tsx
+│  └─ input.tsx
+└─ Stepper.tsx

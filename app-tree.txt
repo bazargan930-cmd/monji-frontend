@@ -1,0 +1,96 @@
+src\app
+├─ admin/
+│  └─ notices/
+│     ├─ [id]/
+│     │  └─ edit/
+│     │     └─ page.tsx
+│     ├─ new/
+│     │  └─ page.tsx
+│     └─ page.tsx
+├─ api/
+│  ├─ auth/
+│  │  ├─ login/
+│  │  └─ logout/
+│  │     └─ route.ts
+│  ├─ simulators/
+│  │  └─ insurance/
+│  │     └─ calculate/
+│  │        └─ route.ts
+│  └─ utils/
+│     ├─ today/
+│     │  └─ route.ts
+│     └─ user-info/
+│        └─ route.ts
+├─ auth/
+│  ├─ login/
+│  │  └─ page.tsx
+│  └─ register/
+│     └─ page.tsx
+├─ auth-debug/
+│  └─ page.tsx
+├─ dashboard/
+│  └─ page.tsx
+├─ profile/
+│  └─ page.tsx
+├─ simulators/
+│  ├─ insurance/
+│  │  ├─ free/
+│  │  │  └─ page.tsx
+│  │  └─ single/
+│  │     └─ page.tsx
+│  ├─ karpooshe/
+│  │  └─ login/
+│  │     └─ page.tsx
+│  ├─ modian/
+│  │  ├─ admin/
+│  │  │  ├─ dashboard/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ taxfile/
+│  │  │  │  ├─ bank-accounts/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ bills/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ memory-uid/
+│  │  │  │  │  ├─ add/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ details/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ registration/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ trusted/
+│  │  │  │     ├─ add/
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ home/
+│  │  │  └─ page.tsx
+│  │  ├─ invoice/
+│  │  │  ├─ new/
+│  │  │  │  └─ page.tsx
+│  │  │  └─ route.ts
+│  │  ├─ login/
+│  │  │  └─ page.tsx
+│  │  ├─ otp/
+│  │  │  └─ page.tsx
+│  │  ├─ portal/
+│  │  │  └─ page.tsx
+│  │  ├─ taxfile/
+│  │  │  └─ registration/
+│  │  │     └─ page.tsx
+│  │  └─ workspace/
+│  │     └─ page.tsx
+│  └─ salary-tax/
+│     ├─ batch/
+│     │  └─ page.tsx
+│     ├─ dashboard/
+│     │  └─ page.tsx
+│     ├─ free/
+│     │  └─ page.tsx
+│     ├─ login/
+│     │  └─ page.tsx
+│     └─ pro/
+│        └─ page.tsx
+├─ head.tsx
+├─ layout.tsx
+└─ page.tsx

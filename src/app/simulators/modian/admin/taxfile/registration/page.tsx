@@ -1,8 +1,6 @@
 // src/app/simulators/modian/admin/taxfile/registration/page.tsx
 'use client';
 
-import ModianHeader from '@/components/layout/ModianHeader';
-import ModianSubHeader from '@/components/layout/ModianSubHeader';
 import ModianSidebar from '@/components/modian/ModianSidebar';
 
 // ⬇️ این را اضافه کنید
@@ -12,13 +10,7 @@ import HelpGuideButton from '@/components/common/HelpGuideButton';
 export default function RegistrationInformationPage() {
   // متن راهنمای اختصاصی این صفحه
   const helpLinesReg = ['صفحه اطلاعات ثبت نامی', 'توضیحات بیشتر در حال تکمیل است'];
-  return (
-    <div className="flex flex-col min-h-screen">
-      {/* هدر اول (بنر سبز) */}
-      <ModianHeader />
-      {/* هدر دوم (breadcrumb) */}
-      <ModianSubHeader />
-
+ 
       {/* بدنه با منوی سمت راست */}
       <div className="flex flex-1 p-4 gap-4 bg-gray-50">
         {/* منوی سمت راست */}
@@ -39,7 +31,5 @@ export default function RegistrationInformationPage() {
             <RegistrationInformation />
           </main>
         </div>
-      </div>
-
-  );
+return <RegistrationInformation />;
 }

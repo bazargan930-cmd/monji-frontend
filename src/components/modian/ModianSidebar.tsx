@@ -176,7 +176,7 @@ export default function ModianSidebar() {
 
   /** ---------- UI ---------- */
   return (
-    <aside className="w-72 shrink-0 bg-white">
+    <aside className="w-80 shrink-0 bg-white">
       <div className="p-3 flex flex-col gap-3">
         {/* بخش ۱: کارت کاربر */}
         <div className="rounded-md overflow-hidden">

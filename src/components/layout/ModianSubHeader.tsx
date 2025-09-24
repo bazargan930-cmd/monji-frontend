@@ -1,14 +1,28 @@
 // src/components/layout/ModianSubHeader.tsx
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { FiLogOut, FiBell, FiUser } from 'react-icons/fi';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { modianMenu, normalizePath } from '@/components/modian/menu-items';
 
-export default function ModianSubHeader() {
-  const pathname = normalizePath(usePathname());
+type Props = {
+  /** اگر مقدار بدهید، برچسب سبز انتهایی نوار مسیر با همین متن نشان داده می‌شود */
+  overrideTailLabel?: string;
+};
 
+export default function ModianSubHeader({ overrideTailLabel }: Props) {
+  const pathname = normalizePath(usePathname());
+  const search = useSearchParams();
+  // تشخیص صفحه فقط بر اساس pathname تا تفاوت SSR/CSR ایجاد نشود
+  const isAddPage =
+    pathname.endsWith('/trusted/add') || pathname.endsWith('/memory-uid/add');
+  const isDetailsPage =
+    pathname.endsWith('/trusted/details') || pathname.endsWith('/memory-uid/details');
+  const isEditPage =
+    pathname.endsWith('/trusted/edit') || pathname.endsWith('/memory-uid/edit');
+  // اگر صفحهٔ details با کوئری mode=edit باز شده باشد، ساب‌هدر باید «ویرایش» نشان دهد
+  const forceEdit = search.get('mode') === 'edit';
   const s0s1 = [...modianMenu[0], ...modianMenu[1]];
   const activeTop = s0s1.find((i) => pathname === i.href || pathname.startsWith(i.href + '/'));
   const isPortal = activeTop?.label === 'پیشخوان';
@@ -39,6 +53,24 @@ export default function ModianSubHeader() {
               {activeChild?.icon && <activeChild.icon />}
               {activeChild?.label || 'اطلاعات ثبت نامی'}
             </span>
+            {isAddPage && (
+              <>
+                <span className="text-gray-400">{'>'}</span>
+                <span className="text-green-600">افزودن</span>
+              </>
+            )}
+           {!isAddPage && isDetailsPage && !forceEdit && (
+              <>
+                <span className="text-gray-400">{'>'}</span>
+                <span className="text-green-600">جزئیات</span>
+              </>
+            )}
+            {!isAddPage && ( (!isDetailsPage && isEditPage) || forceEdit ) && (
+              <>
+                <span className="text-gray-400">{'>'}</span>
+                <span className="text-green-600">ویرایش</span>
+              </>
+            )}           
           </>
         ) : !isPortal ? (
           <>

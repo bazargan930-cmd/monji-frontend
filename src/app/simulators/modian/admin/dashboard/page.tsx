@@ -2,9 +2,7 @@
 
 'use client';
 
-import ModianShell from '@/components/layout/ModianShell';
-import ModianSidebar from '@/components/modian/ModianSidebar';
-import HelpGuideButton from '@/components/common/HelpGuideButton';
+// Chrome (Shell/Sidebar/Help) در لایهٔ والد رندر می‌شود؛ این صفحه فقط محتوای داشبورد را نمایش می‌دهد.
 import { FaSyncAlt } from 'react-icons/fa';
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -161,19 +159,9 @@ export default function Page() {
   const nowFa = () => new Date().toLocaleDateString('fa-IR'); // ۱۴۰۴/۰۵/۱۵
 
   return (
-    <ModianShell>
-      <div className="flex flex-row gap-6 px-6 py-8">
-        {/* منوی کناری */}
-        <div className="w-1/4">
-          <ModianSidebar />
-        </div>
-
-        {/* محتوای داشبورد مدیریتی */}
-        <div className="w-3/4 space-y-1 relative">
-
-          {/* دکمه راهنما: سمت چپ، خارج از کارت و بدون اثر روی ارتفاع */}
-          <HelpGuideButton className="absolute -top-12 left-0" />
-
+    <>
+      {/* محتوای داشبورد مدیریتی (Content-only) */}
+      <div className="space-y-1">
           {/* حد مجاز فروش */}
           <Card>
             <CardContent className="p-4 space-y-4">
@@ -509,7 +497,6 @@ export default function Page() {
             </CardContent>
           </Card>
         </div>
-      </div>
 
       {/* ===== مودال کوچک محاسبه حد مجاز ===== */}
       {showModal && (
@@ -592,10 +579,9 @@ export default function Page() {
                 تأیید
               </Button>
             </div>
-
-          </div>
+      </div>
         </div>
       )}
-    </ModianShell>
+    </>
   );
 }

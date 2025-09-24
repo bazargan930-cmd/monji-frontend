@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ModianFooter from '../../../layout/ModianFooter';
+// Footer در لایهٔ والد رندر می‌شود؛ در این صفحه نیاز نیست
 
 // آدرس بک‌اند (قابل‌تغییر با NEXT_PUBLIC_API_BASE)
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001';
@@ -280,7 +280,13 @@ export default function RegistrationInformation() {
 
   return (
     <>
-    <div className="lg:pr-10 pr-4">  {/* ← این خط جدید/اصلاحی */}
+    <div className="lg:pr-4 pr-2">
+      {/* تیتر صفحه */}
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="relative -top-4 leading-tight text-lg font-semibold text-gray-800">
+          اطلاعات ثبت نامی پرونده مالیاتی
+        </h1>
+      </div>
       <div className="space-y-12 mt-12">
         {/* سکشن ۱ */}
         <InfoSection
@@ -533,11 +539,6 @@ export default function RegistrationInformation() {
         </section>
       </div> 
     </div> 
-
-    {/* Footer (full-bleed) زیر سایدبار + محتوا */}
-    <div className="mt-auto w-full">
-      <ModianFooter />
-    </div>
     </>
   );
 }

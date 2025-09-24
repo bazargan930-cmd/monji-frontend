@@ -1,3 +1,5 @@
+//src\components\modian\taxfile\TaxfileSubmenu.tsx
+
 'use client';
 
 import Link from 'next/link';
@@ -7,7 +9,7 @@ const items = [
   { label: 'اطلاعات ثبت‌نامی', href: '/simulators/modian/taxfile/registration-information' },
   { label: 'قبوض', href: '/simulators/modian/taxfile/bills' },
   { label: 'شرکت معتمد / سامانه دولتی', href: '/simulators/modian/taxfile/trusted-companies' },
-  { label: 'شناسه یکتا حافظه مالیاتی', href: '/simulators/modian/taxfile/memory-uid' },
+  { label: 'شناسه یکتا حافظه مالیاتی', href: '/simulators/modian/admin/taxfile/memory-uid' },
   { label: 'شناسه یکتا پایانه پرداخت', href: '/simulators/modian/taxfile/pos-uid' },
   { label: 'ابزار پرداخت', href: '/simulators/modian/taxfile/payments' },
   { label: 'حساب بانکی', href: '/simulators/modian/taxfile/bank-accounts' },

@@ -39,7 +39,7 @@ export const modianMenu: MenuItem[][] = [
         { label: 'اطلاعات ثبت نامی', href: '/simulators/modian/admin/taxfile/registration', icon: HiOutlineDocumentReport },
         { label: 'قبوض', href: `${TAXFILE_BASE}/bills`, icon: HiOutlineDocumentReport },
         { label: 'شرکت معتمد / سامانه دولتی', href: `${TAXFILE_BASE}/trusted`, icon: HiOutlineDocumentReport },
-        { label: 'شناسه یکتا حافظه مالیاتی', href: `${TAXFILE_BASE}/fiscal-memory-uid`, icon: HiOutlineDocumentReport },
+        { label: 'شناسه یکتا حافظه مالیاتی', href: `${TAXFILE_BASE}/memory-uid`, icon: HiOutlineDocumentReport },
         { label: 'شناسه یکتا پایانه پرداخت', href: `${TAXFILE_BASE}/payment-terminal-uid`, icon: HiOutlineDocumentReport },
         { label: 'ابزار پرداخت', href: `${TAXFILE_BASE}/payment-tools`, icon: HiOutlineDocumentReport },
         { label: 'حساب بانکی', href: `${TAXFILE_BASE}/bank-accounts`, icon: HiOutlineDocumentReport },

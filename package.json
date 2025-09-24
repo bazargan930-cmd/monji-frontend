@@ -3,18 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "// docs —— generate tree snapshots": "",
+    "docs:app-tree": "node ./tools/gen-tree.js ./src/app ./app-tree.txt",
+    "docs:components-tree": "node ./tools/gen-tree.js ./src/components ./components-tree.txt",
+    "docs:scan": "npm run docs:app-tree && npm run docs:components-tree",
+    "// docs —— update docs-project-structure.md with latest trees": "",
+    "docs:update-structure": "node ./tools/update-docs.js --structure ./docs-project-structure.md --app-tree ./app-tree.txt --components-tree ./components-tree.txt",
+    "docs:all": "npm run docs:scan && npm run docs:update-structure",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.1",
     "@prisma/client": "^6.13.0",
     "@radix-ui/react-slot": "^1.2.3",
-    "axios": "^1.9.0",
+    "axios": "^1.12.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
+    "framer-motion": "^12.23.19",
+    "jalaali-js": "^1.2.8",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.536.0",
     "moment-jalaali": "^0.10.4",
@@ -29,7 +39,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/axios": "^0.9.36",
     "@types/file-saver": "^2.0.7",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
@@ -40,6 +49,7 @@
     "eslint-config-next": "15.3.1",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.2"
   }
 }
