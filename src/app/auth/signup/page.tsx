@@ -13,8 +13,20 @@ export default function SignupPage() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isValidPhone = (phone: string): boolean => {
+  // حذف تمام کاراکترهای غیر عددی
+  const cleaned = phone.replace(/\D/g, '');
+  // بررسی طول و شروع
+  return (
+    cleaned.length === 11 && // ۱۱ رقم (09 + 9 رقم)
+    /^09\d{9}$/.test(cleaned) // شروع با 09 و 9 رقم بعد از آن
+  );
+};
+ const isLatinOnly = (str: string): boolean => {
+   return /^[\x20-\x7E]*$/.test(str); // فقط کاراکترهای قابل چاپ ASCII (فضا تا ~)
+ };
 
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,13 +38,17 @@ export default function SignupPage() {
         setError('نام و نام خانوادگی الزامی است');
         return;
     }
-    if (!/^(09|\+989)\d{9}$/.test(phone)) {
-        setError('شماره موبایل معتبر نیست');
-        return;
+    if (!isValidPhone(phone)) {
+      setError('شماره موبایل معتبر نیست');
+      return;
     }
     if (password.length < 8) {
         setError('رمز عبور باید حداقل ۸ کاراکتر باشد');
         return;
+    }
+    if (!isLatinOnly(password)) {
+       setError('رمز عبور فقط می‌تواند شامل حروف و نمادهای انگلیسی باشد');
+       return;
     }
     if (password !== confirmPassword) {
         setError('رمز عبور و تکرار آن یکسان نیستند');
@@ -43,54 +59,42 @@ export default function SignupPage() {
         return;
     }
 
-    setIsSubmitting(true); // ✅ فعال کردن لودینگ
-
+    setIsSubmitting(true);
     try {
-        const res = await fetch('/api/auth/signup', {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001';
+      const res = await fetch(`${apiBase}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
-            fullName,
-            phone,
-            password,
+          fullName,
+          phone: phone.replace(/\D/g, ''), // نرمال‌سازی
+          password,
         }),
-        });
-
-        let data;
+      });
+      const ct = res.headers.get('content-type') || '';
+      if (!res.ok) {
+        let msg = 'خطای نامشخص';
         try {
-        data = await res.json();
-        } catch (jsonError) {
-        throw new Error('خطای نامشخص از سرور');
-        }
-
-        if (!res.ok) {
-        throw new Error(data?.error || 'ثبت‌نام ناموفق بود');
-        }
-
-        setSuccess('ثبت‌نام با موفقیت انجام شد. در حال انتقال به صفحه ورود...');
-        setTimeout(() => {
-        router.push('/auth/signin');
-        }, 1500);
+          if (ct.includes('application/json')) {
+            const data = await res.json();
+            const m = Array.isArray(data?.message) ? data.message.join('، ') : data?.message;
+            msg = m || data?.error || res.statusText;
+          } else {
+            msg = await res.text();
+          }
+        } catch {}
+        setError(msg);
+        return;
+      }
+      // موفقیت
+      setShowSuccessModal(true);
     } catch (err: any) {
-        setError(err.message);
+      setError(err?.message || 'ثبت‌نام ناموفق بود');
     } finally {
-        setIsSubmitting(false); // ✅ غیرفعال کردن لودینگ — حتی در صورت خطا
+      setIsSubmitting(false);
     }
     };
-
-    if (success) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-            <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-md w-full">
-                <div className="animate-pulse flex flex-col items-center">
-                <div className="w-16 h-16 bg-green-200 rounded-full mb-4"></div>
-                <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                </div>
-            </div>
-            </div>
-        );
-        }
 
   return (
     <div className="max-w-md mx-auto bg-white border rounded-xl p-6 mt-12 shadow-lg">
@@ -148,21 +152,35 @@ export default function SignupPage() {
           </label>
         </div>
         {error && <div className="text-sm text-red-500 mt-2">{error}</div>}
-        {success && <div className="text-sm text-green-600 mt-2">{success}</div>}
+        {showSuccessModal && (
+         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+           <div className="bg-white rounded-xl p-6 max-w-sm w-full text-center shadow-lg">
+             <h3 className="text-lg font-bold text-green-600 mb-4">ثبت‌نام شما با موفقیت انجام شد</h3>
+             <button
+               onClick={() => router.push('/auth/signin')}
+               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-medium"
+             >
+               تایید
+             </button>
+           </div>
+         </div>
+       )}
         <button
           type="submit"
-          disabled={isSubmitting} // ✅ غیرفعال کردن دکمه در حالت لودینگ
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-4 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
+          disabled={isSubmitting}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded mt-4 disabled:opacity-70 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
         >
-          {loading ? (
-            <span className="flex items-center justify-center">
-              <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               در حال ثبت‌نام...
-            </span>
-          ) : 'ثبت‌نام'}
+            </>
+          ) : (
+            'ثبت‌نام'
+          )}
         </button>
         <div className="text-center mt-4">
           <span className="text-gray-600 text-sm">قبلاً ثبت‌نام کرده‌اید؟ </span>

@@ -58,16 +58,16 @@ export function ToolbarSearch({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`border rounded-md pr-3 py-2 text-right ${widthClass}`}
+        className={`border rounded-md pr-3 py-2 text-right bg-transparent ${widthClass}`}
       />
       <button
         type="button"
-        className="h-9 w-9 border rounded-md flex items-center justify-center text-gray-600 bg-white hover:bg-gray-50"
+        className="h-10 w-10 rounded-md border flex items-center justify-center text-gray-600 bg-transparent hover:bg-transparent"
         title="جستجو"
         aria-label="جستجو"
         onClick={onSearch}
       >
-        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>

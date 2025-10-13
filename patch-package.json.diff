@@ -1,0 +1,11 @@
+--- a/package.json
++++ b/package.json
+@@ -13,7 +13,8 @@
+     "dev": "next dev",
+     "build": "next build",
+     "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+   },
+   "dependencies": {
+     "@fortawesome/fontawesome-free": "^7.0.1",

@@ -1,0 +1,13 @@
+'use client';
+import React from 'react';
+
+export default function ModianInvoicesSalesPage() {
+  return (
+    <div className="space-y-3">
+      <h1 className="text-xl md:text-2xl font-bold">صورتحساب‌های فروش داخلی</h1>
+      <div className="rounded-md border border-gray-200 bg-white p-4 text-sm text-gray-600">
+        لیست فروش داخلی — به‌زودی متصل می‌شود.
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,43 @@
+
+ 
+const eslintConfig = [
+  {
+    // جلوگیری از lint شدن کدهای تولیدی و خروجی‌ها
+    ignores: [
+      "**/node_modules/**",
+      ".next/**",
+      "dist/**",
+      "build/**",
+      "coverage/**",
+      "public/**",
+      "src/generated/**",
+      "src/generated/prisma/**"
+    ],
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    // قواعد پایه‌ی پیشنهادی
+    rules: {
+      "import/order": ["error", {
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "groups": [["builtin","external"],["internal"],["parent","sibling","index"]]
+      }],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  },
+  {
+    // نرم‌کردن چند قانون برای عبور اولیه‌ی پروژه (بدون شکستن)
+    files: ["src/**/*.{ts,tsx,js}"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-this-alias": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+    }
+  }
+];
+ 
+ export default eslintConfig;

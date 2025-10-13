@@ -1,13 +1,13 @@
 //src/app/simulators/modian/portal/page.tsx
 
-import { cookies, headers } from 'next/headers';
-import ModianShell from '@/components/layout/ModianShell';
+import { headers } from 'next/headers';
+import { Suspense } from 'react';
 import ModianPortal from '@/components/modian/ModianPortal';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('accessToken')?.value;
 
   // ساختن baseUrl با fallback به host جاری (برای زمانی که NEXT_PUBLIC_SITE_URL تعریف نشده است)
   const hdrs = await headers();
@@ -15,11 +15,11 @@ export default async function Page() {
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? `${protocol}://${host}`;
 
+  // 🔁 پاس‌ترو کامل هدر کوکی جاری (access_token و ... را حمل می‌کند)
+  const cookieHeader = hdrs.get('cookie') ?? '';
   const res = await fetch(`${baseUrl}/api/utils/user-info`, {
     method: 'GET',
-    headers: {
-      ...(token ? { Cookie: `accessToken=${token}` } : {}),
-    },
+    headers: { cookie: cookieHeader },
     cache: 'no-store',
   });
 
@@ -27,11 +27,11 @@ export default async function Page() {
     return redirect('/simulators/modian/login');
   }
 
-  const user = await res.json();
+  const user = (await res.json()) as any;
 
   return (
-    <ModianShell>
-      <ModianPortal user={user} />
-    </ModianShell>
+    <Suspense fallback={<div className="p-4 text-gray-500">در حال بارگذاری…</div>}>
+        <ModianPortal user={user} />
+    </Suspense>
   );
 }

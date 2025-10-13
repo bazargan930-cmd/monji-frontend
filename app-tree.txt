@@ -9,7 +9,6 @@ src\app
 │     └─ page.tsx
 ├─ api/
 │  ├─ auth/
-│  │  ├─ login/
 │  │  └─ logout/
 │  │     └─ route.ts
 │  ├─ simulators/
@@ -22,14 +21,16 @@ src\app
 │     └─ user-info/
 │        └─ route.ts
 ├─ auth/
-│  ├─ login/
+│  ├─ signin/
 │  │  └─ page.tsx
-│  └─ register/
+│  └─ signup/
 │     └─ page.tsx
 ├─ auth-debug/
 │  └─ page.tsx
 ├─ dashboard/
-│  └─ page.tsx
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ Topbar.client.tsx
 ├─ profile/
 │  └─ page.tsx
 ├─ simulators/
@@ -44,42 +45,64 @@ src\app
 │  ├─ modian/
 │  │  ├─ admin/
 │  │  │  ├─ dashboard/
+│  │  │  │  ├─ layout.tsx
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ taxfile/
 │  │  │  │  ├─ bank-accounts/
+│  │  │  │  │  ├─ layout.tsx
 │  │  │  │  │  └─ page.tsx
 │  │  │  │  ├─ bills/
+│  │  │  │  │  ├─ layout.tsx
 │  │  │  │  │  └─ page.tsx
 │  │  │  │  ├─ memory-uid/
 │  │  │  │  │  ├─ add/
 │  │  │  │  │  │  └─ page.tsx
 │  │  │  │  │  ├─ details/
 │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ layout.tsx
 │  │  │  │  │  └─ page.tsx
 │  │  │  │  ├─ registration/
+│  │  │  │  │  ├─ layout.tsx
 │  │  │  │  │  └─ page.tsx
 │  │  │  │  └─ trusted/
 │  │  │  │     ├─ add/
 │  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ layout.tsx
 │  │  │  │     └─ page.tsx
 │  │  │  └─ layout.tsx
 │  │  ├─ home/
+│  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ invoice/
 │  │  │  ├─ new/
+│  │  │  │  ├─ layout.tsx
 │  │  │  │  └─ page.tsx
+│  │  │  ├─ layout.tsx
 │  │  │  └─ route.ts
 │  │  ├─ login/
+│  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ otp/
+│  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ portal/
+│  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
-│  │  ├─ taxfile/
-│  │  │  └─ registration/
-│  │  │     └─ page.tsx
-│  │  └─ workspace/
-│  │     └─ page.tsx
+│  │  ├─ roles/
+│  │  │  ├─ add/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ users-roles/
+│  │  │  ├─ add/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ workspace/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  └─ layout.tsx
 │  └─ salary-tax/
 │     ├─ batch/
 │     │  └─ page.tsx

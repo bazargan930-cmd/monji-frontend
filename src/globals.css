@@ -1,8 +1,58 @@
+/* src/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #d9e3f1; /* یا رنگ نزدیک به سایت اصلی */
+/* Design Tokens (Light) */
+:root {
+  --background: #f4f6fb;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+
+  --primary: #1d4ed8;
+  --primary-foreground: #ffffff;
+
+  --ring: #93c5fd;
 }
+
+/* Dark (اختیاری) */
+:root.dark {
+  --background: #0b1020;
+  --foreground: #e5e7eb;
+  --card: #0f172a;
+  --muted: #9ca3af;
+  --border: #1f2937;
+
+  --primary: #60a5fa;
+  --primary-foreground: #0b1020;
+
+  --ring: #60a5fa;
+}
+
+@layer base {
+  html { direction: rtl; }
+  body { @apply bg-background text-foreground antialiased; }
+}
+
+@layer components {
+  .container { @apply mx-auto max-w-7xl px-4; }
+
+  .card { @apply bg-card border border-border rounded-2xl shadow-sm; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm border border-transparent transition; }
+  .btn-primary { @apply bg-primary text-[color:var(--primary-foreground)] hover:opacity-90; }
+
+  /* در @apply از اسلش‌اپاسیتی برای رنگ دلخواه استفاده نکن */
+  .nav-item { @apply flex items-center px-3 py-2 rounded-lg text-sm text-foreground; }
+  .nav-item:hover { background-color: color-mix(in srgb, var(--foreground) 5%, transparent); }
+}
+
+/* اسکرول‌بار لطیف */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+body { @apply bg-background text-foreground; }
 

@@ -1,12 +1,10 @@
 // src/app/simulators/modian/home/page.tsx
-
-import ModianShell from '@/components/layout/ModianShell';
 import ModianHome from '@/components/modian/ModianHome';
 
+// جلوگیری از SSG/Prerender روی این صفحه
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
-  return (
-    <ModianShell>
-    <ModianHome />
-    </ModianShell>
-  );
+  // شِل، هدر، سایدبار و فوتر در layout سطح «modian» رندر می‌شوند
+  return <ModianHome />;
 }

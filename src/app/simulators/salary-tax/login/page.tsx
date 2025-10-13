@@ -1,5 +1,8 @@
-import Header from "@/components/layout/Header";
-import LoginForm from "@/components/forms/LoginForm";
+//src\app\simulators\salary-tax\login\page.tsx
+
+import Header from "@/components/salary-tax/SimulatorHeader";
+import LoginForm from "@/components/auth/LoginForm";
+
 
 export default function SalaryTaxLoginPage() {
   return (
@@ -21,7 +24,7 @@ export default function SalaryTaxLoginPage() {
 
           {/* Login Form */}
           <div className="w-full lg:w-[420px] flex justify-center items-start">
-            <LoginForm />
+            <LoginForm/>
           </div>
         </div>
       </div>

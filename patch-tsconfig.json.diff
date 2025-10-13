@@ -1,0 +1,15 @@
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -18,7 +18,11 @@
+     "incremental": true,
+     "baseUrl": "./src",
+     "paths": {
+
+      "@/*": ["*"],
+      "@modian/*": ["components/modian/*", "app/simulators/modian/*"],
+      "@salary-tax/*": ["components/salary-tax/*", "app/simulators/salary-tax/*"],
+      "@insurance/*": ["components/insurance/*", "app/simulators/insurance/*"],
+      "@accounting/*": ["components/accounting/*", "app/simulators/accounting/*"]
+     },
+ 
+     "plugins": [

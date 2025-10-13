@@ -2,34 +2,45 @@
 'use client'; // فقط در صورتی که از هک‌های تعاملی (مثل کاروسل) استفاده کنید لازم است — در MVP استاتیک می‌توانید حذفش کنید.
 
 import HeroSection from '@/components/landing/HeroSection';
+import TrustStrip from '@/components/landing/TrustStrip';
+import HowItWorks from '@/components/landing/HowItWorks';
+import ComparisonTable from '@/components/landing/ComparisonTable';
+import SocialProof from '@/components/landing/SocialProof';
 import FeatureCard from '@/components/landing/FeatureCard';
 import DemoCard from '@/components/landing/DemoCard';
 import ArticlePreview from '@/components/landing/ArticlePreview';
 import LandingFooter from '@/components/landing/LandingFooter';
 import { FaChartLine, FaGraduationCap, FaAward, FaRobot } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { track } from '@/components/landing/analytics';
 
 // داده‌های استاتیک mock برای MVP
 const features = [
   {
-    title: "شبیه‌سازی واقعی",
-    description: "محاسبه دقیق مالیات بر حقوق و بیمه تامین اجتماعی مطابق آخرین قوانین.",
-    icon: <FaChartLine className="text-blue-600" />, // ✅
+    title: "شبیه‌ساز واقعی",
+    description:
+      "به‌جای تماشا، تمرین می‌کنی؛ سناریوهای واقعی، داده‌های به‌روز، و «خطای امن» برای یادگیری سریع.",
+    icon: <FaChartLine className="text-blue-600" />,
+    badge: "REAL SIMULATOR",
   },
   {
     title: "آموزش تعاملی",
-    description: "آموزش گام به گام با مثال‌های عملی و تمرین‌های تعاملی.",
-    icon: <FaGraduationCap className="text-green-600" />, // ✅
+    description:
+      "راهنمای درون‌صفحه و چک‌لیست هر مرحله؛ اگر اشتباه کنی، راهنمایی فوری می‌گیری و ادامه می‌دهی.",
+    icon: <FaGraduationCap className="text-green-600" />,
   },
   {
     title: "گواهینامه معتبر",
-    description: "دریافت گواهینامه پس از اتمام دوره‌های آموزشی.",
-    icon: <FaAward className="text-yellow-500" />, // ✅
+    description:
+      "بعد از حل سناریوها، گزارش عملکرد و گواهی قابل‌ارائه به کارفرما دریافت می‌کنی.",
+    icon: <FaAward className="text-yellow-500" />,
   },
   {
     title: "پشتیبانی هوش مصنوعی",
-    description: "پاسخ به سوالات شما در لحظه با کمک هوش مصنوعی.",
-    icon: <FaRobot className="text-purple-600" />, // ✅
+    description:
+      "سؤال بپرس و در همان فرم، پاسخ کاربردی بگیر؛ بدون خروج از روند کار.",
+    icon: <FaRobot className="text-purple-600" />,
   },
 ];
 
@@ -72,13 +83,27 @@ const articles = [
 export default function HomePage() {
   return (
     <main className="flex flex-col items-center">
+      {/* Skip link برای پرش سریع به دموها (بهبود دسترس‌پذیری کیبورد/اسکرین‌ریدر) */}
+      <a
+        href="#free-demos"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:right-3 focus:z-50 focus:bg-yellow-300 focus:text-blue-900 focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg"
+      >
+        پرش به دموهای رایگان
+      </a>
       {/* Hero Section */}
       <HeroSection />
-
+      {/* Trust Strip — دلایل اعتماد (زیر هِرو) */}
+      <TrustStrip />
+      {/* How It Works — سه گام */}
+      <HowItWorks />
+      {/* Comparison — دوره ویدئویی vs شبیه‌ساز تراز */}
+      <ComparisonTable />
+      {/* Social Proof — نقل‌قول‌ها و اعداد نتیجه */}
+      <SocialProof />
       {/* Features Grid */}
-      <section className="py-16 bg-gray-50 w-full">
+      <section role="region" aria-labelledby="why-taraaz-heading" className="py-16 bg-gray-50 w-full">
         <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-12">چرا تراز؟</h2>
+          <h2 id="why-taraaz-heading" className="text-3xl font-bold text-center mb-12">چرا تراز؟</h2>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -97,21 +122,37 @@ export default function HomePage() {
                 whileInView="visible"
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <FeatureCard
-                  title={feature.title}
-                  description={feature.description}
-                  icon={feature.icon}
-                />
+                {/* ظرف کارت با Badge اختیاری برای کارت اول */}
+                <div className="relative">
+                  {feature.badge && (
+                    <span
+                      aria-label="نشان تمایز"
+                      className="absolute -top-3 -left-3 z-10 rounded-full bg-blue-600 text-white text-[10px] font-bold tracking-wider px-3 py-1 shadow-md"
+                    >
+                      {feature.badge}
+                    </span>
+                  )}
+                  <FeatureCard
+                    title={feature.title}
+                    description={feature.description}
+                    icon={feature.icon}
+                  />
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Free Demos Carousel (در MVP یک گرید ساده) */}
-      <section className="py-16 w-full">
+      {/* Free Demos Carousel */}
+      <section
+        id="free-demos"
+        role="region"
+        aria-labelledby="free-demos-heading"
+        className="py-16 w-full"
+      >
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">دموهای رایگان</h2>
+          <h2 id="free-demos-heading" className="text-3xl font-bold text-center mb-12">دموهای رایگان</h2>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -129,6 +170,13 @@ export default function HomePage() {
                 initial="hidden"
                 whileInView="visible"
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() =>
+                  track('demo_card_click', {
+                    index,
+                    title: demo.title,
+                    link: demo.link
+                  })
+                }
               >
                 <DemoCard
                   title={demo.title}
@@ -143,9 +191,9 @@ export default function HomePage() {
       </section>
 
       {/* Articles Section */}
-      <section className="py-16 bg-gray-50 w-full">
+      <section role="region" aria-labelledby="articles-heading" className="py-16 bg-gray-50 w-full">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">مقالات آموزشی</h2>
+          <h2 id="articles-heading" className="text-3xl font-bold text-center mb-12">مقالات آموزشی</h2>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -174,12 +222,12 @@ export default function HomePage() {
             ))}
           </motion.div>
           <div className="text-center mt-8">
-            <a
+            <Link
               href="/articles"
               className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               مشاهده همه مقالات
-            </a>
+            </Link>
           </div>
         </div>
       </section>

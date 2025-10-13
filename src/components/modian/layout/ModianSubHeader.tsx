@@ -31,12 +31,27 @@ export default function ModianSubHeader({ overrideTailLabel }: Props) {
   const group = modianMenu[2].find((g) => Array.isArray(g.children) && g.children.length > 0);
   const activeChild = group?.children?.find((c) => pathname === c.href || pathname.startsWith(c.href + '/'));
   const inTaxFile = Boolean(activeChild);
+  // حالت مخصوص «افزودن کاربر» در ماژول مودیان
+  const isUsersRolesAdd = pathname.endsWith('/simulators/modian/users-roles/add');
+  const isRoleAdd       = pathname.endsWith('/simulators/modian/roles/add');
+  // ★ تشخیص صفحه «اظهارنامه پیش‌فرض»
+  const isDeclaration   = pathname.startsWith('/simulators/modian/declaration');
+  // ★ تشخیص «صورت‌حساب‌ها» + فرزند فعال آن
+  const allGroups = modianMenu
+    .flat()
+    .filter((g) => Array.isArray((g as any).children) && (g as any).children.length > 0);
+  const invoicesGroup = allGroups.find((g: any) => g.label === 'صورت‌حساب‌ها');
+  const invoicesActiveChild = invoicesGroup?.children?.find(
+    (c: any) => pathname === c.href || pathname.startsWith(c.href + '/')
+  );
+  const inInvoices = Boolean(invoicesActiveChild) || pathname === normalizePath(invoicesGroup?.href || '');
 
   return (
     <div className="w-full bg-white border-t border-b border-gray-300 py-2 px-6 flex items-center justify-between text-sm text-gray-700">
       {/* breadcrumb */}
       <div className="flex items-center gap-2 rtl:space-x-reverse text-sm">
-        <span className={`${isPortal || inTaxFile ? 'text-gray-600' : 'text-green-600'} flex items-center gap-1`}>
+        {/* «پیشخوان» فقط وقتی صفحهٔ فعلی خودِ پیشخوان است سبز می‌شود؛ در بقیه صفحات خاکستری */}
+        <span className={`${isPortal ? 'text-green-600' : 'text-gray-600'} flex items-center gap-1`}>
           <MdSpaceDashboard />
           پیشخوان
         </span>
@@ -72,13 +87,44 @@ export default function ModianSubHeader({ overrideTailLabel }: Props) {
               </>
             )}           
           </>
+        ) : inInvoices ? (
+          <>
+            <span className="text-gray-400">{'>'}</span>
+            <span className="text-gray-600 flex items-center gap-1">
+              {invoicesGroup?.icon && <invoicesGroup.icon />}
+              {invoicesGroup?.label || 'صورت‌حساب‌ها'}
+            </span>
+            <span className="text-gray-400">{'>'}</span>
+            <span className="flex items-center gap-1 text-green-600">
+              {invoicesActiveChild?.icon && <invoicesActiveChild.icon />}
+              {invoicesActiveChild?.label || 'خرید داخلی'}
+            </span>                      
+          </>
         ) : !isPortal ? (
           <>
             <span className="text-gray-400">{'>'}</span>
-            <span className="flex items-center gap-1 text-green-600">
-              {activeTop?.icon && <activeTop.icon />}
-              {activeTop?.label || 'عنوان صفحه'}
-            </span>
+            {/* اگر صفحهٔ افزودن کاربر است: «کاربران و نقش‌ها» خاکستری ← «افزودن کاربر» سبز */}
+            {isUsersRolesAdd ? (
+              <>
+                <span className="text-gray-600">کاربران و نقش‌ها</span>
+                <span className="text-gray-400">{'>'}</span>
+                <span className="text-green-600">افزودن کاربر</span>
+              </>
+            ) : isRoleAdd ? (
+              <>
+                <span className="text-gray-600">کاربران و نقش‌ها</span>
+                <span className="text-gray-400">{'>'}</span>
+                <span className="text-green-600">ایجاد نقش</span>
+              </>             
+            ) : (
+              <span className="flex items-center gap-1 text-green-600">
+                {/* حالت عادی: فقط برچسب انتهایی سبز */}
+                {overrideTailLabel
+                  || (isDeclaration ? 'اظهارنامه پیش‌فرض' : undefined)
+                  || activeTop?.label
+                  || 'کاربران و نقش‌ها'}
+              </span>
+            )}
           </>
         ) : null}
       </div>

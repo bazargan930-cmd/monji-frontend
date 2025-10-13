@@ -20,16 +20,19 @@ src\components
 │  ├─ HeroSection.tsx
 │  └─ LandingFooter.tsx
 ├─ layout/
-│  ├─ ModianFooter.tsx
-│  ├─ ModianHeader.tsx
-│  ├─ ModianShell.tsx
-│  └─ ModianSubHeader.tsx
 ├─ modian/
 │  ├─ common/
 │  │  ├─ memoryKey.utils.ts
+│  │  ├─ SimulatorBadge.tsx
 │  │  ├─ ToolbarControls.tsx
 │  │  ├─ UploadPublicKeyModal.tsx
 │  │  └─ useMemoryPublicKey.ts
+│  ├─ layout/
+│  │  ├─ index.ts
+│  │  ├─ ModianFooter.tsx
+│  │  ├─ ModianHeader.tsx
+│  │  ├─ ModianShell.tsx
+│  │  └─ ModianSubHeader.tsx
 │  ├─ otp/
 │  │  └─ page.tsx
 │  ├─ taxfile/
@@ -58,6 +61,7 @@ src\components
 │  │  ├─ page.tsx
 │  │  └─ TaxfileSubmenu.tsx
 │  ├─ faq-data.ts
+│  ├─ index.ts
 │  ├─ InvoiceForm.tsx
 │  ├─ karpooshe-code-search.tsx
 │  ├─ menu-items.ts
@@ -81,5 +85,6 @@ src\components
 ├─ ui/
 │  ├─ button.tsx
 │  ├─ card.tsx
-│  └─ input.tsx
+│  ├─ input.tsx
+│  └─ SkeletonLoader.tsx
 └─ Stepper.tsx

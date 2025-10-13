@@ -25,6 +25,9 @@ export default function ModianSidebar() {
   const router = useRouter();
   const pathname = normalizePath(usePathname());
 
+  // نکته: این کامپوننت همیشه در layout اصلی رندر می‌شود؛
+  // اگر جایی نیاز به مخفی‌سازی سایدبار بود، همان‌جا کنترل شود (نه در این کامپوننت).
+
   /** ---------- فلت کردن منو و پیدا کردن گروه «پرونده…» ---------- */
   const flatMenu: MenuItem[] = useMemo(
     () => (modianMenu as MenuItem[][]).flat() as MenuItem[],
@@ -114,7 +117,19 @@ export default function ModianSidebar() {
 
   const TaxfileAccordion = ({ item }: { item: MenuItem }) => {
     const parentHasActiveChild = item.children?.some((c) => isActive(c.href));
-    const open = openTaxfile || isInTaxfileGroup;
+
+    // ریشه‌های این گروه (صرفاً از خود آیتم پاس‌داده‌شده محاسبه می‌شود)
+    const thisGroupRoots = (item.children ?? [])
+      .map((c) => c.href)
+      .filter((h): h is string => !!h && h.trim() !== '')
+      .map((h) => normalizePath(h));
+    const isUnderThisGroup = thisGroupRoots.some(
+      (root) => pathname === root || pathname.startsWith(root + '/')
+    );
+
+    // باز بودن: برای «پرونده…» به state متکی بماند؛ برای بقیه گروه‌ها با حضور کاربر در گروه
+    const isTaxfile = item.label?.includes('پرونده مالیاتی و عضویت');
+    const open = isTaxfile ? (openTaxfile || isInTaxfileGroup) : isUnderThisGroup;
 
     return (
       <>
@@ -122,22 +137,18 @@ export default function ModianSidebar() {
                 <button
                   type="button"
                   onClick={() => {
-                    setOpenTaxfile((prev) => {
-                      const next = !prev;
+                    const defaultChildHref = (isTaxfile
+                      ? (defaultTaxfileChild?.href)
+                      : (item.children?.[0]?.href)) as string | undefined;
 
-                      // اگر کاربر با «کلیک اول» آکاردئون را باز می‌کند و الان داخل مجموعه «پرونده…» نیست،
-                      // به آیتم پیش‌فرض («اطلاعات ثبت نامی» اگر وجود داشت) هدایت کن.
-                      if (!prev && !isInTaxfileGroup) {
-                        const target =
-                          defaultTaxfileChild?.href || item.children?.[0]?.href;
-                        if (target) {
-                          // replace: بدون اضافه شدن به history
-                          router.replace(target);
-                        }
-                      }
+                    if (!isUnderThisGroup && defaultChildHref) {
+                      // اگر خارج از این گروه هستیم → رفتن به اولین زیرمنو
+                      router.replace(defaultChildHref);
+                      return;
+                    }
 
-                      return next;
-                    });
+                    // فقط برای «پرونده…» آکاردئون دستی Toggle می‌شود
+                    if (isTaxfile) setOpenTaxfile((prev) => !prev);
                   }}
                   className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded
                     ${parentHasActiveChild ? 'text-green-700' : 'text-gray-700'} hover:bg-gray-50`}
@@ -176,7 +187,8 @@ export default function ModianSidebar() {
 
   /** ---------- UI ---------- */
   return (
-    <aside className="w-80 shrink-0 bg-white">
+    /* ریشه: تمام‌عرضِ والد خارجی (عرض را والد کنترل می‌کند) */
+    <div className="w-full bg-white">
       <div className="p-3 flex flex-col gap-3">
         {/* بخش ۱: کارت کاربر */}
         <div className="rounded-md overflow-hidden">
@@ -212,7 +224,8 @@ export default function ModianSidebar() {
           <div className="flex flex-col gap-1 max-h-[calc(100vh-360px)] overflow-y-auto pr-1">
             {taxfileGroup && <TaxfileAccordion item={taxfileGroup} />}
 
-            {!(openTaxfile || isInTaxfileGroup) && afterTaxfile.map((item, idx) => (
+            {/* آیتم‌های بعد از «پرونده…» همیشه نمایش داده شوند (حتی وقتی «پرونده…» باز است) */}
+            {afterTaxfile.map((item, idx) => (
               item.children && item.children.length > 0
                 ? <TaxfileAccordion key={item.label + '-' + idx} item={item} />
                 : <SimpleItem       key={item.label + '-' + idx} item={item} />
@@ -221,6 +234,6 @@ export default function ModianSidebar() {
           </div>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

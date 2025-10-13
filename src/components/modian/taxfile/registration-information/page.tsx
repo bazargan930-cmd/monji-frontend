@@ -229,6 +229,7 @@ function InfoSection({
   );
 }
 
+// ✅ تنها اکسپورت پیش‌فرض: همین تابع باید رندر شود
 export default function RegistrationInformation() {
   const [data, setData] = useState<RegistrationDTO | null>(null);
   const [loading, setLoading] = useState(true);

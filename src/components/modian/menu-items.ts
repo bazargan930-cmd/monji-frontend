@@ -47,9 +47,24 @@ export const modianMenu: MenuItem[][] = [
     },
 
     // 👇 سایر آیتم‌ها مثل قبل
-    { label: 'کاربران و نقش‌ها', href: '#', icon: FiUsers },
-    { label: 'اظهارنامه پیش‌فرض', href: '#', icon: LuListTodo },
-    { label: 'صورت‌حساب‌ها', href: '#', icon: HiOutlineDocumentReport },
+    // مسیر صحیح صفحه «کاربران و نقش‌ها» در شبیه‌ساز
+    { label: 'کاربران و نقش‌ها', href: '/simulators/modian/users-roles', icon: FiUsers },
+    {
+      label: 'اظهارنامه پیش‌فرض',
+      href: '/simulators/modian/declaration', // لینک به صفحه جدید
+      icon: LuListTodo,
+    },
+    {
+      label: 'صورت‌حساب‌ها',
+      href: '/simulators/modian/invoices',             // والد گروه (برای هایلایت و بازبودن آکاردئون)
+      icon: HiOutlineDocumentReport,
+      children: [
+        { label: 'خرید داخلی',    href: '/simulators/modian/invoices/buy',     icon: HiOutlineDocumentReport },
+        { label: 'فروش داخلی',    href: '/simulators/modian/invoices/sales',   icon: HiOutlineDocumentReport },
+        { label: 'فروش صادراتی',  href: '/simulators/modian/invoices/exports', icon: HiOutlineDocumentReport },
+        { label: 'فایل‌های خروجی', href: '/simulators/modian/invoices/files',  icon: HiOutlineDocumentReport },
+      ],
+    },
     { label: 'صورت‌حساب‌های قبل از ۱۴۰۲/۰۳/۲۶', href: '#', icon: HiOutlineDocumentReport },
     { label: 'اعلامیه‌های خرید', href: '#', icon: HiOutlineDocumentReport },
     { label: 'قراردادها', href: '#', icon: FaHandshake },

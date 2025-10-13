@@ -1,3 +1,4 @@
+//ghaaanoon-frontend\tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2018",
@@ -15,9 +16,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@modian/*": ["./src/components/modian/*", "./src/app/simulators/modian/*"],
+      "@salary-tax/*": ["./src/components/salary-tax/*", "./src/app/simulators/salary-tax/*"],
+      "@insurance/*": ["./src/components/insurance/*", "./src/app/simulators/insurance/*"],
+      "@accounting/*": ["./src/components/accounting/*", "./src/app/simulators/accounting/*"]
     },
 
     "plugins": [

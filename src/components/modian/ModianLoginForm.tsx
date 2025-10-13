@@ -1,6 +1,7 @@
+//src\components\modian\ModianLoginForm.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUser, FaLock, FaStarOfLife } from 'react-icons/fa6';
 import { FaAngleLeft } from 'react-icons/fa';
@@ -13,12 +14,52 @@ export default function ModianLoginForm() {
   const [num2, setNum2] = useState(0);
   const [expectedResult, setExpectedResult] = useState(0);
   const [error, setError] = useState('');
+  // اگر ادمین باشد، فرم نمایش داده نشود
+  const [isAdmin, setIsAdmin] = useState<null | boolean>(null);
   const router = useRouter();
+  const bypassRedirected = useRef(false); // جلوگیری از ریدایرکت چندباره
 
+  // ⛳️ کوکی سبک برای علامت‌گذاری «ورود از بایپس ادمین» (Dev فقط)
+  // دلیل: پورتال/میان‌افزار در SSR به sessionStorage دسترسی ندارد و فقط کوکی‌ها را می‌بیند.
+  const markAdminBypassCookie = () => {
+    try {
+      document.cookie = `modian_bypass=1; Max-Age=120; Path=/; SameSite=Lax`;
+      document.cookie = `justLoggedIn=1; Max-Age=120; Path=/; SameSite=Lax`;
+    } catch {}
+  };
   useEffect(() => {
   generateCaptcha();
 }, []);
 
+  // ⛳️ بایپس لاگین برای ادمین
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch('/api/utils/user-info', {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (!r.ok) return setIsAdmin(false);
+        const u = await r.json();
+        const level = u?.accessLevel ?? u?.user?.accessLevel ?? u?.role ?? '';
+        if (String(level).toUpperCase() === 'ADMIN') {
+          setIsAdmin(true);
+          // فلگ سشن مانند لاگین عادی تا پورتال بداند از لاگین آمده‌ایم
+          if (!bypassRedirected.current && window.location.pathname.endsWith('/login')) {
+            bypassRedirected.current = true;
+            try { window.sessionStorage.setItem('justLoggedIn', 'true'); } catch {}
+            markAdminBypassCookie();                              // ✅ اضافه شد
+            try { router.prefetch('/simulators/modian/portal'); } catch {}
+            router.replace('/simulators/modian/portal');          // ریدایرکت بدون بازگشت
+            }
+        } else {
+          setIsAdmin(false);
+        }
+      } catch {
+        setIsAdmin(false);
+      }
+    })();
+  }, [router]);
 
   const generateCaptcha = () => {
     const n1 = Math.floor(Math.random() * 90) + 10;
@@ -64,6 +105,11 @@ const handleLogin = async () => {
     setError(err.message);
   }
 };
+
+  // در حال بررسی نقش یا هدایت ادمین → فرم را نمایش نده
+  if (isAdmin === null || isAdmin === true) {
+    return <div className="w-full max-w-sm mx-auto p-6 text-center text-gray-500">در حال هدایت…</div>;
+  }
 
   return (
     <div className="w-full max-w-sm sm:max-w-md lg:max-w-[420px] flex justify-center items-start mx-auto">
