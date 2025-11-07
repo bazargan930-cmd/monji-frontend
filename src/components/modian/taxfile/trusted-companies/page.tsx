@@ -2,9 +2,14 @@
  
 'use client';
 
- import { useEffect, useMemo, useRef, useState } from 'react';
- import Link from 'next/link';
- import HelpGuideButton from '@/components/common/HelpGuideButton';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
+import { IconFilter, IconColumns, IconSearch, IconChevronDown } from '@/components/modian/ui';
+import {ModianJalaliDateField} from '@/components/modian/common';
+import type { ISOString } from '@/lib/date/jalali';
+import { FormField } from '@/components/modian/ui';
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { TrustedHelpContent } from '@/components/modian/taxfile';
 
  export default function TrustedCompaniesPage() {
    // ستون‌های ثابت (همیشه نمایش داده می‌شوند)
@@ -33,16 +38,32 @@
    const visibleColumns = allColumns.filter(c => visibleCols.has(c.id));
 
    const [isColsOpen, setIsColsOpen] = useState(false);
-   const colsBtnRef = useRef<HTMLButtonElement | null>(null);
+  const colsBtnRef = useRef<HTMLButtonElement | null>(null);
+  const colsTrayRef = useRef<HTMLDivElement | null>(null);
    // فیلتر
    const [isFilterOpen, setIsFilterOpen] = useState(false);
-   const filterBtnRef = useRef<HTMLButtonElement | null>(null);
+  const filterBtnRef = useRef<HTMLButtonElement | null>(null);
+  const filterTrayRef = useRef<HTMLFieldSetElement | null>(null);
     useEffect(() => {
      function onDocClick(e: MouseEvent) {
-       const t = e.target as Node;
-       if (isColsOpen && colsBtnRef.current && !colsBtnRef.current.contains(t)) setIsColsOpen(false);
-      if (isFilterOpen && filterBtnRef.current && !filterBtnRef.current.contains(t)) setIsFilterOpen(false);
-     }
+      const t = e.target as Node;
+      // ستون‌ها: فقط وقتی بیرون از «دکمه» و «خود پنل ستون‌ها» کلیک شد ببند
+      if (
+        isColsOpen &&
+        (!colsBtnRef.current || !colsBtnRef.current.contains(t)) &&
+        (!colsTrayRef.current || !colsTrayRef.current.contains(t))
+      ) {
+        setIsColsOpen(false);
+      }
+      // فیلتر: فقط وقتی بیرون از «دکمه» و «خود پنل فیلتر» کلیک شد ببند
+      if (
+        isFilterOpen &&
+        (!filterBtnRef.current || !filterBtnRef.current.contains(t)) &&
+        (!filterTrayRef.current || !filterTrayRef.current.contains(t))
+      ) {
+        setIsFilterOpen(false);
+      }
+    }
      function onEsc(e: KeyboardEvent) {
        if (e.key === 'Escape') {
          setIsColsOpen(false);
@@ -91,13 +112,31 @@
     );
   }, [rows, q]);
 
-   return (
-     <div className="rtl text-sm">
-             {/* تیتر صفحه  دکمه راهنما در یک ردیف */}
+  // --- فیلترهای تاریخ (خروجی ISO/UTC طبق قرارداد پروژه) ---
+  const [fromISO, setFromISO] = useState<ISOString | null>(null);
+  const [toISO, setToISO] = useState<ISOString | null>(null);
+  const [expireFromISO, setExpireFromISO] = useState<ISOString | null>(null);
+  const [expireToISO, setExpireToISO] = useState<ISOString | null>(null);
+
+  return (
+    /* محدوده‌ی صفحه را محدود می‌کنیم تا از هدر جلو نزند */
+    <div className="rtl text-sm max-w-6xl mx-auto px-4">
+      {/* دکمهٔ راهنما (مودال مشترک) – زیر ساب‌هدر، سمت چپ */}
+      <div className="mt-4 flex justify-end">
+        <HelpTrigger
+          buttonTitle="راهنمای صفحه شرکت‌های معتمد"
+          modalTitle="راهنمای شرکت‌های معتمد / سامانه‌های دولتی"
+          size="lg"
+        >
+          <TrustedHelpContent />
+        </HelpTrigger>
+      </div>
+
+      {/* تیتر صفحه */}
       <div className="flex items-center justify-between my-7">
         <h2 className="text-base font-bold text-right m-0">
           شرکت‌های معتمد/سامانه‌های دولتی انتخاب شده
-        </h2>        
+        </h2>
       </div>
        {/* نوار بالایی: آیکون‌های ستون/فیلتر در یک سمت، جستجو در سمت مقابل، دکمه سبز در انتها */}
        <div className="flex items-center justify-between mb-3">
@@ -119,9 +158,7 @@
                   setIsColsOpen(false);
                 }}
               >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 4h18l-7 8v5l-4 3v-8L3 4z" />
-                </svg>
+                <IconFilter className="h-5 w-5" />
               </button>
               {/* نمایش ستون‌ها */}
               <button
@@ -140,40 +177,30 @@
                   setIsFilterOpen(false);
                 }}
               >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                </svg>
+                <IconColumns className="h-5 w-5" />
               </button>
-              {/* فیلد جستجو */}
+              {/* فیلد جستجو (بدون لیبل ظاهری) + دکمه آیکون جداگانه مطابق اسکرین */}
               <input
                 className="border rounded-md pr-3 py-2 w-60 text-right"
                 placeholder="جستجو (نام/شناسه/خدمات)"
+                aria-label="جستجو"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setQ('');
-                }}
+                onKeyDown={(e) => { if (e.key === 'Escape') setQ(''); }}
               />
-              {/* دکمه/آیکون جستجو */}
               <button
                 type="button"
                 className="h-9 w-9 border rounded-md flex items-center justify-center text-gray-600 hover:bg-gray-50"
                 aria-label="جستجو"
                 title="جستجو"
               >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
+                <IconSearch className="h-5 w-5" />
               </button>
             </div>
 
             {/* دکمه انتخاب شرکت/سامانه دولتی → لینک به صفحه افزودن */}
             <Link
-              href="/simulators/modian/admin/taxfile/trusted/add"
+              href="/simulators/modian/taxfile/trusted/add"
               className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700"
             >
               انتخاب شرکت معتمد / سامانه های دولتی
@@ -182,63 +209,69 @@
       {/* کادر فیلتر داده‌ها */}
       {isFilterOpen && (
         <fieldset
+          ref={filterTrayRef}
           id="filters-tray"
           className="border border-black rounded-md p-4 mt-3 shadow-sm bg-white"
         >
           <legend className="px-2 text-sm font-medium">فیلتر داده ها بر اساس:</legend>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-2">
-            {/* 1 - نوع مجوز خدمات */}
-            <div className="relative">
-              <label
-                htmlFor="filterLicenseType"
-                className="absolute -top-2 right-3 bg-white px-1 text-xs text-gray-600"
-              >
-                نوع مجوز خدمات
-              </label>
+            {/* 1 - نوع مجوز خدمات (لیبل شناور + آیکون کشویی در چپ) */}
+            <FormField label="نوع مجوز خدمات" htmlFor="filterLicenseType" variant="floating" rightIcon={<IconChevronDown className="h-4 w-4" />}>
               <select
                 id="filterLicenseType"
                 defaultValue=""
-                className="w-full border rounded-md px-3 py-2"
+                className="w-full border rounded-md py-2 pr-3 pl-10 appearance-none"
               >
-                <option value="" disabled>انتخاب کنید</option>
+                <option value="" disabled></option>
                 <option value="type1">نوع اول</option>
                 <option value="type2">نوع دوم</option>
                 <option value="type3">نوع سوم</option>
               </select>
-            </div>
-            {/* 2 - انتخاب از */}
-            <div className="relative">
-              <label htmlFor="filterFrom" className="absolute -top-2 right-3 bg-white px-1 text-xs text-gray-600">
-                انتخاب از
-              </label>
-              <input id="filterFrom" type="date" className="w-full border rounded-md px-3 py-2" />
-            </div>
+            </FormField> 
+
+            {/* 2 - انتخاب از (نسخهٔ مودیان: غیرقابل‌نوشتن و با تقویم شمسی) */}
+            <FormField label="انتخاب از" htmlFor="filterFrom" variant="floating">
+              <ModianJalaliDateField
+                id="filterFrom"
+                valueISO={fromISO}
+                onChangeISO={setFromISO}
+                placeholder="انتخاب کنید"
+              />
+            </FormField>
             {/* 3 - انتخاب تا */}
-            <div className="relative">
-              <label htmlFor="filterTo" className="absolute -top-2 right-3 bg-white px-1 text-xs text-gray-600">
-                انتخاب تا
-              </label>
-              <input id="filterTo" type="date" className="w-full border rounded-md px-3 py-2" />
-            </div>
+            <FormField label="انتخاب تا" htmlFor="filterTo" variant="floating">
+              <ModianJalaliDateField
+                id="filterTo"
+                valueISO={toISO}
+                onChangeISO={setToISO}
+                placeholder="انتخاب کنید"
+              />
+            </FormField>
             {/* 4 - تاریخ انقضا مجوز از */}
-            <div className="relative">
-              <label htmlFor="filterExpireFrom" className="absolute -top-2 right-3 bg-white px-1 text-xs text-gray-600">
-                تاریخ انقضا مجوز از
-              </label>
-              <input id="filterExpireFrom" type="date" className="w-full border rounded-md px-3 py-2" />
-            </div>
+            <FormField label="تاریخ انقضا مجوز از" htmlFor="filterExpireFrom" variant="floating">
+              <ModianJalaliDateField
+                id="filterExpireFrom"
+                valueISO={expireFromISO}
+                onChangeISO={setExpireFromISO}
+                placeholder="انتخاب کنید"
+              />
+            </FormField>
             {/* 5 - تاریخ انقضا مجوز تا */}
-            <div className="relative">
-              <label htmlFor="filterExpireTo" className="absolute -top-2 right-3 bg-white px-1 text-xs text-gray-600">
-                تاریخ انقضا مجوز تا
-              </label>
-              <input id="filterExpireTo" type="date" className="w-full border rounded-md px-3 py-2" />
-            </div>
-            {/* جای خالی ستون سومِ ردیف دوم برای تراز مشابه سایت اصلی */}
+            <FormField label="تاریخ انقضا مجوز تا" htmlFor="filterExpireTo" variant="floating">
+              <ModianJalaliDateField
+                id="filterExpireTo"
+                valueISO={expireToISO}
+                onChangeISO={setExpireToISO}
+                placeholder="انتخاب کنید"
+              />
+            </FormField>
             <div className="hidden md:block" />
           </div>
+
+          {/* نیازی به استایل قبلی input نیست؛ فیلد مودیان خودِ متن را راست‌چین و غیرقابل‌نوشتن نمایش می‌دهد */}
+
           <div className="mt-4 flex items-center gap-2 justify-end">
-            <button type="button" className="px-4 py-2 text-sm border rounded-md hover:bg-gray-50">
+            <button type="button" className="px-4 py-2 text-sm text-red-700 border border-red-200 rounded-md hover:bg-gray-50">
               حذف فیلتر
             </button>
             <button type="button" className="px-4 py-2 text-sm rounded-md bg-green-600 text-white hover:bg-green-700">
@@ -249,7 +282,11 @@
       )}
       {/* کادر سفید افقی زیر نوار ابزار، مطابق سایت اصلی */}
       {isColsOpen && (
-        <div id="columns-tray" className="border rounded-md bg-white p-2 mt-3 shadow-sm">
+        <div
+          ref={colsTrayRef}
+          id="columns-tray"
+          className="border rounded-md bg-white p-2 mt-3 shadow-sm"
+        >
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"

@@ -5,3 +5,4 @@ export { default as ModianHeader } from './ModianHeader';
 export { default as ModianFooter } from './ModianFooter';
 export { default as ModianSubHeader } from './ModianSubHeader';
 export { default as ModianShell } from './ModianShell';
+export { default as TaxfileSubmenu } from "../taxfile/TaxfileSubmenu";

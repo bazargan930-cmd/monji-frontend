@@ -11,7 +11,15 @@ interface DemoCardProps {
 
 export default function DemoCard({ title, description, link, cta }: DemoCardProps) {
   return (
-    <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-200 hover:border-emerald-300 flex flex-col h-full">
+    <div
+      className="
+        bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl
+        transition-all duration-300 border border-emerald-200 hover:border-emerald-300
+        flex flex-col h-full
+        w-full min-w-[85%] sm:min-w-[70%] md:min-w-0   /* موبایل: مناسب اسکرول افقی؛ دسکتاپ: رفتار گرید */
+        snap-center                                /* برای کانتینرهای flex با snap-x */
+      "
+    >
       {/* عنوان */}
       <h3 className="text-2xl font-bold text-gray-800 mb-4 leading-tight">
         {title}

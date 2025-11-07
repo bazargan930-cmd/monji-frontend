@@ -7,33 +7,32 @@ type Item = { label: string; sub?: string; icon?: ReactNode };
 // آیکون‌های سبک SVG داخلی (بدون وابستگی خارجی)
 const IconSim = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5">
-    <path d="M4 6h16v12H4z" fill="currentColor" opacity=".1" />
-    <rect x="6" y="8" width="8" height="2" rx="1" fill="currentColor" />
-    <rect x="6" y="12" width="12" height="2" rx="1" fill="currentColor" />
+    <path d="M4 6h16v12H4z" fill="currentColor" />
+    <rect x="6" y="8" width="8" height="2" rx="1" fill="#fff" />
+    <rect x="6" y="12" width="12" height="2" rx="1" fill="#fff" />
   </svg>
 );
 const IconLaw = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5">
-    <path d="M12 3l8 4-8 4-8-4 8-4zM4 11l8 4 8-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M4 15l8 4 8-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M12 3l8 4-8 4-8-4 8-4zM4 11l8 4 8-4M4 15l8 4 8-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
   </svg>
 );
 const IconGuide = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5">
-    <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" opacity=".1" />
-    <path d="M7 8h10M7 12h6M7 16h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" />
+    <path d="M7 8h10M7 12h6M7 16h8" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 const IconCert = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5">
-    <path d="M7 4h10a2 2 0 012 2v8a2 2 0 01-2 2l-3 4-3-4H7a2 2 0 01-2-2V6a2 2 0 012-2z" fill="currentColor" opacity=".1"/>
-    <path d="M9 8h6M9 11h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M7 4h10a2 2 0 012 2v8a2 2 0 01-2 2l-3 4-3-4H7a2 2 0 01-2-2V6a2 2 0 012-2z" fill="currentColor"/>
+    <path d="M9 8h6M9 11h6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 const IconAI = () => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="w-5 h-5">
-    <circle cx="12" cy="12" r="6" fill="currentColor" opacity=".1" />
-    <path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="12" cy="12" r="6" fill="currentColor" />
+    <path d="M12 6v12M6 12h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
@@ -48,7 +47,7 @@ const items: Item[] = [
 function TrustStripImpl() {
   return (
     <section
-      aria-label="دلایل اعتماد به تراز"
+      aria-label="دلایل اعتماد به منجی"
       className="w-full bg-white/80 backdrop-blur-sm border-y border-white/40"
     >
       <div className="container mx-auto px-4 py-4">

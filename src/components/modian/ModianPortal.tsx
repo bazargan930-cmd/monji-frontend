@@ -79,7 +79,7 @@ export default function ModianPortal({ user }: Props) {
             <tbody className="text-gray-800">
               <tr>
                 <td className="border px-2 py-1 text-center">1</td>
-                <td className="border px-2 py-1">سایت آموزشی تراز</td>
+                <td className="border px-2 py-1">سایت آموزشی منجی</td>
                 <td className="border px-2 py-1">10103770077</td>
                 <td className="border px-2 py-1">100505078</td>
                 <td className="border px-2 py-1">حقوقی</td>

@@ -1,25 +1,48 @@
 // src/app/dashboard/layout.tsx+
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Topbar from './Topbar.client';
+import { Suspense } from 'react';
+import { z } from 'zod';
 
+const UserInfoSchema = z.object({
+  fullName: z.string().optional(),
+  nationalId: z.string().optional(),
+  accessLevel: z.string().optional(),
+});
 async function getUser() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001';
-  // در Next.js 15، cookies() یک Promise است → await
+  // آدرس مطلق اپ را از هدرها می‌سازیم تا به Route داخلی خودمان بزنیم
+  const h = await headers();
+  const proto = h.get('x-forwarded-proto') ?? 'http';
+  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'localhost:3000';
+  const baseUrl = `${proto}://${host}`;
+
+  // کوکی‌های کاربر را پاس می‌دهیم تا auth سمت سرور انجام شود
   const cookieStore = await cookies();
-  // تمام کوکی‌ها را به بک‌اند پاس بده (HttpOnly هم شامل می‌شود)
   const cookieHeader = cookieStore
     .getAll()
     .map((c: { name: string; value: string }) => `${c.name}=${c.value}`)
     .join('; ');
-  const res = await fetch(`${apiBase}/utils/user-info`, {
-    headers: { Cookie: cookieHeader },
-    cache: 'no-store',
-  });
-  if (!res.ok) return null;
-  return res.json();
+
+  try {
+    const res = await fetch(`${baseUrl}/api/utils/user-info`, {
+      headers: { Cookie: cookieHeader },
+      // دادهٔ کم‌تغییر → revalidate ملایم
+      next: { revalidate: 30 },
+    });
+    if (!res.ok) return null;
+    const raw = await res.json();
+    const parsed = UserInfoSchema.safeParse(raw);
+    if (!parsed.success) {
+      // داده نامعتبر → کاربر را لاگین‌نشده تلقی می‌کنیم
+      return null;
+    }
+    return parsed.data;
+  } catch {
+    return null;
+  }
 }
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -33,7 +56,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Sidebar */}
       <aside className="hidden md:flex flex-col border-l md:border-l-0 md:border-r border-border bg-card">
         <div className="h-16 flex items-center px-4 font-bold text-lg">
-          <i className="fa-solid fa-layer-group ms-1" /> پنل تراز
+          <i className="fa-solid fa-layer-group ms-1" /> پنل منجی
         </div>
         <nav className="flex-1 px-2 py-3 space-y-1">
           <Link href="/dashboard" className="nav-item">
@@ -51,15 +74,26 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </Link>
         </nav>
         <footer className="p-3 text-xs text-muted/90 border-t border-border">
-          © {new Date().getFullYear()} Taraz
+          © {new Date().getFullYear()} Monji
         </footer>
       </aside>
 
       {/* Main */}
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors">
         {/* Topbar (Client Component) */}
-        <Topbar userName={user?.fullName ?? 'کاربر'} />
-        <main className="container py-6">{children}</main>
+        <Topbar userName={user?.fullName ?? 'کاربر'} userRole={user?.accessLevel ?? 'USER'} />
+        <main className="container py-6">
+          <Suspense
+            fallback={
+              <div className="space-y-3" aria-label="در حال بارگذاری">
+                <div className="h-8 w-40 bg-slate-200 rounded animate-pulse" />
+                <div className="h-28 bg-slate-100 rounded animate-pulse" />
+              </div>
+            }
+          >
+            {children}
+          </Suspense>
+        </main>
       </div>
     </div>
   );

@@ -2,8 +2,7 @@
 
 'use client';
 
-import ModianQuickAccess from '@/components/modian/ModianQuickAccess';
-import ModianNoticesTabs from '@/components/modian/ModianNoticesTabs';
+import { ModianQuickAccess, ModianNoticesTabs } from '@/components/modian';
 
 
 export default function ModianHome() {

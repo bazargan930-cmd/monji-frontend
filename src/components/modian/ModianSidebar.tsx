@@ -98,6 +98,13 @@ export default function ModianSidebar() {
   }
 }, [openTaxfile, pathname, taxfileGroup, defaultTaxfileChild?.href, router]);
 
+  // ⬅️ وقتی از مجموعه «پرونده…» خارج شدیم، آکاردئون را ببند
+  useEffect(() => {
+    if (!isInTaxfileGroup) {
+      setOpenTaxfile(false);
+    }
+  }, [isInTaxfileGroup]);
+
   /** ---------- آیتم‌های نمایشی ---------- */
   const SimpleItem = ({ item }: { item: MenuItem }) => {
     const active = isActive(item.href);

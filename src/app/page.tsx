@@ -1,20 +1,29 @@
 // src/app/page.tsx
-'use client'; // فقط در صورتی که از هک‌های تعاملی (مثل کاروسل) استفاده کنید لازم است — در MVP استاتیک می‌توانید حذفش کنید.
-
-import HeroSection from '@/components/landing/HeroSection';
-import TrustStrip from '@/components/landing/TrustStrip';
-import HowItWorks from '@/components/landing/HowItWorks';
-import ComparisonTable from '@/components/landing/ComparisonTable';
-import SocialProof from '@/components/landing/SocialProof';
-import FeatureCard from '@/components/landing/FeatureCard';
-import DemoCard from '@/components/landing/DemoCard';
-import ArticlePreview from '@/components/landing/ArticlePreview';
-import LandingFooter from '@/components/landing/LandingFooter';
+'use client';
+import {
+   LandingShell,
+   HeroSection,
+   TrustStrip,
+   HowItWorks,
+   MiniAnchorNav,
+   FeatureCard,
+   LandingFooter,
+   track,
+   initPerfMetrics,
+ } from '@/components/landing';
+import dynamic from 'next/dynamic';
 import { FaChartLine, FaGraduationCap, FaAward, FaRobot } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { track } from '@/components/landing/analytics';
+import { useEffect } from 'react';
+import { LandingActiveProvider } from '@/components/landing';
+import {StickyPromoBar} from '@/components/landing';
 
+// ↓ سکشن‌های کم‌اولویت را به‌صورت داینامیک لود می‌کنیم (تقسیم کد)
+const ComparisonTable = dynamic(() => import('@/components/landing/ComparisonTable'));
+const SocialProof = dynamic(() => import('@/components/landing/SocialProof'));
+const DemoCard = dynamic(() => import('@/components/landing/DemoCard'));
+const ArticlePreview = dynamic(() => import('@/components/landing/ArticlePreview'));
 // داده‌های استاتیک mock برای MVP
 const features = [
   {
@@ -33,7 +42,7 @@ const features = [
   {
     title: "گواهینامه معتبر",
     description:
-      "بعد از حل سناریوها، گزارش عملکرد و گواهی قابل‌ارائه به کارفرما دریافت می‌کنی.",
+      "کسب گواهینامه منجی علاوه بر پیشرفت شغلی، به شما در رفع شکاف‌های دانش، مهارت‌ها و توانایی‌هایتان کمک کند",
     icon: <FaAward className="text-yellow-500" />,
   },
   {
@@ -80,9 +89,15 @@ const articles = [
   },
 ];
 
-export default function HomePage() {
+ export default function HomePage() {
+  useEffect(() => {
+    initPerfMetrics();
+  }, []);
   return (
-    <main className="flex flex-col items-center">
+    <div lang="fa" dir="rtl">
+    <LandingActiveProvider>
+      
+      <LandingShell>
       {/* Skip link برای پرش سریع به دموها (بهبود دسترس‌پذیری کیبورد/اسکرین‌ریدر) */}
       <a
         href="#free-demos"
@@ -90,20 +105,23 @@ export default function HomePage() {
       >
         پرش به دموهای رایگان
       </a>
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Hero Section (حذف شد تا دوبار رندر نشود) */}
+      {/* Mini-Anchor Navigation — میان‌برهای صفحه */}
+      <MiniAnchorNav />
       {/* Trust Strip — دلایل اعتماد (زیر هِرو) */}
       <TrustStrip />
-      {/* How It Works — سه گام */}
-      <HowItWorks />
-      {/* Comparison — دوره ویدئویی vs شبیه‌ساز تراز */}
-      <ComparisonTable />
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
+      <section id="comparison">
+        <ComparisonTable />
+      </section>
       {/* Social Proof — نقل‌قول‌ها و اعداد نتیجه */}
       <SocialProof />
       {/* Features Grid */}
-      <section role="region" aria-labelledby="why-taraaz-heading" className="py-16 bg-gray-50 w-full">
+      <section role="region" aria-labelledby="why-monji-heading" className="py-16 bg-gray-50 w-full">
         <div className="container mx-auto px-4">
-          <h2 id="why-taraaz-heading" className="text-3xl font-bold text-center mb-12">چرا تراز؟</h2>
+          <h2 id="why-monji-heading" className="text-3xl font-bold text-center mb-12">چرا منجی؟</h2>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +162,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Free Demos Carousel */}
+      {/* نوار چسبان: برای جلوگیری از تکرار CTA در هیرو، موقتاً غیرفعال شد */}
+      <StickyPromoBar visibleAt="never" />
       <section
         id="free-demos"
         role="region"
@@ -191,7 +210,7 @@ export default function HomePage() {
       </section>
 
       {/* Articles Section */}
-      <section role="region" aria-labelledby="articles-heading" className="py-16 bg-gray-50 w-full">
+      <section id="articles" role="region" aria-labelledby="articles-heading" className="py-16 bg-gray-50 w-full">
         <div className="container mx-auto px-4">
           <h2 id="articles-heading" className="text-3xl font-bold text-center mb-12">مقالات آموزشی</h2>
           <motion.div
@@ -225,6 +244,7 @@ export default function HomePage() {
             <Link
               href="/articles"
               className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={() => track('articles_all_click', { from: 'articles_section' })}
             >
               مشاهده همه مقالات
             </Link>
@@ -233,7 +253,9 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <LandingFooter />
-    </main>
+        <LandingFooter />
+      </LandingShell>
+    </LandingActiveProvider>
+    </div>
   );
 }

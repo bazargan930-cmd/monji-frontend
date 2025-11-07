@@ -11,7 +11,7 @@ import { BsClipboardCheck } from 'react-icons/bs';
 import { RiFileListLine } from 'react-icons/ri';
 
 // 🔹 مسیر پایه و مسیر پیش‌فرض این گروه
-export const TAXFILE_BASE = '/simulators/modian/admin/taxfile';
+export const TAXFILE_BASE = '/simulators/modian/taxfile';
 export const TAXFILE_DEFAULT = `${TAXFILE_BASE}/registration`;
 
 export type MenuItem = {
@@ -27,7 +27,7 @@ export const modianMenu: MenuItem[][] = [
   ],
   [
     { label: 'خانه', href: '/simulators/modian/home', icon: FiHome },
-    { label: 'داشبورد مدیریتی', href: '/simulators/modian/admin/dashboard', icon: FiGrid },
+    { label: 'داشبورد مدیریتی', href: '/simulators/modian/dashboard', icon: FiGrid },
   ],
   [
     // 🔹 گروه کشویی با ۷ آیتم
@@ -36,7 +36,7 @@ export const modianMenu: MenuItem[][] = [
       href: TAXFILE_BASE, // ← کلیک روی والد به صفحه پیش‌فرض هدایت می‌شود (در سایدبار هندل می‌کنیم)
       icon: BsClipboardCheck,
       children: [
-        { label: 'اطلاعات ثبت نامی', href: '/simulators/modian/admin/taxfile/registration', icon: HiOutlineDocumentReport },
+        { label: 'اطلاعات ثبت نامی', href: '/simulators/modian/taxfile/registration', icon: HiOutlineDocumentReport },
         { label: 'قبوض', href: `${TAXFILE_BASE}/bills`, icon: HiOutlineDocumentReport },
         { label: 'شرکت معتمد / سامانه دولتی', href: `${TAXFILE_BASE}/trusted`, icon: HiOutlineDocumentReport },
         { label: 'شناسه یکتا حافظه مالیاتی', href: `${TAXFILE_BASE}/memory-uid`, icon: HiOutlineDocumentReport },

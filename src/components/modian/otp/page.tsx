@@ -1,5 +1,5 @@
 'use client'
-import ModianOtpForm from '@/components/modian/ModianOtpForm';
+import { ModianOtpForm } from '@/components/modian/auth';
 
 export default function ModianOtpPage() {
   return <ModianOtpForm />;

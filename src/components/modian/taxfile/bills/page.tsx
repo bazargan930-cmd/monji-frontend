@@ -3,12 +3,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { BillsHelpContent } from '@/components/modian/taxfile';
 import { FiEdit2, FiTrash2, FiSearch, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 // ⬇️ ایمپورت لیست شعب  تایپ آن
 import {
   REGISTRATION_BRANCHES,
-  BranchInfo,
-} from '@/components/modian/taxfile/registration-information/page';
+} from '@/components/modian/taxfile';
 import { getBills, createBill, updateBill, deleteBill, type GetOpts } from '@/lib/modianApi';
 // صفحه «Content-only»: Chrome مشترک در Layout رندر می‌شود
 
@@ -22,18 +23,15 @@ type Bill = {
 };
 
 export default function BillsPage() {
-  const helpLinesBills = [
-    'صفحه قبوض پرونده مالیاتی',
-    'این صفحه شبیه‌سازی بخش قبوض در کارپوشه مودیان است',
-    'در نسخه بعدی، جستجوی واقعی و CRUD وصل می‌شود',
-  ];
+  // توضیحات راهنمای صفحه در مودال مشترک نمایش داده می‌شود
+ 
 
   const [bills, setBills] = useState<Bill[]>([]);
 
-  // گزینه‌های کدپستی (شعبه): «کدپستی (نام شعبه - کد شعبه)»
-  const branchOptions = (REGISTRATION_BRANCHES as BranchInfo[]).map((b) => ({
+  // «گزینه‌های کلیدی» (شعبه) - کد پستی
+  const branchOptions = REGISTRATION_BRANCHES.map((b) => ({
     value: b.کدپستی,
-    label: `${b.کدپستی} (${b.نام_شعبه} - ${b.کد_شعبه})`,
+    label: `${b.نام_شعبه} - ${b.کد_شعبه} - ${b.کدپستی}`,
   }));
 
   // فیلتر نوع و جستجو با شناسه قبض
@@ -247,6 +245,17 @@ export default function BillsPage() {
 
   return (
       <>
+        {/* دکمه/مودال راهنمای صفحه – زیر ساب‌هدر، سمت چپ */}
+        <div className="mt-4 px-4 flex justify-end" dir="rtl">
+          <HelpTrigger
+            buttonTitle="راهنمای صفحه قبوض"
+            modalTitle="راهنمای صفحهٔ قبوض پرونده مالیاتی"
+            size="lg"
+          >
+            <BillsHelpContent />
+          </HelpTrigger>
+        </div>
+
         {/* محتوای اصلی صفحه قبوض – بدون Chrome مشترک */}
         <div className="px-0">
           {/* تیتر صفحه (راهنما در لایهٔ ادمین رندر می‌شود) */}
@@ -422,7 +431,7 @@ export default function BillsPage() {
                       // پاک‌کردن خطا
                       setErrors(prev => ({ ...prev, postalCode: undefined }));
                       // ست مقدار کدپستی  نام شعبه از اطلاعات شعب
-                      const info = (REGISTRATION_BRANCHES as BranchInfo[]).find(b => String(b.کدپستی) === String(code));
+                      const info = REGISTRATION_BRANCHES.find(b => String(b.کدپستی) === String(code));
                       setForm(prev => ({
                         ...prev,
                         postalCode: code,
@@ -535,7 +544,7 @@ export default function BillsPage() {
                             value={editForm.postalCode}
                             onChange={(e) => {
                               const code = e.target.value;
-                              const info = (REGISTRATION_BRANCHES as BranchInfo[]).find(b => String(b.کدپستی) === String(code));
+                              const info = REGISTRATION_BRANCHES.find(b => String(b.کدپستی) === String(code));
                               setEditForm(prev => ({
                                 ...prev,
                                 postalCode: code,

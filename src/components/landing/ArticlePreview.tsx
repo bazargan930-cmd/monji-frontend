@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
+import track  from './analytics';
 
 interface ArticlePreviewProps {
   title: string;
@@ -23,7 +24,13 @@ export default function ArticlePreview({ title, excerpt, link, date }: ArticlePr
 
         {/* عنوان */}
         <h3 className="text-xl font-bold text-gray-800 mb-4 leading-tight hover:text-blue-600 transition-colors">
-          <Link href={link} className="block">
+          <Link
+            href={link}
+            className="block"
+            aria-label={`باز کردن مقاله: ${title}`}
+            onClick={() => track('article_card_click', { where: 'title', title, link })}
+            data-testid="article-title-link"
+          >
             {title}
           </Link>
         </h3>
@@ -39,6 +46,9 @@ export default function ArticlePreview({ title, excerpt, link, date }: ArticlePr
         <Link
           href={link}
           className="inline-block text-blue-600 font-medium hover:text-blue-800 hover:underline transition-colors"
+          aria-label={`ادامه مطلب: ${title}`}
+          onClick={() => track('article_card_click', { where: 'cta', title, link })}
+          data-testid="article-readmore-link"
         >
           ادامه مطلب →
         </Link>

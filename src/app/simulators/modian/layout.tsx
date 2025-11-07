@@ -4,7 +4,7 @@
 import React, { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { ModianHeader, ModianFooter, ModianSubHeader } from '@/components/modian/layout';
-import ModianSidebar from '@/components/modian/ModianSidebar';
+import { ModianSidebar } from '@/components/modian/portal';
 
 export default function ModianLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

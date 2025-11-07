@@ -2,12 +2,14 @@
 'use client';
 import { memo } from 'react';
 
+// تاریخ آخرین به‌روزرسانی محتوای Social Proof (قابل ویرایش در هر انتشار)
+const LAST_UPDATED = '۱۴۰۴/۰۷';
 const quotes = [
   {
     name: 'محدثه س.',
     role: 'کارشناس حسابداری (تهران)',
     text:
-      'با شبیه‌ساز تراز، فرم‌ها و سناریوها را مثل محیط واقعی تمرین کردم و همان هفته توی کار واقعی استفاده کردم.',
+      'با شبیه‌ساز منجی، فرم‌ها و سناریوها را مثل محیط واقعی تمرین کردم و همان هفته توی کار واقعی استفاده کردم.',
   },
   {
     name: 'آرش ک.',
@@ -19,7 +21,7 @@ const quotes = [
     name: 'شرکت پیشرو',
     role: 'کارفرما',
     text:
-      'کارآموزانی که با تراز تمرین کرده‌اند، خیلی سریع‌تر وارد روند واقعی می‌شوند و خطای عملیاتی کمتر دارند.',
+      'کارآموزانی که با منجی تمرین کرده‌اند، خیلی سریع‌تر وارد روند واقعی می‌شوند و خطای عملیاتی کمتر دارند.',
   },
 ];
 
@@ -27,7 +29,10 @@ function SocialProofImpl() {
   return (
     <section aria-label="تجربهٔ کاربران و اعداد نتیجه" className="w-full bg-white">
       <div className="container mx-auto px-4 py-14">
-        <h2 className="text-3xl font-bold text-center mb-10">کاربران چه می‌گویند؟</h2>
+        <h2 className="text-3xl font-bold text-center mb-2">کاربران چه می‌گویند؟</h2>
+        <p className="text-center text-xs text-slate-500 mb-8" data-last-updated={LAST_UPDATED}>
+          آخرین به‌روزرسانی داده‌ها: {LAST_UPDATED}
+        </p>
         {/* اعداد نتیجه (Metrics) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center">

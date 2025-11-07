@@ -1,31 +1,25 @@
-//src\components\common\HelpGuideButton.tsx
-
+// src/components/common/HelpGuideButton.tsx
 'use client';
 
 import { Button } from '@/components/ui/button';
-import helpLines from '@/constants/help/adminDashboardHelp';
 
 type Props = {
   className?: string;
   title?: string;
-  lines?: string[];
+  onClick?: () => void;
 };
 
-
-export default function HelpGuideButton({ className, title = 'راهنمای صفحه', lines }: Props) {
-  const handleClick = () => {
-    const content = lines && lines.length > 0 ? lines : helpLines;
-    alert(content.join('\n'));
-  };
-
-
+// دکمهٔ کاملاً عمومیِ «راهنمای صفحه»
+// - فاقد هرگونه متن/منطق دامنه‌ای
+// - مصرف‌کننده (هر صفحه) رفتار onClick را تزریق می‌کند
+export default function HelpGuideButton({ className, title = 'راهنمای صفحه', onClick }: Props) {
   return (
     <Button
       type="button"
       variant="outline"
-      onClick={handleClick}
+      onClick={onClick}
       className={`text-xs bg-amber-100 border border-amber-400 text-amber-800 hover:bg-amber-100 ${className ?? ''}`}
-      title="راهنمای ویژه تراز"
+      title={title}
     >
       {title}
     </Button>

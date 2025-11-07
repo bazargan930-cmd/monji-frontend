@@ -137,11 +137,11 @@ export default function LoginForm() {
           <div className="mt-auto pt-20 flex flex-col items-center z-10">
             <img
               src="/images/logo-monji.png"
-              alt="لوگوی تراز پایین"
+              alt="لوگوی منجی پایین"
               className="w-16 h-16 object-contain"
             />
             <p className="text-white text-sm font-bold text-center leading-tight mt-1">
-              <span className="block">موسسه آموزشی تراز</span>
+              <span className="block">موسسه آموزشی منجی</span>
               آموزش سامانه‌های بیمه و مالیات
             </p>
           </div>

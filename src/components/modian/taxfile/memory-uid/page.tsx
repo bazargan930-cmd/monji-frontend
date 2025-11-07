@@ -4,8 +4,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ToolbarBar, ToolbarIconButton, ToolbarSearch, ColumnsIcon } from '@/components/modian/common/ToolbarControls';
-
+import { ToolbarBar, ToolbarIconButton, ToolbarSearch } from '@/components/modian/ui';
+import { ColumnsIcon } from "@/components/modian/ui";
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { MemoryUIDHelpContent } from '@/components/modian/taxfile';
 
 type Row = {
   uid: string;           // شناسه یکتا حافظه مالیاتی
@@ -236,6 +238,16 @@ export default function MemoryUIDPage() {
 
   return (
     <section className="text-sm rtl">
+      {/* دکمه/مودال راهنمای صفحه – زیر ساب‌هدر، سمت چپ */}
+      <div className="mt-4 px-4 flex justify-end">
+        <HelpTrigger
+          buttonTitle="راهنمای شناسهٔ یکتا"
+          modalTitle="راهنمای شناسه یکتا حافظه مالیاتی"
+          size="lg"
+        >
+          <MemoryUIDHelpContent />
+        </HelpTrigger>
+      </div>
       {/* نوار ابزار بالا (با کنترل‌های مشترک) */}
       <ToolbarBar
         right={

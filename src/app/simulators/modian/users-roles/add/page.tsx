@@ -12,7 +12,7 @@ export default function UsersRolesAddPage() {
     <div dir="rtl" className="space-y-6">
       {/* ① راهنمای صفحه در بالای صفحه (سمت چپ) */}
       <div className="flex justify-end">
-        <HelpGuideButton title="راهنمای صفحه" lines={['این راهنما بزودی تکمیل خواهد شد']} />
+        <HelpGuideButton title="راهنمای صفحه" />
       </div>
       {/* کارت سفید اصلی مثل اسکرین */}
       <div className="border rounded-md bg-white">

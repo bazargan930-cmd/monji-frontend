@@ -118,11 +118,6 @@ export default function RoleAddPage() {
   return (
     <Suspense fallback={<div dir="rtl" className="p-6 text-sm text-gray-500">در حال بارگذاری…</div>}>
     <div dir="rtl" className="space-y-4">
-      {/* 1) راهنمای صفحه: بالا سمت راست */}
-      <div className="w-full flex justify-end">
-        <HelpGuideButton title="راهنمای صفحه" lines={['این راهنما بزودی تکمیل خواهد شد']} />
-      </div>
-
       {/* کارت سفید اصلی؛ بلندتر + چسباندن نوار دکمه‌ها به کف کارت */}
       <div className="border rounded-md bg-white min-h-[520px] flex flex-col">
         {/* محتوای بالایی کارت */}

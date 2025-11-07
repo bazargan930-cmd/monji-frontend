@@ -1,23 +1,21 @@
 //src\app\simulators\modian\declaration\statement.tsx
 'use client';
 import React from 'react';
-import HelpGuideButton from '@/components/common/HelpGuideButton';
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import DeclarationHelpContent from '@/components/modian/declaration/DeclarationHelpContent';
 
 export default function StatementPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       {/* نوار ابزار بالای صفحه (جای دکمه راهنما) */}
-      <div className="mb-3 flex justify-end">
-        <HelpGuideButton
-          className="px-3 py-1"
-          title="راهنمای صفحه"
-          lines={[
-            'این صفحه، راهنمای تکمیل اظهارنامه پیش‌فرض ارزش‌افزوده است.',
-            'متن وسط صفحه را کامل مطالعه کنید؛ موارد بولت‌شده الزامات و نکات اجرایی‌اند.',
-            'دکمه «مشاهده اظهارنامه‌ها و خلاصه عملکرد» فعلاً غیرفعال است (صرفاً نمایشی).',
-            'در نسخه MVP، مسیر مشاهده و ثبت اظهارنامه‌ها فعال خواهد شد.'
-          ]}
-        />
+      <div className="mb-3 flex justify-end" dir="rtl">
+        <HelpTrigger
+          buttonTitle="راهنمای اظهارنامه"
+          modalTitle="راهنمای اظهارنامه پیش‌فرض"
+          size="lg"
+        >
+          <DeclarationHelpContent />
+        </HelpTrigger>
       </div>
       {/* کارت سفید مانند اسکرین اصلی */}
       <div className="rounded-lg bg-white shadow border border-gray-200 p-6 md:p-8">

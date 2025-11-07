@@ -2,9 +2,9 @@
 'use client';
 
  import { useState } from 'react';
- import SimulatorBadge from '@/components/modian/common/SimulatorBadge';
- import { ToolbarBar, ToolbarSearch } from '@/components/modian/common/ToolbarControls';
- import HelpGuideButton from '@/components/common/HelpGuideButton';
+ import { ToolbarBar, ToolbarSearch, SimulatorBadge } from '@/components/modian/ui';
+ import HelpTrigger from '@/components/common/help/HelpTrigger';
+ import UsersRolesHelpContent from '@/components/modian/users-roles/UsersRolesHelpContent';
 
  export default function UsersRolesPage() {
    const [tab, setTab] = useState<'users' | 'roles'>('users');
@@ -25,13 +25,17 @@
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <SimulatorBadge />
       </div>
-
-      {/* چپ: راهنمای صفحه — موقت؛ بعد از دریافت کامپوننت از admin/layout جایگزین می‌کنم */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2">
-        <HelpGuideButton title="راهنمای صفحه" lines={['این راهنما بزودی تکمیل خواهد شد']} />
-      </div>
+    {/* راهنمای صفحه (مودال مشترک + محتوای اختصاصی) – زیر ساب‌هدر، سمت چپ */}
+    <div className="px-0 flex justify-end">
+      <HelpTrigger
+        buttonTitle="راهنمای کاربران و نقش‌ها"
+        modalTitle="راهنمای صفحهٔ کاربران و نقش‌ها"
+        size="lg"
+      >
+        <UsersRolesHelpContent />
+      </HelpTrigger>      
     </div>
-
+  </div>
        {/* تب‌ها */}
        <div className="border-b border-gray-200">
          <nav className="flex gap-6">

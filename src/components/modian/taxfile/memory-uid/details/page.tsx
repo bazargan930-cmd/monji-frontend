@@ -3,8 +3,8 @@
 
 import React from 'react';
 import MemoryUIDEditPage from '../edit/page';
-import UploadPublicKeyModal from '../../../common/UploadPublicKeyModal';
-import { useMemoryPublicKey } from '../../../common/useMemoryPublicKey';
+import { UploadPublicKeyModal } from '@/components/modian/ui';
+import { useMemoryPublicKey } from '@/components/modian/common';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const LS_KEY = 'modian_tax_memory_uids';

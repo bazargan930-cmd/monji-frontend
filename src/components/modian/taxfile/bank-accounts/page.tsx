@@ -2,7 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ToolbarBar, ToolbarIconButton, ToolbarSearch, ColumnsIcon } from '../../common/ToolbarControls';
+import { ToolbarBar, ToolbarIconButton, ToolbarSearch } from '@/components/modian/ui';
+import { ColumnsIcon } from "@/components/modian/ui";
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { BankAccountsHelpContent } from '@/components/modian/taxfile';
 
 export default function BankAccountsPage() {
   // state جستجو برای ورودی کلاینتی
@@ -19,6 +22,17 @@ export default function BankAccountsPage() {
 
    return (
     <section className="bg-white rounded-lg shadow p-10 text-sm rtl">
+
+      {/* دکمه/مودال راهنمای صفحه – زیر ساب‌هدر، سمت چپ */}
+      <div className="mb-2 -mt-6 px-0 flex justify-end">
+        <HelpTrigger
+          buttonTitle="راهنمای حساب‌های بانکی"
+          modalTitle="راهنمای صفحهٔ حساب‌های بانکی"
+          size="lg"
+        >
+          <BankAccountsHelpContent />
+        </HelpTrigger>
+      </div>
 
       {/* تیتر اصلی */}
       <h2 className="text-xl font-bold mb-6">مدیریت حساب‌های بانکی</h2>

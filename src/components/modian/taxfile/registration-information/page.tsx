@@ -173,7 +173,7 @@ export const REGISTRATION_BRANCHES: BranchInfo[] = [
     شهر: 'تهران',
     شهرستان: 'جنت آباد',
     کدپستی: '13471210',
-    آدرس_شعبه: 'ایران تهران پلاک ۱ سایت آموزشی تراز منجی',
+    آدرس_شعبه: 'ایران تهران پلاک ۱ سایت آموزشی منجی',
   },
 ];
 
@@ -407,8 +407,37 @@ export default function RegistrationInformation() {
                   </tr>
                 </thead>
                 <tbody>
-                  {branches?.length ? (
-                    branches.map((b) => (
+                  {(
+                    // اگر شعب خالی بود و «نشانی قانونی» داریم، یک ردیف پیش‌فرض بساز
+                    (branches && branches.length > 0)
+                      ? branches
+                      : (legal
+                          ? [{
+                              ردیف: 1,
+                              کد_شعبه: '****',
+                              نام_شعبه: 'مرکزی',
+                              استان: legal.استان ?? '',
+                              شهر: legal.شهر ?? '',
+                              شهرستان: legal.شهرستان ?? '',
+                              کدپستی: legal.کدپستی ?? '',
+                              آدرس_شعبه: legal.آدرس ?? '',
+                            }]
+                          : [])
+                  ).length ? (
+                    ((
+                      (branches && branches.length > 0)
+                        ? branches
+                        : [{
+                            ردیف: 1,
+                            کد_شعبه: '****',
+                            نام_شعبه: 'مرکزی',
+                            استان: legal.استان ?? '',
+                            شهر: legal.شهر ?? '',
+                            شهرستان: legal.شهرستان ?? '',
+                            کدپستی: legal.کدپستی ?? '',
+                            آدرس_شعبه: legal.آدرس ?? '',
+                          }]
+                    )).map((b) => (
                       <tr key={b.ردیف} className="odd:bg-white even:bg-gray-50">
                         <td className="px-3 py-2 border-t text-right">{toFaDigits(b.ردیف)}</td>
                         <td className="px-3 py-2 border-t text-right">{toFaDigits(b.کد_شعبه)}</td>

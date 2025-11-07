@@ -1,7 +1,7 @@
 //src\app\simulators\modian\otp\page.tsx
- 'use client';
+ 'use client'
 import React from 'react';
-import ModianOtpForm from '@/components/modian/ModianOtpForm';
+import { ModianOtpForm } from '@/components/modian/auth';
 
 export default function ModianOtpPage() {
   return (

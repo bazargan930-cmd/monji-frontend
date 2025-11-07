@@ -74,7 +74,7 @@ export default function SigninPage() {
 
   return (
     <div className="max-w-md mx-auto bg-white border rounded-xl p-6 mt-12 shadow-lg">
-      <h1 className="text-lg font-bold mb-4 text-center text-blue-700">ورود به تراز</h1>
+      <h1 className="text-lg font-bold mb-4 text-center text-blue-700">ورود به منجی</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm mb-1">شماره تلفن همراه</label>
