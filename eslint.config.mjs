@@ -6,8 +6,10 @@ import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
-// Globals (browser/node) برای تنظیم languageOptions
-import globalsAll from "globals";
+// Globals (browser/node) برای تنظیم languageOptions — امن در برابر CJS/ESM interop
+import * as globalsNS from "globals";
+// بعضی محیط‌ها (مثل CI) خروجی CJS را زیر default می‌گذارند.
+const nodeGlobals = (globalsNS?.default ?? globalsNS)?.node ?? {};
 
 // حالت سخت‌گیرانه را با متغیر محیطی کنترل می‌کنیم:
 const isStrict = process.env.ESLINT_STRICT === "1";
@@ -115,9 +117,7 @@ const eslintConfig = [
     ],
     languageOptions: {
       // فعال‌سازی گلوبال‌های Node برای جلوگیری از no-undef کاذب
-      globals: {
-      ...globalsAll.node
-      }
+      globals: nodeGlobals
     },
     rules: {
       "import/no-extraneous-dependencies": "off",
