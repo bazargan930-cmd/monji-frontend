@@ -7,7 +7,7 @@ import nextPlugin from "@next/eslint-plugin-next";
 import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
 // Globals (browser/node) برای تنظیم languageOptions
-import globals from "globals";
+import globalsAll from "globals";
 
 // حالت سخت‌گیرانه را با متغیر محیطی کنترل می‌کنیم:
 const isStrict = process.env.ESLINT_STRICT === "1";
@@ -115,7 +115,9 @@ const eslintConfig = [
     ],
     languageOptions: {
       // فعال‌سازی گلوبال‌های Node برای جلوگیری از no-undef کاذب
-      globals: globals.node
+      globals: {
+      ...globalsAll.node
+      }
     },
     rules: {
       "import/no-extraneous-dependencies": "off",
