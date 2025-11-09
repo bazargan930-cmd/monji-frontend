@@ -6,10 +6,19 @@ import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
-// Globals (browser/node) برای تنظیم languageOptions — امن در برابر CJS/ESM interop
-import * as globalsNS from "globals";
-// بعضی محیط‌ها (مثل CI) خروجی CJS را زیر default می‌گذارند.
-const nodeGlobals = (globalsNS?.default ?? globalsNS)?.node ?? {};
+// Node globals بدون وابستگی به پکیج خارجی (پایدار در CI)
+const nodeGlobals = {
+  __dirname: "readonly",
+  __filename: "readonly",
+  exports: "readonly",
+  module: "readonly",
+  require: "readonly",
+  process: "readonly",
+  global: "readonly",
+  Buffer: "readonly",
+  setImmediate: "readonly",
+  clearImmediate: "readonly",
+};
 
 // حالت سخت‌گیرانه را با متغیر محیطی کنترل می‌کنیم:
 const isStrict = process.env.ESLINT_STRICT === "1";
@@ -116,8 +125,8 @@ const eslintConfig = [
       "tailwind.config.js"
     ],
     languageOptions: {
-      // فعال‌سازی گلوبال‌های Node برای جلوگیری از no-undef کاذب
-      globals: nodeGlobals
+      /// فعال‌سازی گلوبال‌های Node برای جلوگیری از no-undef کاذب (نسخه‌ی محلی/پایدار)
+      globals: nodeGlobals,
     },
     rules: {
       "import/no-extraneous-dependencies": "off",
