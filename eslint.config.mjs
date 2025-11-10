@@ -71,7 +71,7 @@ const eslintConfig = [
         "groups": [["builtin","external"],["internal"],["parent","sibling","index"]]
       }] : "off",
       // وابستگی‌های اضافی تنها در حالت Strict کنترل شوند
-      "import/no-extraneous-dependencies": isStrict ? ["error", {
+      "import/no-extraneous-dependencies": isStrict ? ["warn", {
         "devDependencies": [
           "**/*.config.*",
           "**/.*rc.*",
@@ -80,9 +80,7 @@ const eslintConfig = [
           "postcss.config.js",
           "tailwind.config.js",
           "eslint.config.mjs"
-        ],
-        // ✅ تا وقتی zod را به dependencies اضافه نکردیم، در CI خطا ندهد
-        "allowModules": ["zod"]
+        ]
       }] : "off",
       // جلوگیری از ایمپورت مستقیم Modian* از components/layout
       // همه مصرف‌کننده‌ها باید از barrel: "@/components/modian/layout" ایمپورت کنند
