@@ -6,6 +6,18 @@ import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import importPlugin from "eslint-plugin-import";
 import reactHooks from "eslint-plugin-react-hooks";
+const nodeGlobals = {
+  __dirname: "readonly",
+  __filename: "readonly",
+  exports: "readonly",
+  module: "readonly",
+  require: "readonly",
+  process: "readonly",
+  global: "readonly",
+  Buffer: "readonly",
+  setImmediate: "readonly",
+  clearImmediate: "readonly",
+};
 
 // حالت سخت‌گیرانه را با متغیر محیطی کنترل می‌کنیم:
 const isStrict = process.env.ESLINT_STRICT === "1";
@@ -112,7 +124,7 @@ const eslintConfig = [
     ],
     languageOptions: {
       // فعال‌سازی گلوبال‌های Node برای جلوگیری از no-undef کاذب
-      globals: js.environments.node.globals
+      globals: nodeGlobals
     },
     rules: {
       "import/no-extraneous-dependencies": "off",
