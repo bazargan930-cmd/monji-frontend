@@ -10,6 +10,7 @@ export function IconFilter(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+
 /** آیکون استاندارد «نمایش ستون‌ها»:
  *  یک مربع با دو خط عمودی مشکی که داخل مربع را به سه قسمت مساوی تقسیم می‌کند. */
 export function ColumnsIcon({
@@ -30,14 +31,34 @@ export function ColumnsIcon({
   );
 }
 
-/** آیکون شبکه/ستون‌ها (چهار مربع) */
-export function IconColumns(props: SVGProps<SVGSVGElement>) {
+/** آیکون «خروجی اکسل» با استایل نزدیک به مرجع (کادر بیرونی + کاشی تیره با X و جدول سفید) */
+export function IconExcelExport({
+  className = 'h-6 w-6',
+}: {
+  className?: string;
+}) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>
-      <rect x="3" y="3" width="7" height="7" />
-      <rect x="14" y="3" width="7" height="7" />
-      <rect x="3" y="14" width="7" height="7" />
-      <rect x="14" y="14" width="7" height="7" />
+    <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
+      {/* کادر بیرونی خاکستری روشن مطابق نمونه */}
+      <rect x="2.5" y="2.5" width="43" height="43" rx="6"
+            fill="none" stroke="#9CA3AF" strokeWidth="3"/>
+      {/* کاشی داخلی تیره */}
+      <rect x="12" y="12" width="24" height="24" rx="3" fill="#111827"/>
+      {/* شبکه جدول سمت راست داخل کاشی (سفید) */}
+      <g stroke="#FFFFFF" strokeWidth="2">
+        <line x1="28" y1="16" x2="36" y2="16" />
+        <line x1="28" y1="22" x2="36" y2="22" />
+        <line x1="28" y1="28" x2="36" y2="28" />
+        <line x1="28" y1="34" x2="36" y2="34" />
+        <line x1="28" y1="16" x2="28" y2="34" />
+        <line x1="32" y1="16" x2="32" y2="34" />
+        <line x1="36" y1="16" x2="36" y2="34" />
+      </g>
+      {/* X سفید سمت چپ کاشی */}
+      <g stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round">
+        <line x1="16" y1="20" x2="22" y2="28" />
+        <line x1="22" y1="20" x2="16" y2="28" />
+      </g>
     </svg>
   );
 }
@@ -73,4 +94,24 @@ export function IconChevronDown(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+{/* آیکون بازگشت به صفحه قبل*/}
+export default function InvoiceHeaderArrowIcon(
+  props: React.SVGProps<SVGSVGElement>,
+) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      {/* فلش به سمت راست */}
+      <path d="M12 8l6 4-6 6" />
+      <path d="M16 12H8" />
+    </svg>
+  );
+}
 

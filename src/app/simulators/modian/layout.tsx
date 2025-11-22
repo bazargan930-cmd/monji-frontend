@@ -12,7 +12,7 @@ export default function ModianLayout({ children }: { children: React.ReactNode }
   const hideSidebar = pathname === '/simulators/modian/portal';
 
   return (
-     <div className="min-h-screen flex flex-col bg-[#f3f6fb]">
+     <div className="min-h-screen flex flex-col bg-gray-50">
        {/* هدر بالا */}
        <ModianHeader />
 

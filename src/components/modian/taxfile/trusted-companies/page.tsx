@@ -4,7 +4,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { IconFilter, IconColumns, IconSearch, IconChevronDown } from '@/components/modian/ui';
+import { IconFilter, ColumnsIcon, IconSearch, IconChevronDown } from '@/components/modian/ui';
 import {ModianJalaliDateField} from '@/components/modian/common';
 import type { ISOString } from '@/lib/date/jalali';
 import { FormField } from '@/components/modian/ui';
@@ -177,7 +177,7 @@ import { TrustedHelpContent } from '@/components/modian/taxfile';
                   setIsFilterOpen(false);
                 }}
               >
-                <IconColumns className="h-5 w-5" />
+                <ColumnsIcon className="h-5 w-5" />
               </button>
               {/* فیلد جستجو (بدون لیبل ظاهری) + دکمه آیکون جداگانه مطابق اسکرین */}
               <input

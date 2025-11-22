@@ -97,6 +97,9 @@ const articles = [
     <div lang="fa" dir="rtl">
     <LandingActiveProvider>
       
+      {/* Hero خارج از LandingShell تا فاصلهٔ بالایی صفر و full-bleed واقعی شود */}
+      <HeroSection />
+
       <LandingShell>
       {/* Skip link برای پرش سریع به دموها (بهبود دسترس‌پذیری کیبورد/اسکرین‌ریدر) */}
       <a
@@ -105,19 +108,37 @@ const articles = [
       >
         پرش به دموهای رایگان
       </a>
-      {/* Hero Section (حذف شد تا دوبار رندر نشود) */}
       {/* Mini-Anchor Navigation — میان‌برهای صفحه */}
       <MiniAnchorNav />
       {/* Trust Strip — دلایل اعتماد (زیر هِرو) */}
       <TrustStrip />
-      <section id="how-it-works">
+      <motion.section
+        id="how-it-works"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
         <HowItWorks />
-      </section>
-      <section id="comparison">
+      </motion.section>
+      <motion.div
+        id="comparison"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
         <ComparisonTable />
-      </section>
+      </motion.div>
       {/* Social Proof — نقل‌قول‌ها و اعداد نتیجه */}
-      <SocialProof />
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <SocialProof />
+      </motion.div>
       {/* Features Grid */}
       <section role="region" aria-labelledby="why-monji-heading" className="py-16 bg-gray-50 w-full">
         <div className="container mx-auto px-4">

@@ -11,10 +11,14 @@ src\app
 │  ├─ auth/
 │  │  └─ logout/
 │  │     └─ route.ts
+│  ├─ csrf/
+│  │  └─ route.ts
 │  ├─ simulators/
 │  │  └─ insurance/
 │  │     └─ calculate/
 │  │        └─ route.ts
+│  ├─ telemetry/
+│  │  └─ route.ts
 │  └─ utils/
 │     ├─ today/
 │     │  └─ route.ts
@@ -31,6 +35,8 @@ src\app
 │  ├─ layout.tsx
 │  ├─ page.tsx
 │  └─ Topbar.client.tsx
+├─ privacy/
+│  └─ page.tsx
 ├─ profile/
 │  └─ page.tsx
 ├─ simulators/
@@ -43,42 +49,28 @@ src\app
 │  │  └─ login/
 │  │     └─ page.tsx
 │  ├─ modian/
-│  │  ├─ admin/
-│  │  │  ├─ dashboard/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ taxfile/
-│  │  │  │  ├─ bank-accounts/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ bills/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ memory-uid/
-│  │  │  │  │  ├─ add/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ details/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ registration/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ trusted/
-│  │  │  │     ├─ add/
-│  │  │  │     │  └─ page.tsx
-│  │  │  │     ├─ layout.tsx
-│  │  │  │     └─ page.tsx
-│  │  │  └─ layout.tsx
+│  │  ├─ dashboard/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ declaration/
+│  │  │  ├─ page.tsx
+│  │  │  ├─ statement.tsx
+│  │  │  └─ summary.tsx
 │  │  ├─ home/
 │  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
-│  │  ├─ invoice/
-│  │  │  ├─ new/
-│  │  │  │  ├─ layout.tsx
+│  │  ├─ invoices/
+│  │  │  ├─ buy/
+│  │  │  │  ├─ detail/
+│  │  │  │  │  └─ page.tsx
 │  │  │  │  └─ page.tsx
-│  │  │  ├─ layout.tsx
-│  │  │  └─ route.ts
+│  │  │  ├─ exports/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ files/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ sales/
+│  │  │  │  └─ page.tsx
+│  │  │  └─ layout.tsx
 │  │  ├─ login/
 │  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
@@ -93,13 +85,32 @@ src\app
 │  │  │  │  ├─ layout.tsx
 │  │  │  │  └─ page.tsx
 │  │  │  └─ layout.tsx
+│  │  ├─ taxfile/
+│  │  │  ├─ bank-accounts/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ bills/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ memory-uid/
+│  │  │  │  ├─ add/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ details/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ registration/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ trusted/
+│  │  │     ├─ add/
+│  │  │     │  └─ page.tsx
+│  │  │     ├─ layout.tsx
+│  │  │     └─ page.tsx
 │  │  ├─ users-roles/
 │  │  │  ├─ add/
 │  │  │  │  ├─ layout.tsx
 │  │  │  │  └─ page.tsx
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ workspace/
 │  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
 │  │  └─ layout.tsx
@@ -114,6 +125,8 @@ src\app
 │     │  └─ page.tsx
 │     └─ pro/
 │        └─ page.tsx
+├─ terms/
+│  └─ page.tsx
 ├─ head.tsx
 ├─ layout.tsx
 └─ page.tsx

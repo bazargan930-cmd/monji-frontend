@@ -99,13 +99,13 @@ const eslintConfig = [
         ]
       }],
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": isStrict ? "warn" : "off",
-      // نرم‌سازی موقت: در حالت عادی خاموش، در حالت سخت‌گیرانه اخطار
-      "@typescript-eslint/no-explicit-any": isStrict ? "warn" : "off",
+      "react-hooks/exhaustive-deps": isStrict ? "error" : "off",
+      // در حالت عادی خاموش؛ در حالت سخت‌گیرانه خطا (برای صفر کردن هشدارهای lint:strict)
+      "@typescript-eslint/no-explicit-any": isStrict ? "error" : "off",
       "@typescript-eslint/no-this-alias": "off",
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-unused-expressions": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+      "@typescript-eslint/no-unused-vars": [isStrict ? "error" : "warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
       // در حالت عادی خاموش؛ در حالت سخت‌گیرانه اخطار
       "no-empty": isStrict ? "warn" : "off",
       "prefer-const": isStrict ? "warn" : "off",
