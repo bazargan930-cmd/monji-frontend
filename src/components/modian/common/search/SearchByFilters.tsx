@@ -1,6 +1,7 @@
 // src/components/modian/common/search/SearchByFilters.tsx
 'use client';
 import * as React from 'react';
+import { usePathname } from 'next/navigation';
 import { Card, FieldGrid, FormField, IconChevronDown, IconSearch, IconFilter } from '@/components/modian/ui';
 import { ModianJalaliDateField } from '@/components/modian/common';
 
@@ -22,6 +23,12 @@ type Props = {
 };
 
 export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اطلاعات زمانی' }: Props) {
+  const pathname = usePathname();
+  const isSalesPage = pathname?.includes('/simulators/modian/invoices/sales');
+  // در صفحه «صورتحساب‌های فروش داخلی» طرف مقابل «خریدار» است؛
+  // در سایر صفحات (مثل خرید داخلی) همچنان «فروشنده» باقی می‌ماند.
+  const counterpartyLabel = isSalesPage ? 'خریدار' : 'فروشنده';
+
   const [values, setValues] = React.useState<Record<string, string>>({});
   const [advancedOpen, setAdvancedOpen] = React.useState(false);
   // گزینه‌های «سال و دوره» که از today پر می‌شوند (آیتم اول: دورهٔ جاری)
@@ -40,18 +47,41 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   );
   // گزینه‌های «الگوی صورتحساب» (چندانتخابی) — ترتیب طبق اسکرین مرجع
   const invoicePatternOptions = React.useMemo(
-    () => [
-      { value: 'sell',            label: 'الگو فروش' },
-      { value: 'sell_fx',         label: 'الگو فروش ارز' },
-      { value: 'gold_jewel',      label: 'الگو طلا، جواهر و پلاتین' },
-      { value: 'contracting',     label: 'الگو پیمانکاری' },
-      { value: 'utilities',       label: 'الگو قبوض خدماتی' },
-      { value: 'air_ticket',      label: 'الگو بلیط هواپیما' },
-      { value: 'waybill',         label: 'الگو بارنامه' },
-      { value: 'refining',        label: 'الگو پالایش و پخش' },
-      { value: 'insurance',       label: 'الگو بیمه' },
-    ],
-    []
+    () => {
+      // لیست پایه برای همهٔ صفحات (خرید و فروش)
+      const base = [
+        { value: 'sell',        label: 'الگو فروش' },
+        { value: 'sell_fx',     label: 'الگو فروش ارز' },
+        { value: 'gold_jewel',  label: 'الگو طلا، جواهر و پلاتین' },
+        { value: 'contracting', label: 'الگو پیمانکاری' },
+        { value: 'utilities',   label: 'الگو قبوض خدماتی' },
+        { value: 'air_ticket',  label: 'الگو بلیط هواپیما' },
+        { value: 'waybill',     label: 'الگو بارنامه' },
+        { value: 'refining',    label: 'الگو پالایش و پخش' },
+        { value: 'insurance',   label: 'الگو بیمه' },
+      ];
+
+      // برای صفحات غیرِ فروش داخلی، همان لیست پایه برگردانده می‌شود
+      if (!isSalesPage) {
+        return base;
+      }
+
+      // در صفحهٔ فروش داخلی، «الگوی بورس کالا» قبل از «الگو بیمه» اضافه می‌شود
+      const result = [...base];
+      const insuranceIndex = result.findIndex(
+        (option) => option.value === 'insurance',
+      );
+      const insertIndex =
+        insuranceIndex === -1 ? result.length : insuranceIndex;
+
+      result.splice(insertIndex, 0, {
+        value: 'الگوی بورس کالا',
+        label: 'الگوی بورس کالا',
+      });
+
+      return result;
+    },
+    [isSalesPage],
   );
   // گزینه‌های «نوع شخص فروشنده/حق‌العملکار» (چندانتخابی)
   const personTypeOptions = React.useMemo(
@@ -567,30 +597,34 @@ const TextInputWithClear = ({
                 <option value="not_exceeded">عدم عدول از حد مجاز</option>
               </select>
             </FormField>
-            {/* برچسب تک‌خطی: شماره اقتصادی فروشنده∕حق‌العملکار (∕ = U+2215 تا نقطه شکست ایجاد نشود) */}
+            {/* برچسب تک‌خطی: شماره اقتصادی خریدار/فروشنده∕حق‌العملکار (بسته به نوع صفحه) */}
             <FormField
-              label={"شماره\u202Fاقتصادی\u202Fفروشنده\u2215حق\u200cالعملکار"}
+              label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
               variant="floating"
             >
               <NumericInputWithClear name="economicCode" maxLength={20} />
             </FormField>
-            {/* برچسب تک‌خطی: شناسه هویتی فروشنده∕حق‌العملکار */}
+            {/* برچسب تک‌خطی: شناسه هویتی خریدار/فروشنده∕حق‌العملکار (بسته به نوع صفحه) */}
             <FormField
-              label={"شناسه\u202Fهویتی\u202Fفروشنده\u2215حق\u200cالعملکار"}
+              label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
               variant="floating"
             >
               <NumericInputWithClear name="identityCode" maxLength={20} />
             </FormField>
 
             {/* ردیف 4: نام و نوع فروشنده/حق العملکار */}
-            <FormField label="نام فروشنده/حق العملکار" variant="floating">
+            <FormField label={`نام ${counterpartyLabel}/حق العملکار`} variant="floating">
               <TextInputWithClear name="sellerName" />
             </FormField>
-            <FormField label="نام تجاری فروشنده/حق العملکار" variant="floating">
+            <FormField label={`نام تجاری ${counterpartyLabel}/حق العملکار`} variant="floating">
               <TextInputWithClear name="sellerTradeName" />
             </FormField>
-            {/* نوع شخص فروشنده/حق‌العملکار: چندانتخابی با منطق مشترک */}
-            <MultiSelect name="personType" label="نوع شخص فروشنده/حق العملکار" options={personTypeOptions} />
+            {/* نوع شخص خریدار/فروشنده/حق‌العملکار: چندانتخابی با منطق مشترک */}
+            <MultiSelect
+              name="personType"
+              label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
+              options={personTypeOptions}
+            />
             {/* چک‌باکس انتهای سطر آخر */}
           <div className="mt-3 flex items-center gap-2">
             <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
