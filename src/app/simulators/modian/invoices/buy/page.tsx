@@ -439,6 +439,7 @@ const filtersConfig: FilterField[] = [
       { value: 'عدم امکان واکنش',  label: 'عدم امکان واکنش' },
       { value: 'عدم نیاز به واکنش', label: 'عدم نیاز به واکنش' },
       { value: 'ابطال شده',        label: 'ابطال شده' },
+      { value: 'رد خودکار',           label: 'رد خودکار' },
     ] },
   { type: 'button', name: 'advanced', label: 'پیشرفته' },
   { type: 'submit', name: 'search', label: 'جستجو' },
