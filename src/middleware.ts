@@ -1,6 +1,6 @@
 // src/middleware.ts
-import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify, type JWTPayload } from 'jose';
+import { NextRequest, NextResponse } from 'next/server';
 
 // نام کوکی مطابق بک‌اند (HttpOnly)
 const ACCESS_COOKIE = 'access_token';
@@ -20,10 +20,21 @@ const RULES: Array<
 const AUTH_PAGES = [/^\/auth\/signin$/, /^\/auth\/signup$/];
 
 async function verify(token: string): Promise<{ ok: boolean; payload?: JWTPayload }> {
-  // secret باید با بک‌اند یکی باشد؛ از متغیر محیطی فرانت استفاده می‌کنیم
-  const secret = new TextEncoder().encode(
-    process.env.NEXT_PUBLIC_JWT_SECRET ?? process.env.JWT_SECRET ?? 'dev-secret'
-  );
+  // secret باید با بک‌اند یکی باشد؛ فقط از JWT_SECRET سروری استفاده می‌کنیم
+  const secretEnv = process.env.JWT_SECRET;
+
+  if (!secretEnv) {
+    if (process.env.NODE_ENV !== 'production') {
+      // در محیط توسعه به‌جای پذیرش توکن ناامن، هشدار می‌دهیم
+      console.warn(
+        '[middleware] JWT_SECRET is not set; treating all tokens as invalid.',
+      );
+    }
+    return { ok: false };
+  }
+
+  const secret = new TextEncoder().encode(secretEnv);
+
   try {
     const { payload } = await jwtVerify(token, secret); // HS256
     return { ok: true, payload };
@@ -32,19 +43,33 @@ async function verify(token: string): Promise<{ ok: boolean; payload?: JWTPayloa
   }
 }
 
+
+type AdminLikePayload = JWTPayload & {
+  role?: string;
+  Role?: string;
+  userRole?: string;
+  roles?: string[];
+  isAdmin?: boolean;
+  accessLevel?: string;
+};
+
 function isAdmin(payload?: JWTPayload): boolean {
   if (!payload) return false;
-  // انعطاف‌پذیر برای انواع پروژه‌ها:
+
+  // انعطاف‌پذیر برای انواع ساختار نقش:
   // role: 'ADMIN' | roles: string[] | isAdmin: boolean | accessLevel: 'ADMIN'
-  const role = (payload as any).role ?? (payload as any).Role ?? (payload as any).userRole;
-  const roles = (payload as any).roles as string[] | undefined;
+  const p = payload as AdminLikePayload;
+  const role = p.role ?? p.Role ?? p.userRole;
+  const roles = p.roles;
+
   return (
     role === 'ADMIN' ||
     roles?.includes?.('ADMIN') ||
-    (payload as any).isAdmin === true ||
-    (payload as any).accessLevel === 'ADMIN'
+    p.isAdmin === true ||
+    p.accessLevel === 'ADMIN'
   );
 }
+
 
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
