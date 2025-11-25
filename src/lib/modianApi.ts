@@ -48,7 +48,7 @@ export async function getBills(q: BillsGetOpts = {}) {
    if (q.pageSize)                      params.set('pageSize', String(q.pageSize));
    const url = `${API_BASE}/simulators/modian/bills${params.toString() ? `?${params.toString()}` : ''}`;
    const res = await fetch(url, { method: 'GET' });
-   return handle<{ items: any[]; total: number; page: number; pageSize: number }>(res);
+   return handle<{ items: unknown[]; total: number; page: number; pageSize: number }>(res);
  }
 
 export async function createBill(body: CreateBillBody) {
@@ -104,12 +104,23 @@ export async function updateBill(id: number, payload: {
      }
      lastStatus = res.status;
      lastText = (await res.text()) || res.statusText;
-     debug.push({ href: lastHref, method: (init as any)?.method || 'GET', status: res.status, note: (lastText || '').slice(0, 140) });
+     const method = (init as RequestInit | undefined)?.method || 'GET';
+     debug.push({
+       href: lastHref,
+       method,
+       status: res.status,
+       note: (lastText || '').slice(0, 140),
+     });
      if (res.status === 404 || res.status === 405) continue;
      throw new Error(lastText || `HTTP ${res.status}`);
-   } catch (e: any) {
-     lastText = e?.message || String(e);
-     debug.push({ href: lastHref, method: (init as any)?.method || 'ERR', note: (lastText || '').slice(0, 140) });
+   } catch (e) {
+     lastText = (e as Error)?.message || String(e);
+     const method = (init as RequestInit | undefined)?.method || 'ERR';
+     debug.push({
+       href: lastHref,
+       method,
+       note: (lastText || '').slice(0, 140),
+     });
      continue;
    }
  }

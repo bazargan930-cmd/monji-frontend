@@ -6,6 +6,10 @@ import {
   JALALI_MONTH_NAMES, toFa,
 } from '@/components/modian/common';
 
+const WEEK = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'] as const;
+const normalizeWeekday = (s: string) => s.replace(/\u200c/g, '');
+const WEEK_NORM = WEEK.map(normalizeWeekday);
+
 type PickerProps = {
   anchorEl: HTMLElement | null;
   open: boolean;
@@ -30,25 +34,13 @@ export default function ModianJalaliDatePicker({ anchorEl, open, onClose, onPick
   }, [open, onClose, anchorEl]);
 
   const days = Array.from({ length: monthLength(jy, jm) }, (_, i) => i + 1);
-  const WEEK = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'] as const;
-  const normalize = (s:string) => s.replace(/\u200c/g, '');
-  const WEEK_NORM = WEEK.map(normalize);
   const firstWeekdayIndex = useMemo(() => {
     const gd = gDateFromJalali(jy, jm, 1);
-    // partsFa به‌صورت داخلی در gDateFromJalali استفاده می‌شود
-    const w = normalize(
-      // یک‌بار دیگر از jalaliNow/partsFa بی‌نیازیم؛ gDateFromJalali کافی است
-      // برای حفظ رفتار قبلی فقط با util فعلی کار می‌کنیم
-      (() => {
-        const { weekday } = ((): any => {
-          // از util درون gDateFromJalali استفاده می‌شود؛ اینجا فقط weekday لازم است
-          // برای پرهیز از export اضافه، index را از Date بگیریم:
-          return { weekday: new Intl.DateTimeFormat('fa-IR-u-ca-persian', { weekday: 'long' }).format(gd) };
-        })();
-        return weekday as string;
-      })()
-    );
-    return WEEK_NORM.indexOf(w);
+    const weekdayFa = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+      weekday: 'long',
+    }).format(gd);
+    const normalized = normalizeWeekday(weekdayFa);
+    return WEEK_NORM.indexOf(normalized);
   }, [jy, jm]);
 
   if (!open || !anchorEl) return null;
