@@ -16,7 +16,12 @@ type Props = {
 
 /** توجه: input «فقط-خواندنی» است و با کلیک روی هر نقطه باز می‌شود */
 export default function ModianJalaliDateField({
-  id, label, valueISO, placeholder = 'انتخاب کنید', onChangeISO, className
+  id: _id,
+  label,
+  valueISO: _valueISO,
+  placeholder = 'انتخاب کنید',
+  onChangeISO,
+  className,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [display, setDisplay] = useState<string>(''); // رشته‌ی شمسی برای UI
