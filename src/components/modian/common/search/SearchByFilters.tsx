@@ -25,6 +25,7 @@ type Props = {
 export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اطلاعات زمانی' }: Props) {
   const pathname = usePathname();
   const isSalesPage = pathname?.includes('/simulators/modian/invoices/sales');
+  const isExportsPage = pathname?.includes('/simulators/modian/invoices/exports');
   // در صفحه «صورتحساب‌های فروش داخلی» طرف مقابل «خریدار» است؛
   // در سایر صفحات (مثل خرید داخلی) همچنان «فروشنده» باقی می‌ماند.
   const counterpartyLabel = isSalesPage ? 'خریدار' : 'فروشنده';
@@ -37,13 +38,26 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
   // گزینه‌های «موضوع صورتحساب» در پنل پیشرفته
   const topicOptions = React.useMemo(
-    () => [
-      { value: 'main', label: 'اصلی' },
-      { value: 'edit', label: 'اصلاحی' },
-      { value: 'return', label: 'برگشت از فروش' },
-      { value: 'cancel', label: 'ابطال' },
-    ],
-    []
+    () => {
+      // در صفحه «فروش صادراتی» فقط سه گزینهٔ زیر نمایش داده می‌شود:
+      // اصلی، ابطالی، اصلاحی
+      if (isExportsPage) {
+        return [
+          { value: 'main',   label: 'اصلی' },
+          { value: 'cancel', label: 'ابطالی' },
+          { value: 'edit',   label: 'اصلاحی' },
+        ];
+      }
+
+      // در سایر صفحات، لیست کامل شامل «برگشت از فروش» نیز هست
+      return [
+        { value: 'main',   label: 'اصلی' },
+        { value: 'edit',   label: 'اصلاحی' },
+        { value: 'return', label: 'برگشت از فروش' },
+        { value: 'cancel', label: 'ابطال' },
+      ];
+    },
+    [isExportsPage],
   );
   // گزینه‌های «الگوی صورتحساب» (چندانتخابی) — ترتیب طبق اسکرین مرجع
   const invoicePatternOptions = React.useMemo(
@@ -92,6 +106,16 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
       { value: 'foreign_national',  label: 'اتباع غیر ایرانی' },
     ],
     []
+  );
+
+  // گزینه‌های «وضعیت تطابق» (فقط در صفحهٔ فروش صادراتی استفاده می‌شود)
+  const matchStatusOptions = React.useMemo(
+    () => [
+      { value: 'accepted', label: 'پذیرفته شده' },
+      { value: 'rejected', label: 'پذیرفته نشده' },
+      { value: 'pending',  label: 'در انتظار بررسی' },
+    ],
+    [],
   );
 
   // --- کمکی‌ها: تبدیل ارقام فارسی → انگلیسی و استخراج year/month ---
@@ -582,8 +606,14 @@ const TextInputWithClear = ({
             </FormField>
 
             {/* ردیف ۳: الگو، حد مجاز و شناسه‌ها */}
-            {/* الگوی صورتحساب: استفاده از رندر مشترک (MultiSelect) */}
-            <MultiSelect name="pattern" label="الگوی صورتحساب" options={invoicePatternOptions} />
+            {/* الگوی صورتحساب: در صفحهٔ فروش صادراتی نمایش داده نمی‌شود */}
+            {!isExportsPage && (
+              <MultiSelect
+                name="pattern"
+                label="الگوی صورتحساب"
+                options={invoicePatternOptions}
+              />
+            )}
             {/* فیلد جدید: وضعیت حد مجاز (منوی بازشونده دوگزینه‌ای) */}
             <FormField label="وضعیت حد مجاز" variant="floating">
               <select
@@ -597,41 +627,61 @@ const TextInputWithClear = ({
                 <option value="not_exceeded">عدم عدول از حد مجاز</option>
               </select>
             </FormField>
-            {/* برچسب تک‌خطی: شماره اقتصادی خریدار/فروشنده∕حق‌العملکار (بسته به نوع صفحه) */}
-            <FormField
-              label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
-              variant="floating"
-            >
-              <NumericInputWithClear name="economicCode" maxLength={20} />
-            </FormField>
-            {/* برچسب تک‌خطی: شناسه هویتی خریدار/فروشنده∕حق‌العملکار (بسته به نوع صفحه) */}
-            <FormField
-              label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
-              variant="floating"
-            >
-              <NumericInputWithClear name="identityCode" maxLength={20} />
-            </FormField>
+            {/* برچسب تک‌خطی: شماره اقتصادی خریدار/فروشنده∕حق‌العملکار (در صادراتی نمایش داده نمی‌شود) */}
+            {!isExportsPage && (
+              <FormField
+                label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
+                variant="floating"
+              >
+                <NumericInputWithClear name="economicCode" maxLength={20} />
+              </FormField>
+            )}
+            {/* برچسب تک‌خطی: شناسه هویتی خریدار/فروشنده∕حق‌العملکار (در صادراتی نمایش داده نمی‌شود) */}
+            {!isExportsPage && (
+              <FormField
+                label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
+                variant="floating"
+              >
+                <NumericInputWithClear name="identityCode" maxLength={20} />
+              </FormField>
+            )}
 
-            {/* ردیف 4: نام و نوع فروشنده/حق العملکار */}
-            <FormField label={`نام ${counterpartyLabel}/حق العملکار`} variant="floating">
-              <TextInputWithClear name="sellerName" />
-            </FormField>
-            <FormField label={`نام تجاری ${counterpartyLabel}/حق العملکار`} variant="floating">
-              <TextInputWithClear name="sellerTradeName" />
-            </FormField>
-            {/* نوع شخص خریدار/فروشنده/حق‌العملکار: چندانتخابی با منطق مشترک */}
-            <MultiSelect
-              name="personType"
-              label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
-              options={personTypeOptions}
-            />
-            {/* چک‌باکس انتهای سطر آخر */}
-          <div className="mt-3 flex items-center gap-2">
-            <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
-            <label htmlFor="onlyWithAction" className="text-sm text-gray-700">
-              فقط موارد دارای اقدام
-            </label>
-          </div>
+            {/* ردیف 4: نام و نوع فروشنده/حق العملکار — در صادراتی مخفی می‌شود */}
+            {!isExportsPage && (
+              <FormField label={`نام ${counterpartyLabel}/حق العملکار`} variant="floating">
+                <TextInputWithClear name="sellerName" />
+              </FormField>
+            )}
+            {!isExportsPage && (
+              <FormField label={`نام تجاری ${counterpartyLabel}/حق العملکار`} variant="floating">
+                <TextInputWithClear name="sellerTradeName" />
+              </FormField>
+            )}
+            {/* نوع شخص خریدار/فروشنده/حق‌العملکار: چندانتخابی با منطق مشترک (در صادراتی مخفی) */}
+            {!isExportsPage && (
+              <MultiSelect
+                name="personType"
+                label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
+                options={personTypeOptions}
+              />
+            )}
+            {/* فیلد «وضعیت تطابق» — مخصوص صفحهٔ صورتحساب‌های فروش صادراتی */}
+            {isExportsPage && (
+              <MultiSelect
+                name="matchStatus"
+                label="وضعیت تطابق"
+                options={matchStatusOptions}
+              />
+            )}
+            {/* چک‌باکس انتهای سطر آخر — در صفحهٔ فروش صادراتی نمایش داده نمی‌شود */}
+            {!isExportsPage && (
+              <div className="mt-3 flex items-center gap-2">
+                <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
+                <label htmlFor="onlyWithAction" className="text-sm text-gray-700">
+                  فقط موارد دارای اقدام
+                </label>
+              </div>
+            )}
           </FieldGrid>
 
           
