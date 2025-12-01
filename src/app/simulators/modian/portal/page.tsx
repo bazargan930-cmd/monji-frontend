@@ -10,6 +10,12 @@ import PortalHelpContent from '@/components/modian/portal/PortalHelpContent';
 
 export const dynamic = 'force-dynamic';
 
+type PortalUser = {
+  fullName: string;
+  nationalId: string;
+  accessLevel: string;
+};
+
 export default async function Page() {
 
   // ساختن baseUrl با fallback به host جاری (برای زمانی که NEXT_PUBLIC_SITE_URL تعریف نشده است)
@@ -23,14 +29,14 @@ export default async function Page() {
   // - فعال‌سازی بایپس با یکی از این دو:
   //   الف) NEXT_PUBLIC_BYPASS_MODIAN_LOGIN === "true"
   //   ب) قبلاً وارد پرتال شده باشد و کوکی پایدار داشته باشد
-  const hasStickySession = ck.get('modian_portal_session')?.value === '1';
+   const hasStickySession = ck.get('modian_portal_session')?.value === '1';
   const bypassLogin = process.env.NEXT_PUBLIC_BYPASS_MODIAN_LOGIN === 'true' || hasStickySession;
   if (bypassLogin) {
-    const user = {
-      id: 'dev-admin',
-      roles: ['ADMIN'],
-      displayName: 'ادمین توسعه',
-    } as any;
+    const user: PortalUser = {
+      fullName: 'ادمین توسعه',
+      nationalId: '0000000000',
+      accessLevel: 'ADMIN',
+    };
     return (
       <Suspense fallback={<div className="p-4 text-gray-500">در حال بارگذاری…</div>}>
         {/* راهنمای صفحه (مودال مشترک + محتوای اختصاصی) – زیر ساب‌هدر، سمت چپ */}
@@ -59,7 +65,11 @@ export default async function Page() {
   if (!res.ok) {
     // اگر نشست پایدار داریم، مستقیم پورتال را رندر کن (بایپس لاگین)
     if (ck.get('modian_portal_session')?.value === '1') {
-      const user = { id: 'sticky-admin', roles: ['ADMIN'], displayName: 'ادمین' } as any;
+      const user: PortalUser = {
+        fullName: 'ادمین',
+        nationalId: '0000000000',
+        accessLevel: 'ADMIN',
+      };
       return (
         <Suspense fallback={<div className="p-4 text-gray-500">در حال بارگذاری…</div>}>
           <div className="mt-4 px-4 flex justify	end" dir="rtl">
@@ -78,7 +88,7 @@ export default async function Page() {
     return redirect('/simulators/modian/login');
   }
 
-  const user = (await res.json()) as any;
+  const user: PortalUser = await res.json();
 
   return (
     <Suspense fallback={<div className="p-4 text-gray-500">در حال بارگذاری…</div>}>

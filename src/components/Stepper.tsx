@@ -41,6 +41,7 @@ export default function Stepper({ titles, current }: Props) {
   const total = titles.length;
   const titleRefs = useRef<HTMLSpanElement[]>([]);
   const [widths, setWidths] = useState<number[]>([]);
+  const titlesKey = titles.join('|');
 
   // اندازه‌گیری عرض واقعی تیترها برای ساخت template ستونی
   useLayoutEffect(() => {
@@ -49,7 +50,7 @@ export default function Stepper({ titles, current }: Props) {
       return el ? Math.ceil(el.getBoundingClientRect().width) : 0;
     });
     if (ws.every(Boolean)) setWidths(ws);
-  }, [titles.join('|')]);
+  }, [titles, titlesKey]);
 
   // حداقل عرض برای ستون «خط» تا حتی در تنگ‌ترین حالت هم صفر نشود
   const LINE_MIN = 72; // می‌توانید بر اساس UI اصلی 56/64/72 انتخاب کنید

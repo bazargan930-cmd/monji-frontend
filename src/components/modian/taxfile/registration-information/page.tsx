@@ -1,7 +1,8 @@
 // src/components/modian/taxfile/registration-information/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
 // Footer در لایهٔ والد رندر می‌شود؛ در این صفحه نیاز نیست
 
 // آدرس بک‌اند (قابل‌تغییر با NEXT_PUBLIC_API_BASE)
@@ -140,6 +141,26 @@ export type ActivityInfo = {
   کد_آیسیک: string;
 };
 
+type LooseActivityRow = {
+  sharePercent?: string | number | null | undefined;
+  share_percent?: string | number | null | undefined;
+  percent?: string | number | null | undefined;
+  'درصد_فعالیت'?: string | number | null | undefined;
+  isicCode?: string | number | null | undefined;
+  isic_code?: string | number | null | undefined;
+  'کد_آیسیک'?: string | number | null | undefined;
+  isicTitle?: string | number | null | undefined;
+  isic_title?: string | number | null | undefined;
+  'عنوان_آیسیک'?: string | number | null | undefined;
+  activityType?: string | number | null | undefined;
+  activity_type?: string | number | null | undefined;
+  type?: string | number | null | undefined;
+  'نوع_فعالیت'?: string | number | null | undefined;
+  activityTitle?: string | number | null | undefined;
+  activity_title?: string | number | null | undefined;
+  title?: string | number | null | undefined;
+  'عنوان_فعالیت'?: string | number | null | undefined;
+};
 export type TaxOfficeInfo = {
   ردیف: number;
   نام_اداره: string;
@@ -236,16 +257,19 @@ export default function RegistrationInformation() {
   const [error, setError] = useState<string | null>(null);
 
   // تب‌ها را بی‌قیدوشرط تعریف کن تا ترتیب هوک‌ها ثابت بماند
-   const tabs = [
-     'اطلاعات شعب',
-     'اطلاعات پرونده-اعضا',
-     'اطلاعات پرونده‌-فعالیت ها-مجوزها',
-     'اطلاعات پرونده-اداره مالیاتی',
-   ];
-   const [activeTab, setActiveTab] = useState<string | null>(null);
-   useEffect(() => {
-     if (!activeTab && tabs.length) setActiveTab(tabs[0]);
-   }, [activeTab, tabs]);
+   const tabs = useMemo(
+    () => [
+      'اطلاعات شعب',
+      'اطلاعات پرونده-اعضا',
+      'اطلاعات پرونده‌-فعالیت ها-مجوزها',
+      'اطلاعات پرونده-اداره مالیاتی',
+    ],
+    [],
+  );
+  const [activeTab, setActiveTab] = useState<string | null>(null);
+  useEffect(() => {
+    if (!activeTab && tabs.length) setActiveTab(tabs[0]);
+  }, [activeTab, tabs]);
 
   useEffect(() => {
     const run = async () => {
@@ -256,8 +280,9 @@ export default function RegistrationInformation() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         setData(json as RegistrationDTO);
-      } catch (e: any) {
-        setError(e?.message ?? 'خطای نامشخص');
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'خطای نامشخص';
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -272,11 +297,11 @@ export default function RegistrationInformation() {
 
 
 
-  const { taxfile, legal } = data;
-  const branches   = data.branches ?? [];
-  const members    = data.members ?? [];
-  const activities = data.activities ?? [];
-  const offices    = data.offices ?? [];
+  const { legal } = data;
+  const branches: BranchInfo[]     = data.branches ?? [];
+  const members: MemberInfo[]      = data.members ?? [];
+  const activities: ActivityInfo[] = data.activities ?? [];
+  const offices: TaxOfficeInfo[]   = data.offices ?? [];
 
 
   return (
@@ -506,8 +531,8 @@ export default function RegistrationInformation() {
                 </thead>
                   <tbody>
                     {activities.map((r, idx) => {
-                      // به‌خاطر اختلاف نام‌فیلدها در مدل فعلی، امن‌سازی با cast به any  پوشش کلیدهای فارسی
-                      const row: any = r as any;
+                      // به‌خاطر اختلاف نام‌فیلدها در مدل فعلی، امن‌سازی با cast به تایپ شل با کلیدهای فارسی/انگلیسی
+                      const row = r as unknown as LooseActivityRow;
                       const sharePercent =
                         row.sharePercent ?? row.share_percent ?? row.percent ?? row['درصد_فعالیت'] ?? '';
                       const sharePercentText =

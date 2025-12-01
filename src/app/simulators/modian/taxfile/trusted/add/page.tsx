@@ -1,17 +1,10 @@
-//dev/null
-//src/app/simulators/modian/admin/taxfile/trusted/add/page.tsx
+//src/app/simulators/modian/taxfile/trusted/add/page.tsx
 
 'use client';
 
 import { useRouter } from 'next/navigation';
-import {
-  useCallback,
-  useMemo,
-  useState,
-  useRef,
-  useLayoutEffect,
-  type ReactNode,
-} from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
 import Stepper from '@/components/Stepper';
 
 export default function TrustedAddPage() {
@@ -22,36 +15,6 @@ export default function TrustedAddPage() {
     serviceType: 'نوع ۱',
     expire: '1404/05/31',
   }));
-
-  /** اجزای کوچک و استاندارد برای نمایش نقطه/تیک و خط بین مراحل
-   *  بیرون از JSX تعریف می‌کنیم تا TSX دچار خطای پارس نشود. */
-  const Dot: React.FC<{ state: 'done' | 'active' | 'idle' }> = ({ state }) => {
-    if (state === 'done') {
-      return (
-        <span className="flex items-center justify-center w-4 h-4 rounded-full border border-green-600 text-green-600">
-          ✓
-        </span>
-      );
-    }
-    return (
-      <span
-        className={`w-2 h-2 rounded-full ${
-          state === 'active' ? 'bg-green-600' : 'bg-gray-300'
-        }`}
-      />
-    );
-  };
-
-  const Line: React.FC<{ color?: 'gray' | 'green' }> = ({ color = 'gray' }) => (
-    <span
-      aria-hidden
-      /* از کلاس استاندارد tailwind برای ارتفاع استفاده شده تا از نبودن کلاس
-         دلخواه جلوگیری شود؛ همچنین مطمئن می‌شویم خط عرض کامل ستون را بگیرد */
-      className={`block h-0.5 w-full justify-self-stretch ${
-        color === 'green' ? 'bg-green-600' : 'bg-gray-300'
-      }`}
-    />
-  );
   /** انتخابِ ردیف */
   const [selectedId, setSelectedId] = useState<string>('');
   /** مرحله‌ها: 1) انتخاب شرکت معتمد  2) انتخاب نوع مجوز  3) انتخاب شناسه یکتا  4) تایید  5) موفقیت */
@@ -76,24 +39,11 @@ export default function TrustedAddPage() {
       if (!searchTerm) return rows;
       const q = searchTerm.toLowerCase();
       return rows.filter((r) =>
-        [r.id, r.name, r.serviceType, r.expire]
-          .some((v) => String(v).toLowerCase().includes(q))
+        [r.id, r.name, r.serviceType, r.expire].some((v) =>
+          String(v).toLowerCase().includes(q),
+        ),
       );
     }, [rows, searchTerm]);
-
-    // --- اندازه‌گیری عرض تیترها (Rules of Hooks: در سطح کامپوننت) ---
-    const titleRefs = useRef<HTMLSpanElement[]>([]);
-    const [titleWidths, setTitleWidths] = useState<number[]>([]);
-    useLayoutEffect(() => {
-      // بعد از رندر، پهنای واقعی هر تیتر خوانده می‌شود
-      const ws = titleRefs.current
-        .slice(0)
-        .filter(Boolean)
-        .map((el: HTMLSpanElement) => Math.ceil(el.getBoundingClientRect().width));
-      if (ws.length && JSON.stringify(ws) !== JSON.stringify(titleWidths)) {
-        setTitleWidths(ws);
-      }
-    }, [step]);
       /** ذخیرهٔ نتیجه و انتقال به لیست */
   const persistAndGoToList = () => {
     try {
@@ -130,12 +80,16 @@ export default function TrustedAddPage() {
             services: '',
             permitType,
           };
-      const list = JSON.parse(localStorage.getItem(key) || '[]');
-      const idx = list.findIndex((x: any) => x.code === payload.code && payload.code);
+      const list: { code?: string }[] = JSON.parse(
+        localStorage.getItem(key) || '[]',
+      );
+      const idx = list.findIndex((x) => x.code === payload.code && payload.code);
       if (idx >= 0) list[idx] = payload; else list.push(payload);
       localStorage.setItem(key, JSON.stringify(list));
-    } catch {}
-    window.location.href = '/simulators/modian/admin/taxfile/trusted';
+    } catch {
+      // در صورت بروز خطا در localStorage، فقط از ذخیره‌سازی صرف‌نظر می‌کنیم
+    }
+    window.location.href = '/simulators/modian/taxfile/trusted';
   };
 
 
@@ -366,7 +320,7 @@ export default function TrustedAddPage() {
               <button
                 type="button"
                 className="px-5 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
-                onClick={() => router.push('/simulators/modian/admin/taxfile/trusted')}
+                onClick={() => router.push('/simulators/modian/taxfile/trusted')}
               >
                 بله
               </button>

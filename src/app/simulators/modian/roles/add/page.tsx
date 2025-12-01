@@ -1,9 +1,8 @@
 //src\app\simulators\modian\roles\add\page.tsx
 'use client';
 
-import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';  // افزودن hook router برای هدایت
-import HelpGuideButton from '@/components/common/HelpGuideButton';
+import { Suspense, useState } from 'react';
 
 export default function RoleAddPage() {
   const [title, setTitle] = useState('');
@@ -26,12 +25,12 @@ export default function RoleAddPage() {
   const router = useRouter(); // اضافه کردن hook router برای هدایت
 
  // تابع برای رفتن به صفحه اصلی تب نقش‌ها
- const handleFinalSubmit = () => {
+ const _handleFinalSubmit = () => {
    // به‌روزرسانی وضعیت (در صورت نیاز)
    // انتقال به صفحه اصلی تب نقش‌ها
    router.push('/simulators/modian/users-roles?tab=roles');
  };
-  const allVisibleSelected = filtered.length > 0 && filtered.every((u) => selectedUsers[u.id]);
+  const _allVisibleSelected = filtered.length > 0 && filtered.every((u) => selectedUsers[u.id]);
   // تعداد انتخاب‌ها برای وضعیت دکمه‌ها
   const selectedCount = filtered.filter((u) => !!selectedUsers[u.id]).length;
   const selectAllDisabled = filtered.length > 0 && selectedCount === filtered.length; // همه انتخاب شده‌اند

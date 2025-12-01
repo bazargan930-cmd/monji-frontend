@@ -11,19 +11,8 @@ function toPersianDate(date: Date): string {
   const persianDate = new Date(gregorianYear + '/03/21');
   const diff = date.getTime() - persianDate.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
-  const days = Math.floor(diff / oneDay);
+  const _days = Math.floor(diff / oneDay);
 
-  let persianYear = gregorianYear - 621;
-  let persianMonth = 1;
-  let persianDay = 1;
-
-  if (days >= 0) {
-    persianDay += days;
-    if (persianDay > 365) {
-      persianYear++;
-      persianDay -= 365;
-    }
-  }
 
   // برای سادگی، فقط تاریخ امروز را به صورت سخت‌کد برمی‌گردانیم — در عمل باید الگوریتم دقیق‌تری نوشت
   // اما برای MVP و تست، می‌توانیم از یک مقدار استاتیک استفاده کنیم یا از کتابخانه استفاده کنیم
@@ -34,7 +23,7 @@ function toPersianDate(date: Date): string {
     const jalaali = require('jalaali-js');
     const jDate = jalaali.toJalaali(gregorianYear, gregorianMonth, gregorianDay);
     return `${jDate.jy}/${String(jDate.jm).padStart(2, '0')}/${String(jDate.jd).padStart(2, '0')}`;
-  } catch (e) {
+  } catch {
     // fallback در صورت عدم نصب کتابخانه
     return "1403/02/20";
   }
@@ -50,7 +39,7 @@ export async function GET() {
       date: persianDate,
       timestamp: today.toISOString(),
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         success: false,

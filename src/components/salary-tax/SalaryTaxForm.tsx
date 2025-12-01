@@ -1,7 +1,15 @@
+//src\components\salary-tax\SalaryTaxForm.tsx
 "use client";
 
+type SalaryTaxFormData = {
+  monthlySalary: number;
+  insurance: number;
+  bonuses: number;
+  overtime: number;
+};
+
 type SalaryTaxFormProps = {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: SalaryTaxFormData) => void;
 };
 
 export default function SalaryTaxForm({ onSubmit }: SalaryTaxFormProps) {
@@ -10,7 +18,7 @@ export default function SalaryTaxForm({ onSubmit }: SalaryTaxFormProps) {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = {
+    const data: SalaryTaxFormData = {
       monthlySalary: Number(formData.get("monthlySalary")),
       insurance: Number(formData.get("insurance")),
       bonuses: Number(formData.get("bonuses")),

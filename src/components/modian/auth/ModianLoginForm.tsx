@@ -1,10 +1,10 @@
 //src\components\modian\auth\ModianLoginForm.tsx
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaUser, FaLock, FaStarOfLife } from 'react-icons/fa6';
+import { useState, useEffect, useRef } from 'react';
 import { FaAngleLeft } from 'react-icons/fa';
+import { FaUser, FaLock, FaStarOfLife } from 'react-icons/fa6';
 
 export default function ModianLoginForm() {
   const [nationalId, setnationalId] = useState('');
@@ -25,7 +25,9 @@ export default function ModianLoginForm() {
     try {
       document.cookie = `modian_bypass=1; Max-Age=120; Path=/; SameSite=Lax`;
       document.cookie = `justLoggedIn=1; Max-Age=120; Path=/; SameSite=Lax`;
-    } catch {}
+    } catch {
+      // در صورت خطا (مثلاً بلاک‌شدن کوکی‌ها) فقط ادامه می‌دهیم
+    }
   };
   useEffect(() => {
   generateCaptcha();
@@ -47,11 +49,19 @@ export default function ModianLoginForm() {
           // فلگ سشن مانند لاگین عادی تا پورتال بداند از لاگین آمده‌ایم
           if (!bypassRedirected.current && window.location.pathname.endsWith('/login')) {
             bypassRedirected.current = true;
-            try { window.sessionStorage.setItem('justLoggedIn', 'true'); } catch {}
-            markAdminBypassCookie();                              // ✅ اضافه شد
-            try { router.prefetch('/simulators/modian/portal'); } catch {}
-            router.replace('/simulators/modian/portal');          // ریدایرکت بدون بازگشت
+            try {
+              window.sessionStorage.setItem('justLoggedIn', 'true');
+            } catch {
+              // درصورت غیرفعال بودن sessionStorage صرفاً از فلگ کوکی استفاده می‌کنیم
             }
+            markAdminBypassCookie();                              // ✅ اضافه شد
+            try {
+              router.prefetch('/simulators/modian/portal');
+            } catch {
+              // خطا در prefetch مانع ریدایرکت نمی‌شود
+            }
+            router.replace('/simulators/modian/portal');          // ریدایرکت بدون بازگشت
+          }
         } else {
           setIsAdmin(false);
         }
@@ -101,8 +111,12 @@ const handleLogin = async () => {
       router.push(data.redirect || '/simulators/modian/portal');
     }, 500);
 
-  } catch (err: any) {
-    setError(err.message);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError('ورود ناموفق بود');
+    }
   }
 };
 

@@ -39,6 +39,7 @@ const INVOICE_PATTERN_OPTIONS = [
   { value: 'الگوی بورس کالا', label: 'الگوی بورس کالا' },
   { value: 'insurance',   label: 'الگو بیمه' },
 ];
+<<<<<<< HEAD
 
 type DeclarationTableOption = {
   id: string;
@@ -108,6 +109,8 @@ function getPreviousDeclarationPeriod(): {
     year: jalaliYear,
   };
 }
+=======
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
 
 export default function ModianInvoicesFilesPage() {
   const [isRequestModalOpen, setIsRequestModalOpen] = React.useState(false);
@@ -122,6 +125,7 @@ export default function ModianInvoicesFilesPage() {
     inboxDateTo?: string;
   }>({});
 
+<<<<<<< HEAD
   // وضعیت انتخاب جدول در تب «جزئیات ردیف‌های اظهارنامه»
   const [isDeclarationTableModalOpen, setIsDeclarationTableModalOpen] =
     React.useState(false);
@@ -137,6 +141,8 @@ export default function ModianInvoicesFilesPage() {
   // مقدار پیش‌فرض «دوره» و «سال» برای تب جزئیات ردیف‌های اظهارنامه
   const { season: defaultDeclarationSeason, year: defaultDeclarationYear } =
     React.useMemo(getPreviousDeclarationPeriod, []);
+=======
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 pt-0 pb-4 -mt-4 space-y-6">
       {/* هدر صفحه: تیتر + دکمه درخواست فایل خروجی */}
@@ -218,7 +224,11 @@ export default function ModianInvoicesFilesPage() {
       {/* مودال درخواست فایل خروجی */}
       {isRequestModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+<<<<<<< HEAD
           <div className="w-full max-w-5xl rounded-md bg-white p-6 shadow-lg min-h-[460px]">
+=======
+          <div className="w-full max-w-4xl rounded-md bg-white p-6 shadow-lg">
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
             {/* بخش ۱: تیتر + تب‌ها و توضیح زیر تب فعال */}
             <div className="space-y-2">
               <h2 className="text-base font-bold text-right">
@@ -521,7 +531,11 @@ export default function ModianInvoicesFilesPage() {
             </div>
 
             {/* بخش ۵: دکمه‌های پایین مودال */}
+<<<<<<< HEAD
             <div className="mt-6 flex justify-end gap-2 border-t border-gray-200 pt-4">
+=======
+            <div className="mt-6 flex justify-start gap-2 border-t border-gray-200 pt-4">
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
               <button
                 type="button"
                 className="rounded border border-gray-300 px-4 py-1.5 text-sm"
@@ -537,6 +551,7 @@ export default function ModianInvoicesFilesPage() {
                 </button>
               </div>
             </>
+<<<<<<< HEAD
            ) : (
              // تب «جزئیات ردیف‌های اظهارنامه»
             <>
@@ -624,10 +639,77 @@ export default function ModianInvoicesFilesPage() {
                 </button>
               </div>
             </>
+=======
+          ) : (
+            // تب «جزئیات ردیف‌های اظهارنامه»
+            <div className="mt-4 space-y-6">
+              {/* بخش اصلی: دریافت جزئیات (گزارش محاسبات) اظهارنامه */}
+              <div className="space-y-4 rounded border border-gray-200 px-4 py-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-gray-800">
+                    دریافت جزئیات (گزارش محاسبات) اظهارنامه
+                  </span>
+                </div>
+
+                {/* ردیف سال / دوره */}
+                <FieldGrid cols={2} className="gap-3">
+                  <FormField label="سال" variant="floating">
+                    <select
+                      aria-label="سال"
+                      className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs"
+                      defaultValue=""
+                    >
+                      <option value="" />
+                      <option value="1404">۱۴۰۴</option>
+                      <option value="1403">۱۴۰۳</option>
+                    </select>
+                  </FormField>
+
+                  <FormField label="دوره" variant="floating">
+                    <select
+                      aria-label="دوره"
+                      className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs"
+                      defaultValue=""
+                    >
+                      <option value="" />
+                      <option value="spring">بهار</option>
+                      <option value="summer">تابستان</option>
+                      <option value="autumn">پائیز</option>
+                      <option value="winter">زمستان</option>
+                    </select>
+                  </FormField>
+                </FieldGrid>
+
+                {/* ردیف جدول / ردیف */}
+                <div className="space-y-3">
+                  <FormField label="جدول" variant="floating">
+                    <select
+                      aria-label="جدول"
+                      className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs"
+                      defaultValue=""
+                    >
+                      <option value="" />
+                    </select>
+                  </FormField>
+
+                  <FormField label="ردیف" variant="floating">
+                    <select
+                      aria-label="ردیف"
+                      className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs"
+                      defaultValue=""
+                    >
+                      <option value="" />
+                    </select>
+                  </FormField>
+                </div>
+              </div>
+            </div>
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
           )}
           </div>
         </div>
       )}
+<<<<<<< HEAD
 
       {isDeclarationTableModalOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40">
@@ -702,6 +784,8 @@ export default function ModianInvoicesFilesPage() {
           </div>
         </div>
       )}      
+=======
+>>>>>>> origin/chore/lint-cleanup-auth-api-core
     </div>
   );
 }

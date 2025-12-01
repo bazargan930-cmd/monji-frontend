@@ -39,10 +39,20 @@ export default function ModianSubHeader({ overrideTailLabel }: Props) {
   // ★ تشخیص «صورت‌حساب‌ها» + فرزند فعال آن
   const allGroups = modianMenu
     .flat()
-    .filter((g) => Array.isArray((g as any).children) && (g as any).children.length > 0);
-  const invoicesGroup = allGroups.find((g: any) => g.label === 'صورت‌حساب‌ها');
+    .filter((g) => {
+      const item = g as { children?: unknown[] };
+      return Array.isArray(item.children) && item.children.length > 0;
+    });
+  const invoicesGroup = allGroups.find(
+    (g) => g && typeof g === 'object' && 'label' in g && g.label === 'صورت‌حساب‌ها',
+  );
   const invoicesActiveChild = invoicesGroup?.children?.find(
-    (c: any) => pathname === c.href || pathname.startsWith(c.href + '/')
+    (c) =>
+      c &&
+      typeof c === 'object' &&
+      'href' in c &&
+      typeof c.href === 'string' &&
+      (pathname === c.href || pathname.startsWith(`${c.href}/`)),
   );
   const inInvoices = Boolean(invoicesActiveChild) || pathname === normalizePath(invoicesGroup?.href || '');
 

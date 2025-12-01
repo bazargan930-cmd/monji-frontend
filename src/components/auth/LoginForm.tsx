@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+
+import React, { useState, useEffect } from "react";
 import { FaUser, FaLock, FaStarOfLife } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa";
+
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -51,8 +53,12 @@ export default function LoginForm() {
 
       const data = await res.json();
       router.push(data.redirect || '/dashboard');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('ورود ناموفق بود');
+      }
     }
   };
 

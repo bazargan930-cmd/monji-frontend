@@ -1,4 +1,4 @@
-//src\app\simulators\modian\admin\taxfile\registration\layout.tsx
+//src\app\simulators\modian\taxfile\registration\layout.tsx
 
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';

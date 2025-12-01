@@ -1,8 +1,8 @@
 // src/app/auth/signin/page.tsx
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SigninPage() {
   const router = useRouter();
@@ -56,17 +56,21 @@ export default function SigninPage() {
           } else {
             msg = await res.text();
           }
-        } catch {}
+        } catch {
+          // اگر بدنه پاسخ JSON نبود، همان پیام پیش‌فرض/متن وضعیت را نگه می‌داریم
+          msg = msg || 'ورود ناموفق بود';
+        }
         throw new Error(msg);
       }
       // موفقیت: اگر پاسخ JSON است بخوان
-      const data = ct.includes('application/json') ? await res.json() : null;
+      const _data = ct.includes('application/json') ? await res.json() : null;
 
       // ✅ کوکی صادر شد — به next یا داشبورد برو
       const next = new URLSearchParams(window.location.search).get('next') ?? '/dashboard';
       router.replace(next);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'ورود ناموفق بود';
+      setError(msg);
     } finally {
       setIsSubmitting(false);
     }

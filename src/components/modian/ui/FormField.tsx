@@ -34,7 +34,7 @@ export default function FormField({
   rightIcon,
   leftIcon,
   /** اگر true، placeholder پیش‌فرض input[type=date] (مثل mm/dd/yyyy) پنهان می‌شود */
-  hideDatePlaceholder,
+  hideDatePlaceholder: _hideDatePlaceholder,
 }: Props) {
   return (
     <div

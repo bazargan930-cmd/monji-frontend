@@ -32,8 +32,10 @@ export default function EditNoticePage() {
       if (!res.ok) throw new Error('خطا در ویرایش اطلاعیه');
       alert('✅ اطلاعیه با موفقیت ویرایش شد');
       router.push('/admin/notices');
-    } catch (err: any) {
-      alert(err.message || '⛔️ خطا در ویرایش');
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : '⛔️ خطا در ویرایش';
+      alert(message);
     } finally {
       setLoading(false);
     }
