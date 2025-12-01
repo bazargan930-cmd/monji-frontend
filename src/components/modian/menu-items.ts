@@ -65,7 +65,28 @@ export const modianMenu: MenuItem[][] = [
         { label: 'فایل‌های خروجی', href: '/simulators/modian/invoices/files',  icon: HiOutlineDocumentReport },
       ],
     },
-    { label: 'صورت‌حساب‌های قبل از ۱۴۰۲/۰۳/۲۶', href: '#', icon: HiOutlineDocumentReport },
+    {
+      label: 'صورت‌حساب‌های قبل از ۱۴۰۲/۰۳/۲۶',
+      href: '/simulators/modian/old-Invoices',
+      icon: HiOutlineDocumentReport,
+      children: [
+        {
+          label: 'خرید داخلی',
+          href: '/simulators/modian/old-Invoices/buy',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'فروش داخلی',
+          href: '/simulators/modian/old-Invoices/sales',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'فروش صادراتی',
+          href: '/simulators/modian/old-Invoices/exports',
+          icon: HiOutlineDocumentReport,
+        },
+      ],
+    },
     { label: 'اعلامیه‌های خرید', href: '#', icon: HiOutlineDocumentReport },
     { label: 'قراردادها', href: '#', icon: FaHandshake },
     { label: 'درخواست‌ها', href: '#', icon: RiFileListLine },
