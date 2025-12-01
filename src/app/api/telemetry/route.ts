@@ -1,6 +1,6 @@
 // src/app/api/telemetry/route.ts
-import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
 // رویدادها نباید کش شوند
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     bodyText = '';
   }
 
-  let payload: any = null;
+  let payload: Record<string, unknown> | string | null = null;
   try {
     payload = bodyText ? JSON.parse(bodyText) : null;
   } catch {
@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
   };
 
   // لاگ محلی برای دیباگ
-  // eslint-disable-next-line no-console
   console.log('[telemetry]', event);
 
   // --- فوروارد غیرمسدودکننده به بک‌اند

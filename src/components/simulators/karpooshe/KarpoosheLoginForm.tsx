@@ -47,8 +47,9 @@ export default function KarpoosheLoginForm() {
       const data = await res.json();
       localStorage.setItem("accessToken", data.accessToken);
       router.push("/simulators/karpooshe/dashboard");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "ورود ناموفق بود";
+      setError(message);
     }
   };
 

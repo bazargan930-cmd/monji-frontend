@@ -39,8 +39,6 @@ export default function MemoryUIDAddPage() {
   const textInputRef = React.useRef<HTMLInputElement | null>(null);  
   // باز/بسته بودن پنجرهٔ صوری انتخاب فایل
   const [showMockPicker, setShowMockPicker] = React.useState(false);
-  // نام فایل آمادهٔ دمو که با Open درج می‌کنیم (<= 36 کاراکتر و حروف کوچک/عدد/خط‌تیره)
-  const MOCK_FILE_NAME = 'mock-public-key-demo-0001';
   // تصویر اسکرین‌شات پنجرهٔ ویندوز (مسیر public با فاصله در نام فایل)
   const OPEN_DIALOG_IMG = '/images/Public%20key%20signature%20memory.png';
   // نام کلید ذخیره در «دیتابیس شبیه‌ساز» (localStorage)
@@ -76,7 +74,38 @@ export default function MemoryUIDAddPage() {
     terminalId: string;   // شماره پایانه
     type: string;         // نوع ابزار پرداخت
   };
-  const [paytools, setPaytools] = React.useState<PayToolRow[]>([]);
+
+  type MemoryPublicKeyRecord = {
+    key?: string;
+    phoneLast4?: string;
+    createdAt?: string;
+  };
+
+  type MemoryUniqueIdRecord = {
+    phoneLast4?: string;
+    uid?: string;
+    createdAt?: string;
+  };
+
+  type MemoryListRow = {
+    uid?: string;
+    owner?: string;
+    status?: string;
+  };
+
+  type TrustedCompanyRecord = {
+    name?: string;
+  };
+
+  type RegistrationBranchApi = {
+    کدپستی?: string;
+    postalCode?: string;
+    آدرس_شعبه?: string;
+    branchAddress?: string;
+    address?: string;
+  };
+
+  const [paytools] = React.useState<PayToolRow[]>([]);
   const [selectedPaytools, setSelectedPaytools] = React.useState<Set<string>>(new Set());
   const [payPage, setPayPage] = React.useState(1);
   const PAY_PAGE_SIZE = 5;
@@ -100,22 +129,31 @@ export default function MemoryUIDAddPage() {
   }, [showMockPicker, mockName]);
 
   // ابزار تصادفی
-  const pick = (s: string) => s[Math.floor(Math.random() * s.length)];
-  const randDigit = () => pick('0123456789');
-  const randAlnum = (n: number) => {
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    let out = '';
-    for (let i = 0; i < n; i++) out += pick(chars);
-    return out;
-  };
-  const randUpperAlnum = (n: number) => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let out = '';
-    for (let i = 0; i < n; i++) out += pick(chars);
-    return out;
-  };
+  const pick = React.useCallback(
+    (s: string) => s[Math.floor(Math.random() * s.length)],
+    [],
+  );
+  const randDigit = React.useCallback(() => pick('0123456789'), [pick]);
+  const randAlnum = React.useCallback(
+    (n: number) => {
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let out = '';
+      for (let i = 0; i < n; i += 1) out += pick(chars);
+      return out;
+    },
+    [pick],
+  );
+  const randUpperAlnum = React.useCallback(
+    (n: number) => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let out = '';
+      for (let i = 0; i < n; i += 1) out += pick(chars);
+      return out;
+    },
+    [pick],
+  );
   // چهار رقم آخر موبایل: تلاش از localStorage یا متن صفحه؛ در نهایت '0000'
-  const getUserPhoneLast4 = () => {
+  const getUserPhoneLast4 = React.useCallback(() => {
     try {
       const candidates = [
         localStorage.getItem('modian_user_info'),
@@ -129,9 +167,11 @@ export default function MemoryUIDAddPage() {
       const body = document?.body?.innerText || '';
       const m2 = body.match(/09\d{9}/);
       if (m2) return m2[0].slice(-4);
-    } catch {}
+    } catch {
+      /* ignore */
+    }
     return '0000';
-  };
+  }, []);
   // سازندهٔ کلید مطابق الگوی شما: 8-4-4-4-12 (همه حروف کوچک)
   const genMemoryPublicKey = React.useCallback(() => {
     const part1 = 'mo' + randDigit() + randAlnum(5);                     // mo + 1 رقم + 5 تصادفی
@@ -140,15 +180,17 @@ export default function MemoryUIDAddPage() {
     const part4 = getUserPhoneLast4();                                    // 4 رقم آخر موبایل
     const part5 = randAlnum(10) + randDigit() + 'i';                      // 10 تصادفی + رقم + i
     return `${part1}-${part2}-${part3}-${part4}-${part5}`.toLowerCase();
-  }, []);
+  }, [randDigit, randAlnum, getUserPhoneLast4]);
   // ذخیره در «دیتابیس شبیه‌ساز»: برای هر کاربر (phoneLast4) رکورد قبلی replace شود
   const savePublicKey = (key: string) => {
     const phoneLast4 = getUserPhoneLast4();
     const rec = { key, phoneLast4, createdAt: new Date().toISOString() };
     try {
-      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '[]');
-      const arr = Array.isArray(prev) ? prev : [];
-      const filtered = arr.filter((r: any) => r?.phoneLast4 !== phoneLast4);
+      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '[]') as unknown;
+      const arr: MemoryPublicKeyRecord[] = Array.isArray(prev)
+        ? (prev as MemoryPublicKeyRecord[])
+        : [];
+      const filtered = arr.filter((r) => r.phoneLast4 !== phoneLast4);
       const next = [rec, ...filtered];
       localStorage.setItem(LS_MEMORY_PUBKEYS, JSON.stringify(next));
     } catch { /* ignore */ }
@@ -157,57 +199,69 @@ export default function MemoryUIDAddPage() {
   // الزام: در چهار کاراکتر حتماً حداقل یک عدد وجود داشته باشد
   const genUniqueId = React.useCallback(() => {
     let s = '';
-    do { s = randUpperAlnum(4); } while (!/[0-9]/.test(s));
+    do {
+      s = randUpperAlnum(4);
+    } while (!/[0-9]/.test(s));
     return `TZ${s}`;
-  }, []);
+  }, [randUpperAlnum]);
   const saveUniqueId = React.useCallback((uid: string) => {
     const phoneLast4 = getUserPhoneLast4();
     try {
       // 1) نگهداری به ازای کاربر
-      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]');
-      const arr  = Array.isArray(prev) ? prev : [];
-      const filtered = arr.filter((r: any) => r?.phoneLast4 !== phoneLast4);
+      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]') as unknown;
+      const arr: MemoryUniqueIdRecord[] = Array.isArray(prev)
+        ? (prev as MemoryUniqueIdRecord[])
+        : [];
+      const filtered = arr.filter((r) => r.phoneLast4 !== phoneLast4);
       localStorage.setItem(
         LS_MEMORY_UNIQUE_IDS,
         JSON.stringify([{ phoneLast4, uid, createdAt: new Date().toISOString() }, ...filtered]),
       );
       // 2) به‌روزرسانی ردیف همان مالک در لیست اصلی
-      const listPrev = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-      const arrList  = Array.isArray(listPrev) ? listPrev : [];
+      const listPrev = JSON.parse(localStorage.getItem(LS_KEY) || '[]') as unknown;
+      const arrList: MemoryListRow[] = Array.isArray(listPrev)
+        ? (listPrev as MemoryListRow[])
+        : [];
       let updated = false;
-      const merged = arrList.map((r: any) => {
-        if (r?.owner === phoneLast4) {
+      const merged: MemoryListRow[] = arrList.map((r) => {
+        if (r.owner === phoneLast4) {
           updated = true;
           return { ...r, uid };
         }
         return r;
       });
       // اگر به هر دلیل ردیفی برای این مالک نبود، یک ردیف مینیمال بسازیم
-      const next = updated ? merged : [{ uid, owner: phoneLast4, status: 'فعال' }, ...merged];
+      const next: MemoryListRow[] = updated
+        ? merged
+        : [{ uid, owner: phoneLast4, status: 'فعال' }, ...merged];
       localStorage.setItem(LS_KEY, JSON.stringify(next));
     } catch {}
-  }, []);
+  }, [getUserPhoneLast4]);
   const getSavedUniqueIdForCurrentUser = React.useCallback((): string | null => {
-    try {
-      const phoneLast4 = getUserPhoneLast4();
-      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]');
-      const arr  = Array.isArray(prev) ? prev : [];
-      const rec  = arr.find((r: any) => r?.phoneLast4 === phoneLast4);
-      return rec?.uid || null;
-    } catch { return null; }
-  }, []);
-  // اگر کاربر قبلاً کلید دارد، برگردان (برای جلوگیری از صدور کلید جدید در دفعات بعد)
-  const getSavedPublicKeyForCurrentUser = React.useCallback((): string | null => {
     try {
       const phoneLast4 = getUserPhoneLast4();
       const prev = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '[]');
       const arr = Array.isArray(prev) ? prev : [];
-      const rec = arr.find((r: any) => r?.phoneLast4 === phoneLast4);
+      const rec = arr.find((r) => r?.phoneLast4 === phoneLast4);
       return rec?.key || null;
     } catch {
       return null;
     }
-  }, []);
+  }, [getUserPhoneLast4]);
+  // اگر کاربر قبلاً کلید دارد، برگردان (برای جلوگیری از صدور کلید جدید در دفعات بعد)
+  const getSavedPublicKeyForCurrentUser = React.useCallback((): string | null => {
+    try {
+      const phoneLast4 = getUserPhoneLast4();
+      const prev = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '[]') as unknown;
+      const arr: MemoryPublicKeyRecord[] = Array.isArray(prev)
+        ? (prev as MemoryPublicKeyRecord[])
+        : [];
+      const rec = arr.find((r) => r.phoneLast4 === phoneLast4);
+      return rec?.key || null;
+    } catch {
+      return null;
+    }
+  }, [getUserPhoneLast4]);
   // بارگذاری شعب از API ثبت‌نام (همان استفاده‌ی صفحه‌ی registration-information) :contentReference[oaicite:1]{index=1}
   const loadBranches = React.useCallback(async () => {
     setBranchesLoading(true);
@@ -215,10 +269,10 @@ export default function MemoryUIDAddPage() {
     try {
       const res = await fetch(`${API_BASE}/simulators/modian/registration`, { credentials: 'include' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json: any = await res.json();
-      const arr: any[] = json?.branches ?? [];
-      const mapped: BranchRow[] = (arr || [])
-        .map((b: any, i: number) => ({
+      const json = (await res.json()) as { branches?: RegistrationBranchApi[] | null };
+      const arr = json.branches ?? [];
+      const mapped: BranchRow[] = arr
+        .map((b, i) => ({
           id: String(b.کدپستی ?? b.postalCode ?? i),
           postalCode: String(b.کدپستی ?? b.postalCode ?? ''),
           address: String(b.آدرس_شعبه ?? b.branchAddress ?? b.address ?? ''),
@@ -226,8 +280,14 @@ export default function MemoryUIDAddPage() {
         .filter((r) => r.postalCode || r.address);
       setBranches(mapped);
       setBranchPage(1);
-    } catch (e: any) {
-      setBranchesError(e?.message || 'خطا در دریافت شعب');
+    } catch (e: unknown) {
+      const msg =
+        e instanceof Error
+          ? e.message
+          : (e as { message?: unknown } | null | undefined)?.message?.toString() ??
+            'خطا در دریافت شعب';
+      console.error(e);
+      setBranchesError(msg);
     } finally {
       setBranchesLoading(false);
     }
@@ -245,18 +305,22 @@ export default function MemoryUIDAddPage() {
     Math.random().toString(36).slice(2, 4).toUpperCase();
 
   /** یک ردیف کامل برای مالک فعلی می‌سازد/به‌روزرسانی می‌کند (در مرحلهٔ پایانی صدا زده می‌شود) */
-  const upsertRowForOwner = (finalUid: string) => {
+  const upsertRowForOwner = React.useCallback(
+    (finalUid: string) => {
     const phoneLast4 = getUserPhoneLast4();
     // نام شرکت معتمد: برای «مودی» = ندارد، در غیر این صورت آخرین شرکت انتخاب‌شده
     let companyName = 'ندارد';
     try {
       if (selected !== 'taxpayer') {
-        const list = JSON.parse(localStorage.getItem(LS_TRUSTED) || '[]');
+        const list = JSON.parse(localStorage.getItem(LS_TRUSTED) || '[]') as unknown;
         if (Array.isArray(list) && list.length) {
-          companyName = list[list.length - 1]?.name || 'ندارد';
+          const typed = list as TrustedCompanyRecord[];
+          companyName = typed[typed.length - 1]?.name || 'ندارد';
         }
       }
-    } catch {}
+    } catch {
+      /* ignore */
+    }
     const faNow = new Intl.DateTimeFormat('fa-IR', {
       year: 'numeric', month: '2-digit', day: '2-digit',
     }).format(new Date());
@@ -282,10 +346,14 @@ export default function MemoryUIDAddPage() {
       const prev = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
       const arr  = Array.isArray(prev) ? prev : [];
       // همهٔ ردیف‌های مالکان دیگر حفظ شوند؛ ردیفِ همین مالک جایگزین شود
-      const others = arr.filter((r: any) => r?.owner && r.owner !== phoneLast4);
+      const others = arr.filter((r) => r?.owner && r.owner !== phoneLast4);
       localStorage.setItem(LS_KEY, JSON.stringify([newRow, ...others]));
-    } catch {}
-  };
+    } catch {
+      /* ignore */
+    }
+  },
+    [selected, fileName, getSavedPublicKeyForCurrentUser, getUserPhoneLast4],
+  );
   const onNext = () => {
     if (step === 0) setStep(1); // از مرحله ۱ به ۲
     else if (step < STEPS.length - 1) setStep(step + 1);
@@ -652,18 +720,22 @@ export default function MemoryUIDAddPage() {
         setMemType(md.type || '');
         setMemModel(md.model || '');
       }
-      const prs = JSON.parse(localStorage.getItem(LS_POS_TERMINALS) || '[]');
+      const prs = JSON.parse(localStorage.getItem(LS_POS_TERMINALS) || '[]') as unknown;
       if (Array.isArray(prs) && prs.length) {
         setPosRows(
-          prs.map((p: any) => ({
-            id: p.id || genId('POS-'),
-            serial: String(p.serial ?? ''),
-            type: String(p.type ?? ''),
-            model: String(p.model ?? ''),
-          })),
+          (prs as Array<{ id?: string; serial?: unknown; type?: unknown; model?: unknown }>).map(
+            (p) => ({
+              id: p.id || genId('POS-'),
+              serial: String(p.serial ?? ''),
+              type: String(p.type ?? ''),
+              model: String(p.model ?? ''),
+            }),
+          ),
         );
       }
-    } catch {}
+    } catch {
+      /* ignore: در صورت خطا فقط از مقادیر پیش‌فرض استفاده می‌شود */
+    }
   }, [step]);
 
   // ----------------------------
@@ -683,7 +755,9 @@ export default function MemoryUIDAddPage() {
         const raw = localStorage.getItem(LS_SELECTED_BRANCHES);
         if (raw) setSelectedPostalCodes(new Set<string>(JSON.parse(raw)));
       }
-    } catch {}
+    } catch {
+      /* ignore */
+    }
   }, [step, branches.length, branchesLoading, selectedPostalCodes.size, loadBranches]);
 
   // ----------------------------
@@ -707,10 +781,14 @@ export default function MemoryUIDAddPage() {
       try {
         const phoneLast4 = getUserPhoneLast4();
         const prev = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]');
-        const arr  = Array.isArray(prev) ? prev : [];
-        const filtered = arr.filter((r: any) => r?.phoneLast4 !== phoneLast4);
+        const arr: MemoryUniqueIdRecord[] = Array.isArray(prev)
+          ? (prev as MemoryUniqueIdRecord[])
+          : [];
+        const filtered = arr.filter((r) => r.phoneLast4 !== phoneLast4);
         localStorage.setItem(LS_MEMORY_UNIQUE_IDS, JSON.stringify(filtered));
-      } catch {}
+      } catch {
+        /* ignore */
+      }
       // تولید و ذخیره شناسهٔ جدید مطابق قاعدهٔ تازه
       uid = genUniqueId();
       saveUniqueId(uid);
@@ -718,7 +796,7 @@ export default function MemoryUIDAddPage() {
     setFinalUID(uid);
     // همیشه بعد از نهایی شدن شناسه، ردیف کاربر را در لیست ذخیره/جایگزین کن
     upsertRowForOwner(uid);
-  }, [step, genUniqueId, saveUniqueId, getSavedUniqueIdForCurrentUser]);
+  }, [step, genUniqueId, saveUniqueId, getSavedUniqueIdForCurrentUser, upsertRowForOwner, getUserPhoneLast4]);
   return (
     <section className="rtl text-sm">
       {/* کادر سفید مرحله */}
@@ -1046,13 +1124,17 @@ export default function MemoryUIDAddPage() {
                   // ذخیره انتخاب کدپستی‌ها و رفتن به مرحله بعد
                   try {
                     localStorage.setItem(LS_SELECTED_BRANCHES, JSON.stringify(Array.from(selectedPostalCodes)));
-                  } catch {}
+                  } catch {
+                    /* ignore: خطای localStorage نباید مانع ادامه سناریوی آموزشی شود */
+                  }
                   onNext();
                 } else if (step === 3) {
                   // مرحله اختیاری: ذخیره انتخاب ابزار پرداخت (اگر بود) و ادامه
                   try {
                     localStorage.setItem(LS_SELECTED_PAYTOOLS, JSON.stringify(Array.from(selectedPaytools)));
-                  } catch {}
+                  } catch {
+                    /* ignore: خطای localStorage نباید مانع ادامه سناریوی آموزشی شود */
+                  }
                   onNext();
                 } else if (step === 4) {
                   // ذخیره «مشخصات حافظه» و «پایانه‌ها» و سپس ادامه
@@ -1062,7 +1144,9 @@ export default function MemoryUIDAddPage() {
                       JSON.stringify({ serial: memSerial, type: memType, model: memModel }),
                     );
                     localStorage.setItem(LS_POS_TERMINALS, JSON.stringify(posRows));
-                  } catch {}
+                  } catch {
+                    /* ignore: خطای localStorage نباید مانع ادامه سناریوی آموزشی شود */
+                  }
                   onNext();     
                 } else {
                   onNext();

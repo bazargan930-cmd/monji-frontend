@@ -1,14 +1,15 @@
-// src/app/simulators/modian/admin/dashboard/page.tsx
+// src/app/simulators/modian/dashboard/page.tsx
 
 'use client';
 
 // Chrome (Shell/Sidebar/Help) در لایهٔ والد رندر می‌شود؛ این صفحه فقط محتوای داشبورد را نمایش می‌دهد.
-import { FaSyncAlt } from 'react-icons/fa';
 import { useMemo, useState } from 'react';
+import { FaSyncAlt } from 'react-icons/fa';
+
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { AdminDashboardHelpContent } from '@/components/modian/admin';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import HelpTrigger from '@/components/common/help/HelpTrigger';
-import AdminDashboardHelpContent from '@/components/modian/admin/dashboard/AdminDashboardHelpContent';
 
 /* ===== اعداد فارسی/انگلیسی ===== */
 const faDigits = '۰۱۲۳۴۵۶۷۸۹';
@@ -72,15 +73,15 @@ function Donut({ data, size = 180, stroke = 22 }: { data: DonutSlice[]; size?: n
 
 
 export default function Page() {
-  const [refreshing, setRefreshing] = useState(false);
+  const [_refreshing, setRefreshing] = useState(false);
 
   /* سال/دوره */
   const { year: currentYearJ, month: currentMonthJ } = getJalaliYearMonth();
   const currentSeasonIndex = monthToSeasonIndex(currentMonthJ);
   const [year, setYear] = useState<number>(currentYearJ);
-  const [seasonIndex, setSeasonIndex] = useState<number>(currentSeasonIndex);
+  const [_seasonIndex, _setSeasonIndex] = useState<number>(currentSeasonIndex);
 
-  const seasonOptions = useMemo(() => {
+  const _seasonOptions = useMemo(() => {
     const prev = (currentSeasonIndex + 3) % 4;
     const next = (currentSeasonIndex + 1) % 4;
     return [

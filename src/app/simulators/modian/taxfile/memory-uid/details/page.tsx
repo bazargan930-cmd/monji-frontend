@@ -1,4 +1,4 @@
-// src/app/simulators/modian/admin/taxfile/memory-uid/details/page.tsx
+// src/app/simulators/modian/taxfile/memory-uid/details/page.tsx
 
 import { MemoryUIDDetailsPage } from '@/components/modian/taxfile';
 

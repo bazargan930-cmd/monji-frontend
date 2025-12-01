@@ -1,4 +1,4 @@
-// src/app/simulators/modian/admin/taxfile/registration/page.tsx
+// src/app/simulators/modian/taxfile/registration/page.tsx
 'use client';
 
 import { RegistrationInformation } from '@/components/modian/taxfile';

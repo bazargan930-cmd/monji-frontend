@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { FaSearch } from 'react-icons/fa';
 
+
 type Props = {
   onSubmit: (taxId: string) => void;
   placeholder?: string;
@@ -39,13 +40,13 @@ export default function SearchByTaxId({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder={placeholder}
-            className="w-full md:w-[var(--search-width)] rounded border border-gray-300 bg-white px-3 py-2 text-sm"
-            style={{ ['--search-width' as any]: `${width}px` }}
+            className="w-full md:w-[var(--search-width)] rounded border border-gray-300 bg-white px-3 py-2"
+            style={{ width: `${width}px` }}
           />
           <button
             type="submit"
-            className="w-full md:w-[var(--search-width)] rounded-md bg-green-600 py-2 text-sm text-white flex items-center justify-center gap-2"
-            style={{ ['--search-width' as any]: `${width}px` }}
+            className="w-full md:w-[var(--search-width)] rounded-md bg-green-600 py-2 text-sm text-white font-bold"
+            style={{ width: `${width}px` }}
           >
             <span>جستجو</span>
             <FaSearch className="text-[0.9rem]" aria-hidden="true" />

@@ -1,9 +1,9 @@
 // src/app/dashboard/Topbar.client.tsx
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
-
+import { useEffect, useMemo, useState } from 'react';
 type Props = { userName: string; userRole?: string };
 
 export default function Topbar({ userName, userRole }: Props) {
@@ -65,13 +65,16 @@ export default function Topbar({ userName, userRole }: Props) {
   );
 
   // --- telemetry: ارسال سبک با sendBeacon (بدون بلاک‌کردن UI)
-  function track(event: string, meta?: Record<string, any>) {
+  function track(event: string, meta?: Record<string, unknown>) {
     try {
       const payload = JSON.stringify({ event, meta, ts: Date.now() });
       const blob = new Blob([payload], { type: 'application/json' });
       navigator.sendBeacon?.('/api/telemetry', blob);
-    } catch {}
+    } catch {
+      // ignore telemetry errors
+    }
   }
+
   async function logout() {
     try {
       track('logout_click', { where: 'topbar' });
@@ -87,7 +90,9 @@ export default function Topbar({ userName, userRole }: Props) {
         // فالبک: بک‌اند خارجی
         await fetch(`${apiBase}/auth/logout`, { method: 'POST', credentials: 'include' });
       }
-    } catch {}
+    } catch {
+      // ignore logout errors; redirect anyway
+    }
     window.location.href = '/auth/signin';
   }
 

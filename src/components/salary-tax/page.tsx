@@ -45,7 +45,7 @@ export default function SalaryTaxFormPage() {
 
       const data = await response.json();
       setResult(data.result);
-    } catch (err) {
+    } catch {
       setError("خطا در ارتباط با سرور");
     }
   };

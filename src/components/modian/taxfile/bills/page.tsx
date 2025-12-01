@@ -2,15 +2,19 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { BillsHelpContent } from '@/components/modian/taxfile';
+import { useState, useEffect, useCallback } from 'react';
 import { FiEdit2, FiTrash2, FiSearch, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
-// ⬇️ ایمپورت لیست شعب  تایپ آن
+
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { BillsHelpContent, REGISTRATION_BRANCHES } from '@/components/modian/taxfile';
 import {
-  REGISTRATION_BRANCHES,
-} from '@/components/modian/taxfile';
-import { getBills, createBill, updateBill, deleteBill, type GetOpts } from '@/lib/modianApi';
+  getBills,
+  createBill,
+  updateBill,
+  deleteBill,
+  type GetOpts,
+  type CreateBillBody,
+} from '@/lib/modianApi';
 // صفحه «Content-only»: Chrome مشترک در Layout رندر می‌شود
 
 type Bill = {
@@ -38,37 +42,47 @@ export default function BillsPage() {
   // نوع فیلتر را به همان یونیون تایپ API محدود می‌کنیم (به‌علاوه‌ی '' برای حالت خالی)
   const [filterType, setFilterType] = useState<GetOpts['type'] | ''>('');
   const [searchId, setSearchId] = useState<string>('');
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const filteredBills = bills; // فیلتر فعلاً سمت سرور
- 
-  const load = async () => {
+
+  const load = useCallback(async () => {
     setLoading(true);
     try {
     const res = await getBills({
-      // اگر 'همه' یا خالی بود، به سرور نفرست
-      type: filterType && filterType !== 'همه' ? filterType : undefined,
-      billIdentifier: (searchId && searchId.trim()) ? searchId.trim() : undefined,
-      page: 1,
-      pageSize: 50,
-    });
-      const mapped: Bill[] = res.items.map((it: any) => ({
-        id: it.id,
-        billIdentifier: it['شناسه_قبض'],
-        type: it['نوع'],
-        postalCode: it['کدپستی'],
-        branch: it['شعبه'] ?? '',
-        sharePercent: parseInt(String(it['درصد_اشتراک']).replace('%','')) || 0,
+        // اگر 'همه' یا خالی بود، به سرور نفرست
+        type: filterType && filterType !== 'همه' ? filterType : undefined,
+        billIdentifier: searchId && searchId.trim() ? searchId.trim() : undefined,
+        page: 1,
+        pageSize: 50,
+      });
+      const mapped: Bill[] = (res.items as Record<string, unknown>[]).map((it) => ({
+        id: Number(it['id']),
+        billIdentifier: String(it['شناسه_قبض'] ?? ''),
+        type: String(it['نوع'] ?? ''),
+        postalCode: String(it['کدپستی'] ?? ''),
+        branch: String(it['شعبه'] ?? ''),
+        sharePercent:
+          parseInt(String(it['درصد_اشتراک'] ?? '').replace('%', ''), 10) || 0,
       }));
       setBills(mapped);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      alert(e.message || 'خطا در دریافت قبوض');
+      const msg =
+        e instanceof Error
+          ? e.message
+          : ((e as { message?: unknown })?.message as string | undefined) ||
+            'خطا در دریافت قبوض';
+      alert(msg);
     } finally {
       setLoading(false);
     }
-  };
- 
-   useEffect(() => { load(); }, []);    // --- افزودن قبض (مودال  اعتبارسنجی ساده) ---
+  }, [filterType, searchId]);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+   // --- افزودن قبض (مودال  اعتبارسنجی ساده) ---
     const [isAddOpen, setIsAddOpen] = useState(false);
     // بستن مودال با ESC
     useEffect(() => {
@@ -113,15 +127,20 @@ export default function BillsPage() {
             try {
               await updateBill(editForm.id, {
                 billIdentifier: editForm.billIdentifier.trim(),
-                type: editForm.type as any,
+                type: editForm.type as CreateBillBody['type'],
                 postalCode: editForm.postalCode.trim(),
                 branchName: editForm.branch?.trim() || undefined,
                 sharePercent: editForm.sharePercent,
               });
               await load();
               setIsEditOpen(false);
-            } catch (e: any) {
-              alert(e.message || 'خطا در ویرایش قبض');
+            } catch (e: unknown) {
+            const msg =
+              e instanceof Error
+                ? e.message
+                : ((e as { message?: unknown })?.message as string | undefined) ||
+                  'خطا در ویرایش قبض';
+            alert(msg);
             }
           })();
         };
@@ -174,15 +193,19 @@ export default function BillsPage() {
           try {
             await createBill({
               billIdentifier: form.billIdentifier.trim(),
-              type: form.type as any,
+              type: form.type as CreateBillBody['type'],
               postalCode: form.postalCode.trim(),
               branchName: form.branch?.trim() || undefined,
               sharePercent: form.sharePercent,
             });
             await load();
             setIsAddOpen(false);
-          } catch (e: any) {
-            const msg = (e?.message || '').toString();
+          } catch (e: unknown) {
+        const rawMsg =
+          e instanceof Error
+            ? e.message
+            : ((e as { message?: unknown })?.message as string | undefined) || '';
+        const msg = rawMsg.toString();
             // خطای تکراری/Unique (Prisma P2002 یا Internal Server Error عمومی)
             if (/internal server error/i.test(msg) || /duplicate/i.test(msg) || /unique/i.test(msg) || /P2002/.test(msg)) {
               setDuplicateMsg('شناسه قبض تکراری است!');
@@ -231,17 +254,26 @@ export default function BillsPage() {
       await deleteBill(deleteId);
       await load();
       closeDeleteModal();
-              } catch (e: any) {
-            const msg = (e?.message || '').toString();
-            // تشخیص خطای تکراری (پاسخ‌های متداول Back-End)
-            if (/internal server error/i.test(msg) || /duplicate/i.test(msg) || /unique/i.test(msg) || /P2002/.test(msg)) {
-              setDuplicateMsg('شناسه قبض تکراری است!');
-              setIsDuplicateOpen(true);
-            } else {
-              alert(msg || 'خطا در ثبت قبض');
-            }
-          }
-        };
+    } catch (e: unknown) {
+      const rawMsg =
+        e instanceof Error
+          ? e.message
+          : ((e as { message?: unknown })?.message as string | undefined) || '';
+      const msg = rawMsg.toString();
+      // تشخیص خطای تکراری ...
+      if (
+        /internal server error/i.test(msg) ||
+        /duplicate/i.test(msg) ||
+        /unique/i.test(msg) ||
+        /P2002/.test(msg)
+      ) {
+        setDuplicateMsg('شناسه قبض تکراری است!');
+        setIsDuplicateOpen(true);
+      } else {
+        alert(msg || 'خطا در ثبت قبض');
+      }
+    }
+  };
 
   return (
       <>
@@ -644,7 +676,7 @@ export default function BillsPage() {
                   >
                     <div className="bg-white w-full max-w-xl rounded-lg shadow-xl p-8">
                       <h3 className="font-bold text-lg text-black mb-4">قبض تکراری</h3>
-                      <p className="mb-6 text-gray-700">شناسه قبض تکراری است!</p>
+                      <p className="mb-6 text-gray-700">{duplicateMsg}</p>
                       <div className="flex justify-end">
                         <button
                           onClick={closeDuplicateModal}

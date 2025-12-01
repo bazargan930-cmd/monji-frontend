@@ -24,8 +24,10 @@ export default function NoticesListPage() {
       if (!res.ok) throw new Error('خطا در دریافت اطلاعیه‌ها');
       const data = await res.json();
       setNotices(data);
-    } catch (err: any) {
-      setError(err.message || 'خطای ناشناخته');
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : 'خطای ناشناخته';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -40,8 +42,10 @@ export default function NoticesListPage() {
       });
       if (!res.ok) throw new Error('خطا در حذف اطلاعیه');
       setNotices((prev) => prev.filter((n) => n.id !== id));
-    } catch (err: any) {
-      alert(err.message || '⛔️ خطای حذف');
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : '⛔️ خطای حذف';
+      alert(message);
     }
   };
 

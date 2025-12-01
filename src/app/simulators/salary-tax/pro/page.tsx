@@ -61,7 +61,7 @@ export default function SalaryTaxProfessionalForm() {
         { entries }
       );
       setResult(res.data);
-    } catch (err) {
+    } catch {
       setResult(null);
     } finally {
       setLoading(false);

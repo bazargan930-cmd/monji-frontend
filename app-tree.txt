@@ -65,6 +65,8 @@ src\app
 │  │  │  │  │  └─ page.tsx
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ exports/
+│  │  │  │  ├─ detail/
+│  │  │  │  │  └─ page.tsx
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ files/
 │  │  │  │  └─ page.tsx

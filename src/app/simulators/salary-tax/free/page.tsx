@@ -1,7 +1,7 @@
 // src/app/simulators/salary-tax/free/page.tsx
 'use client';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 export default function SalaryTaxSimpleFreeForm() {
   const [input, setInput] = useState<string>(''); // مقدار خام
@@ -38,7 +38,7 @@ export default function SalaryTaxSimpleFreeForm() {
     }, 300);
 
     return () => clearTimeout(delay);
-  }, [input]);
+  }, [numericInput]);
 
   return (
     <div className="p-6 max-w-lg mx-auto">

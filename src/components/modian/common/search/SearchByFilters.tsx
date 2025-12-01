@@ -122,35 +122,76 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const toEnDigits = (s: string) =>
     s.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
 
-  const pick = (obj: any, keys: string[]) => {
-    for (const k of keys) if (obj && obj[k] != null) return obj[k];
-    return undefined;
-  };
-
-  /** تلاش برای استخراج سال/ماه جلالی از شکل‌های مختلف پاسخ today */
-  const extractJalaliYM = (data: any): { y: number; m: number } | undefined => {
-    // 1) شیء‌های متداول
-    const j =
-      data?.jalali ?? data?.fa ?? data?.j ?? data?.persian ?? data?.shamsi ?? data;
-    let y = pick(j, ["year", "y", "jy", "jYear"]);
-    let m = pick(j, ["month", "m", "jm", "jMonth"]);
-    if (typeof y === "string") y = parseInt(toEnDigits(y), 10);
-    if (typeof m === "string") m = parseInt(toEnDigits(m), 10);
-    if (Number.isInteger(y) && Number.isInteger(m)) return { y, m };
-
-    // 2) رشته‌های تاریخ: "1404/08/17" یا "۱۴۰۴-۰۸-۱۷"
-    const cand = String(j ?? data ?? "");
-    const enCand = toEnDigits(cand);
-    const m1 = enCand.match(/(?:(13|14)\d{2}).*?([01]?\d)\D/);
-    if (m1) {
-      // دو رقم پایانی سال از همان رشتهٔ انگلیسی‌شده
-      const last2 = enCand.match(/\d{2}/)?.[0] ?? "";
-      const yy = parseInt(m1[1] + last2, 10) || parseInt(m1[0], 10);
-      const mm = Math.max(1, Math.min(12, parseInt(m1[2], 10)));
-      if (yy && mm) return { y: yy, m: mm };
+  const pick = (obj: unknown, keys: string[]) => {
+    if (!obj || typeof obj !== 'object') {
+      return undefined;
+    }
+    const record = obj as Record<string, unknown>;
+    for (const k of keys) {
+      const value = record[k];
+      if (value != null) return value;
     }
     return undefined;
   };
+
+ /** تلاش برای استخراج سال/ماه جلالی از شکل‌های مختلف پاسخ today */
+  const extractJalaliYM = React.useCallback(
+    (data: unknown): { y: number; m: number } | undefined => {
+      // 1) شیء‌های متداول؛ فقط اگر data واقعاً یک آبجکت باشد روی کلیدهای متداول آن را چک می‌کنیم
+      const jSource =
+        data && typeof data === 'object'
+          ? (data as Record<string, unknown>)
+          : undefined;
+
+    const j =
+      jSource?.['jalali'] ??
+      jSource?.['fa'] ??
+      jSource?.['j'] ??
+      jSource?.['persian'] ??
+      jSource?.['shamsi'] ??
+      data;
+
+      const rawY = pick(j, ['year', 'y', 'jy', 'jYear']);
+      const rawM = pick(j, ['month', 'm', 'jm', 'jMonth']);
+
+    const y =
+        typeof rawY === 'number'
+          ? rawY
+          : typeof rawY === 'string'
+            ? parseInt(toEnDigits(rawY), 10)
+            : undefined;
+
+      const m =
+        typeof rawM === 'number'
+          ? rawM
+          : typeof rawM === 'string'
+            ? parseInt(toEnDigits(rawM), 10)
+            : undefined;
+
+      if (
+        typeof y === 'number' &&
+        typeof m === 'number' &&
+        Number.isInteger(y) &&
+        Number.isInteger(m)
+      ) {
+        return { y, m };
+      }
+
+    // 2) رشته‌های تاریخ: "1404/08/17" یا "۱۴۰۴-۰۸-۱۷"
+    const cand = String(j ?? data ?? '');
+      const enCand = toEnDigits(cand);
+      const m1 = enCand.match(/(?:(13|14)\d{2}).*?([01]?\d)\D/);
+      if (m1) {
+        // دو رقم پایانی سال از همان رشتهٔ انگلیسی‌شده
+        const last2 = enCand.match(/\d{2}/)?.[0] ?? '';
+        const yy = parseInt(m1[1] + last2, 10) || parseInt(m1[0], 10);
+        const mm = Math.max(1, Math.min(12, parseInt(m1[2], 10)));
+        if (yy && mm) return { y: yy, m: mm };
+      }
+      return undefined;
+    },
+    [],
+  );
 
   const handleSelect = (name: string, v: string) =>
     setValues((s) => ({ ...s, [name]: v }));
@@ -166,7 +207,7 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const onlyDigits = (s: string) => toEnDigits(s).replace(/\D+/g, '');
   const formatMoney = (digits: string) => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  // فیلد عددی با «ضربدر سبز» برای پاک‌سازی — راه حل سریع: state محلی + فیلتر ارقام
+  // فیلد عددی با «ضربدر سبز» برای پاک‌سازی — state محلی + همگام‌سازی با state اصلی فرم
   // این نسخه از state محلی برای جلوگیری از مشکلات ری‌ریِندر والد استفاده می‌کند
 const NumericInputWithClear = ({
   name,
@@ -174,25 +215,23 @@ const NumericInputWithClear = ({
   placeholder,
 }: { name: string; maxLength?: number; placeholder?: string }) => {
   const [local, setV] = React.useState<string>(values[name] ?? '');
+  const currentValue = values[name] ?? '';
 
-  // تابع کمکی برای فیلتر فقط عدد (انگلیسی و فارسی)
-  const toDigitsOnly = (input: string): string => {
-    if (!input) return '';
-    // تبدیل اعداد فارسی و عربی به انگلیسی
-    const persianToEnglish = input.replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
-    const arabicToEnglish = persianToEnglish.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660));
-    // حذف هر کاراکتر غیر عددی
-    return arabicToEnglish.replace(/[^0-9]/g, '');
-  };
+  // وقتی مقدار در state اصلی فرم ریست یا از بیرون تغییر می‌کند، این ورودی را هم همگام کن
+  React.useEffect(() => {
+    setV(currentValue);
+  }, [name, currentValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value ?? '';
-    const filtered = toDigitsOnly(raw);
+    const filtered = onlyDigits(raw);
     setV(filtered);
+    setValues((s) => ({ ...s, [name]: filtered }));
   };
 
   const handleClear = () => {
     setV('');
+    setValues((s) => ({ ...s, [name]: '' }));
   };
 
   return (
@@ -229,33 +268,22 @@ const MoneyInput = ({
   maxLength,
   placeholder,
 }: { name: string; maxLength?: number; placeholder?: string }) => {
-  const [local, setV] = React.useState<string>(values[name] ?? '');
+  const [local, setV] = React.useState<string>(
+    values[name] ? formatMoney(values[name]) : '',
+  );
+  const current = values[name];
 
-  // تابع کمکی برای فیلتر فقط عدد (انگلیسی و فارسی)
-  const toDigitsOnly = (input: string): string => {
-    if (!input) return '';
-    // تبدیل اعداد فارسی و عربی به انگلیسی
-    const persianToEnglish = input.replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
-    const arabicToEnglish = persianToEnglish.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660));
-    // حذف هر کاراکتر غیر عددی
-    return arabicToEnglish.replace(/[^0-9]/g, '');
-  };
-
-  // تابع فرمت سه‌رقمی با ویرگول
-  const formatWithCommas = (numStr: string): string => {
-    if (!numStr) return '';
-    return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
+  // همگام‌سازی با state اصلی فرم (digits در state، نمایش با ویرگول)
+  React.useEffect(() => {
+    setV(current ? formatMoney(current) : '');
+  }, [name, current]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value ?? '';
-    const filtered = toDigitsOnly(raw);
-    const formatted = formatWithCommas(filtered);
+    const filtered = onlyDigits(raw);
+    const formatted = formatMoney(filtered);
     setV(formatted);
-  };
-
-  const handleClear = () => {
-    setV('');
+    setValues((s) => ({ ...s, [name]: filtered }));
   };
 
   return (
@@ -367,7 +395,12 @@ const TextInputWithClear = ({
   name,
   placeholder,
 }: { name: string; placeholder?: string }) => {
-  const [v, setV] = React.useState("");
+  const [v, setV] = React.useState(values[name] ?? '');
+  const currentValue = values[name] ?? '';
+
+  React.useEffect(() => {
+    setV(currentValue);
+  }, [name, currentValue]);
 
   return (
     <div className="relative">
@@ -376,7 +409,11 @@ const TextInputWithClear = ({
         dir="rtl"
         autoComplete="off"
         value={v}
-        onChange={(e) => setV(e.target.value)}
+        onChange={(e) => {
+          const next = e.target.value ?? '';
+          setV(next);
+          setValues((s) => ({ ...s, [name]: next }));
+        }}
         className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm text-right focus:outline-none focus:ring-1 focus:ring-green-500"
         placeholder={placeholder}
       />
@@ -385,7 +422,10 @@ const TextInputWithClear = ({
         <button
           type="button"
           aria-label="پاک‌کردن"
-          onClick={() => setV("")}
+          onClick={() => {
+            setV('');
+            setValues((s) => ({ ...s, [name]: '' }));
+          }}
           className="absolute left-2 top-1/2 -translate-y-1/2 text-green-600 hover:text-green-700 font-bold text-xl leading-none"
         >
           ×
@@ -460,7 +500,17 @@ const TextInputWithClear = ({
       }
     })();
     return () => { mounted = false; };
-  }, []);
+  }, [extractJalaliYM]);
+
+  const advancedField = fields.find(
+    (f): f is Extract<FilterField, { type: 'button'; name: 'advanced' }> =>
+      f.type === 'button' && f.name === 'advanced',
+  );
+
+  const searchSubmitField = fields.find(
+    (f): f is Extract<FilterField, { type: 'submit'; name: 'search' }> =>
+      f.type === 'submit' && f.name === 'search',
+  );
 
   return (
     <form onSubmit={submit} dir="rtl">
@@ -520,7 +570,7 @@ const TextInputWithClear = ({
       {/* ردیف ۳: نوار کنترل بالا (حالت بستهٔ «پیشرفته») */}
       <div className="mt-3 flex items-center justify-between">
         {/* چپ: دکمهٔ «پیشرفته» */}
-        {fields.find((f) => f.type === 'button' && f.name === 'advanced') ? (
+        {advancedField ? (
           <button
             type="button"
             onClick={() => setAdvancedOpen((s) => !s)}
@@ -528,13 +578,13 @@ const TextInputWithClear = ({
             aria-expanded={advancedOpen}
             aria-controls="advanced-panel"
           >
-            {(fields.find((f) => f.type === 'button' && f.name === 'advanced') as any).label}
+            {advancedField.label}
             <IconChevronDown className={`h-4 w-4 transition-transform ${advancedOpen ? 'rotate-180' : ''}`} />
           </button>
         ) : null}
 
         {/* راست: جفت دکمه‌های بالا (فقط وقتی پیشرفته بسته است) */}
-        {(!advancedOpen) && fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
+        {(!advancedOpen) && searchSubmitField ? (
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
@@ -548,7 +598,7 @@ const TextInputWithClear = ({
               className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
             >
               <IconSearch className="h-4 w-4" />
-              {(fields.find((f) => f.type === 'submit' && f.name === 'search') as any).label}
+              {searchSubmitField?.label}
             </button>
           </div>
         ) : <span /> }
@@ -691,7 +741,7 @@ const TextInputWithClear = ({
       ) : null}
 
       {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) */}
-      {advancedOpen && fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
+      {advancedOpen && searchSubmitField ? (
         <div className="mt-3 flex items-center justify-end gap-2">
           <button
             type="button"
@@ -705,7 +755,7 @@ const TextInputWithClear = ({
             className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
           >
             <IconSearch className="h-4 w-4" />
-            {(fields.find((f) => f.type === 'submit' && f.name === 'search') as any).label}
+            {searchSubmitField?.label}
           </button>
         </div>
       ) : null}

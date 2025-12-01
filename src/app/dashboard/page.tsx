@@ -2,11 +2,11 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
-import { z } from 'zod';
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { z } from 'zod';
 
 const UserInfoSchema = z.object({
   fullName: z.string().optional(),
@@ -65,13 +65,13 @@ export default function DashboardPage() {
       // هدایت به ورود با next=/dashboard
       if (typeof window !== 'undefined') window.location.href = '/auth/signin?next=/dashboard';
       // یک خطا پرتاب می‌کنیم تا SWR مسیر error را طی کند (ولی عملاً ریدایرکت شده)
-      const err: any = new Error('Unauthorized');
+      const err = new Error('Unauthorized') as Error & { status?: number };
       err.status = 401;
       throw err;
     }
     if (!res.ok) {
       const text = await res.text();
-      const err: any = new Error(text || res.statusText);
+      const err = new Error(text || res.statusText) as Error & { status?: number };
       err.status = res.status;
       throw err;
     }
@@ -92,7 +92,7 @@ export default function DashboardPage() {
   }, [swrError]);
 
   // telemetry سبک
-  function track(event: string, meta?: Record<string, any>) {
+  function track(event: string, meta?: Record<string, unknown>) {
     try {
       const payload = JSON.stringify({ event, meta, ts: Date.now() });
       const blob = new Blob([payload], { type: 'application/json' });

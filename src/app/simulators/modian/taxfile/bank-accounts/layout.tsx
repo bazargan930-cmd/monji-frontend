@@ -1,4 +1,4 @@
-// src/app/simulators/modian/admin/taxfile/bank-accounts/layout.tsx
+// src/app/simulators/modian/taxfile/bank-accounts/layout.tsx
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 

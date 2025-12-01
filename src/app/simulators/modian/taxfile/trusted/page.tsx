@@ -1,4 +1,4 @@
-// src/app/simulators/modian/admin/taxfile/trusted/page.tsx
+// src/app/simulators/modian/taxfile/trusted/page.tsx
 'use client';
 
 import { TrustedCompaniesPage } from '@/components/modian/taxfile';

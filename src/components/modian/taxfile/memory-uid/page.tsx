@@ -22,7 +22,14 @@ type Row = {
 const LS_KEY = 'modian_tax_memory_uids';
 const LS_TRUSTED = 'modian_trusted_companies';
 const LS_MEMORY_UNIQUE_IDS = 'modian_memory_unique_ids';
-const LS_MEMORY_PUBKEYS     = 'modian_memory_public_keys';
+const _LS_MEMORY_PUBKEYS    = 'modian_memory_public_keys';
+
+type StoredRow = Row & { owner?: string };
+
+type UniqueMemoryId = {
+  phoneLast4?: string;
+  uid?: string;
+};
 
 export default function MemoryUIDPage() {
   const router = useRouter();
@@ -70,12 +77,17 @@ export default function MemoryUIDPage() {
 
   // خواندن/نوشتن رکوردهای همین مالک
   const phoneLast4 = getUserPhoneLast4();
-  const loadAll = (): any[] => {
-    try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]') || []; } catch { return []; }
+  const loadAll = (): StoredRow[] => {
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_KEY) || '[]') || [];
+      return Array.isArray(raw) ? (raw as StoredRow[]) : [];
+    } catch {
+      return [];
+    }
   };
   const saveRowsForOwner = (mine: Row[]) => {
     const all = loadAll();
-    const others = all.filter((r: any) => r?.owner && r.owner !== phoneLast4);
+    const others = all.filter((r) => r.owner && r.owner !== phoneLast4);
     const next = [...mine, ...others];
     setRows(mine);
     try { localStorage.setItem(LS_KEY, JSON.stringify(next)); } catch {}
@@ -86,26 +98,33 @@ export default function MemoryUIDPage() {
     const all = loadAll();
     // تلاش برای اتصال ردیف بدون owner به این کاربر، اگر uid شش‌کاراکتری ذخیره‌شده‌اش یافت شد
     try {
-      const unique = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]');
-      const rec = Array.isArray(unique) ? unique.find((r: any) => r?.phoneLast4 === phoneLast4) : null;
+      const uniqueRaw = JSON.parse(localStorage.getItem(LS_MEMORY_UNIQUE_IDS) || '[]') as unknown;
+      const rec: UniqueMemoryId | undefined = Array.isArray(uniqueRaw)
+        ? (uniqueRaw.find(
+            (r) => (r as UniqueMemoryId)?.phoneLast4 === phoneLast4,
+          ) as UniqueMemoryId | undefined)
+        : undefined;
       const myUID = rec?.uid;
       if (myUID) {
         let migrated = false;
-        const migratedAll = all.map((r: any) => {
-          if (!r?.owner && r?.uid === myUID) { migrated = true; return { ...r, owner: phoneLast4 }; }
+        const migratedAll = all.map((r) => {
+          if (!r.owner && r.uid === myUID) {
+            migrated = true;
+            return { ...r, owner: phoneLast4 };
+          }
           return r;
         });
         if (migrated) {
           try { localStorage.setItem(LS_KEY, JSON.stringify(migratedAll)); } catch {}
-          const mine = migratedAll.filter((r: any) => r?.owner === phoneLast4);
+          const mine = migratedAll.filter((r) => r.owner === phoneLast4);
           setRows(mine);
           return;
         }
       }
     } catch {}
     // پیش‌فرض: فقط ردیف‌های همین مالک را نشان بده
-    setRows(all.filter((r: any) => r?.owner === phoneLast4));
-  }, []);
+    setRows(all.filter((r) => r.owner === phoneLast4));
+  }, [phoneLast4]);
 
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -157,7 +176,7 @@ export default function MemoryUIDPage() {
     Math.random().toString(36).slice(2, 8).toUpperCase() +
     Math.random().toString(36).slice(2, 4).toUpperCase();
 
-  const handleRequestOrRefresh = () => {
+  const _handleRequestOrRefresh = () => {
     // تلاش برای گرفتن نام شرکت و نحوه ارسال از انتخاب شرکت معتمد
     let companyName = '-';
     let sendMethod = '-';
@@ -190,7 +209,7 @@ export default function MemoryUIDPage() {
     saveRows([newRow, ...rows]);
   };
 
-  const handleDelete = (uid: string) => {
+  const _handleDelete = (uid: string) => {
     const list = rows.filter((r) => r.uid !== uid);
     saveRowsForOwner(list);
   };
