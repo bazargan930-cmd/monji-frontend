@@ -1,9 +1,10 @@
 // src/components/landing/HeroSection.tsx
 'use client';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import  track  from './analytics';
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+import track from './analytics';
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -32,7 +33,7 @@ export default function HeroSection() {
     const el = videoRef.current;
     if (!el) return;
 
-    let delayTimer: any = null;
+    let delayTimer: ReturnType<typeof setTimeout> | null = null;
     const io = new IntersectionObserver(
       (entries) => {
         const e = entries[0];

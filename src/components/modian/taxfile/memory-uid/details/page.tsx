@@ -1,17 +1,18 @@
 // src/components/modian/taxfile/memory-uid/details/page.tsx
 'use client';
 
-import React from 'react';
-import MemoryUIDEditPage from '../edit/page';
-import { UploadPublicKeyModal } from '@/components/modian/ui';
-import { useMemoryPublicKey } from '@/components/modian/common';
 import { useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
+
+import { useMemoryPublicKey } from '@/components/modian/common';
+import { UploadPublicKeyModal } from '@/components/modian/ui';
+
+import MemoryUIDEditPage from '../edit/page';
+import { REGISTRATION_BRANCHES } from '../../registration-information/page';
 
 const LS_KEY = 'modian_tax_memory_uids';
 const LS_SELECTED_BRANCHES = 'modian_selected_postal_codes';
 const LS_MEMORY_PUBKEYS = 'modian_memory_public_keys';
-// fallback موقت: شعب ثبت‌نامی از صفحه‌ی اطلاعات ثبت‌نام
-import { REGISTRATION_BRANCHES } from '../../registration-information/page';
 
 function getUserPhoneLast4(): string {
   // هم‌راستا با صفحات «لیست» و «ویزارد»: از چند منبع تلاش کن و در نهایت بدنهٔ صفحه را اسکن کن
@@ -39,7 +40,9 @@ function getSavedPublicKeyForCurrentUser(): string {
     const phone = getUserPhoneLast4();
     const prev = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '[]');
     const arr = Array.isArray(prev) ? prev : [];
-   const rec = arr.find((r: any) => r?.phoneLast4 === phone);
+   const rec = arr.find(
+      (r) => (r as { phoneLast4?: string })?.phoneLast4 === phone,
+    ) as { phoneLast4?: string; key?: string } | undefined;
     return rec?.key || '';
   } catch {
     return '';
@@ -59,12 +62,32 @@ function sniffRegistrationBranchesFromStorage(
       if (!k) continue;
       const raw = localStorage.getItem(k);
       if (!raw) continue;
-      let parsed: any;
-      try { parsed = JSON.parse(raw); } catch { continue; }
-      const tryPush = (arr: any[]) => {
-        arr.forEach((r: any) => {
-          const pc = r?.postalCode ?? r?.postCode ?? r?.کدپستی ?? r?.postal_code;
-          const addr = r?.address ?? r?.branchAddress ?? r?.آدرس ?? r?.addressLine ?? r?.branch_address;
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        continue;
+      }
+      const tryPush = (arr: unknown[]) => {
+        arr.forEach((r) => {
+          const obj = r as {
+            postalCode?: unknown;
+            postCode?: unknown;
+            کدپستی?: unknown;
+            postal_code?: unknown;
+            address?: unknown;
+            branchAddress?: unknown;
+            آدرس?: unknown;
+            addressLine?: unknown;
+            branch_address?: unknown;
+          };
+          const pc = obj.postalCode ?? obj.postCode ?? obj.کدپستی ?? obj.postal_code;
+          const addr =
+            obj.address ??
+            obj.branchAddress ??
+            obj.آدرس ??
+            obj.addressLine ??
+            obj.branch_address;
           if (pc || addr) {
             const rec = { postalCode: String(pc ?? ''), address: String(addr ?? '') };
             if (!allowedPostals?.length || allowedPostals.includes(rec.postalCode)) {
@@ -76,8 +99,15 @@ function sniffRegistrationBranchesFromStorage(
       if (Array.isArray(parsed)) {
         tryPush(parsed);
       } else if (parsed && typeof parsed === 'object') {
+        const obj = parsed as {
+          branches?: unknown;
+          شعب?: unknown;
+          branchList?: unknown;
+          addresses?: unknown;
+          branchAddresses?: unknown;
+        };
         const arr =
-          parsed?.branches || parsed?.شعب || parsed?.branchList || parsed?.addresses || parsed?.branchAddresses;
+          obj.branches || obj.شعب || obj.branchList || obj.addresses || obj.branchAddresses;
         if (Array.isArray(arr)) tryPush(arr);
       }
     }
@@ -93,10 +123,10 @@ function sniffRegistrationBranchesFromStorage(
 }
 
 // تولید شناسهٔ ۳۶ کاراکتری از متن (ساده و پایدار برای شبیه‌ساز)
-function make36IdFromText(t: string): string {
+function _make36IdFromText(t: string): string {
   const base = t.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() || Math.random().toString(36).slice(2);
   const need = 32; // 32 حرف + 4 خط تیره = 36
-  let s = base.repeat(Math.ceil((need) / base.length)).slice(0, need);
+  const s = base.repeat(Math.ceil(need / base.length)).slice(0, need);
   return `${s.slice(0,8)}-${s.slice(8,12)}-${s.slice(12,16)}-${s.slice(16,20)}-${s.slice(20,32)}`;
 }
   // ——— کمکی‌های سادهٔ تاریخ برای تب «آرشیو»
@@ -117,11 +147,46 @@ const toDisplay = (isoOrText: string): string => {
   return isoOrText;
 };
 
+type MemoryUidRow = {
+  owner?: string;
+  uid?: string;
+  status?: string;
+  trustedCompanyName?: string;
+  companyName?: string;
+  sendMethod?: string;
+  signKey?: string;
+  payments?: unknown[];
+  updatedAt?: string;
+  lastEditedAt?: string;
+  lastEdit?: string;
+  last_update?: string;
+  updated_at?: string;
+  lastEditDate?: string;
+  'تاریخ آخرین ویرایش'?: string;
+  lastISO?: string;
+  lastDisplay?: string;
+} & Record<string, unknown>;
+
+type ArchiveRow = {
+  idx: number;
+  uid: string;
+  signKey: string;
+  company: string;
+  sendMethod: string;
+  status: string;
+  lastISO: string;
+  lastDisplay: string;
+};
+
 // به‌روزرسانی رکورد جاری در LS_KEY
-function patchCurrentRowInLocalStorage(owner: string, uid: string, patch: Record<string, any>) {
+function patchCurrentRowInLocalStorage(
+  owner: string,
+  uid: string,
+  patch: Partial<MemoryUidRow>,
+) {
   const list = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-  const arr = Array.isArray(list) ? list : [];
-  const idx = arr.findIndex((r: any) => r?.owner === owner && r?.uid === uid);
+  const arr: MemoryUidRow[] = Array.isArray(list) ? (list as MemoryUidRow[]) : [];
+  const idx = arr.findIndex((r) => r?.owner === owner && r?.uid === uid);
   if (idx >= 0) {
     arr[idx] = { ...arr[idx], ...patch };
     localStorage.setItem(LS_KEY, JSON.stringify(arr));
@@ -137,33 +202,29 @@ export default function MemoryUIDDetailsPage() {
   const params = useSearchParams();
   const uidFromQuery = params.get('uid') || '';
   const isEditMode = params.get('mode') === 'edit';
-  const [row, setRow] = React.useState<any | null>(null);        // رکورد انتخابی
+  const [row, setRow] = React.useState<MemoryUidRow | null>(null);        // رکورد انتخابی
   const [activeUid, setActiveUid] = React.useState<string>('');  // آخرین شناسه‌ی یکتای فعال
   const [postals, setPostals] = React.useState<string[]>([]);
   const [tab, setTab] = React.useState<'info' | 'archive'>('info'); // تب‌ها
   const [sendMenuOpen, setSendMenuOpen] = React.useState(false);
   // یک‌پارچه با کامپوننت مشترک
   const ownerUid = uidFromQuery || '__current__';
-  const { key: publicKey, save: savePublicKey } = useMemoryPublicKey(ownerUid);
+  const { key: _publicKey, save: savePublicKey } = useMemoryPublicKey(ownerUid);
   const [openUpload, setOpenUpload] = React.useState(false);
   // حالت‌های تب «آرشیو پروفایل‌ها»
   const [archiveFrom, setArchiveFrom] = React.useState<string>('');
   const [archiveTo, setArchiveTo]   = React.useState<string>('');
-  const [archiveRows, setArchiveRows] = React.useState<any[]>([]);
+  const [archiveRows, setArchiveRows] = React.useState<ArchiveRow[]>([]);
   const [archiveSearched, setArchiveSearched] = React.useState(false);
   // سطر انتخاب‌شده در نتایج آرشیو (برای نمایش «جزئیات»)
-  const [archiveDetailsRow, setArchiveDetailsRow] = React.useState<any | null>(null);
+  const [archiveDetailsRow, setArchiveDetailsRow] = React.useState<ArchiveRow | null>(null);
 
   /* ---------- Helpers (مشابه مرحله Add) ---------- */
   function normalizeUid(v: string): string {
     // فقط حروف/اعداد و خط‌تیره بماند، حروف کوچک، نهایت 36 کاراکتر
     return (v || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 36);
   }
-  function genMemoryPublicKey(): string {
-    const seg = (n: number) => Array.from({ length: n }, () => Math.floor(Math.random() * 36).toString(36)).join('');
-    // الگوی 8-4-4-4-12 (36 کاراکتر با خط‌تیره)
-    return `${seg(8)}-${seg(4)}-${seg(4)}-${seg(4)}-${seg(12)}`;
-  }
+  
   const [branches, setBranches] = React.useState<RegBranch[]>([]);
   // --- حالت‌های مودال «افزودن کد پستی»
   const [showAddPostal, setShowAddPostal] = React.useState(false);
@@ -185,9 +246,9 @@ export default function MemoryUIDDetailsPage() {
   function runArchiveSearch() {
     try {
       const list = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-      const arr = Array.isArray(list) ? list : [];
+      const arr: MemoryUidRow[] = Array.isArray(list) ? (list as MemoryUidRow[]) : [];
       // نگاشت رکوردها به سطر جدول
-      let rows = arr.map((r: any, i: number) => {
+      let rows: ArchiveRow[] = arr.map((r, i) => {
         const lastRaw =
           r?.updatedAt ?? r?.lastEditedAt ?? r?.lastEdit ?? r?.last_update ??
           r?.updated_at ?? r?.lastEditDate ?? r?.['تاریخ آخرین ویرایش'] ?? '';
@@ -233,15 +294,15 @@ export default function MemoryUIDDetailsPage() {
     // ۱) بازیابی «شناسهٔ فعال» و رکورد جاری از LS
     try {
       const list = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-      const arr = Array.isArray(list) ? list : [];
+      const arr: MemoryUidRow[] = Array.isArray(list) ? (list as MemoryUidRow[]) : [];
       // رکورد فعال برای صاحب فعلی (سازگار با «فعال» فارسی و active انگلیسی)
       const active = arr.find(
-        (r: any) => r?.owner === owner && (r?.status === 'فعال' || r?.status === 'active')
+        (r) => r?.owner === owner && (r?.status === 'فعال' || r?.status === 'active'),
       );
       const chosenUid = uidFromQuery || (active?.uid ?? '');
       setActiveUid(chosenUid);
       const currentRow =
-        arr.find((r: any) => r?.uid === chosenUid && r?.owner === owner) || active || null;
+        arr.find((r) => r?.uid === chosenUid && r?.owner === owner) || active || null;
       setRow(currentRow);
     } catch {}
     // ۲) فهرست کُدپستی‌های منتخب (برای فیلتر شعب)
@@ -255,16 +316,28 @@ export default function MemoryUIDDetailsPage() {
   React.useEffect(() => {
     let cancelled = false;
     async function fetchRegistrationBranches(): Promise<RegBranch[]> {
-      const tryMap = (arr: any[]): RegBranch[] =>
+      const tryMap = (arr: unknown[]): RegBranch[] =>
         (arr || [])
-          .map((b: any) => ({
-            postalCode: String(
-              b?.postalCode ?? b?.postCode ?? b?.['کدپستی'] ?? b?.postal_code ?? ''
-            ),
-            address: String(
-              b?.branchAddress ?? b?.address ?? b?.['آدرس_شعبه'] ?? b?.['نشانی'] ?? ''
-            ),
-          }))
+          .map((b) => {
+            const obj = b as {
+              postalCode?: unknown;
+              postCode?: unknown;
+              کدپستی?: unknown;
+              postal_code?: unknown;
+              branchAddress?: unknown;
+              address?: unknown;
+              آدرس_شعبه?: unknown;
+              نشانی?: unknown;
+            };
+            return {
+              postalCode: String(
+                obj.postalCode ?? obj.postCode ?? obj.کدپستی ?? obj.postal_code ?? '',
+              ),
+              address: String(
+                obj.branchAddress ?? obj.address ?? obj.آدرس_شعبه ?? obj.نشانی ?? '',
+              ),
+            };
+          })
           .filter((r) => r.postalCode || r.address);
       const tryFetch = async (url: string) => {
         try {
@@ -290,7 +363,7 @@ export default function MemoryUIDDetailsPage() {
       let fallback = api2.length ? api2 : fromLs;
       // 2.5) اگر هنوز چیزی نداریم، از ثابتِ موقت صفحه‌ی ثبت‌نام استفاده کن
       if (!fallback.length && Array.isArray(REGISTRATION_BRANCHES)) {
-        fallback = tryMap(REGISTRATION_BRANCHES as any[]);
+        fallback = tryMap(REGISTRATION_BRANCHES as unknown[]);
       }
       // 3) فیلتر بر اساس کدپستی‌های منتخب (اگر وجود داشته باشد)
       const filtered =
@@ -401,7 +474,7 @@ export default function MemoryUIDDetailsPage() {
                       const q = new URLSearchParams(window.location.search);
                       if (activeUid) q.set('uid', String(activeUid));
                       q.set('mode', 'edit'); // ← حالت ویرایش
-                      router.push(`/simulators/modian/admin/taxfile/memory-uid/details?${q.toString()}`);
+                      router.push(`/simulators/modian/taxfile/memory-uid/details?${q.toString()}`);
                     }}
                   >
                     {/* مداد با استایل شبیه مرجع */}
@@ -582,11 +655,22 @@ export default function MemoryUIDDetailsPage() {
                       // همهٔ شعب ممکن را از LS «بو» بکش؛ اگر نبود از ثابتِ ثبت‌نام استفاده کن
                       let all = sniffRegistrationBranchesFromStorage(undefined);
                       if (!all.length && Array.isArray(REGISTRATION_BRANCHES)) {
-                        all = (REGISTRATION_BRANCHES as any[])
-                          .map((b: any) => ({
-                            postalCode: String(b?.postalCode ?? b?.کدپستی ?? ''),
-                            address: String(b?.branchAddress ?? b?.address ?? b?.آدرس_شعبه ?? ''),
-                          }))
+                        all = (REGISTRATION_BRANCHES as unknown[])
+                          .map((b) => {
+                            const obj = b as {
+                              postalCode?: unknown;
+                              کدپستی?: unknown;
+                              branchAddress?: unknown;
+                              address?: unknown;
+                              آدرس_شعبه?: unknown;
+                            };
+                            return {
+                              postalCode: String(obj.postalCode ?? obj.کدپستی ?? ''),
+                              address: String(
+                                obj.branchAddress ?? obj.address ?? obj.آدرس_شعبه ?? '',
+                              ),
+                            };
+                          })
                           .filter((r) => r.postalCode || r.address);
                       }
                       // کاندیداها = همهٔ شعب منهای مواردی که همین حالا در جدول هست
@@ -595,9 +679,14 @@ export default function MemoryUIDDetailsPage() {
                       let saved: string[] = [];
                       try {
                         const raw = JSON.parse(localStorage.getItem(LS_SELECTED_BRANCHES) || '[]');
-                        saved = Array.isArray(raw) ? raw.map((x: any) => String(x)) : [];
+                        saved = Array.isArray(raw)
+                          ? (raw as unknown[]).map((x) => String(x))
+                          : [];
                       } catch {}
-                      const exclude = new Set<string>([...existing, ...saved]);
+                      const exclude = new Set<string>([
+                        ...Array.from(existing).map((x) => String(x)),
+                        ...saved,
+                      ]);
                       const cand = all.filter((b) => b.postalCode && !exclude.has(String(b.postalCode)));
                       setPostalCandidates(cand);
                       setPickedPostals({});

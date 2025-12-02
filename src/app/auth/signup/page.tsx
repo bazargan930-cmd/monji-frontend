@@ -1,8 +1,8 @@
 // src/app/auth/signup/page.tsx
 'use client';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -12,7 +12,6 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isValidPhone = (phone: string): boolean => {
@@ -31,7 +30,6 @@ export default function SignupPage() {
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
 
     // اعتبارسنجی‌ها
     if (!fullName.trim()) {
@@ -89,8 +87,9 @@ export default function SignupPage() {
       }
       // موفقیت
       setShowSuccessModal(true);
-    } catch (err: any) {
-      setError(err?.message || 'ثبت‌نام ناموفق بود');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'ثبت‌نام ناموفق بود';
+      setError(message);
     } finally {
       setIsSubmitting(false);
     }

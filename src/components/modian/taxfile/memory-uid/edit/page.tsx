@@ -9,7 +9,7 @@ import { useState } from 'react';
 export default function MemoryUIDEditPage() {
   const router = useRouter();
   const qp = useSearchParams();
-  const uid = qp.get('uid') || '';
+  const _uid = qp.get('uid') || '';
   const [method, setMethod] = useState<'opt1' | 'opt2' | null>(null);
   // گام‌های ویزارد: 0=تعیین نحوه ارسال، 1=انتخاب شرکت/سامانه، 2=کلید/گواهی، 3=موفقیت
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0);

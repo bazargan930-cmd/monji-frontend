@@ -6,12 +6,12 @@ import '../globals.css';
 // بارگذاری محلیِ Font Awesome (بدون CDN)
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const geistSans = Geist({
+const _geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const _geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });

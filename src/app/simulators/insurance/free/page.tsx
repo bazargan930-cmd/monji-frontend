@@ -46,7 +46,7 @@ export default function InsuranceSimpleFreeForm() {
       }
     }, 300);
     return () => clearTimeout(delay);
-  }, [input]);
+  }, [input, numericInput]);
 
   return (
     <div className="p-6 max-w-lg mx-auto">

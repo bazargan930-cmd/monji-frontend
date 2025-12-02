@@ -27,7 +27,7 @@ import { TrustedHelpContent } from '@/components/modian/taxfile';
    const [visibleCols, setVisibleCols] = useState<Set<string>>(
      () => new Set(allColumns.map(c => c.id))
    );
-   const toggleCol = (id: string) => {
+   const _toggleCol = (id: string) => {
      setVisibleCols(prev => {
        const next = new Set(prev);
        if (next.has(id)) next.delete(id);
