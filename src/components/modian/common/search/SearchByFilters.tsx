@@ -1,9 +1,12 @@
 // src/components/modian/common/search/SearchByFilters.tsx
 'use client';
-import * as React from 'react';
+
 import { usePathname } from 'next/navigation';
-import { Card, FieldGrid, FormField, IconChevronDown, IconSearch, IconFilter } from '@/components/modian/ui';
-import { ModianJalaliDateField } from '@/components/modian/common';
+import * as React from 'react';
+
+// فاصله‌گذاری مناسب بین importها
+import { Card, FieldGrid, FormField, IconChevronDown, IconSearch, IconFilter } from '@/components/modian/ui'; // اصلاح شده
+import { ModianJalaliDateField } from '@/components/modian/common'; // اصلاح شده
 
 export type Option = { value: string; label: string };
 
@@ -15,6 +18,33 @@ export type FilterField =
   | { type: 'button'; name: 'advanced'; label: string }
   | { type: 'submit'; name: 'search'; label: string };
 
+// آیکون چرخ‌دنده‌ی ساده برای صفحات «صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶»
+const OldInvoicesAdvancedIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* دایره‌ی مرکزی */}
+    <circle cx="12" cy="12" r="3" />
+    {/* دندانه‌های اصلی */}
+    <path d="M12 3v2.5" />
+    <path d="M12 18.5V21" />
+    <path d="M3 12h2.5" />
+    <path d="M18.5 12H21" />
+    {/* دندانه‌های مورّب ساده */}
+    <path d="M6.2 6.2l1.8 1.8" />
+    <path d="M16 16l1.8 1.8" />
+    <path d="M17.8 6.2L16 8" />
+    <path d="M8 16l-1.8 1.8" />
+  </svg>
+);
+
 type Props = {
   fields: FilterField[];
   onSubmit: (values: Record<string, string>) => void;
@@ -22,14 +52,87 @@ type Props = {
   summaryTitle?: string;
 };
 
+// --- کمکی‌ها: تبدیل ارقام فارسی → انگلیسی و استخراج year/month ---
+const toEnDigits = (s: string): string =>
+  s.replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)));
+
+const pick = (obj: unknown, keys: string[]): unknown => {
+  if (!obj || typeof obj !== 'object') return undefined;
+  const rec = obj as Record<string, unknown>;
+  for (const k of keys) {
+    if (k in rec && rec[k] != null) {
+      return rec[k];
+    }
+  }
+  return undefined;
+};
+
+/** تلاش برای استخراج سال/ماه جلالی از شکل‌های مختلف پاسخ today */
+const extractJalaliYM = (
+  data: unknown,
+): { y: number; m: number } | undefined => {
+  // 1) شیء‌های متداول
+  const jSource =
+    pick(data, ['jalali']) ??
+    pick(data, ['fa']) ??
+    pick(data, ['j']) ??
+    pick(data, ['persian']) ??
+    pick(data, ['shamsi']) ??
+    data;
+
+  let y = pick(jSource, ['year', 'y', 'jy', 'jYear']);
+  let m = pick(jSource, ['month', 'm', 'jm', 'jMonth']);
+
+  if (typeof y === 'string') y = parseInt(toEnDigits(y), 10);
+  if (typeof m === 'string') m = parseInt(toEnDigits(m), 10);
+
+  if (
+    typeof y === 'number' &&
+    Number.isInteger(y) &&
+    typeof m === 'number' &&
+    Number.isInteger(m)
+  ) {
+    return { y, m };
+  }
+
+  // 2) رشته‌های تاریخ: "1404/08/17" یا "۱۴۰۴-۰۸-۱۷"
+  const cand = String(jSource ?? data ?? '');
+  const enCand = toEnDigits(cand);
+  const m1 = enCand.match(/(?:(13|14)\d{2}).*?([01]?\d)\D/);
+  if (m1) {
+    // دو رقم پایانی سال از همان رشتهٔ انگلیسی‌شده
+    const last2 = enCand.match(/\d{2}/)?.[0] ?? '';
+    const yy = parseInt(m1[1] + last2, 10) || parseInt(m1[0], 10);
+    const mm = Math.max(1, Math.min(12, parseInt(m1[2], 10)));
+    if (yy && mm) return { y: yy, m: mm };
+  }
+  return undefined;
+};
 export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اطلاعات زمانی' }: Props) {
   const pathname = usePathname();
   const isSalesPage = pathname?.includes('/simulators/modian/invoices/sales');
   const isExportsPage = pathname?.includes('/simulators/modian/invoices/exports');
+  const isOldInvoicesPage = pathname?.includes('/simulators/modian/old-Invoices');
+  const isOldExportsPage = pathname?.includes(
+    '/simulators/modian/old-Invoices/exports',
+  );
   // در صفحه «صورتحساب‌های فروش داخلی» طرف مقابل «خریدار» است؛
   // در سایر صفحات (مثل خرید داخلی) همچنان «فروشنده» باقی می‌ماند.
   const counterpartyLabel = isSalesPage ? 'خریدار' : 'فروشنده';
+  // برچسب دکمه‌ی «جستجوی پیشرفته» (بالا)
+  const advancedButtonLabel = isOldInvoicesPage ? 'جستجوی پیشرفته' : 'فیلتر پیش‌فرض';
+  // برچسب دکمه‌ی «حذف فیلتر» (پایین، فقط وقتی پنل پیشرفته باز است)
+  const filterResetButtonLabel = isOldInvoicesPage ? 'حذف فیلتر' : 'فیلتر پیش‌فرض';
+  // آیکون مورد استفاده در دکمه‌ی «پیشرفته» بسته به مسیر
+  const AdvancedIconComponent = isOldInvoicesPage ? OldInvoicesAdvancedIcon : IconFilter;
 
+  const advancedField =
+    fields.find((f) => f.type === 'button' && f.name === 'advanced');
+  const advancedFieldLabel = advancedField?.label ?? advancedButtonLabel;
+
+  const searchButtonLabel =
+    fields.find((f) => f.type === 'submit' && f.name === 'search')?.label ??
+    'جستجو';
   const [values, setValues] = React.useState<Record<string, string>>({});
   const [advancedOpen, setAdvancedOpen] = React.useState(false);
   // گزینه‌های «سال و دوره» که از today پر می‌شوند (آیتم اول: دورهٔ جاری)
@@ -118,83 +221,9 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
     [],
   );
 
-  // --- کمکی‌ها: تبدیل ارقام فارسی → انگلیسی و استخراج year/month ---
-  const toEnDigits = (s: string) =>
-    s.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
-
-  const pick = (obj: unknown, keys: string[]) => {
-    if (!obj || typeof obj !== 'object') {
-      return undefined;
-    }
-    const record = obj as Record<string, unknown>;
-    for (const k of keys) {
-      const value = record[k];
-      if (value != null) return value;
-    }
-    return undefined;
-  };
-
- /** تلاش برای استخراج سال/ماه جلالی از شکل‌های مختلف پاسخ today */
-  const extractJalaliYM = React.useCallback(
-    (data: unknown): { y: number; m: number } | undefined => {
-      // 1) شیء‌های متداول؛ فقط اگر data واقعاً یک آبجکت باشد روی کلیدهای متداول آن را چک می‌کنیم
-      const jSource =
-        data && typeof data === 'object'
-          ? (data as Record<string, unknown>)
-          : undefined;
-
-    const j =
-      jSource?.['jalali'] ??
-      jSource?.['fa'] ??
-      jSource?.['j'] ??
-      jSource?.['persian'] ??
-      jSource?.['shamsi'] ??
-      data;
-
-      const rawY = pick(j, ['year', 'y', 'jy', 'jYear']);
-      const rawM = pick(j, ['month', 'm', 'jm', 'jMonth']);
-
-    const y =
-        typeof rawY === 'number'
-          ? rawY
-          : typeof rawY === 'string'
-            ? parseInt(toEnDigits(rawY), 10)
-            : undefined;
-
-      const m =
-        typeof rawM === 'number'
-          ? rawM
-          : typeof rawM === 'string'
-            ? parseInt(toEnDigits(rawM), 10)
-            : undefined;
-
-      if (
-        typeof y === 'number' &&
-        typeof m === 'number' &&
-        Number.isInteger(y) &&
-        Number.isInteger(m)
-      ) {
-        return { y, m };
-      }
-
-    // 2) رشته‌های تاریخ: "1404/08/17" یا "۱۴۰۴-۰۸-۱۷"
-    const cand = String(j ?? data ?? '');
-      const enCand = toEnDigits(cand);
-      const m1 = enCand.match(/(?:(13|14)\d{2}).*?([01]?\d)\D/);
-      if (m1) {
-        // دو رقم پایانی سال از همان رشتهٔ انگلیسی‌شده
-        const last2 = enCand.match(/\d{2}/)?.[0] ?? '';
-        const yy = parseInt(m1[1] + last2, 10) || parseInt(m1[0], 10);
-        const mm = Math.max(1, Math.min(12, parseInt(m1[2], 10)));
-        if (yy && mm) return { y: yy, m: mm };
-      }
-      return undefined;
-    },
-    [],
-  );
-
-  const handleSelect = (name: string, v: string) =>
-    setValues((s) => ({ ...s, [name]: v }));
+  // اصلاح نوع‌ها به جای استفاده از any
+  const handleSelect = (name: string, v: string): void =>
+    setValues((s: Record<string, string>) => ({ ...s, [name]: v }));
 
   const toggleRole = (name: string, val: string) => {
     const cur = (values[name] || '').split(',').filter(Boolean);
@@ -204,34 +233,40 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   };
 
   // ---- ورودی‌های عددی مشترک ----
-  const onlyDigits = (s: string) => toEnDigits(s).replace(/\D+/g, '');
-  const formatMoney = (digits: string) => digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  // فیلد عددی با «ضربدر سبز» برای پاک‌سازی — state محلی + همگام‌سازی با state اصلی فرم
-  // این نسخه از state محلی برای جلوگیری از مشکلات ری‌ریِندر والد استفاده می‌کند
+  // فیلد عددی با «ضربدر سبز» برای پاک‌سازی
+  // این نسخه علاوه بر state محلی، مقدار را در state اصلی فیلترها نیز به‌روزرسانی می‌کند
 const NumericInputWithClear = ({
   name,
   maxLength,
   placeholder,
 }: { name: string; maxLength?: number; placeholder?: string }) => {
   const [local, setV] = React.useState<string>(values[name] ?? '');
-  const currentValue = values[name] ?? '';
+  const valueForName = values[name] ?? '';
 
-  // وقتی مقدار در state اصلی فرم ریست یا از بیرون تغییر می‌کند، این ورودی را هم همگام کن
-  React.useEffect(() => {
-    setV(currentValue);
-  }, [name, currentValue]);
+  // تابع کمکی برای فیلتر فقط عدد (انگلیسی و فارسی)
+  const toDigitsOnly = (input: string): string => {
+    if (!input) return '';
+    // تبدیل اعداد فارسی و عربی به انگلیسی
+    const persianToEnglish = input.replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+    const arabicToEnglish = persianToEnglish.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660));
+    // حذف هر کاراکتر غیر عددی
+    return arabicToEnglish.replace(/[^0-9]/g, '');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value ?? '';
-    const filtered = onlyDigits(raw);
+    const filtered = toDigitsOnly(raw);
     setV(filtered);
-    setValues((s) => ({ ...s, [name]: filtered }));
+    setValues((prev) => ({ ...prev, [name]: filtered }));
   };
+  React.useEffect(() => {
+    setV(valueForName);
+  }, [valueForName]);
 
   const handleClear = () => {
     setV('');
-    setValues((s) => ({ ...s, [name]: '' }));
+    setValues((prev) => ({ ...prev, [name]: '' }));
   };
 
   return (
@@ -262,29 +297,42 @@ const NumericInputWithClear = ({
 };
 
 
-  // فیلد مبلغ با «ریال» و جداکننده سه‌رقمی — نسخه‌ی کاملاً کنترل‌شده
+  // فیلد مبلغ با «ریال» و جداکننده سه‌رقمی — هم‌زمان با state اصلی فیلترها
 const MoneyInput = ({
   name,
   maxLength,
   placeholder,
 }: { name: string; maxLength?: number; placeholder?: string }) => {
-  const [local, setV] = React.useState<string>(
-    values[name] ? formatMoney(values[name]) : '',
-  );
-  const current = values[name];
+  const [local, setV] = React.useState<string>(values[name] ?? '');
+  const valueForName = values[name] ?? '';
 
-  // همگام‌سازی با state اصلی فرم (digits در state، نمایش با ویرگول)
-  React.useEffect(() => {
-    setV(current ? formatMoney(current) : '');
-  }, [name, current]);
+  // تابع کمکی برای فیلتر فقط عدد (انگلیسی و فارسی)
+  const toDigitsOnly = (input: string): string => {
+    if (!input) return '';
+    // تبدیل اعداد فارسی و عربی به انگلیسی
+    const persianToEnglish = input.replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+    const arabicToEnglish = persianToEnglish.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660));
+    // حذف هر کاراکتر غیر عددی
+    return arabicToEnglish.replace(/[^0-9]/g, '');
+  };
+
+  // تابع فرمت سه‌رقمی با ویرگول
+  const formatWithCommas = (numStr: string): string => {
+    if (!numStr) return '';
+    return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value ?? '';
-    const filtered = onlyDigits(raw);
-    const formatted = formatMoney(filtered);
+    const filtered = toDigitsOnly(raw);
+    const formatted = formatWithCommas(filtered);
     setV(formatted);
-    setValues((s) => ({ ...s, [name]: filtered }));
+    setValues((prev) => ({ ...prev, [name]: formatted }));
   };
+
+  React.useEffect(() => {
+    setV(valueForName);
+  }, [valueForName]);
 
   return (
     <div className="relative">
@@ -323,10 +371,12 @@ const MoneyInput = ({
     name,
     label,
     options,
+    disabled = false,
   }: {
     name: string;
     label: string;
     options: Option[];
+    disabled?: boolean;
   }) => {
     const selected = (values[name] || '').split(',').filter(Boolean);
     const summary = multiSummary(name, options);
@@ -335,14 +385,20 @@ const MoneyInput = ({
         <div className="relative">
           <button
             type="button"
-            className="w-full h-10 rounded border border-gray-300 bg-white pe-12 ps-10 text-[13px] text-right"
-            onClick={() => setOpenMenu(s => (s === name ? null : name))}
+            className={`w-full h-10 rounded border border-gray-300 pe-12 ps-10 text-[13px] text-right ${
+              disabled ? 'bg-white text-gray-500 cursor-default' : 'bg-white'
+            }`}
+            onClick={() => {
+              if (disabled) return;
+              setOpenMenu((s) => (s === name ? null : name));
+            }}
             aria-haspopup="listbox"
             aria-expanded={openMenu === name}
+            disabled={disabled}
           >
             {summary}
           </button>
-          {selected.length > 0 && (
+          {selected.length > 0 && !disabled && (
             <button
               type="button"
               aria-label="حذف همه انتخاب‌ها"
@@ -355,7 +411,7 @@ const MoneyInput = ({
           <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-800">
             <IconChevronDown className="h-4 w-4" />
           </span>
-          {openMenu === name && (
+          {openMenu === name && !disabled && (
             <div role="listbox" className="absolute z-20 mt-1 w-full rounded border bg-white shadow">
               <div className="max-h-56 overflow-auto py-1">
                 {options.map(op => {
@@ -390,17 +446,89 @@ const MoneyInput = ({
     onSubmit(values);
   };
 
+  // رندر مشترک فیلدهای خلاصه (ردیف بالایی)
+  const renderSummaryFields = () =>
+    fields.map((f, idx) => {
+      // ----- نقش مودی: استفاده از رندر مشترک -----
+      if (f.type === 'roles') {
+        return (
+          <MultiSelect
+            key={idx}
+            name={f.name}
+            label={f.label}
+            options={f.options}
+            disabled={isOldInvoicesPage}
+          />
+        );
+      }
+      // ----- وضعیت صورتحساب: استفاده از رندر مشترک -----
+      if (f.type === 'status') {
+        return (
+          <MultiSelect
+            key={idx}
+            name={f.name}
+            label={f.label}
+            options={f.options}
+            disabled={isOldInvoicesPage}
+          />
+        );
+      }
+      if (f.type === 'select') {
+        return (
+          <FormField key={idx} label={f.label} variant="floating">
+            <select
+              aria-label={f.label}
+              onChange={(e) => handleSelect(f.name, e.target.value)}
+              className={`w-full h-10 rounded border border-gray-300 px-2 text-sm ${
+                isOldInvoicesPage ? 'bg-white text-gray-500 cursor-default' : 'bg-white'
+              }`}
+              disabled={isOldInvoicesPage}
+              defaultValue=""
+            >
+              <option value=""></option>
+              {f.options.map((op) => (
+                <option key={op.value} value={op.value}>
+                  {op.label}
+                </option>
+              ))}
+            </select>
+          </FormField>
+        );
+      }
+      if (f.type === 'period') {
+        return (
+          <FormField key={idx} label={f.label} variant="floating">
+            <select
+              aria-label={f.label}
+              value={values.period ?? ''}
+              onChange={(e) => handleSelect('period', e.target.value)}
+              className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+            >
+              {/* اگر به هر دلیل مقدار پیش‌فرض ست نشد */}
+              {!values.period && <option value=""></option>}
+              {periodOpts.map((op) => (
+                <option key={op.value} value={op.value}>
+                  {op.label}
+                </option>
+              ))}
+            </select>
+          </FormField>
+        );
+      }
+      return null;
+    });
   // فیلد متنی آزاد با «ضربدر سبز» برای پاک‌سازی — نسخه‌ی اصلاح‌شده
 const TextInputWithClear = ({
   name,
   placeholder,
 }: { name: string; placeholder?: string }) => {
-  const [v, setV] = React.useState(values[name] ?? '');
-  const currentValue = values[name] ?? '';
+  const [v, setV] = React.useState(values[name] ?? "");
+
+  const valueForName = values[name] ?? "";
 
   React.useEffect(() => {
-    setV(currentValue);
-  }, [name, currentValue]);
+    setV(valueForName);
+  }, [valueForName]);
 
   return (
     <div className="relative">
@@ -410,9 +538,9 @@ const TextInputWithClear = ({
         autoComplete="off"
         value={v}
         onChange={(e) => {
-          const next = e.target.value ?? '';
+          const next = e.target.value ?? "";
           setV(next);
-          setValues((s) => ({ ...s, [name]: next }));
+          setValues((prev) => ({ ...prev, [name]: next }));
         }}
         className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm text-right focus:outline-none focus:ring-1 focus:ring-green-500"
         placeholder={placeholder}
@@ -423,8 +551,8 @@ const TextInputWithClear = ({
           type="button"
           aria-label="پاک‌کردن"
           onClick={() => {
-            setV('');
-            setValues((s) => ({ ...s, [name]: '' }));
+            setV("");
+            setValues((prev) => ({ ...prev, [name]: "" }));
           }}
           className="absolute left-2 top-1/2 -translate-y-1/2 text-green-600 hover:text-green-700 font-bold text-xl leading-none"
         >
@@ -436,6 +564,7 @@ const TextInputWithClear = ({
 };
 
   // بارگیری تاریخ جاری (جلالی) و تولید گزینه‌های فصل
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     let mounted = true;
     (async () => {
@@ -500,262 +629,450 @@ const TextInputWithClear = ({
       }
     })();
     return () => { mounted = false; };
-  }, [extractJalaliYM]);
+  }, []);
 
-  const advancedField = fields.find(
-    (f): f is Extract<FilterField, { type: 'button'; name: 'advanced' }> =>
-      f.type === 'button' && f.name === 'advanced',
-  );
+  // فهرست کلیدهای فیلتر در صفحه old-Invoices که برای «حذف فیلتر» در نظر گرفته می‌شود
+  const oldInvoicesFilterKeys = [
+    'branchCode',
+    'taxYear',
+    'taxPeriod',
+    'limitStatus',
+    'issueDateFrom',
+    'issueDateTo',
+  ];
 
-  const searchSubmitField = fields.find(
-    (f): f is Extract<FilterField, { type: 'submit'; name: 'search' }> =>
-      f.type === 'submit' && f.name === 'search',
-  );
+  // اگر هر کدام از فیلترهای بالا مقداری داشته باشند، دکمهٔ «حذف فیلتر» به حالت قرمز می‌رود
+  const hasAnyFilterSelected =
+    isOldInvoicesPage &&
+    oldInvoicesFilterKeys.some((key) => Boolean(values[key]));
 
-  return (
-    <form onSubmit={submit} dir="rtl">
-      {/* ردیف ۱: عنوان بخش */}
-      <div className="text-xs sm:text-sm text-gray-600 mb-2">{summaryTitle}</div>
+    return (
+    <form
+      onSubmit={submit}
+      dir="rtl"
+      className={isOldInvoicesPage
+        ? 'bg-white border border-gray-300 rounded-md px-4 py-3'
+        : undefined}
+    >
+      {/* ردیف ۱: عنوان بخش (در صورت وجود متن) */}
+      {summaryTitle && (
+        <div className="text-xs sm:text-sm text-gray-600 mb-2">
+          {summaryTitle}
+        </div>
+      )}
 
-      {/* ردیف ۲: فیلدهای خلاصه با لیبل شناور (چهار ستون هم‌اندازه) */}
-      <FieldGrid cols={4} className="gap-2">
-        {fields.map((f, idx) => {
-          // ----- نقش مودی: استفاده از رندر مشترک -----
-          if (f.type === 'roles') {
-            return <MultiSelect key={idx} name={f.name} label={f.label} options={f.options} />;
-          }
-          // ----- وضعیت صورتحساب: استفاده از رندر مشترک -----
-      if (f.type === 'status') {
-        return <MultiSelect key={idx} name={f.name} label={f.label} options={f.options} />;
-      }
-          if (f.type === 'select') {
-            return (
-              <FormField key={idx} label={f.label} variant="floating">
-                <select
-                  aria-label={f.label}
-                  onChange={(e) => handleSelect(f.name, e.target.value)}
-                  className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
-                  defaultValue=""
+      {/* ردیف ۲: فیلدهای خلاصه + دکمه‌ها */}
+      {isOldInvoicesPage ? (
+        // حالت مخصوص «صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶»
+        // فرم خودش کارت سفید است؛ اینجا فقط چیدمان ردیف اول را کنترل می‌کنیم
+        <div className="flex items-center justify-between gap-4">
+            {/* فیلدها، چسبیده به راست و با عرض بیشتر (هر کدام تقریباً دو برابر قبل) */}
+            <div className="flex-1 flex justify-end">
+              <FieldGrid
+                cols={3}
+                className="gap-2 w-[720px] max-w-full ml-auto"
+              >
+                {renderSummaryFields()}
+              </FieldGrid>
+            </div>
+
+            {/* دکمه‌های بالا در همان سطر، سمت چپ (فقط وقتی «پیشرفته» بسته است) */}
+            {!advancedOpen &&
+            fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
+              <div className="flex items-center justify-end gap-2">
+                {/* دکمهٔ جستجوی پیشرفته / حذف فیلتر */}
+                {fields.find((f) => f.type === 'button' && f.name === 'advanced') ? (
+                  <button
+                    type="button"
+                    onClick={() => setAdvancedOpen((s) => !s)}
+                    className="inline-flex items-center gap-1 rounded-md h-9 text-sm px-0 text-gray-700 hover:bg-transparent"
+                    aria-expanded={advancedOpen}
+                    aria-controls="advanced-panel"
+                  >
+                    <AdvancedIconComponent className="h-4 w-4" />
+                    {advancedButtonLabel}
+                  </button>
+                ) : null}
+
+                {/* دکمهٔ «جستجو» */}
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
                 >
-                  <option value=""></option>
-                  {f.options.map((op) => (
-                    <option key={op.value} value={op.value}>{op.label}</option>
-                  ))}
-                </select>
-              </FormField>
-            );
-          }
-          if (f.type === 'period') {
-            return (
-              <FormField key={idx} label={f.label} variant="floating">
-                <select
-                  aria-label={f.label}
-                  value={values.period ?? ''}
-                  onChange={(e) => handleSelect('period', e.target.value)}
-                  className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
-                >
-                  {/* اگر به هر دلیل مقدار پیش‌فرض ست نشد */}
-                  {!values.period && <option value=""></option>}
-                  {periodOpts.map((op) => (
-                    <option key={op.value} value={op.value}>{op.label}</option>
-                  ))}
-                </select>
-              </FormField>
-            );
-          }
-          return null;
-        })}
-      </FieldGrid>
-
-      {/* ردیف ۳: نوار کنترل بالا (حالت بستهٔ «پیشرفته») */}
-      <div className="mt-3 flex items-center justify-between">
-        {/* چپ: دکمهٔ «پیشرفته» */}
-        {advancedField ? (
-          <button
-            type="button"
-            onClick={() => setAdvancedOpen((s) => !s)}
-            className="inline-flex items-center gap-1 rounded-md px-3 h-9 text-sm text-gray-700 hover:bg-gray-50"
-            aria-expanded={advancedOpen}
-            aria-controls="advanced-panel"
-          >
-            {advancedField.label}
-            <IconChevronDown className={`h-4 w-4 transition-transform ${advancedOpen ? 'rotate-180' : ''}`} />
-          </button>
-        ) : null}
-
-        {/* راست: جفت دکمه‌های بالا (فقط وقتی پیشرفته بسته است) */}
-        {(!advancedOpen) && searchSubmitField ? (
-          <div className="flex items-center justify-end gap-2">
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md border border-black px-3 h-9 text-sm"
-            >
-              <IconFilter className="h-4 w-4" />
-              فیلتر پیش‌فرض
-            </button>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
-            >
-              <IconSearch className="h-4 w-4" />
-              {searchSubmitField?.label}
-            </button>
-          </div>
-        ) : <span /> }
-      </div>
-
-      {/* پنل «پیشرفته» (باز/بسته) — زیر ردیف سوم */}
-      {advancedOpen ? (
-        <Card id="advanced-panel" className="mt-3">
-          {/* چیدمان چهـارستونه مانند سایت اصلی */}
-          <FieldGrid cols={4}>
-            {/* ردیف ۱: بازه‌های تاریخ */}
-            <FormField label="تاریخ صدور صورتحساب از" htmlFor="advIssueFrom" variant="floating">
-              <ModianJalaliDateField
-                id="advIssueFrom"
-                valueISO={values.issueDateFrom ?? ''}
-                onChangeISO={(v) => setValues((s) => ({ ...s, issueDateFrom: v ?? '' }))}
-                placeholder="انتخاب کنید"
-              />
-            </FormField>
-            <FormField label="تاریخ صدور صورتحساب تا" htmlFor="advIssueTo" variant="floating">
-              <ModianJalaliDateField
-                id="advIssueTo"
-                valueISO={values.issueDateTo ?? ''}
-                onChangeISO={(v) => setValues((s) => ({ ...s, issueDateTo: v ?? '' }))}
-                placeholder="انتخاب کنید"
-              />
-            </FormField>
-            <FormField label="تاریخ درج در کارپوشه از" htmlFor="advInboxFrom" variant="floating">
-              <ModianJalaliDateField
-                id="advInboxFrom"
-                valueISO={values.inboxDateFrom ?? ''}
-                onChangeISO={(v) => setValues((s) => ({ ...s, inboxDateFrom: v ?? '' }))}
-                placeholder="انتخاب کنید"
-              />
-            </FormField>
-            <FormField label="تاریخ درج در کارپوشه تا" htmlFor="advInboxTo" variant="floating">
-              <ModianJalaliDateField
-                id="advInboxTo"
-                valueISO={values.inboxDateTo ?? ''}
-                onChangeISO={(v) => setValues((s) => ({ ...s, inboxDateTo: v ?? '' }))}
-                placeholder="انتخاب کنید"
-              />
-            </FormField>
-            {/* ردیف ۲: موضوع، کد شعبه و مجموع صورتحسابها */}
-            {/* موضوع صورتحساب: استفاده از رندر مشترک */}
-            <MultiSelect name="topic" label="موضوع صورتحساب" options={topicOptions} />
-            <FormField label="کد شعبه" variant="floating">
-              <NumericInputWithClear name="branchCode" maxLength={10} />
-            </FormField>
-            <FormField label="مجموع صورتحساب از" variant="floating">
-              <MoneyInput name="sumFrom" />
-            </FormField>
-            <FormField label="مجموع صورتحساب تا" variant="floating">
-              <MoneyInput name="sumTo" />
-            </FormField>
-
-            {/* ردیف ۳: الگو، حد مجاز و شناسه‌ها */}
-            {/* الگوی صورتحساب: در صفحهٔ فروش صادراتی نمایش داده نمی‌شود */}
-            {!isExportsPage && (
-              <MultiSelect
-                name="pattern"
-                label="الگوی صورتحساب"
-                options={invoicePatternOptions}
-              />
-            )}
-            {/* فیلد جدید: وضعیت حد مجاز (منوی بازشونده دوگزینه‌ای) */}
-            <FormField label="وضعیت حد مجاز" variant="floating">
-              <select
-                aria-label="وضعیت حد مجاز"
-                value={values.limitStatus ?? ''}
-                onChange={(e) => handleSelect('limitStatus', e.target.value)}
-                className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
-              >
-                <option value=""></option>
-                <option value="exceeded">عدول از حد مجاز</option>
-                <option value="not_exceeded">عدم عدول از حد مجاز</option>
-              </select>
-            </FormField>
-            {/* برچسب تک‌خطی: شماره اقتصادی خریدار/فروشنده∕حق‌العملکار (در صادراتی نمایش داده نمی‌شود) */}
-            {!isExportsPage && (
-              <FormField
-                label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
-                variant="floating"
-              >
-                <NumericInputWithClear name="economicCode" maxLength={20} />
-              </FormField>
-            )}
-            {/* برچسب تک‌خطی: شناسه هویتی خریدار/فروشنده∕حق‌العملکار (در صادراتی نمایش داده نمی‌شود) */}
-            {!isExportsPage && (
-              <FormField
-                label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
-                variant="floating"
-              >
-                <NumericInputWithClear name="identityCode" maxLength={20} />
-              </FormField>
-            )}
-
-            {/* ردیف 4: نام و نوع فروشنده/حق العملکار — در صادراتی مخفی می‌شود */}
-            {!isExportsPage && (
-              <FormField label={`نام ${counterpartyLabel}/حق العملکار`} variant="floating">
-                <TextInputWithClear name="sellerName" />
-              </FormField>
-            )}
-            {!isExportsPage && (
-              <FormField label={`نام تجاری ${counterpartyLabel}/حق العملکار`} variant="floating">
-                <TextInputWithClear name="sellerTradeName" />
-              </FormField>
-            )}
-            {/* نوع شخص خریدار/فروشنده/حق‌العملکار: چندانتخابی با منطق مشترک (در صادراتی مخفی) */}
-            {!isExportsPage && (
-              <MultiSelect
-                name="personType"
-                label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
-                options={personTypeOptions}
-              />
-            )}
-            {/* فیلد «وضعیت تطابق» — مخصوص صفحهٔ صورتحساب‌های فروش صادراتی */}
-            {isExportsPage && (
-              <MultiSelect
-                name="matchStatus"
-                label="وضعیت تطابق"
-                options={matchStatusOptions}
-              />
-            )}
-            {/* چک‌باکس انتهای سطر آخر — در صفحهٔ فروش صادراتی نمایش داده نمی‌شود */}
-            {!isExportsPage && (
-              <div className="mt-3 flex items-center gap-2">
-                <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
-                <label htmlFor="onlyWithAction" className="text-sm text-gray-700">
-                  فقط موارد دارای اقدام
-                </label>
+                  <IconSearch className="h-4 w-4" />
+                  {searchButtonLabel}
+                </button>
               </div>
-            )}
+            ) : null}
+         </div>       
+      ) : (
+        <>
+          {/* حالت پیش‌فرض برای سایر صفحات صورتحساب‌ها (Buy/Sales/Exports) */}
+          <FieldGrid cols={4} className="gap-2">
+            {renderSummaryFields()}
           </FieldGrid>
 
-          
+          {/* ردیف ۳: نوار کنترل بالا (حالت بستهٔ «پیشرفته») - فقط برای صفحات غیرِ old-Invoices */}
+          <div className="mt-3 flex items-center justify-between">
+            {/* چپ: دکمهٔ «پیشرفته» */}
+            {advancedField ? (
+              <button
+                type="button"
+                onClick={() => setAdvancedOpen((s) => !s)}
+                className="inline-flex items-center gap-1 rounded-md h-9 text-sm px-3 text-gray-700 hover:bg-gray-50"
+                aria-expanded={advancedOpen}
+                aria-controls="advanced-panel"
+              >
+                {advancedFieldLabel}
+                <IconChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    advancedOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+            ) : null}
+
+            {/* راست: جفت دکمه‌های بالا (فقط وقتی پیشرفته بسته است) */}
+            {!advancedOpen &&
+            fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
+              <div className="flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-md h-9 text-sm border border-black px-3"
+                >
+                  <AdvancedIconComponent className="h-4 w-4" />
+                  {advancedButtonLabel}
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
+                >
+                  <IconSearch className="h-4 w-4" />
+                  {searchButtonLabel}
+                </button>
+              </div>
+            ) : (
+              <span />
+            )}
+          </div>
+        </>
+      )}
+
+            {/* پنل «پیشرفته» (باز/بسته) — زیر ردیف سوم */}
+      {advancedOpen ? (
+        <Card id="advanced-panel" className="mt-3">
+          {/* هدر پنل پیشرفته: عنوان «جستجو پیشرفته» راست + دکمه «بستن» چپ – فقط برای old-Invoices */}
+          {isOldInvoicesPage && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between">
+              {/* عنوان «جستجو پیشرفته» در سمت راست */}
+              <span className="text-sm font-medium text-gray-700">
+                جستجو پیشرفته
+              </span>
+
+              {/* دکمه بستن پنل در سمت چپ */}
+              <button
+                type="button"
+                onClick={() => setAdvancedOpen(false)}
+                className="inline-flex items-center gap-1 text-xs text-gray-600"
+              >
+                <IconChevronDown className="h-3 w-3 rotate-180" />
+                <span>بستن</span>
+              </button>
+            </div>
+
+            {/* خط سبز زیر هدر (برای صفحات old-Invoices) */}
+            <div className="mt-2 border-t border-green-500" />
+          </div>
+          )}
+
+          {/* چیدمان چهـارستونه */}
+          <FieldGrid cols={4}>
+            {isOldInvoicesPage ? (
+              <>
+                {/* ردیف ۱ (old-Invoices): شماره مالیاتی، سال مالیاتی، دوره مالیاتی، وضعیت صورتحساب */}
+                <FormField label="شماره مالیاتی" variant="floating">
+                  <NumericInputWithClear name="branchCode" maxLength={10} />
+                </FormField>
+                <FormField label="سال مالیاتی" variant="floating">
+                  <select
+                    aria-label="سال مالیاتی"
+                    value={values.taxYear ?? ''}
+                    onChange={(e) => handleSelect('taxYear', e.target.value)}
+                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                  >
+                    <option value=""></option>
+                    <option value="1400">1400</option>
+                    <option value="1401">1401</option>
+                    <option value="1402">1402</option>
+                    <option value="1403">1403</option>
+                  </select>
+                </FormField>
+                {!isExportsPage && (
+                  <FormField label="دوره مالیاتی" variant="floating">
+                    <select
+                      aria-label="دوره مالیاتی"
+                      value={values.taxPeriod ?? ''}
+                      onChange={(e) => handleSelect('taxPeriod', e.target.value)}
+                      className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                    >
+                      <option value=""></option>
+                      <option value="spring">بهار</option>
+                      <option value="summer">تابستان</option>
+                      <option value="autumn">پاییز</option>
+                      <option value="winter">زمستان</option>
+                    </select>
+                  </FormField>
+                )}
+                <FormField
+                  label={isOldExportsPage ? 'وضعیت تطابق' : 'وضعیت صورتحساب'}
+                  variant="floating"
+                >
+                  <select
+                    aria-label={
+                      isOldExportsPage ? 'وضعیت تطابق' : 'وضعیت صورتحساب'
+                    }
+                    value={values.limitStatus ?? ''}
+                    onChange={(e) => handleSelect('limitStatus', e.target.value)}
+                    className={`w-full h-10 rounded bg-white px-2 text-sm ${
+                      isOldExportsPage
+                        ? 'border border-dashed border-gray-400 text-gray-500 cursor-default'
+                        : 'border border-gray-300'
+                    }`}
+                    disabled={isOldExportsPage}
+                  >
+                    <option value=""></option>
+                    <option value="exceeded">در انتظار واکنش</option>
+                    <option value="not_exceeded">تایید شده</option>
+                    <option value="not_exceeded">رد شده</option>
+                    <option value="not_exceeded">تایید سیستمی</option>
+                  </select>
+                </FormField>
+
+                {/* ردیف ۲ (old-Invoices): بازه تاریخ صدور صورتحساب در انتهای فیلدها */}
+                <FormField
+                  label="تاریخ از"
+                  htmlFor="advIssueFrom"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                    id="advIssueFrom"
+                    valueISO={values.issueDateFrom ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, issueDateFrom: v ?? '' }))
+                    }
+                    placeholder="انتخاب کنید"
+                  />
+                </FormField>
+                <FormField
+                  label="تاریخ تا"
+                  htmlFor="advIssueTo"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                    id="advIssueTo"
+                    valueISO={values.issueDateTo ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, issueDateTo: v ?? '' }))
+                    }
+                    placeholder="انتخاب کنید"
+                  />
+                </FormField>
+              </>
+            ) : (
+              <>
+                {/* ردیف ۱: بازه‌های تاریخ */}
+                <FormField
+                  label="تاریخ صدور صورتحساب از"
+                  htmlFor="advIssueFrom"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                    id="advIssueFrom"
+                    valueISO={values.issueDateFrom ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, issueDateFrom: v ?? '' }))
+                    }
+                    placeholder="انتخاب کنید"
+                  />
+                </FormField>
+                <FormField
+                  label="تاریخ صدور صورتحساب تا"
+                  htmlFor="advIssueTo"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                    id="advIssueTo"
+                    valueISO={values.issueDateTo ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, issueDateTo: v ?? '' }))
+                    }
+                    placeholder="انتخاب کنید"
+                  />
+                </FormField>
+                {!isOldInvoicesPage && (
+                  <FormField
+                    label="تاریخ درج در کارپوشه از"
+                    htmlFor="advInboxFrom"
+                    variant="floating"
+                  >
+                    <ModianJalaliDateField
+                      id="advInboxFrom"
+                      valueISO={values.inboxDateFrom ?? ''}
+                      onChangeISO={(v) =>
+                        setValues((s) => ({ ...s, inboxDateFrom: v ?? '' }))
+                      }
+                      placeholder="انتخاب کنید"
+                    />
+                  </FormField>
+                )}
+                {!isOldInvoicesPage && (
+                  <FormField
+                    label="تاریخ درج در کارپوشه تا"
+                    htmlFor="advInboxTo"
+                    variant="floating"
+                  >
+                    <ModianJalaliDateField
+                      id="advInboxTo"
+                      valueISO={values.inboxDateTo ?? ''}
+                      onChangeISO={(v) =>
+                        setValues((s) => ({ ...s, inboxDateTo: v ?? '' }))
+                      }
+                      placeholder="انتخاب کنید"
+                    />
+                  </FormField>
+                )}
+
+                {/* ردیف ۲: موضوع، کد شعبه و مجموع صورتحسابها */}
+                <MultiSelect name="topic" label="موضوع صورتحساب" options={topicOptions} />
+                <FormField label="کد شعبه" variant="floating">
+                  <NumericInputWithClear name="branchCode" maxLength={10} />
+                </FormField>
+                {!isOldInvoicesPage && (
+                  <FormField label="مجموع صورتحساب از" variant="floating">
+                    <MoneyInput name="sumFrom" />
+                  </FormField>
+                )}
+                {!isOldInvoicesPage && (
+                  <FormField label="مجموع صورتحساب تا" variant="floating">
+                    <MoneyInput name="sumTo" />
+                  </FormField>
+                )}
+
+                {/* ردیف ۳: الگو، حد مجاز و شناسه‌ها */}
+                {!isExportsPage && (
+                  <MultiSelect
+                    name="pattern"
+                    label="الگوی صورتحساب"
+                    options={invoicePatternOptions}
+                  />
+                )}
+                <FormField label="وضعیت حد مجاز" variant="floating">
+                  <select
+                    aria-label="وضعیت حد مجاز"
+                    value={values.limitStatus ?? ''}
+                    onChange={(e) => handleSelect('limitStatus', e.target.value)}
+                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                  >
+                    <option value=""></option>
+                    <option value="exceeded">عدول از حد مجاز</option>
+                    <option value="not_exceeded">عدم عدول از حد مجاز</option>
+                  </select>
+                </FormField>
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <FormField
+                    label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
+                    variant="floating"
+                  >
+                    <NumericInputWithClear name="economicCode" maxLength={20} />
+                  </FormField>
+                )}
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <FormField
+                    label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
+                    variant="floating"
+                  >
+                    <NumericInputWithClear name="identityCode" maxLength={20} />
+                  </FormField>
+                )}
+
+                {/* ردیف ۴: نام و نوع فروشنده/حق العملکار — در صادراتی یا old-Invoices مخفی می‌شود */}
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <FormField
+                    label={`نام ${counterpartyLabel}/حق العملکار`}
+                    variant="floating"
+                  >
+                    <TextInputWithClear name="sellerName" />
+                  </FormField>
+                )}
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <FormField
+                    label={`نام تجاری ${counterpartyLabel}/حق العملکار`}
+                    variant="floating"
+                  >
+                    <TextInputWithClear name="sellerTradeName" />
+                  </FormField>
+                )}
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <MultiSelect
+                    name="personType"
+                    label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
+                    options={personTypeOptions}
+                  />
+                )}
+                {isExportsPage && (
+                  <MultiSelect
+                    name="matchStatus"
+                    label="وضعیت تطابق"
+                    options={matchStatusOptions}
+                  />
+                )}
+                {!isExportsPage && !isOldInvoicesPage && (
+                  <div className="mt-3 flex items-center gap-2">
+                    <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
+                    <label htmlFor="onlyWithAction" className="text-sm text-gray-700">
+                      فقط موارد دارای اقدام
+                    </label>
+                  </div>
+                )}
+              </>
+            )}
+          </FieldGrid>
 
           {/* دکمه‌ها اینجا نداریم؛ فقط جفت دکمهٔ پایین/بالا نمایش شرطی دارند */}
         </Card>
       ) : null}
 
-      {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) */}
-      {advancedOpen && searchSubmitField ? (
+      {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) – فقط برای old-Invoices */}
+      {advancedOpen &&
+       isOldInvoicesPage &&
+       fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
         <div className="mt-3 flex items-center justify-end gap-2">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-md border border-black px-3 h-9 text-sm"
+            onClick={() => {
+              const cleared: Record<string, string> = { ...values };
+              oldInvoicesFilterKeys.forEach((key) => {
+                cleared[key] = '';
+              });
+              setValues(cleared);
+              setOpenMenu(null);
+            }}
+            className={`inline-flex items-center gap-1 rounded-md h-9 text-sm px-3 ${
+              hasAnyFilterSelected
+                ? 'border-red-500 bg-white text-red-600'
+                : 'border-gray-300 bg-gray-400 text-white'
+            }`}
           >
-            <IconFilter className="h-4 w-4" />
-            فیلتر پیش‌فرض
+            <span className="text-base font-bold">×</span>
+            <span>{filterResetButtonLabel}</span>
           </button>
           <button
             type="submit"
             className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
           >
             <IconSearch className="h-4 w-4" />
-            {searchSubmitField?.label}
+            {searchButtonLabel}
           </button>
         </div>
       ) : null}
