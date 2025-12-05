@@ -116,6 +116,12 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const isOldExportsPage = pathname?.includes(
     '/simulators/modian/old-Invoices/exports',
   );
+  const isPurchaseAnnouncementsImportsPage = pathname?.includes(
+    '/simulators/modian/purchase-announcements/imports',
+  );
+  const isPurchaseAnnouncementsBoursePage = pathname?.includes(
+    '/simulators/modian/purchase-announcements/bourse',
+  );
   // در صفحه «صورتحساب‌های فروش داخلی» طرف مقابل «خریدار» است؛
   // در سایر صفحات (مثل خرید داخلی) همچنان «فروشنده» باقی می‌ماند.
   const counterpartyLabel = isSalesPage ? 'خریدار' : 'فروشنده';
@@ -139,12 +145,19 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const [periodOpts, setPeriodOpts] = React.useState<Array<{ value: string; label: string }>>([]);
   // باز/بسته بودن منوهای سفارشی (برای نقش مودی)
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
-  // گزینه‌های «موضوع صورتحساب» در پنل پیشرفته
+  // گزینه‌های «موضوع صورتحساب/اعلامیه» در پنل پیشرفته
   const topicOptions = React.useMemo(
     () => {
-      // در صفحه «فروش صادراتی» فقط سه گزینهٔ زیر نمایش داده می‌شود:
-      // اصلی، ابطالی، اصلاحی
-      if (isExportsPage) {
+      // در صفحه «اعلامیه‌های خرید از بورس کالا» فقط دو گزینه «اصلی» و «ابطالی» نمایش داده می‌شود
+      if (isPurchaseAnnouncementsBoursePage) {
+        return [
+          { value: 'main',   label: 'اصلی' },
+          { value: 'cancel', label: 'ابطالی' },
+        ];
+      }
+
+      // در صفحه «فروش صادراتی» و «اعلامیه‌های واردات» سه گزینه «اصلی»، «ابطالی»، «اصلاحی» داریم
+      if (isExportsPage || isPurchaseAnnouncementsImportsPage) {
         return [
           { value: 'main',   label: 'اصلی' },
           { value: 'cancel', label: 'ابطالی' },
@@ -160,9 +173,8 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
         { value: 'cancel', label: 'ابطال' },
       ];
     },
-    [isExportsPage],
-  );
-  // گزینه‌های «الگوی صورتحساب» (چندانتخابی) — ترتیب طبق اسکرین مرجع
+    [isExportsPage, isPurchaseAnnouncementsImportsPage, isPurchaseAnnouncementsBoursePage],
+  );  // گزینه‌های «الگوی صورتحساب» (چندانتخابی) — ترتیب طبق اسکرین مرجع
   const invoicePatternOptions = React.useMemo(
     () => {
       // لیست پایه برای همهٔ صفحات (خرید و فروش)
@@ -883,7 +895,11 @@ const TextInputWithClear = ({
               <>
                 {/* ردیف ۱: بازه‌های تاریخ */}
                 <FormField
-                  label="تاریخ صدور صورتحساب از"
+                  label={
+                    isPurchaseAnnouncementsImportsPage
+                      ? 'تاریخ صدور اعلامیه از'
+                      : 'تاریخ صدور صورتحساب از'
+                  }
                   htmlFor="advIssueFrom"
                   variant="floating"
                 >
@@ -897,7 +913,11 @@ const TextInputWithClear = ({
                   />
                 </FormField>
                 <FormField
-                  label="تاریخ صدور صورتحساب تا"
+                  label={
+                    isPurchaseAnnouncementsImportsPage
+                      ? 'تاریخ صدور اعلامیه تا'
+                      : 'تاریخ صدور صورتحساب تا'
+                  }
                   htmlFor="advIssueTo"
                   variant="floating"
                 >
@@ -943,43 +963,72 @@ const TextInputWithClear = ({
                   </FormField>
                 )}
 
-                {/* ردیف ۲: موضوع، کد شعبه و مجموع صورتحسابها */}
-                <MultiSelect name="topic" label="موضوع صورتحساب" options={topicOptions} />
+                {/* ردیف ۲: موضوع، کد شعبه و مجموع مبلغ */}
+                <MultiSelect
+                  name="topic"
+                  label={
+                    isPurchaseAnnouncementsImportsPage
+                      ? 'موضوع اعلامیه'
+                      : 'موضوع صورتحساب'
+                  }
+                  options={topicOptions}
+                />
                 <FormField label="کد شعبه" variant="floating">
                   <NumericInputWithClear name="branchCode" maxLength={10} />
                 </FormField>
                 {!isOldInvoicesPage && (
-                  <FormField label="مجموع صورتحساب از" variant="floating">
+                  <FormField
+                    label={
+                      isPurchaseAnnouncementsImportsPage
+                        ? 'مجموع مبلغ اعلامیه از'
+                        : 'مجموع صورتحساب از'
+                    }
+                    variant="floating"
+                  >
                     <MoneyInput name="sumFrom" />
                   </FormField>
                 )}
                 {!isOldInvoicesPage && (
-                  <FormField label="مجموع صورتحساب تا" variant="floating">
+                  <FormField
+                    label={
+                      isPurchaseAnnouncementsImportsPage
+                        ? 'مجموع مبلغ اعلامیه تا'
+                        : 'مجموع صورتحساب تا'
+                    }
+                    variant="floating"
+                  >
                     <MoneyInput name="sumTo" />
                   </FormField>
                 )}
 
                 {/* ردیف ۳: الگو، حد مجاز و شناسه‌ها */}
-                {!isExportsPage && (
+                {!isExportsPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <MultiSelect
                     name="pattern"
                     label="الگوی صورتحساب"
                     options={invoicePatternOptions}
                   />
                 )}
-                <FormField label="وضعیت حد مجاز" variant="floating">
-                  <select
-                    aria-label="وضعیت حد مجاز"
-                    value={values.limitStatus ?? ''}
-                    onChange={(e) => handleSelect('limitStatus', e.target.value)}
-                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
-                  >
-                    <option value=""></option>
-                    <option value="exceeded">عدول از حد مجاز</option>
-                    <option value="not_exceeded">عدم عدول از حد مجاز</option>
-                  </select>
-                </FormField>
-                {!isExportsPage && !isOldInvoicesPage && (
+                {!isPurchaseAnnouncementsBoursePage && (
+                  <FormField label="وضعیت حد مجاز" variant="floating">
+                    <select
+                      aria-label="وضعیت حد مجاز"
+                      value={values.limitStatus ?? ''}
+                      onChange={(e) => handleSelect('limitStatus', e.target.value)}
+                      className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                    >
+                      <option value=""></option>
+                      <option value="exceeded">عدول از حد مجاز</option>
+                      <option value="not_exceeded">عدم عدول از حد مجاز</option>
+                    </select>
+                  </FormField>
+                )}
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <FormField
                     label={`شماره\u202Fاقتصادی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
                     variant="floating"
@@ -987,7 +1036,10 @@ const TextInputWithClear = ({
                     <NumericInputWithClear name="economicCode" maxLength={20} />
                   </FormField>
                 )}
-                {!isExportsPage && !isOldInvoicesPage && (
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <FormField
                     label={`شناسه\u202Fهویتی\u202F${counterpartyLabel}\u2215حق\u200cالعملکار`}
                     variant="floating"
@@ -996,8 +1048,11 @@ const TextInputWithClear = ({
                   </FormField>
                 )}
 
-                {/* ردیف ۴: نام و نوع فروشنده/حق العملکار — در صادراتی یا old-Invoices مخفی می‌شود */}
-                {!isExportsPage && !isOldInvoicesPage && (
+                {/* ردیف ۴: نام و نوع فروشنده/حق العملکار — در صادراتی، old-Invoices و صفحات اعلامیه واردات/بورس مخفی می‌شود */}
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <FormField
                     label={`نام ${counterpartyLabel}/حق العملکار`}
                     variant="floating"
@@ -1005,7 +1060,10 @@ const TextInputWithClear = ({
                     <TextInputWithClear name="sellerName" />
                   </FormField>
                 )}
-                {!isExportsPage && !isOldInvoicesPage && (
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <FormField
                     label={`نام تجاری ${counterpartyLabel}/حق العملکار`}
                     variant="floating"
@@ -1013,7 +1071,10 @@ const TextInputWithClear = ({
                     <TextInputWithClear name="sellerTradeName" />
                   </FormField>
                 )}
-                {!isExportsPage && !isOldInvoicesPage && (
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <MultiSelect
                     name="personType"
                     label={`نوع شخص ${counterpartyLabel}/حق العملکار`}
@@ -1027,7 +1088,10 @@ const TextInputWithClear = ({
                     options={matchStatusOptions}
                   />
                 )}
-                {!isExportsPage && !isOldInvoicesPage && (
+                {!isExportsPage &&
+                 !isOldInvoicesPage &&
+                 !isPurchaseAnnouncementsImportsPage &&
+                 !isPurchaseAnnouncementsBoursePage && (
                   <div className="mt-3 flex items-center gap-2">
                     <input id="onlyWithAction" type="checkbox" className="h-4 w-4" />
                     <label htmlFor="onlyWithAction" className="text-sm text-gray-700">
@@ -1067,6 +1131,32 @@ const TextInputWithClear = ({
             <span className="text-base font-bold">×</span>
             <span>{filterResetButtonLabel}</span>
           </button>
+          <button
+            type="submit"
+            className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"
+          >
+            <IconSearch className="h-4 w-4" />
+            {searchButtonLabel}
+          </button>
+        </div>
+      ) : null}
+
+      {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) – برای صفحات
++          «اعلامیه‌های واردات» و «اعلامیه‌های خرید از بورس کالا» */}
+      {advancedOpen &&
+       (isPurchaseAnnouncementsImportsPage || isPurchaseAnnouncementsBoursePage) &&
+       fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
+        <div className="mt-3 flex items-center justify-end gap-2">
+          {/* دکمه «فیلتر پیش‌فرض» با همان استایل بالای فرم */}
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-md h-9 text-sm border border-black px-3"
+          >
+            <AdvancedIconComponent className="h-4 w-4" />
+            {advancedButtonLabel}
+          </button>
+
+          {/* دکمه «جستجو» سبز */}
           <button
             type="submit"
             className="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 h-9 text-sm text-white"

@@ -54,6 +54,7 @@ src\components
 │  │  │  └─ SearchByTaxId.tsx
 │  │  ├─ table/
 │  │  │  ├─ ColumnsVisibilityBar.tsx
+│  │  │  ├─ EmptyTableRow.tsx
 │  │  │  └─ ScrollableTableShell.tsx
 │  │  ├─ index.ts
 │  │  ├─ InvoiceDetailSection.tsx
