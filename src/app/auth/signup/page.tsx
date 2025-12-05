@@ -81,7 +81,7 @@ export default function SignupPage() {
           } else {
             msg = await res.text();
           }
-        } catch {}
+        } catch { /* ignore */ }
         setError(msg);
         return;
       }

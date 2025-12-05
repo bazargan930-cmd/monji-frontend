@@ -27,5 +27,7 @@ export function savePublicKeyFor(ownerUid: string, key: string): void {
     const map = JSON.parse(localStorage.getItem(LS_MEMORY_PUBKEYS) || '{}');
     map[ownerUid] = normalizeUid(key);
     localStorage.setItem(LS_MEMORY_PUBKEYS, JSON.stringify(map));
-  } catch {}
+  } catch {
+    // در صورت خطا در دسترسی/ذخیره در localStorage، صرفاً آن را نادیده می‌گیریم
+  }
 }

@@ -97,7 +97,7 @@ export default function DashboardPage() {
       const payload = JSON.stringify({ event, meta, ts: Date.now() });
       const blob = new Blob([payload], { type: 'application/json' });
       navigator.sendBeacon?.('/api/telemetry', blob);
-    } catch {}
+    } catch { /* ignore */ }
   }
 
   return (

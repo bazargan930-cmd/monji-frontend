@@ -30,7 +30,7 @@ function getUserPhoneLast4(): string {
     const body = document?.body?.innerText || '';
     const m2 = body.match(/09\d{9}/);
     if (m2) return m2[0].slice(-4);
-  } catch {}
+  } catch { /* ignore */ }
   return '';
 }
 
@@ -111,7 +111,7 @@ function sniffRegistrationBranchesFromStorage(
         if (Array.isArray(arr)) tryPush(arr);
       }
     }
-  } catch {}
+  } catch { /* ignore */ }
   // حذف رکوردهای تکراری
   const seen = new Set<string>();
   return out.filter(b => {
@@ -304,12 +304,12 @@ export default function MemoryUIDDetailsPage() {
       const currentRow =
         arr.find((r) => r?.uid === chosenUid && r?.owner === owner) || active || null;
       setRow(currentRow);
-    } catch {}
+    } catch { /* ignore */ }
     // ۲) فهرست کُدپستی‌های منتخب (برای فیلتر شعب)
     try {
       const pc = JSON.parse(localStorage.getItem(LS_SELECTED_BRANCHES) || '[]');
       setPostals(Array.isArray(pc) ? pc : []);
-    } catch {}
+    } catch { /* ignore */ }
   }, [uidFromQuery]);
 
   // تلاش برای دریافت شعب از API ثبت‌نامی؛ اگر نبود از LS بخوان
@@ -682,7 +682,7 @@ export default function MemoryUIDDetailsPage() {
                         saved = Array.isArray(raw)
                           ? (raw as unknown[]).map((x) => String(x))
                           : [];
-                      } catch {}
+                      } catch { /* ignore */ }
                       const exclude = new Set<string>([
                         ...Array.from(existing).map((x) => String(x)),
                         ...saved,
@@ -817,7 +817,7 @@ export default function MemoryUIDDetailsPage() {
                             const arr = Array.isArray(prev) ? prev : [];
                             const union = Array.from(new Set([...arr, ...toAdd.map((x) => x.postalCode)]));
                             localStorage.setItem(LS_SELECTED_BRANCHES, JSON.stringify(union));
-                          } catch {}
+                          } catch { /* ignore */ }
                         }
                         setShowAddPostal(false);
                         setPickedPostals({});
