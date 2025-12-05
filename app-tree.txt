@@ -78,11 +78,30 @@ src\app
 │  │  ├─ login/
 │  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
+│  │  ├─ old-Invoices/
+│  │  │  ├─ buy/
+│  │  │  │  ├─ detail/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ exports/
+│  │  │  │  ├─ detail/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ sales/
+│  │  │     ├─ detail/
+│  │  │     │  └─ page.tsx
+│  │  │     └─ page.tsx
 │  │  ├─ otp/
 │  │  │  ├─ layout.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ portal/
 │  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ purchase-announcements/
+│  │  │  ├─ bourse/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ imports/
+│  │  │  │  └─ page.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ roles/
 │  │  │  ├─ add/
