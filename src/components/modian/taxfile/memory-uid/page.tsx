@@ -2,12 +2,12 @@
 
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ToolbarBar, ToolbarIconButton, ToolbarSearch } from '@/components/modian/ui';
-import { ColumnsIcon } from "@/components/modian/ui";
+import { useEffect, useMemo, useState } from 'react';
+
 import HelpTrigger from '@/components/common/help/HelpTrigger';
 import { MemoryUIDHelpContent } from '@/components/modian/taxfile';
+import { ToolbarBar, ToolbarIconButton, ToolbarSearch, ColumnsIcon } from '@/components/modian/ui';
 
 type Row = {
   uid: string;           // شناسه یکتا حافظه مالیاتی
@@ -71,7 +71,9 @@ export default function MemoryUIDPage() {
       const body = document?.body?.innerText || '';
       const m2 = body.match(/09\d{9}/);
       if (m2) return m2[0].slice(-4);
-    } catch {}
+    } catch {
+      // در صورت خطا در خواندن اطلاعات کاربر، مقدار پیش‌فرض برمی‌گردد
+    }
     return '0000';
   };
 
@@ -90,7 +92,11 @@ export default function MemoryUIDPage() {
     const others = all.filter((r) => r.owner && r.owner !== phoneLast4);
     const next = [...mine, ...others];
     setRows(mine);
-    try { localStorage.setItem(LS_KEY, JSON.stringify(next)); } catch {}
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(next));
+    } catch {
+      // در صورت خطا در ذخیره‌سازی، فقط state به‌روزرسانی شده باقی می‌ماند
+    }
   };
 
   // بارگیری اولیه + مهاجرت ردیف‌های قدیمی بدون owner
@@ -115,13 +121,19 @@ export default function MemoryUIDPage() {
           return r;
         });
         if (migrated) {
-          try { localStorage.setItem(LS_KEY, JSON.stringify(migratedAll)); } catch {}
+          try {
+            localStorage.setItem(LS_KEY, JSON.stringify(migratedAll));
+          } catch {
+            // در صورت خطای ذخیره‌سازی، فقط state داخلی را به‌روزرسانی می‌کنیم
+          }
           const mine = migratedAll.filter((r) => r.owner === phoneLast4);
           setRows(mine);
           return;
         }
       }
-    } catch {}
+    } catch {
+      // در صورت خطا در پردازش مهاجرت، از لیست فعلی استفاده می‌شود
+    }
     // پیش‌فرض: فقط ردیف‌های همین مالک را نشان بده
     setRows(all.filter((r) => r.owner === phoneLast4));
   }, [phoneLast4]);
@@ -192,7 +204,9 @@ export default function MemoryUIDPage() {
             ? 'با کلید مودی'
             : '-';
       }
-    } catch {}
+    } catch {
+      // در صورت خطا در خواندن اطلاعات شرکت معتمد، مقادیر پیش‌فرض استفاده می‌شود
+    }
 
     const faNow = new Intl.DateTimeFormat('fa-IR', {
       year: 'numeric', month: '2-digit', day: '2-digit',
@@ -302,7 +316,10 @@ export default function MemoryUIDPage() {
               value={q}
               onChange={setQ}
               placeholder="جستجو شناسه یکتا"
-              onSearch={() => {}}
+              onSearch={() => {
+                // تابع جستجو فعلاً فقط مقدار q را نگه می‌دارد
+                // (فیلتر واقعی در useMemo روی مقدار q اعمال می‌شود)
+              }}
               widthClass="w-60"
             />
           </>

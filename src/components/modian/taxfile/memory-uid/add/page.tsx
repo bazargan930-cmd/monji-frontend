@@ -235,7 +235,7 @@ export default function MemoryUIDAddPage() {
         ? merged
         : [{ uid, owner: phoneLast4, status: 'فعال' }, ...merged];
       localStorage.setItem(LS_KEY, JSON.stringify(next));
-    } catch {}
+    } catch { /* ignore */ }
   }, [getUserPhoneLast4]);
   const getSavedUniqueIdForCurrentUser = React.useCallback((): string | null => {
     try {
