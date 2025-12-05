@@ -47,16 +47,15 @@ export const modianMenu: MenuItem[][] = [
     },
 
     // 👇 سایر آیتم‌ها مثل قبل
-    // مسیر صحیح صفحه «کاربران و نقش‌ها» در شبیه‌ساز
     { label: 'کاربران و نقش‌ها', href: '/simulators/modian/users-roles', icon: FiUsers },
     {
       label: 'اظهارنامه پیش‌فرض',
-      href: '/simulators/modian/declaration', // لینک به صفحه جدید
+      href: '/simulators/modian/declaration',
       icon: LuListTodo,
     },
     {
       label: 'صورت‌حساب‌ها',
-      href: '/simulators/modian/invoices',             // والد گروه (برای هایلایت و بازبودن آکاردئون)
+      href: '/simulators/modian/invoices',
       icon: HiOutlineDocumentReport,
       children: [
         { label: 'خرید داخلی',    href: '/simulators/modian/invoices/buy',     icon: HiOutlineDocumentReport },
@@ -65,7 +64,7 @@ export const modianMenu: MenuItem[][] = [
         { label: 'فایل‌های خروجی', href: '/simulators/modian/invoices/files',  icon: HiOutlineDocumentReport },
       ],
     },
-        {
+    {
       label: 'صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶',
       href: '/simulators/modian/old-Invoices',
       icon: HiOutlineDocumentReport,
@@ -88,9 +87,30 @@ export const modianMenu: MenuItem[][] = [
       ],
     },
 
-    { label: 'اعلامیه‌های خرید', href: '#', icon: HiOutlineDocumentReport },
+    // 🔹 منوی جدید: اعلامیه‌های خرید (بازشونده با دو زیرمنو)
+    {
+      label: 'اعلامیه‌های خرید',
+      href: '/simulators/modian/purchase-announcements',
+      icon: HiOutlineDocumentReport,
+      children: [
+        {
+          label: 'وارداتی',
+          href: '/simulators/modian/purchase-announcements/imports',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'خرید از بورس',
+          href: '/simulators/modian/purchase-announcements/bourse',
+          icon: HiOutlineDocumentReport,
+        },
+      ],
+    },
+
     { label: 'قراردادها', href: '#', icon: FaHandshake },
+    { label: 'اطلاعیه‌های خرید', href: '#', icon: FaHandshake },
+    { label: 'صدور قبوض مالیاتی', href: '#', icon: FaHandshake },
     { label: 'درخواست‌ها', href: '#', icon: RiFileListLine },
+    { label: 'اطلاعیه تخلف', href: '#', icon: RiFileListLine },
   ],
 ];
 
@@ -100,7 +120,6 @@ export const normalizePath = (p: string) =>
     .split('?')[0]
     .split('#')[0]
     .replace(/\/+$/, '') || '/';
-
 
 export const isActive = (pathname: string, href: string) => {
   const a = normalizePath(pathname);
