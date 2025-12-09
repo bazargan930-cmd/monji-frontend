@@ -1,11 +1,11 @@
 //src/app/simulators/modian/portal/page.tsx
-
 import { headers, cookies } from 'next/headers';
-import { Suspense } from 'react';
-import { ModianPortal } from '@/components/modian/portal';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import PortalHelpContent from '@/components/modian/portal/PortalHelpContent';
+import { PortalHelpContent } from '@/components/modian/portal';
+import { ModianPortal } from '@/components/modian';
 
 
 export const dynamic = 'force-dynamic';

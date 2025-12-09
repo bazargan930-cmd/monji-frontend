@@ -4,9 +4,15 @@
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
 
-// فاصله‌گذاری مناسب بین importها
-import { Card, FieldGrid, FormField, IconChevronDown, IconSearch, IconFilter } from '@/components/modian/ui'; // اصلاح شده
-import { ModianJalaliDateField } from '@/components/modian/common'; // اصلاح شده
+import {
+  Card,
+  FieldGrid,
+  FormField,
+  IconChevronDown,
+  IconFilter,
+  IconSearch,
+} from '../../ui';
+import ModianJalaliDateField from '../ModianJalaliDateField';
 
 export type Option = { value: string; label: string };
 
@@ -116,21 +122,31 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const isOldExportsPage = pathname?.includes(
     '/simulators/modian/old-Invoices/exports',
   );
+  // صفحات قراردادها (پیمانکاری / حق‌العملکاری) از نظر دکمه‌ی بالای فرم
+  // همان رفتار «جستجوی پیشرفته» را مانند صفحات old-Invoices دارند،
+  // بدون این‌که سایر منطق اختصاصی old-Invoices را تحت تأثیر قرار دهند.
+  const isContractsPage = pathname?.includes('/simulators/modian/contracts/');
   const isPurchaseAnnouncementsImportsPage = pathname?.includes(
     '/simulators/modian/purchase-announcements/imports',
   );
   const isPurchaseAnnouncementsBoursePage = pathname?.includes(
     '/simulators/modian/purchase-announcements/bourse',
   );
+  // برای صفحات قراردادها، چیدمان ردیف اول فرم (فیلدها + دکمه‌ها)
+  // همان چیدمان ویژه‌ی صفحات old-Invoices باشد (کارت سفید با دکمه‌های کنار هم)
+  const useOldLayoutForSummaryRow = isOldInvoicesPage || isContractsPage;
   // در صفحه «صورتحساب‌های فروش داخلی» طرف مقابل «خریدار» است؛
   // در سایر صفحات (مثل خرید داخلی) همچنان «فروشنده» باقی می‌ماند.
   const counterpartyLabel = isSalesPage ? 'خریدار' : 'فروشنده';
   // برچسب دکمه‌ی «جستجوی پیشرفته» (بالا)
-  const advancedButtonLabel = isOldInvoicesPage ? 'جستجوی پیشرفته' : 'فیلتر پیش‌فرض';
+  const advancedButtonLabel =
+    isOldInvoicesPage || isContractsPage ? 'جستجوی پیشرفته' : 'فیلتر پیش‌فرض';
   // برچسب دکمه‌ی «حذف فیلتر» (پایین، فقط وقتی پنل پیشرفته باز است)
-  const filterResetButtonLabel = isOldInvoicesPage ? 'حذف فیلتر' : 'فیلتر پیش‌فرض';
+  const filterResetButtonLabel =
+    isOldInvoicesPage || isContractsPage ? 'حذف فیلتر' : 'فیلتر پیش‌فرض';
   // آیکون مورد استفاده در دکمه‌ی «پیشرفته» بسته به مسیر
-  const AdvancedIconComponent = isOldInvoicesPage ? OldInvoicesAdvancedIcon : IconFilter;
+  const AdvancedIconComponent =
+    isOldInvoicesPage || isContractsPage ? OldInvoicesAdvancedIcon : IconFilter;
 
   const advancedField =
     fields.find((f) => f.type === 'button' && f.name === 'advanced');
@@ -141,6 +157,8 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
     'جستجو';
   const [values, setValues] = React.useState<Record<string, string>>({});
   const [advancedOpen, setAdvancedOpen] = React.useState(false);
+  // شمارندهٔ کمکی برای ریست کامل کامپوننت‌های تاریخ (Remount روی حذف فیلتر)
+  const [dateResetCounter, setDateResetCounter] = React.useState(0);
   // گزینه‌های «سال و دوره» که از today پر می‌شوند (آیتم اول: دورهٔ جاری)
   const [periodOpts, setPeriodOpts] = React.useState<Array<{ value: string; label: string }>>([]);
   // باز/بسته بودن منوهای سفارشی (برای نقش مودی)
@@ -463,12 +481,22 @@ const MoneyInput = ({
     fields.map((f, idx) => {
       // ----- نقش مودی: استفاده از رندر مشترک -----
       if (f.type === 'roles') {
+        // در صفحات قراردادها، گزینه‌های نقش مودی به ترتیب:
+        // «همه»، «کارفرما»، «پیمانکار» تنظیم می‌شود
+        const roleOptions = isContractsPage
+          ? [
+              { value: 'all', label: 'همه' },
+              { value: 'employer', label: 'کارفرما' },
+              { value: 'contractor', label: 'پیمانکار' },
+            ]
+          : f.options;
+
         return (
           <MultiSelect
             key={idx}
             name={f.name}
             label={f.label}
-            options={f.options}
+            options={roleOptions}
             disabled={isOldInvoicesPage}
           />
         );
@@ -576,7 +604,6 @@ const TextInputWithClear = ({
 };
 
   // بارگیری تاریخ جاری (جلالی) و تولید گزینه‌های فصل
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     let mounted = true;
     (async () => {
@@ -653,16 +680,39 @@ const TextInputWithClear = ({
     'issueDateTo',
   ];
 
+  // کلیدهای فیلتر پیشرفته مخصوص صفحات قراردادها
+  const contractsFilterKeys = [
+    'contractType',
+    'internalContractNo',
+    'contractNo',
+    'employerIdentityCode',
+    'contractorIdentityCode',
+    'contractDateFrom',
+    'contractDateTo',
+    'registerDateFrom',
+    'registerDateTo',
+    'contractAmountFrom',
+    'contractAmountTo',
+    'employerEconomicCode',
+    'contractorEconomicCode',
+    'contractStatus',
+    'contractSubject',
+    'contractorName',
+    'employerName',
+  ];
+
   // اگر هر کدام از فیلترهای بالا مقداری داشته باشند، دکمهٔ «حذف فیلتر» به حالت قرمز می‌رود
   const hasAnyFilterSelected =
-    isOldInvoicesPage &&
-    oldInvoicesFilterKeys.some((key) => Boolean(values[key]));
+    (isOldInvoicesPage &&
+      oldInvoicesFilterKeys.some((key) => Boolean(values[key]))) ||
+    (isContractsPage &&
+      contractsFilterKeys.some((key) => Boolean(values[key])));
 
     return (
     <form
       onSubmit={submit}
       dir="rtl"
-      className={isOldInvoicesPage
+      className={useOldLayoutForSummaryRow
         ? 'bg-white border border-gray-300 rounded-md px-4 py-3'
         : undefined}
     >
@@ -674,7 +724,7 @@ const TextInputWithClear = ({
       )}
 
       {/* ردیف ۲: فیلدهای خلاصه + دکمه‌ها */}
-      {isOldInvoicesPage ? (
+      {useOldLayoutForSummaryRow ? (
         // حالت مخصوص «صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶»
         // فرم خودش کارت سفید است؛ اینجا فقط چیدمان ردیف اول را کنترل می‌کنیم
         <div className="flex items-center justify-between gap-4">
@@ -773,8 +823,8 @@ const TextInputWithClear = ({
             {/* پنل «پیشرفته» (باز/بسته) — زیر ردیف سوم */}
       {advancedOpen ? (
         <Card id="advanced-panel" className="mt-3">
-          {/* هدر پنل پیشرفته: عنوان «جستجو پیشرفته» راست + دکمه «بستن» چپ – فقط برای old-Invoices */}
-          {isOldInvoicesPage && (
+          {/* هدر پنل پیشرفته: عنوان «جستجو پیشرفته» راست + دکمه «بستن» چپ – برای old-Invoices و صفحات قراردادها */}
+          {(isOldInvoicesPage || isContractsPage) && (
           <div className="mb-4">
             <div className="flex items-center justify-between">
               {/* عنوان «جستجو پیشرفته» در سمت راست */}
@@ -868,6 +918,7 @@ const TextInputWithClear = ({
                   variant="floating"
                 >
                   <ModianJalaliDateField
+                  key={`issueDateFrom-${dateResetCounter}`}
                     id="advIssueFrom"
                     valueISO={values.issueDateFrom ?? ''}
                     onChangeISO={(v) =>
@@ -882,6 +933,7 @@ const TextInputWithClear = ({
                   variant="floating"
                 >
                   <ModianJalaliDateField
+                  key={`issueDateTo-${dateResetCounter}`}
                     id="advIssueTo"
                     valueISO={values.issueDateTo ?? ''}
                     onChangeISO={(v) =>
@@ -889,6 +941,178 @@ const TextInputWithClear = ({
                     }
                     placeholder="انتخاب کنید"
                   />
+                </FormField>
+              </>
+            ) : isContractsPage ? (
+              <>
+                {/* ردیف ۱: نوع/شماره‌های قرارداد و شناسه کارفرما */}
+                <FormField label="نوع قرارداد" variant="floating">
+                  <select
+                    aria-label="نوع قرارداد"
+                    value={values.contractType ?? ''}
+                    onChange={(e) =>
+                      handleSelect('contractType', e.target.value)
+                    }
+                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                  >
+                    <option value=""></option>
+                    <option value="volume_human_resource">
+                      قرارداد حجمی نیروی انسانی
+                    </option>
+                    <option value="other_contracts">
+                      سایر قراردادهای پیمانکاری
+                    </option>
+                  </select>
+                </FormField>
+                <FormField label="شماره داخلی قرارداد" variant="floating">
+                  <NumericInputWithClear
+                    name="internalContractNo"
+                    maxLength={20}
+                  />
+                </FormField>
+                <FormField label="شماره قرارداد" variant="floating">
+                  <NumericInputWithClear name="contractNo" maxLength={20} />
+                </FormField>
+                <FormField label="شناسه هویتی کارفرما" variant="floating">
+                  <NumericInputWithClear
+                    name="employerIdentityCode"
+                    maxLength={20}
+                  />
+                </FormField>
+
+                {/* ردیف ۲: شناسه پیمانکار و تاریخ عقد قرارداد از/تا */}
+                <FormField label="شناسه هویتی پیمانکار" variant="floating">
+                  <NumericInputWithClear
+                    name="contractorIdentityCode"
+                    maxLength={20}
+                  />
+                </FormField>
+                <FormField
+                  label="عقد قرارداد از تاریخ"
+                  htmlFor="advContractFrom"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                  key={`contractDateFrom-${dateResetCounter}`}
+                    id="advContractFrom"
+                    valueISO={values.contractDateFrom ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, contractDateFrom: v ?? '' }))
+                    }
+                  />
+                </FormField>
+                <FormField
+                  label="عقد قرارداد تا تاریخ"
+                  htmlFor="advContractTo"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                  key={`contractDateTo-${dateResetCounter}`}
+                    id="advContractTo"
+                    valueISO={values.contractDateTo ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, contractDateTo: v ?? '' }))
+                    }
+                  />
+                </FormField>
+                <FormField
+                  label="ثبت قرارداد از تاریخ"
+                  htmlFor="advRegisterFrom"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                  key={`registerDateFrom-${dateResetCounter}`}
+                    id="advRegisterFrom"
+                    valueISO={values.registerDateFrom ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, registerDateFrom: v ?? '' }))
+                    }
+                  />
+                </FormField>
+
+                {/* ردیف ۳: ثبت قرارداد تا تاریخ و مبلغ از/تا */}
+                <FormField
+                  label="ثبت قرارداد تا تاریخ"
+                  htmlFor="advRegisterTo"
+                  variant="floating"
+                >
+                  <ModianJalaliDateField
+                  key={`registerDateTo-${dateResetCounter}`}
+                    id="advRegisterTo"
+                    valueISO={values.registerDateTo ?? ''}
+                    onChangeISO={(v) =>
+                      setValues((s) => ({ ...s, registerDateTo: v ?? '' }))
+                    }
+                  />
+                </FormField>
+                <FormField label="مبلغ قرارداد از" variant="floating">
+                  <NumericInputWithClear
+                    name="contractAmountFrom"
+                    maxLength={20}
+                  />
+                </FormField>
+                <FormField label="مبلغ قرارداد تا" variant="floating">
+                  <NumericInputWithClear
+                    name="contractAmountTo"
+                    maxLength={20}
+                  />
+                </FormField>
+                <FormField label="شماره اقتصادی کارفرما" variant="floating">
+                  <NumericInputWithClear
+                    name="employerEconomicCode"
+                    maxLength={20}
+                  />
+                </FormField>
+
+                {/* ردیف ۴: شماره اقتصادی پیمانکار، وضعیت و موضوع قرارداد */}
+                <FormField
+                  label="شماره اقتصادی پیمانکار"
+                  variant="floating"
+                >
+                  <NumericInputWithClear
+                    name="contractorEconomicCode"
+                    maxLength={20}
+                  />
+                </FormField>
+                <FormField label="وضعیت قرارداد" variant="floating">
+                  <select
+                    aria-label="وضعیت قرارداد"
+                    value={values.contractStatus ?? ''}
+                    onChange={(e) =>
+                      handleSelect('contractStatus', e.target.value)
+                    }
+                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                  >
+                    <option value=""></option>
+                    <option value="final">ثبت نهایی</option>
+                    <option value="pending_reaction">درانتظار واکنش</option>
+                    <option value="rejected">رد شده</option>
+                    <option value="canceled">ابطال شده</option>
+                    <option value="org_review">در انتظار بررسی سازمان</option>
+                  </select>
+                </FormField>
+                <FormField label="موضوع قرارداد" variant="floating">
+                  <select
+                    aria-label="موضوع قرارداد"
+                    value={values.contractSubject ?? ''}
+                    onChange={(e) =>
+                      handleSelect('contractSubject', e.target.value)
+                    }
+                    className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
+                  >
+                    <option value=""></option>
+                    <option value="main">اصلی</option>
+                    <option value="edit">اصلاحی</option>
+                    <option value="cancel">ابطالی</option>
+                  </select>
+                </FormField>
+                <FormField label="نام پیمانکار" variant="floating">
+                  <TextInputWithClear name="contractorName" />
+                </FormField>
+
+                {/* ردیف ۵: نام کارفرما */}
+                <FormField label="نام کارفرما" variant="floating">
+                  <TextInputWithClear name="employerName" />
                 </FormField>
               </>
             ) : (
@@ -904,6 +1128,7 @@ const TextInputWithClear = ({
                   variant="floating"
                 >
                   <ModianJalaliDateField
+                  key={`issueDateFrom-bottom-${dateResetCounter}`}
                     id="advIssueFrom"
                     valueISO={values.issueDateFrom ?? ''}
                     onChangeISO={(v) =>
@@ -922,6 +1147,7 @@ const TextInputWithClear = ({
                   variant="floating"
                 >
                   <ModianJalaliDateField
+                  key={`issueDateTo-bottom-${dateResetCounter}`}
                     id="advIssueTo"
                     valueISO={values.issueDateTo ?? ''}
                     onChangeISO={(v) =>
@@ -937,6 +1163,7 @@ const TextInputWithClear = ({
                     variant="floating"
                   >
                     <ModianJalaliDateField
+                    key={`inboxDateFrom-${dateResetCounter}`}
                       id="advInboxFrom"
                       valueISO={values.inboxDateFrom ?? ''}
                       onChangeISO={(v) =>
@@ -953,6 +1180,7 @@ const TextInputWithClear = ({
                     variant="floating"
                   >
                     <ModianJalaliDateField
+                    key={`inboxDateTo-${dateResetCounter}`}
                       id="advInboxTo"
                       valueISO={values.inboxDateTo ?? ''}
                       onChangeISO={(v) =>
@@ -1107,19 +1335,28 @@ const TextInputWithClear = ({
         </Card>
       ) : null}
 
-      {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) – فقط برای old-Invoices */}
+      {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) – برای old-Invoices و صفحات قراردادها */}
       {advancedOpen &&
-       isOldInvoicesPage &&
+       (isOldInvoicesPage || isContractsPage) &&
        fields.find((f) => f.type === 'submit' && f.name === 'search') ? (
         <div className="mt-3 flex items-center justify-end gap-2">
           <button
             type="button"
             onClick={() => {
               const cleared: Record<string, string> = { ...values };
-              oldInvoicesFilterKeys.forEach((key) => {
-                cleared[key] = '';
-              });
+              if (isOldInvoicesPage) {
+                oldInvoicesFilterKeys.forEach((key) => {
+                  cleared[key] = '';
+                });
+              }
+              if (isContractsPage) {
+                contractsFilterKeys.forEach((key) => {
+                  cleared[key] = '';
+                });
+              }
               setValues(cleared);
+              // با هر بار «حذف فیلتر»، کامپوننت‌های تاریخ را ری‌مانت می‌کنیم
+              setDateResetCounter((c) => c + 1);
               setOpenMenu(null);
             }}
             className={`inline-flex items-center gap-1 rounded-md h-9 text-sm px-3 ${
@@ -1142,7 +1379,7 @@ const TextInputWithClear = ({
       ) : null}
 
       {/* نوار کنترل پایینی (وقتی «پیشرفته» باز است) – برای صفحات
-+          «اعلامیه‌های واردات» و «اعلامیه‌های خرید از بورس کالا» */}
+          «اعلامیه‌های واردات» و «اعلامیه‌های خرید از بورس کالا» */}
       {advancedOpen &&
        (isPurchaseAnnouncementsImportsPage || isPurchaseAnnouncementsBoursePage) &&
        fields.find((f) => f.type === 'submit' && f.name === 'search') ? (

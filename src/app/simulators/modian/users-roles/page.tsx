@@ -2,9 +2,9 @@
 'use client';
 
  import { useState } from 'react';
- import { ToolbarBar, ToolbarSearch, SimulatorBadge } from '@/components/modian/ui';
- import HelpTrigger from '@/components/common/help/HelpTrigger';
- import UsersRolesHelpContent from '@/components/modian/users-roles/UsersRolesHelpContent';
+import HelpTrigger from '@/components/common/help/HelpTrigger';
+import { ToolbarBar, ToolbarSearch, SimulatorBadge } from '@/components/modian/ui';
+import { UsersRolesHelpContent } from '@/components/modian/users-roles';
 
  export default function UsersRolesPage() {
    const [tab, setTab] = useState<'users' | 'roles'>('users');

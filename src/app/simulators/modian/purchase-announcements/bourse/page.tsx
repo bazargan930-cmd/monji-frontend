@@ -3,12 +3,15 @@
 'use client';
 
 import React from 'react';
-import InvoicesSearchHeader from '@/components/modian/common/search/InvoicesSearchHeader';
-import type { FilterField } from '@/components/modian/common/search/SearchByFilters';
-import { ColumnsIcon, IconExcelExport } from '@/components/modian/ui/icons';
-import ColumnsVisibilityBar from '@/components/modian/common/table/ColumnsVisibilityBar';
-import ScrollableTableShell from '@/components/modian/common/table/ScrollableTableShell';
-import EmptyTableRow from '@/components/modian/common/table/EmptyTableRow';
+
+import { ColumnsIcon, IconExcelExport } from '@/components/modian';
+import {
+  ColumnsVisibilityBar,
+  EmptyTableRow,
+  InvoicesSearchHeader,
+  ScrollableTableShell,
+  type FilterField,
+} from '@/components/modian/common';
 
 // داده‌ی نمایشی برای چند ردیف اعلامیه واردات (فعلاً ماک)
 type Row = {

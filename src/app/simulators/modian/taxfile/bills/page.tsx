@@ -2,7 +2,7 @@
 
 'use client';
 
-import { BillsPage } from '@/components/modian/taxfile';
+import { BillsPage } from '@/components/modian';
   
   // این فایل فقط یک Route Wrapper است تا URL فعلی حفظ شود.
   // محتوای اصلی صفحه در src/components/modian/taxfile/bills/page.tsx نگهداری می‌شود.

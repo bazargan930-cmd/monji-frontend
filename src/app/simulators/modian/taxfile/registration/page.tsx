@@ -1,7 +1,7 @@
 // src/app/simulators/modian/taxfile/registration/page.tsx
 'use client';
 
-import { RegistrationInformation } from '@/components/modian/taxfile';
+import { RegistrationInformation } from '@/components/modian';
 import HelpTrigger from '@/components/common/help/HelpTrigger';
 
 export default function RegistrationInformationPage() {

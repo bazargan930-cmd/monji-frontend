@@ -2,9 +2,10 @@
 
 'use client';
 import React, { useRef, useState } from 'react';
-import { toFaDigits } from '../../../lib/i18n/digits';
-import { ModianJalaliDatePicker } from '@/components/modian/ui';
+
+import { ModianJalaliDatePicker } from '@/components/modian/common';
 import { parseJalali } from '@/lib/date/jalali';
+import { toFaDigits } from '@/lib/i18n/digits';
 type Props = {
   id?: string;
   label?: string;

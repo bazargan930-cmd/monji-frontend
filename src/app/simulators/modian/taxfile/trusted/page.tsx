@@ -1,7 +1,7 @@
 // src/app/simulators/modian/taxfile/trusted/page.tsx
 'use client';
 
-import { TrustedCompaniesPage } from '@/components/modian/taxfile';
+import { TrustedCompaniesPage } from '@/components/modian';
 
 export default function Page() {
   return (

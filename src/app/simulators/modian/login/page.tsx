@@ -5,7 +5,8 @@ export const fetchCache = 'force-no-store';
 export const revalidate = 0;
 
 import { Suspense } from 'react';
-import { ModianLoginForm } from '@/components/modian/auth';
+
+import { ModianLoginForm } from '@/components/modian';
 
 export default function ModianLoginPage() {
   return (
