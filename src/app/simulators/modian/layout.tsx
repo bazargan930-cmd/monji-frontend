@@ -1,10 +1,15 @@
 // src/app/simulators/modian/layout.tsx
 'use client';
 
-import React, { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
-import { ModianHeader, ModianFooter, ModianSubHeader } from '@/components/modian/layout';
-import { ModianSidebar } from '@/components/modian/portal';
+import React, { Suspense } from 'react';
+
+import {
+  ModianFooter,
+  ModianHeader,
+  ModianSidebar,
+  ModianSubHeader,
+} from '@/components/modian';
 
 export default function ModianLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

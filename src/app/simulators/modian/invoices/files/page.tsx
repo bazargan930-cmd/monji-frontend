@@ -2,9 +2,12 @@
 'use client';
 
 import React from 'react';
-import ScrollableTableShell from '@/components/modian/common/table/ScrollableTableShell';
+
 import { FieldGrid, FormField } from '@/components/modian/ui';
-import { ModianJalaliDateField } from '@/components/modian/common';
+import {
+  ModianJalaliDateField,
+  ScrollableTableShell,
+} from '@/components/modian/common';
 
 // گزینه‌ها مطابق صفحه «صورتحساب‌های فروش داخلی»
 // (فیلدهای ۱ تا ۳ هدر جستجو)

@@ -4,12 +4,14 @@
 
 import React from 'react';
 import Link from 'next/link';
-import SearchByFilters, {
+
+import {
+  SearchByFilters,
   type FilterField,
-} from '@/components/modian/common/search/SearchByFilters';
-import { ColumnsIcon, IconExcelExport } from '@/components/modian/ui/icons';
-import ColumnsVisibilityBar from '@/components/modian/common/table/ColumnsVisibilityBar';
-import ScrollableTableShell from '@/components/modian/common/table/ScrollableTableShell';
+  ColumnsVisibilityBar,
+  ScrollableTableShell,
+} from '@/components/modian/common';
+import { ColumnsIcon, IconExcelExport } from '@/components/modian/ui';
 
 // این دو ثابت فقط مخصوص همین صفحه هستند.
 // اگر بخواهی نسخه‌های مشابه بسازی، کافی است این دو مقدار را عوض کنی.

@@ -7,6 +7,7 @@ export { default as Section } from "./Section";
 export { default as Card } from "./Card";
 export { default as FormToolbar, PrimaryButton, GhostButton } from "./FormToolbar";
 export * from "./icons";
+export { default as InvoiceHeaderArrowIcon } from "./icons";
 // Date components
 export { default as ModianJalaliDatePicker } from "./date/ModianJalaliDatePicker";
 // moved from common (pure UI components)

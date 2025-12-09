@@ -1,8 +1,9 @@
 //src\app\simulators\modian\declaration\statement.tsx
 'use client';
 import React from 'react';
+
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import DeclarationHelpContent from '@/components/modian/declaration/DeclarationHelpContent';
+import { DeclarationHelpContent } from '@/components/modian/declaration';
 
 export default function StatementPage() {
   return (

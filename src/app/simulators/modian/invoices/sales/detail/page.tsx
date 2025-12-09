@@ -1,15 +1,19 @@
 // src/app/simulators/modian/invoices/sales/detail/page.tsx
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import InvoiceHeaderArrowIcon, {
+import React from 'react';
+
+import {
+  ColumnsVisibilityBar,
+  InvoiceDetailSection,
+  ScrollableTableShell,
+} from '@/components/modian/common';
+import {
   ColumnsIcon,
   IconExcelExport,
-} from '@/components/modian/ui/icons';
-import InvoiceDetailSection from '@/components/modian/common/InvoiceDetailSection';
-import ScrollableTableShell from '@/components/modian/common/table/ScrollableTableShell';
-import ColumnsVisibilityBar from '@/components/modian/common/table/ColumnsVisibilityBar';
+  InvoiceHeaderArrowIcon,
+} from '@/components/modian/ui';
 
 export default function ModianInvoiceSalesDetailPage() {
   // وضعیت‌های ممکن صورتحساب (فعلاً ثابت، بعداً از API خوانده می‌شود)

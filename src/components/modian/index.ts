@@ -10,6 +10,7 @@ export * from "./common";
 export * from "./taxfile";
 export * from "./home";
 export * from "./admin";
+export * from "./menu-items";
 
 // سازگاری با ایمپورت‌های قدیمی اما با مسیر مجاز یک‌سطحی:
 export { default as ModianSidebar } from "./ModianSidebar";

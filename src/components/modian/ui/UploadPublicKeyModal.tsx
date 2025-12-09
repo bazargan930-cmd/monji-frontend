@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { genMemoryPublicKey, normalizeUid } from '@/components/modian/common/memoryKey.utils';
-import { getSavedPublicKeyFor, savePublicKeyFor } from '@/components/modian/common/memoryKey.utils';
+
+import { memoryKeyUtils } from '@/components/modian/common';
+
+const {
+  getSavedPublicKeyFor,
+  genMemoryPublicKey,
+  savePublicKeyFor,
+  normalizeUid,
+} = memoryKeyUtils;
 
 type Props = {
   open: boolean;

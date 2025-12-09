@@ -2,9 +2,11 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
+
 import { FiLogOut, FiBell, FiUser } from 'react-icons/fi';
 import { MdSpaceDashboard } from 'react-icons/md';
-import { modianMenu, normalizePath } from '@/components/modian/menu-items';
+
+import { modianMenu, normalizePath } from '@/components/modian';
 
 type Props = {
   /** اگر مقدار بدهید، برچسب سبز انتهایی نوار مسیر با همین متن نشان داده می‌شود */
