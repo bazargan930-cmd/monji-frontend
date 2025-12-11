@@ -10,6 +10,8 @@ export * from "./common";
 export * from "./taxfile";
 export * from "./home";
 export * from "./admin";
+export * from "./declaration";
+export * from "./users-roles";
 export * from "./menu-items";
 
 // سازگاری با ایمپورت‌های قدیمی اما با مسیر مجاز یک‌سطحی:

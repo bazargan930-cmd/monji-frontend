@@ -8,12 +8,10 @@ import {
   ColumnsVisibilityBar,
   InvoiceDetailSection,
   ScrollableTableShell,
-} from '@/components/modian/common';
-import {
   ColumnsIcon,
   IconExcelExport,
   InvoiceHeaderArrowIcon,
-} from '@/components/modian/ui';
+} from '@/components/modian';
 
 export default function ModianInvoiceSalesDetailPage() {
   // وضعیت‌های ممکن صورتحساب (فعلاً ثابت، بعداً از API خوانده می‌شود)

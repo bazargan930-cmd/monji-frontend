@@ -4,14 +4,15 @@
 
 import React from 'react';
 
-import { ColumnsIcon, IconExcelExport } from '@/components/modian/ui';
 import {
   ColumnsVisibilityBar,
   EmptyTableRow,
   InvoicesSearchHeader,
   ScrollableTableShell,
+  ColumnsIcon,
+  IconExcelExport,
   type FilterField,
-} from '@/components/modian/common';
+} from '@/components/modian';
 
 // داده‌ی نمایشی برای چند ردیف اعلامیه واردات (فعلاً ماک)
 type Row = {

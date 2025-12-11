@@ -1,5 +1,6 @@
 // src/components/common/FaDigits.tsx
 import * as React from 'react';
+
 // اگر alias '@/...' دارید همین را نگه دارید؛ در غیر اینصورت مسیر نسبی را جایگزین کنید:
 import { toFaDigits } from '@/lib/i18n/digits';
 

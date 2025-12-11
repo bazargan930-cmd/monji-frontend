@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { FiEdit2, FiTrash2, FiSearch, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { BillsHelpContent, REGISTRATION_BRANCHES } from '@/components/modian/taxfile';
+import { BillsHelpContent, REGISTRATION_BRANCHES } from '@/components/modian';
 import {
   getBills,
   createBill,

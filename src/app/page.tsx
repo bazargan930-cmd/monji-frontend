@@ -1,5 +1,12 @@
 // src/app/page.tsx
 'use client';
+
+import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { FaChartLine, FaGraduationCap, FaAward, FaRobot } from 'react-icons/fa';
+
 import {
    LandingShell,
    HeroSection,
@@ -10,14 +17,9 @@ import {
    LandingFooter,
    track,
    initPerfMetrics,
+   LandingActiveProvider,
+   StickyPromoBar,
  } from '@/components/landing';
-import dynamic from 'next/dynamic';
-import { FaChartLine, FaGraduationCap, FaAward, FaRobot } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { LandingActiveProvider } from '@/components/landing';
-import {StickyPromoBar} from '@/components/landing';
 
 // ↓ سکشن‌های کم‌اولویت را به‌صورت داینامیک لود می‌کنیم (تقسیم کد)
 const ComparisonTable = dynamic(() => import('@/components/landing/ComparisonTable'));

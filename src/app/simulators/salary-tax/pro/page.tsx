@@ -1,8 +1,7 @@
 //src\app\simulators\salary-tax\single\page.tsx
 'use client';
-
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 type PayrollItem = {
   code: string;

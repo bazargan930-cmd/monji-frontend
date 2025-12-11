@@ -10,7 +10,7 @@ import {
   modianMenu,
   normalizePath,
   type MenuItem,
-} from '@/components/modian/menu-items';
+} from '@/components/modian';
 
 /**
  * سایدبار سه‌بخشی مثل سایت اصلی:

@@ -2,9 +2,10 @@
 'use client'; // ✅ لازم است چون از useEffect و fetch استفاده می‌کنیم
 
 import Link from 'next/link';
-import { toFaDigits } from '@/lib/i18n/digits';
 import { useEffect, useState } from 'react';
 import { FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa';
+
+import { toFaDigits } from '@/lib/i18n/digits';
 
 interface PersianDateResponse {
   success: boolean;

@@ -3,11 +3,12 @@
 
 import React from 'react';
 
-import { FieldGrid, FormField } from '@/components/modian/ui';
 import {
   ModianJalaliDateField,
   ScrollableTableShell,
-} from '@/components/modian/common';
+  FieldGrid,
+  FormField,
+} from '@/components/modian';
 
 // گزینه‌ها مطابق صفحه «صورتحساب‌های فروش داخلی»
 // (فیلدهای ۱ تا ۳ هدر جستجو)

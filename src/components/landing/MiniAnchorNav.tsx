@@ -1,7 +1,8 @@
 //src/components/landing/MiniAnchorNav.tsx
 'use client';
-import { memo, useEffect } from 'react';
 import Link from 'next/link';
+import { memo, useEffect } from 'react';
+
 import { useActiveSection } from './LandingShell';
 
 type Item = { href: string; label: string; };

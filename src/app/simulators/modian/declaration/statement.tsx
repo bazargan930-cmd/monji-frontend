@@ -3,7 +3,7 @@
 import React from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { DeclarationHelpContent } from '@/components/modian/declaration';
+import { DeclarationHelpContent } from '@/components/modian';
 
 export default function StatementPage() {
   return (

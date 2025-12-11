@@ -1,8 +1,9 @@
 // src/components/common/help/HelpTrigger.tsx
 'use client';
 import React, { useEffect, useState } from 'react';
-import HelpGuideButton from '@/components/common/HelpGuideButton';
+
 import HelpModal, { HelpModalAction } from '@/components/common/help/HelpModal';
+import HelpGuideButton from '@/components/common/HelpGuideButton';
 
 type HelpTriggerProps = {
   buttonTitle?: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { memoryKeyUtils } from '@/components/modian/common';
+import { memoryKeyUtils } from '@/components/modian';
 
 const {
   getSavedPublicKeyFor,

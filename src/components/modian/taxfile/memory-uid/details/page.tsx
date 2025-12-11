@@ -4,11 +4,11 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-import { useMemoryPublicKey } from '@/components/modian/common';
-import { UploadPublicKeyModal } from '@/components/modian/ui';
+import { useMemoryPublicKey } from '@/components/modian';
+import { UploadPublicKeyModal } from '@/components/modian';
 
-import MemoryUIDEditPage from '../edit/page';
 import { REGISTRATION_BRANCHES } from '../../registration-information/page';
+import MemoryUIDEditPage from '../edit/page';
 
 const LS_KEY = 'modian_tax_memory_uids';
 const LS_SELECTED_BRANCHES = 'modian_selected_postal_codes';

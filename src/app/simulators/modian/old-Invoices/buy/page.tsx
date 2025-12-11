@@ -1,16 +1,17 @@
 // src/app/simulators/modian/old-Invoices/buy/page.tsx
 
 'use client';
-
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import {
   ColumnsVisibilityBar,
   ScrollableTableShell,
   SearchByFilters,
+  ColumnsIcon,
+  IconExcelExport,
   type FilterField,
-} from '@/components/modian/common';
-import { ColumnsIcon, IconExcelExport } from '@/components/modian/ui';
+} from '@/components/modian';
 
 // داده‌ی نمایشی برای چند ردیف (فعلاً ماک)
 type Row = {

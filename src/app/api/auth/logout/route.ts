@@ -1,7 +1,6 @@
 //src/app/api/auth/logout/route.ts
-
-import { NextResponse } from 'next/server';
 import { cookies, headers } from 'next/headers';
+import { NextResponse } from 'next/server';
 
 export async function POST() {
   // CSRF: توکن موجود در هدر و کوکی باید یکسان باشد (Double-Submit)

@@ -1,10 +1,9 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-
 import React, { useState, useEffect } from "react";
-import { FaUser, FaLock, FaStarOfLife } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa";
+import { FaUser, FaLock, FaStarOfLife } from "react-icons/fa6";
 
 import { Card, CardContent } from "@/components/ui/card";
 

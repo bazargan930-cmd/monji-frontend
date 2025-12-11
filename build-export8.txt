@@ -1,0 +1,90 @@
+PS D:\Project\VSCode\AccountingSimulator\ghaaanoon-frontend-structure> npm run build
+
+> ghaaanoon-frontend@0.1.0 build
+> next build
+
+   ▲ Next.js 15.3.1
+
+   Creating an optimized production build ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Compiled successfully in 36.0s
+   Linting and checking validity of types  ..
+ ⚠ The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+ ✓ Linting and checking validity of types    
+ ✓ Collecting page data
+ ✓ Generating static pages (54/54)
+ ✓ Collecting build traces    
+ ✓ Finalizing page optimization
+
+Route (app)                                               Size  First Load JS    
+┌ ○ /                                                  48.2 kB         157 kB
+├ ○ /_not-found                                          981 B         102 kB
+├ ○ /admin/notices                                     1.19 kB         102 kB
+├ ƒ /admin/notices/[id]/edit                           1.14 kB         102 kB
+├ ○ /admin/notices/new                                   927 B         102 kB
+├ ƒ /api/auth/logout                                     192 B         101 kB
+├ ƒ /api/csrf                                            192 B         101 kB
+├ ƒ /api/simulators/insurance/calculate                  192 B         101 kB
+├ ƒ /api/telemetry                                       192 B         101 kB
+├ ƒ /api/utils/today                                     192 B         101 kB
+├ ƒ /api/utils/user-info                                 192 B         101 kB
+├ ○ /auth-debug                                          645 B         102 kB
+├ ○ /auth/signin                                        1.9 kB         106 kB
+├ ○ /auth/signup                                       2.35 kB         107 kB
+├ ƒ /dashboard                                         15.7 kB         122 kB
+├ ○ /privacy                                             192 B         101 kB
+├ ƒ /profile                                             935 B         102 kB
+├ ○ /simulators/insurance/free                         1.16 kB         123 kB
+├ ○ /simulators/insurance/single                        1.3 kB         123 kB
+├ ○ /simulators/karpooshe/login                        2.94 kB         109 kB
+├ ○ /simulators/modian/dashboard                       4.32 kB         217 kB
+├ ○ /simulators/modian/declaration                     1.81 kB         215 kB
+├ ƒ /simulators/modian/home                              334 B         213 kB
+├ ○ /simulators/modian/invoices/buy                    2.62 kB         216 kB
+├ ○ /simulators/modian/invoices/buy/detail             5.25 kB         218 kB
+├ ○ /simulators/modian/invoices/exports                2.42 kB         215 kB
+├ ○ /simulators/modian/invoices/exports/detail          4.3 kB         217 kB
+├ ○ /simulators/modian/invoices/files                  3.24 kB         216 kB
+├ ○ /simulators/modian/invoices/sales                  2.61 kB         216 kB
+├ ○ /simulators/modian/invoices/sales/detail           5.18 kB         218 kB
+├ ƒ /simulators/modian/login                             336 B         213 kB
+├ ○ /simulators/modian/old-Invoices/buy                2.19 kB         215 kB
+├ ○ /simulators/modian/old-Invoices/buy/detail         3.58 kB         217 kB
+├ ○ /simulators/modian/old-Invoices/exports            2.34 kB         215 kB
+├ ○ /simulators/modian/old-Invoices/exports/detail     2.66 kB         216 kB
+├ ○ /simulators/modian/old-Invoices/sales              2.19 kB         215 kB
+├ ○ /simulators/modian/old-Invoices/sales/detail       3.58 kB         217 kB
+├ ○ /simulators/modian/otp                               351 B         213 kB
+├ ƒ /simulators/modian/portal                            334 B         213 kB
+├ ○ /simulators/modian/purchase-announcements            192 B         101 kB
+├ ○ /simulators/modian/purchase-announcements/bourse   2.08 kB         215 kB
+├ ○ /simulators/modian/purchase-announcements/imports  2.26 kB         215 kB
+├ ○ /simulators/modian/roles/add                       4.55 kB         106 kB
+├ ○ /simulators/modian/taxfile/bank-accounts             336 B         213 kB
+├ ○ /simulators/modian/taxfile/bills                     295 B         213 kB
+├ ○ /simulators/modian/taxfile/memory-uid                336 B         213 kB
+├ ○ /simulators/modian/taxfile/memory-uid/add            292 B         213 kB
+├ ○ /simulators/modian/taxfile/memory-uid/details        336 B         213 kB
+├ ○ /simulators/modian/taxfile/registration              907 B         214 kB
+├ ○ /simulators/modian/taxfile/trusted                   358 B         213 kB
+├ ○ /simulators/modian/taxfile/trusted/add             3.81 kB         105 kB
+├ ○ /simulators/modian/users-roles                     1.25 kB         214 kB
+├ ○ /simulators/modian/users-roles/add                 1.86 kB         136 kB
+├ ○ /simulators/salary-tax/batch                        119 kB         220 kB
+├ ○ /simulators/salary-tax/dashboard                     192 B         101 kB
+├ ○ /simulators/salary-tax/free                          965 B         123 kB
+├ ○ /simulators/salary-tax/login                       3.04 kB         109 kB
+├ ○ /simulators/salary-tax/pro                         1.36 kB         123 kB
+└ ○ /terms                                               192 B         101 kB
++ First Load JS shared by all                           101 kB
+  ├ chunks/1684-65a8cb20a9bf653a.js                    45.9 kB
+  ├ chunks/4bd1b696-8624b46d406d6703.js                53.2 kB
+  └ other shared chunks (total)                        2.05 kB
+
+
+ƒ Middleware                                           39.2 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+PS D:\Project\VSCode\AccountingSimulator\ghaaanoon-frontend-structure> 

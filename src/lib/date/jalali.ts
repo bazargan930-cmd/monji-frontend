@@ -33,7 +33,7 @@ function d2j(jdn: number) {
   jdn %= 12053;
   const y = 33 * div(jdn, 1461);
   let d = jdn % 1461;
-  let jy2 = jy + y + (d > 365 ? div(d - 1, 365) : 0);
+  const jy2 = jy + y + (d > 365 ? div(d - 1, 365) : 0);
   d = d > 365 ? (d - 1) % 365 : d;
   const jm = d < 186 ? 1 + div(d, 31) : 7 + div(d - 186, 30);
   const jd = 1 + (d < 186 ? d % 31 : (d - 186) % 30);

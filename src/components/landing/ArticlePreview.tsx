@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
+
 import track  from './analytics';
 
 interface ArticlePreviewProps {

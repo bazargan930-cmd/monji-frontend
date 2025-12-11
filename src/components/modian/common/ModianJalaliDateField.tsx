@@ -3,7 +3,7 @@
 'use client';
 import React, { useRef, useState } from 'react';
 
-import { ModianJalaliDatePicker } from '@/components/modian/common';
+import { ModianJalaliDatePicker } from '@/components/modian';
 import { parseJalali } from '@/lib/date/jalali';
 import { toFaDigits } from '@/lib/i18n/digits';
 type Props = {

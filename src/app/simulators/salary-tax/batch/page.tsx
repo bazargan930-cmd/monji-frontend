@@ -1,8 +1,7 @@
 'use client';
-
+import { saveAs } from 'file-saver';
 import { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 export type SalaryRow = {
   firstName: string;

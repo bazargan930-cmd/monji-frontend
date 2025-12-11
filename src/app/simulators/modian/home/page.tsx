@@ -1,6 +1,6 @@
 // src/app/simulators/modian/home/page.tsx
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { HomeHelpContent } from '@/components/modian/home';
+import { HomeHelpContent } from '@/components/modian';
 import { ModianHome } from '@/components/modian';
 
 // جلوگیری از SSG/Prerender روی این صفحه
