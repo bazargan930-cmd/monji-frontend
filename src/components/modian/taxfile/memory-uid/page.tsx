@@ -6,8 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { MemoryUIDHelpContent } from '@/components/modian/taxfile';
-import { ToolbarBar, ToolbarIconButton, ToolbarSearch, ColumnsIcon } from '@/components/modian/ui';
+import { MemoryUIDHelpContent } from '@/components/modian';
+import { ToolbarBar, ToolbarIconButton, ToolbarSearch, ColumnsIcon } from '@/components/modian';
 
 type Row = {
   uid: string;           // شناسه یکتا حافظه مالیاتی

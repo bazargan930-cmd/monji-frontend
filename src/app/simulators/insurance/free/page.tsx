@@ -1,7 +1,7 @@
 // src/app/simulators/insurance/free/page.tsx
 'use client';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 export default function InsuranceSimpleFreeForm() {
   const [input, setInput] = useState<string>('');

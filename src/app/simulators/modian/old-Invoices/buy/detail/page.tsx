@@ -1,17 +1,15 @@
 //src\app\simulators\modian\old-Invoices\buy\detail\page.tsx
 'use client';
-
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import {
   InvoiceHeaderArrowIcon,
   ColumnsIcon,
-} from '@/components/modian/ui';
-import {
   InvoiceDetailSection,
   ScrollableTableShell,
   ColumnsVisibilityBar,
-} from '@/components/modian/common';
+} from '@/components/modian';
 
 export default function ModianInvoiceBuyDetailPage() {
   // وضعیت‌های ممکن صورتحساب (فعلاً ثابت، بعداً از API خوانده می‌شود)

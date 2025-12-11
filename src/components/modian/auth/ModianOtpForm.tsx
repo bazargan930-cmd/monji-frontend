@@ -1,8 +1,7 @@
 //src\components\modian\ModianOtpForm.tsx
 'use client';
-
-import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 
 export default function ModianOtpForm() {
   const [code, setCode] = useState('');

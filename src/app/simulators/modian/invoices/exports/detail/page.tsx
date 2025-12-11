@@ -1,18 +1,16 @@
 // src/app/simulators/modian/invoices/exports/detail/page.tsx
 'use client';
-
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import {
   ColumnsIcon,
   IconExcelExport,
   InvoiceHeaderArrowIcon,
-} from '@/components/modian/ui';
-import {
   ColumnsVisibilityBar,
   InvoiceDetailSection,
   ScrollableTableShell,
-} from '@/components/modian/common';
+} from '@/components/modian';
 
 export default function ModianInvoiceExportsDetailPage() {
 

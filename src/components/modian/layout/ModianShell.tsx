@@ -1,11 +1,12 @@
 //src\components\layout\ModianShell.tsx
 
 'use client';
-
-import ModianHeader from './ModianHeader';
-import ModianFooter from './ModianFooter';
-import ModianSubHeader from './ModianSubHeader';
 import { usePathname } from 'next/navigation';
+
+import ModianFooter from './ModianFooter';
+import ModianHeader from './ModianHeader';
+import ModianSubHeader from './ModianSubHeader';
+
 
 export default function ModianShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

@@ -1,7 +1,6 @@
 //src\app\simulators\salary-tax\login\page.tsx
-
-import Header from "@/components/salary-tax/SimulatorHeader";
 import LoginForm from "@/components/auth/LoginForm";
+import Header from "@/components/salary-tax/SimulatorHeader";
 
 
 export default function SalaryTaxLoginPage() {

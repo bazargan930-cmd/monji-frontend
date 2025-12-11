@@ -1,7 +1,9 @@
 // src/components/modian/common/search/InvoicesSearchHeader.tsx
 'use client';
 import * as React from 'react';
-import { Tabs } from '@/components/modian/ui';
+
+import { Tabs } from '@/components/modian';
+
 import { SearchByFilters, SearchByTaxId } from './index';
 import type { FilterField } from './SearchByFilters';
  

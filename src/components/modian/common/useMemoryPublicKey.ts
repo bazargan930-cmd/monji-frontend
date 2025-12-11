@@ -1,4 +1,6 @@
+//src\components\modian\common\useMemoryPublicKey.ts
 import * as React from 'react';
+
 import { getSavedPublicKeyFor, savePublicKeyFor } from './memoryKey.utils';
 
 export default function useMemoryPublicKey(ownerUid: string) {

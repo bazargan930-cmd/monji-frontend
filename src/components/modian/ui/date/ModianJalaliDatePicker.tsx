@@ -1,10 +1,11 @@
 // src/components/modian/ui/date/ModianJalaliDatePicker.tsx
 'use client';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import {
   jalaliNow, gDateFromJalali, monthLength,
   JALALI_MONTH_NAMES, toFa,
-} from '@/components/modian/common';
+} from '@/components/modian';
 
 const WEEK = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'] as const;
 const normalizeWeekday = (s: string) => s.replace(/\u200c/g, '');

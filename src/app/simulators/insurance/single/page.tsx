@@ -1,8 +1,8 @@
 //src\app\simulators\insurance\single\page.tsx
 'use client';
-
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import { InsuranceResult } from '../../../../components/insurance/tax-result.interface';
 
 type PayrollItem = {

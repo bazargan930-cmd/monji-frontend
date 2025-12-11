@@ -1,8 +1,7 @@
 // src/app/admin/notices/page.tsx
 'use client';
-
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface Notice {
   id: number;

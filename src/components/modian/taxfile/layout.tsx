@@ -1,11 +1,10 @@
-//src\components\modian\taxfile\layout.tsx
-
 //src/components/modian/taxfile/layout.tsx
 'use client';
 import React from 'react';
-import { ModianSubHeader } from '@/components/modian/layout';
-import { ModianSidebar } from '@/components/modian/portal';
-import { TaxfileSubmenu } from '@/components/modian/taxfile';
+
+import { ModianSubHeader } from '@/components/modian';
+import { ModianSidebar } from '@/components/modian';
+import { TaxfileSubmenu } from '@/components/modian';
 
 export default function TaxfileLayout({ children }: { children: React.ReactNode }) {
   return (

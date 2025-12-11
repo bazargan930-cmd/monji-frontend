@@ -1,7 +1,6 @@
 // src/app/dashboard/page.tsx
 
 'use client';
-
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';

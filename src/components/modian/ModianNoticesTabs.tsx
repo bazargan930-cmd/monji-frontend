@@ -11,6 +11,7 @@ import {
   FaMinusCircle,
 } from 'react-icons/fa';
 import { HiExternalLink } from 'react-icons/hi';
+
 import { faqData } from './faq-data';
 
 const tabs = ['اطلاعیه‌ها', 'سوالات متداول'];

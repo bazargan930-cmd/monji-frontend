@@ -2,10 +2,15 @@
 'use client';
 
 import { useState } from 'react';
-import { ToolbarBar, ToolbarIconButton, ToolbarSearch } from '@/components/modian/ui';
-import { ColumnsIcon } from "@/components/modian/ui";
+
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { BankAccountsHelpContent } from '@/components/modian/taxfile';
+import {
+  ToolbarBar,
+  ToolbarIconButton,
+  ToolbarSearch,
+  ColumnsIcon,
+  BankAccountsHelpContent,
+} from '@/components/modian';
 
 export default function BankAccountsPage() {
   // state جستجو برای ورودی کلاینتی

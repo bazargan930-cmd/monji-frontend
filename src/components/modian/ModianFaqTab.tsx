@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import { FiPlus, FiMinus } from 'react-icons/fi';
+
 import { faqData, FaqItem } from './faq-data';
 
 export default function ModianFaqTab() {

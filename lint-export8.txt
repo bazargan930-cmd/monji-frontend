@@ -1,0 +1,4 @@
+PS D:\Project\VSCode\AccountingSimulator\ghaaanoon-frontend-structure> npm run lint:ci
+
+> ghaaanoon-frontend@0.1.0 lint:ci
+> cross-env ESLINT_STRICT=1 eslint .

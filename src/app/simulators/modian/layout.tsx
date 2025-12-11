@@ -14,7 +14,7 @@ import {
 export default function ModianLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   // سایدبار در صفحه «پورتال» نمایش داده نشود
-  const hideSidebar = pathname === '/simulators/modian/portal';
+  const hideSidebar = pathname === '/simulators/modian';
 
   return (
      <div className="min-h-screen flex flex-col bg-gray-50">

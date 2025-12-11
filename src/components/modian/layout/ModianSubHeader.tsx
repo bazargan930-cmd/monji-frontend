@@ -2,7 +2,6 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-
 import { FiLogOut, FiBell, FiUser } from 'react-icons/fi';
 import { MdSpaceDashboard } from 'react-icons/md';
 
