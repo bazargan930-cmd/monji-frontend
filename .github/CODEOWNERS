@@ -1,0 +1,10 @@
+# CODEOWNERS — Security / Structure Governance
+#
+# IMPORTANT:
+# - مالک‌های واقعی را جایگزین کنید (GitHub user/team).
+# - هدف: هر تغییر در API فرانت، الزاماً توسط Security/Structure review شود.
+#
+# نمونه:
+# /src/app/api/   @monji-security @monji-structure
+
+/src/app/api/    @REPLACE_WITH_SECURITY_REVIEWERS
