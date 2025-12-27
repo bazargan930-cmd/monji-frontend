@@ -24,6 +24,63 @@ export type FilterField =
   | { type: 'button'; name: 'advanced'; label: string }
   | { type: 'submit'; name: 'search'; label: string };
 
+export type ContractsContractTypeFieldProps = {
+  value: string;
+  onChange: (value: string) => void;
+  hasError?: boolean;
+};
+
+export function ContractsContractTypeField({
+  value,
+  onChange,
+  hasError,
+}: ContractsContractTypeFieldProps) {
+  return (
+    <FormField label="نوع قرارداد" variant="floating">
+      <select
+        aria-label="نوع قرارداد"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={[
+          'w-full h-10 rounded border bg-white px-2 text-sm',
+          hasError ? 'border-red-500' : 'border-gray-300',
+        ].join(' ')}
+      >
+        <option value=""></option>
+        <option value="volume_human_resource">قرارداد حجمی نیروی انسانی</option>
+        <option value="other_contracts">سایر قراردادهای پیمانکاری</option>
+      </select>
+    </FormField>
+  );
+}
+
+export type ContractsContractDateFieldProps = {
+  id: string;
+  valueISO: string;
+  onChangeISO: (iso: string | null) => void;
+  label?: string;
+  placeholder?: string;
+};
+
+export function ContractsContractDateField({
+  id,
+  valueISO,
+  onChangeISO,
+  label = 'تاریخ عقد قرارداد',
+  placeholder = 'انتخاب کنید',
+}: ContractsContractDateFieldProps) {
+  return (
+    <FormField label={label} htmlFor={id} variant="floating">
+      <ModianJalaliDateField
+        id={id}
+        valueISO={valueISO}
+        onChangeISO={onChangeISO}
+        placeholder={placeholder}
+      />
+    </FormField>
+  );
+}
+
 // آیکون چرخ‌دنده‌ی ساده برای صفحات «صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶»
 const OldInvoicesAdvancedIcon = ({ className }: { className?: string }) => (
   <svg
@@ -122,10 +179,24 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const isOldExportsPage = pathname?.includes(
     '/simulators/modian/old-Invoices/exports',
   );
+
+  const isContractsCommissionPage = pathname?.includes(
+    '/simulators/modian/contracts/commission',
+  );
+
   // صفحات قراردادها (پیمانکاری / حق‌العملکاری) از نظر دکمه‌ی بالای فرم
   // همان رفتار «جستجوی پیشرفته» را مانند صفحات old-Invoices دارند،
   // بدون این‌که سایر منطق اختصاصی old-Invoices را تحت تأثیر قرار دهند.
   const isContractsPage = pathname?.includes('/simulators/modian/contracts/');
+
+  // لیبل‌های طرفین قرارداد در صفحات قراردادها:
+  // - پیمانکاری: کارفرما / پیمانکار
+  // - حق‌العملکاری: آمر / حق‌العملکار
+  const contractsEmployerLabel = isContractsCommissionPage ? 'آمر' : 'کارفرما';
+  const contractsContractorLabel = isContractsCommissionPage
+    ? 'حق‌العملکار'
+    : 'پیمانکار';
+
   const isPurchaseAnnouncementsImportsPage = pathname?.includes(
     '/simulators/modian/purchase-announcements/imports',
   );
@@ -484,10 +555,16 @@ const MoneyInput = ({
         // در صفحات قراردادها، گزینه‌های نقش مودی به ترتیب:
         // «همه»، «کارفرما»، «پیمانکار» تنظیم می‌شود
         const roleOptions = isContractsPage
+        ? [
+            { value: 'all', label: 'همه' },
+            { value: 'employer', label: 'کارفرما' },
+            { value: 'contractor', label: 'پیمانکار' },
+          ]
+        : isContractsCommissionPage
           ? [
               { value: 'all', label: 'همه' },
-              { value: 'employer', label: 'کارفرما' },
-              { value: 'contractor', label: 'پیمانکار' },
+              { value: 'orderer', label: 'آمر' },
+              { value: 'commission', label: 'حق العملکار' },
             ]
           : f.options;
 
@@ -962,6 +1039,23 @@ const TextInputWithClear = ({
                     <option value="other_contracts">
                       سایر قراردادهای پیمانکاری
                     </option>
+
+                    {isContractsCommissionPage ? (
+                      <>
+                        <option value="buy">خرید</option>
+                        <option value="sell">فروش</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="volume_human_resource">
+                          قرارداد حجمی نیروی انسانی
+                        </option>
+                        <option value="other_contracts">
+                          سایر قراردادهای پیمانکاری
+                        </option>
+                      </>
+                    )}
+
                   </select>
                 </FormField>
                 <FormField label="شماره داخلی قرارداد" variant="floating">
@@ -973,7 +1067,11 @@ const TextInputWithClear = ({
                 <FormField label="شماره قرارداد" variant="floating">
                   <NumericInputWithClear name="contractNo" maxLength={20} />
                 </FormField>
-                <FormField label="شناسه هویتی کارفرما" variant="floating">
+
+                <FormField
+                  label={`شناسه هویتی ${contractsEmployerLabel}`}
+                  variant="floating"
+                >
                   <NumericInputWithClear
                     name="employerIdentityCode"
                     maxLength={20}
@@ -981,7 +1079,10 @@ const TextInputWithClear = ({
                 </FormField>
 
                 {/* ردیف ۲: شناسه پیمانکار و تاریخ عقد قرارداد از/تا */}
-                <FormField label="شناسه هویتی پیمانکار" variant="floating">
+                <FormField
+                  label={`شناسه هویتی ${contractsContractorLabel}`}
+                  variant="floating"
+                >
                   <NumericInputWithClear
                     name="contractorIdentityCode"
                     maxLength={20}
@@ -1057,7 +1158,11 @@ const TextInputWithClear = ({
                     maxLength={20}
                   />
                 </FormField>
-                <FormField label="شماره اقتصادی کارفرما" variant="floating">
+
+                <FormField
+                  label={`شماره اقتصادی ${contractsEmployerLabel}`}
+                  variant="floating"
+                >
                   <NumericInputWithClear
                     name="employerEconomicCode"
                     maxLength={20}
@@ -1066,7 +1171,7 @@ const TextInputWithClear = ({
 
                 {/* ردیف ۴: شماره اقتصادی پیمانکار، وضعیت و موضوع قرارداد */}
                 <FormField
-                  label="شماره اقتصادی پیمانکار"
+                  label={`شماره اقتصادی ${contractsContractorLabel}`}
                   variant="floating"
                 >
                   <NumericInputWithClear
@@ -1106,12 +1211,19 @@ const TextInputWithClear = ({
                     <option value="cancel">ابطالی</option>
                   </select>
                 </FormField>
-                <FormField label="نام پیمانکار" variant="floating">
+
+                <FormField
+                  label={`نام ${contractsContractorLabel}`}
+                  variant="floating"
+                >
                   <TextInputWithClear name="contractorName" />
                 </FormField>
 
                 {/* ردیف ۵: نام کارفرما */}
-                <FormField label="نام کارفرما" variant="floating">
+                <FormField
+                  label={`نام ${contractsEmployerLabel}`}
+                  variant="floating"
+                >
                   <TextInputWithClear name="employerName" />
                 </FormField>
               </>
