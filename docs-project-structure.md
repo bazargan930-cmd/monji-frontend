@@ -34,7 +34,7 @@ npm run docs:all       # docs:scan + docs:update-structure
 > این اسکریپت‌ها در `package.json` تعریف شده‌اند و محتوا را بین بلوک‌های
 > `<!-- BEGIN:APP_TREE -->
 ```txt
-src\app
+src/app
 ├─ admin/
 │  └─ notices/
 │     ├─ [id]/
@@ -206,7 +206,7 @@ src\app
 <!-- END:APP_TREE -->` و
 > `<!-- BEGIN:COMPONENTS_TREE -->
 ```txt
-src\components
+src/components
 ├─ admin/
 │  └─ NoticeForm.tsx
 ├─ auth/
@@ -1298,7 +1298,7 @@ builtin → external → internal → parent → sibling → index
 ### APP_TREE
 <!-- BEGIN:APP_TREE -->
 ```txt
-src\app
+src/app
 ├─ admin/
 │  └─ notices/
 │     ├─ [id]/
@@ -1410,7 +1410,7 @@ src\app
 ### COMPONENTS_TREE
 <!-- BEGIN:COMPONENTS_TREE -->
 ```txt
-src\components
+src/components
 ├─ admin/
 │  └─ NoticeForm.tsx
 ├─ auth/

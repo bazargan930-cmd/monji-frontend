@@ -1,4 +1,4 @@
-src\app
+src/app
 ├─ admin/
 │  └─ notices/
 │     ├─ [id]/
