@@ -55,6 +55,7 @@ src\components
 │  │  ├─ table/
 │  │  │  ├─ ColumnsVisibilityBar.tsx
 │  │  │  ├─ EmptyTableRow.tsx
+│  │  │  ├─ index.ts
 │  │  │  └─ ScrollableTableShell.tsx
 │  │  ├─ index.ts
 │  │  ├─ InvoiceDetailSection.tsx
