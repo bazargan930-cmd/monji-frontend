@@ -71,17 +71,17 @@ export const modianMenu: MenuItem[][] = [
       icon: HiOutlineDocumentReport,
       children: [
         {
-          label: 'صورتحساب‌های خرید',
+          label: 'خرید داخلی',
           href: '/simulators/modian/old-Invoices/buy',
           icon: HiOutlineDocumentReport,
         },
         {
-          label: 'صورتحساب‌های فروش',
+          label: 'فروش داخلی',
           href: '/simulators/modian/old-Invoices/sales',
           icon: HiOutlineDocumentReport,
         },
         {
-          label: 'صورتحساب‌های صادرات',
+          label: 'فروش صادراتی',
           href: '/simulators/modian/old-Invoices/exports',
           icon: HiOutlineDocumentReport,
         },
@@ -107,7 +107,24 @@ export const modianMenu: MenuItem[][] = [
       ],
     },
 
-    { label: 'قراردادها', href: '#', icon: FaHandshake },
+    // 🔹 منوی «قراردادها» با دو زیرمنو: پیمانکاری و حق‌العملکاری
+    {
+      label: 'قراردادها',
+      href: '/simulators/modian/contracts',
+      icon: FaHandshake,
+      children: [
+        {
+          label: 'پیمانکاری',
+          href: '/simulators/modian/contracts/contracting',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'حق‌العملکاری',
+          href: '/simulators/modian/contracts/commission',
+          icon: HiOutlineDocumentReport,
+        },
+      ],
+    },
     { label: 'اطلاعیه‌های خرید', href: '#', icon: FaHandshake },
     { label: 'صدور قبوض مالیاتی', href: '#', icon: FaHandshake },
     { label: 'درخواست‌ها', href: '#', icon: RiFileListLine },

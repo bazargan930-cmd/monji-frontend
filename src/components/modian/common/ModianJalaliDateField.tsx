@@ -1,11 +1,12 @@
 // src/components/modian/common/ModianJalaliDateField.tsx
 
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ModianJalaliDatePicker } from '@/components/modian';
 import { parseJalali } from '@/lib/date/jalali';
 import { toFaDigits } from '@/lib/i18n/digits';
+
 type Props = {
   id?: string;
   label?: string;
@@ -27,6 +28,83 @@ export default function ModianJalaliDateField({
   const [open, setOpen] = useState(false);
   const [display, setDisplay] = useState<string>(''); // رشته‌ی شمسی برای UI
   const anchorRef = useRef<HTMLDivElement>(null);
+  
+  const toLatinDigits = useCallback(
+    (input: string) =>
+      (input || '')
+        .replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+        .replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))),
+    [],
+  );
+
+  const formatISOToJalali = useCallback((iso: string) => {
+    const v = (iso || '').trim();
+    if (!v) return '';
+
+    const vLatin = toLatinDigits(v);
+
+    // اگر ورودی خودش شمسی بود، همان را برگردان
+    const jalaliLike = vLatin.match(/^(\d{4})[-/](\d{2})[-/](\d{2})(?:\b|T)?/);
+    if (jalaliLike) {
+      const year = Number(jalaliLike[1]);
+      if (year >= 1300 && year <= 1499) {
+        return `${jalaliLike[1]}/${jalaliLike[2]}/${jalaliLike[3]}`;
+      }
+    }
+
+    // ISO گرگوری: yyyy-mm-dd
+    const gregIso = vLatin.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (gregIso) {
+      const y = Number(gregIso[1]);
+      const m = Number(gregIso[2]);
+      const d = Number(gregIso[3]);
+      if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+        const date = new Date(Date.UTC(y, m - 1, d));
+        try {
+          return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'UTC',
+          }).format(date);
+        } catch {
+          return v;
+        }
+      }
+    }
+
+    try {
+      return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'UTC',
+      }).format(new Date(vLatin));
+    } catch {
+      return v;
+    }
+  }, [toLatinDigits]);
+
+  const normalizeJalaliComparable = (jalali: string) => {
+    const v = toLatinDigits((jalali || '').trim()).replace(/-/g, '/');
+    const m = v.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+    if (!m) return '';
+    const yy = m[1];
+    const mm = m[2].padStart(2, '0');
+    const dd = m[3].padStart(2, '0');
+    return `${yy}/${mm}/${dd}`;
+  };
+
+  // سینک شدن نمایش با مقدار کنترل‌شونده (برای برگشت به مرحله قبل)
+  useEffect(() => {
+    const v = (_valueISO || '').trim();
+    if (!v) {
+      if (display) setDisplay('');
+      return;
+    }
+    const next = formatISOToJalali(v);
+    if (next && next !== display) setDisplay(next);
+  }, [_valueISO, display, formatISOToJalali]);
 
   return (
     <div className={`w-full ${className || ''}`}>
@@ -78,6 +156,22 @@ export default function ModianJalaliDateField({
         open={open}
         onClose={()=>setOpen(false)}
         onPick={(jalaliStr)=>{
+          // قانون: اگر برای این فیلد min تعیین شده، تاریخ‌های قبل از آن قابل انتخاب نباشند
+          const minMap =
+            typeof window !== 'undefined'
+              ? ((window as unknown as { __monjiMinJalaliById?: Record<string, string> })
+                  .__monjiMinJalaliById ?? {})
+              : {};
+          const minJalali = _id ? (minMap[_id] || '').trim() : '';
+          if (minJalali) {
+            const pickedComparable = normalizeJalaliComparable(jalaliStr);
+            const minComparable = normalizeJalaliComparable(minJalali);
+            if (pickedComparable && minComparable && pickedComparable < minComparable) {
+              // انتخاب را نادیده بگیر (عملاً قبل از min غیرقابل انتخاب می‌شود)
+              return;
+            }
+          }
+
           setDisplay(jalaliStr);
           // تبدیل رشتهٔ جلالی به ISO با یوتیل پروژه
           const iso = parseJalali(jalaliStr);

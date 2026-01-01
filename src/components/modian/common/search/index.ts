@@ -2,5 +2,7 @@
 
 // Barrel: common/search
 export { default as SearchByFilters } from './SearchByFilters';
+export type { FilterField } from './SearchByFilters';
+export { ContractsContractDateField, ContractsContractTypeField } from './SearchByFilters';
 export { default as SearchByTaxId } from './SearchByTaxId';
 export { default as InvoicesSearchHeader } from './InvoicesSearchHeader';
