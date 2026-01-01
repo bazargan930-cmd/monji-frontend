@@ -1,11 +1,12 @@
 // src/components/modian/common/ModianJalaliDateField.tsx
 
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ModianJalaliDatePicker } from '@/components/modian';
 import { parseJalali } from '@/lib/date/jalali';
 import { toFaDigits } from '@/lib/i18n/digits';
+
 type Props = {
   id?: string;
   label?: string;
@@ -28,12 +29,15 @@ export default function ModianJalaliDateField({
   const [display, setDisplay] = useState<string>(''); // رشته‌ی شمسی برای UI
   const anchorRef = useRef<HTMLDivElement>(null);
   
-  const toLatinDigits = (input: string) =>
-    (input || '')
-      .replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
-      .replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+  const toLatinDigits = useCallback(
+    (input: string) =>
+      (input || '')
+        .replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+        .replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))),
+    [],
+  );
 
-  const formatISOToJalali = (iso: string) => {
+  const formatISOToJalali = useCallback((iso: string) => {
     const v = (iso || '').trim();
     if (!v) return '';
 
@@ -79,7 +83,7 @@ export default function ModianJalaliDateField({
     } catch {
       return v;
     }
-  };
+  }, [toLatinDigits]);
 
   const normalizeJalaliComparable = (jalali: string) => {
     const v = toLatinDigits((jalali || '').trim()).replace(/-/g, '/');
@@ -100,7 +104,7 @@ export default function ModianJalaliDateField({
     }
     const next = formatISOToJalali(v);
     if (next && next !== display) setDisplay(next);
-  }, [_valueISO]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [_valueISO, display, formatISOToJalali]);
 
   return (
     <div className={`w-full ${className || ''}`}>
@@ -177,4 +181,3 @@ export default function ModianJalaliDateField({
     </div>
   );
 }
-

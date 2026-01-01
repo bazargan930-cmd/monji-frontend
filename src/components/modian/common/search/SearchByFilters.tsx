@@ -179,11 +179,9 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const isOldExportsPage = pathname?.includes(
     '/simulators/modian/old-Invoices/exports',
   );
-
   const isContractsCommissionPage = pathname?.includes(
     '/simulators/modian/contracts/commission',
   );
-
   // صفحات قراردادها (پیمانکاری / حق‌العملکاری) از نظر دکمه‌ی بالای فرم
   // همان رفتار «جستجوی پیشرفته» را مانند صفحات old-Invoices دارند،
   // بدون این‌که سایر منطق اختصاصی old-Invoices را تحت تأثیر قرار دهند.
@@ -196,7 +194,6 @@ export default function SearchByFilters({ fields, onSubmit, summaryTitle = 'اط
   const contractsContractorLabel = isContractsCommissionPage
     ? 'حق‌العملکار'
     : 'پیمانکار';
-
   const isPurchaseAnnouncementsImportsPage = pathname?.includes(
     '/simulators/modian/purchase-announcements/imports',
   );
@@ -555,17 +552,17 @@ const MoneyInput = ({
         // در صفحات قراردادها، گزینه‌های نقش مودی به ترتیب:
         // «همه»، «کارفرما»، «پیمانکار» تنظیم می‌شود
         const roleOptions = isContractsPage
-        ? [
-            { value: 'all', label: 'همه' },
-            { value: 'employer', label: 'کارفرما' },
-            { value: 'contractor', label: 'پیمانکار' },
-          ]
-        : isContractsCommissionPage
-          ? [
-              { value: 'all', label: 'همه' },
-              { value: 'orderer', label: 'آمر' },
-              { value: 'commission', label: 'حق العملکار' },
-            ]
+          ? isContractsCommissionPage
+            ? [
+                { value: 'all', label: 'همه' },
+                { value: 'orderer', label: 'آمر' },
+                { value: 'commission', label: 'حق العملکار' },
+              ]
+            : [
+                { value: 'all', label: 'همه' },
+                { value: 'employer', label: 'کارفرما' },
+                { value: 'contractor', label: 'پیمانکار' },
+              ]
           : f.options;
 
         return (
@@ -1033,13 +1030,6 @@ const TextInputWithClear = ({
                     className="w-full h-10 rounded border border-gray-300 bg-white px-2 text-sm"
                   >
                     <option value=""></option>
-                    <option value="volume_human_resource">
-                      قرارداد حجمی نیروی انسانی
-                    </option>
-                    <option value="other_contracts">
-                      سایر قراردادهای پیمانکاری
-                    </option>
-
                     {isContractsCommissionPage ? (
                       <>
                         <option value="buy">خرید</option>
@@ -1055,7 +1045,6 @@ const TextInputWithClear = ({
                         </option>
                       </>
                     )}
-
                   </select>
                 </FormField>
                 <FormField label="شماره داخلی قرارداد" variant="floating">
@@ -1067,11 +1056,7 @@ const TextInputWithClear = ({
                 <FormField label="شماره قرارداد" variant="floating">
                   <NumericInputWithClear name="contractNo" maxLength={20} />
                 </FormField>
-
-                <FormField
-                  label={`شناسه هویتی ${contractsEmployerLabel}`}
-                  variant="floating"
-                >
+                <FormField label={`شناسه هویتی ${contractsEmployerLabel}`} variant="floating">
                   <NumericInputWithClear
                     name="employerIdentityCode"
                     maxLength={20}
@@ -1079,10 +1064,7 @@ const TextInputWithClear = ({
                 </FormField>
 
                 {/* ردیف ۲: شناسه پیمانکار و تاریخ عقد قرارداد از/تا */}
-                <FormField
-                  label={`شناسه هویتی ${contractsContractorLabel}`}
-                  variant="floating"
-                >
+                <FormField label={`شناسه هویتی ${contractsContractorLabel}`} variant="floating">
                   <NumericInputWithClear
                     name="contractorIdentityCode"
                     maxLength={20}
@@ -1158,11 +1140,7 @@ const TextInputWithClear = ({
                     maxLength={20}
                   />
                 </FormField>
-
-                <FormField
-                  label={`شماره اقتصادی ${contractsEmployerLabel}`}
-                  variant="floating"
-                >
+                <FormField label={`شماره اقتصادی ${contractsEmployerLabel}`} variant="floating">
                   <NumericInputWithClear
                     name="employerEconomicCode"
                     maxLength={20}
@@ -1211,19 +1189,12 @@ const TextInputWithClear = ({
                     <option value="cancel">ابطالی</option>
                   </select>
                 </FormField>
-
-                <FormField
-                  label={`نام ${contractsContractorLabel}`}
-                  variant="floating"
-                >
+                <FormField label={`نام ${contractsContractorLabel}`} variant="floating">
                   <TextInputWithClear name="contractorName" />
                 </FormField>
 
                 {/* ردیف ۵: نام کارفرما */}
-                <FormField
-                  label={`نام ${contractsEmployerLabel}`}
-                  variant="floating"
-                >
+                <FormField label={`نام ${contractsEmployerLabel}`} variant="floating">
                   <TextInputWithClear name="employerName" />
                 </FormField>
               </>

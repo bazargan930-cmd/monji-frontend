@@ -1,13 +1,14 @@
+//src\components\modian\ui\UploadPublicKeyModal.tsx
 import * as React from 'react';
 
-import { memoryKeyUtils } from '@/components/modian';
-
-const {
+// NOTE: از "@/components/modian" ایمپورت نکنید چون باعث circular import می‌شود
+// و در runtime خروجی بعضی exportها undefined می‌شود.
+import {
   getSavedPublicKeyFor,
   genMemoryPublicKey,
-  savePublicKeyFor,
   normalizeUid,
-} = memoryKeyUtils;
+  savePublicKeyFor,
+} from '../common/memoryKey.utils';
 
 type Props = {
   open: boolean;
