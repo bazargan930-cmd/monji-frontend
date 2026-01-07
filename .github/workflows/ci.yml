@@ -6,10 +6,32 @@ on:
   push:
     branches: [ main ]  # یا master
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  validate_governance_files:
+    name: Validate Governance Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure CODEOWNERS placeholders are replaced
+        run: |
+          if grep -n "REPLACE_WITH_.*_REVIEWERS" .github/CODEOWNERS; then
+            echo "::error::CODEOWNERS contains placeholder reviewers. Replace @REPLACE_WITH_* with real GitHub users/teams before merging."
+            exit 1
+          fi
+
   lint_typecheck_build:
     name: Lint / Typecheck / Build
     runs-on: ubuntu-latest
+    needs: validate_governance_files
     steps:
       - name: Checkout
         uses: actions/checkout@v4
