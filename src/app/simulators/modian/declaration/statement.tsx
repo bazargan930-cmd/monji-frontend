@@ -1,11 +1,14 @@
 //src\app\simulators\modian\declaration\statement.tsx
 'use client';
+
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
 import { DeclarationHelpContent } from '@/components/modian';
 
 export default function StatementPage() {
+  const router = useRouter();
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       {/* نوار ابزار بالای صفحه (جای دکمه راهنما) */}
@@ -18,6 +21,27 @@ export default function StatementPage() {
           <DeclarationHelpContent />
         </HelpTrigger>
       </div>
+
+ {/* کارت جدید برای اظهارنامه عوارض سبز */}
+ <div className="rounded-lg bg-white shadow border border-gray-200 p-6 md:p-8 mb-6">
+   <p className="text-right leading-8 text-gray-800 mb-6">
+     با عنایت به مفاد ماده (۲۷) قانون مالیات بر ارزش افزوده و ماده (۳) قانون تسهیل تکالیف مودیان در اجرای قانون عوارض سبز از طریق سامانه مودیان، مشمولین عضو سامانه موظفند اظهارنامه آلودگی زیست‌محیطی (عوارض سبز) را مطابق با اطلاعات خارج از سامانه، تکمیل و در موعد مقرر ارسال نمایند.
+     در این راستا، سازمان امور مالیاتی کشور نسبت به تهیه و ارائه اظهارنامه مربوطه اقدام نموده است.
+     لذا از کلیه مودیان گرامی که کارپوشه آنان مطابق «آیین‌نامه معیارهای تعیین سطح آلایندگی» دارای برچسب آلایندگی زیست‌محیطی می‌باشد، درخواست می‌شود در زمان مقرر نسبت به تکمیل اظهارنامه عوارض سبز در موعد مقرر اقدام فرمایند.
+   </p>
+   <div className="mt-4 flex justify-end">
+     <button
+       type="button"
+       disabled
+       className="rounded-md px-6 py-3 text-white bg-green-600 opacity-50 cursor-not-allowed"
+       aria-disabled="true"
+       title="به‌زودی فعال می‌شود"
+     >
+       اظهارنامه عوارض سبز
+     </button>
+   </div>
+ </div>
+
       {/* کارت سفید مانند اسکرین اصلی */}
       <div className="rounded-lg bg-white shadow border border-gray-200 p-6 md:p-8">
         {/* تیتر */}
@@ -70,10 +94,9 @@ export default function StatementPage() {
         <div className="mt-8 flex justify-end">
           <button
             type="button"
-            disabled
-            className="rounded-md px-6 py-3 text-white bg-green-600 opacity-50 cursor-not-allowed"
-            aria-disabled="true"
-            title="به‌زودی فعال می‌شود"
+            onClick={() => router.push('/simulators/modian/declaration/summary')}
+            className="rounded-md px-6 py-3 text-white bg-green-600 hover:bg-green-700"
+            title="مشاهده اظهارنامه‌ها و خلاصه عملکرد"
           >
             مشاهده اظهارنامه‌ها و خلاصه عملکرد
           </button>

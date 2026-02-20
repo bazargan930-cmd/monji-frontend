@@ -90,6 +90,13 @@ export default function ModianSidebar() {
   }, [pathname, taxfileGroup]);
 
   const [openTaxfile, setOpenTaxfile] = useState(false);
+  // برای گروه‌های کشویی غیر از «پرونده…» (مثل «درخواست‌ها»)
+  const [openGroupKey, setOpenGroupKey] = useState<string | null>(null);
+  // اجازه می‌دهد حتی وقتی داخل یک گروه هستیم، کاربر بتواند آن را دستی ببندد
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(
+    () => new Set()
+  );
+
   // اگر روی والد «پرونده…» هستیم و آکاردئون باز شد، بعد از رندر به اولین زیرمنو برو
   useEffect(() => {
   const onParent = pathname === normalizePath(taxfileGroup?.href || '');
@@ -97,6 +104,11 @@ export default function ModianSidebar() {
     router.replace(defaultTaxfileChild.href);
   }
 }, [openTaxfile, pathname, taxfileGroup, defaultTaxfileChild?.href, router]);
+
+  // با تغییر مسیر (کلیک روی منوهای دیگر)، گروه‌های کشویی غیر از «پرونده…» بسته شوند
+  useEffect(() => {
+    setOpenGroupKey(null);
+  }, [pathname]);
 
   // ⬅️ وقتی از مجموعه «پرونده…» خارج شدیم، آکاردئون را ببند
   useEffect(() => {
@@ -107,10 +119,27 @@ export default function ModianSidebar() {
 
   /** ---------- آیتم‌های نمایشی ---------- */
   const SimpleItem = ({ item }: { item: MenuItem }) => {
-    const active = isActive(item.href);
+    const disabled = !!item.disabled;
+    const active = !disabled && isActive(item.href);
+
+    if (disabled) {
+      return (
+        <span
+          aria-disabled="true"
+          className="flex items-center justify-between px-3 py-2 text-sm rounded text-gray-300 cursor-not-allowed select-none"
+        >
+          <span className="flex items-center gap-2">
+            {item.icon && <item.icon className="text-base" />}
+            {item.label}
+          </span>
+        </span>
+      );
+    }
+
     return (
       <Link
         href={item.href || '#'}
+        onClick={() => setOpenGroupKey(null)}
         className={`flex items-center justify-between px-3 py-2 text-sm rounded
           ${active ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-50'}`}
       >
@@ -136,7 +165,11 @@ export default function ModianSidebar() {
 
     // باز بودن: برای «پرونده…» به state متکی بماند؛ برای بقیه گروه‌ها با حضور کاربر در گروه
     const isTaxfile = item.label?.includes('پرونده مالیاتی و عضویت');
-    const open = isTaxfile ? (openTaxfile || isInTaxfileGroup) : isUnderThisGroup;
+    const key = normalizePath(item.href || '');
+    const open =
+      isTaxfile
+        ? openTaxfile || isInTaxfileGroup
+        : (openGroupKey === key) || (isUnderThisGroup && !collapsedGroups.has(key));
 
     return (
       <>
@@ -144,18 +177,32 @@ export default function ModianSidebar() {
                 <button
                   type="button"
                   onClick={() => {
-                    const defaultChildHref = (isTaxfile
-                      ? (defaultTaxfileChild?.href)
-                      : (item.children?.[0]?.href)) as string | undefined;
-
-                    if (!isUnderThisGroup && defaultChildHref) {
-                      // اگر خارج از این گروه هستیم → رفتن به اولین زیرمنو
-                      router.replace(defaultChildHref);
+                    // «پرونده…» مثل قبل (رفتار فعلی پروژه)
+                    if (isTaxfile) {
+                      setOpenTaxfile((prev) => !prev);
                       return;
                     }
 
-                    // فقط برای «پرونده…» آکاردئون دستی Toggle می‌شود
-                    if (isTaxfile) setOpenTaxfile((prev) => !prev);
+                    // سایر گروه‌ها (مثل «درخواست‌ها»): فقط باز/بسته شوند، بدون redirect
+                    if (open) {
+                      // اگر داخل همین گروه هستیم، اجازه بده دستی ببندد
+                      if (isUnderThisGroup) {
+                        setCollapsedGroups((prev) => {
+                          const next = new Set(prev);
+                          next.add(key);
+                          return next;
+                        });
+                      } else {
+                        setOpenGroupKey(null);
+                      }
+                    } else {
+                      setCollapsedGroups((prev) => {
+                        const next = new Set(prev);
+                        next.delete(key);
+                        return next;
+                      });
+                      setOpenGroupKey(key);
+                    }
                   }}
                   className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded
                     ${parentHasActiveChild ? 'text-green-700' : 'text-gray-700'} hover:bg-gray-50`}
@@ -171,19 +218,33 @@ export default function ModianSidebar() {
         {open && (
           <div className="mt-1">
             {item.children?.map((ch, cidx) => {
-              const active = isActive(ch.href);
+              const disabled = !!ch.disabled;
+              const active = !disabled && isActive(ch.href);
               return (
-                <Link
-                  key={ch.label + '-' + cidx}
-                  href={ch.href || '#'}
-                  className={`flex items-center justify-between px-3 py-2 text-sm rounded
-                    ${active ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-50'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    {ch.icon && <ch.icon className="text-base" />}
-                    {ch.label}
+                disabled ? (
+                  <span
+                    key={ch.label + '-' + cidx}
+                    aria-disabled="true"
+                    className="flex items-center justify-between px-3 py-2 text-sm rounded text-gray-300 cursor-not-allowed select-none"
+                  >
+                    <span className="flex items-center gap-2">
+                      {ch.icon && <ch.icon className="text-base" />}
+                      {ch.label}
+                    </span>
                   </span>
-                </Link>
+                ) : (
+                  <Link
+                    key={ch.label + '-' + cidx}
+                    href={ch.href || '#'}
+                    className={`flex items-center justify-between px-3 py-2 text-sm rounded
+                      ${active ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-50'}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      {ch.icon && <ch.icon className="text-base" />}
+                      {ch.label}
+                    </span>
+                  </Link>
+                )
               );
             })}
           </div>

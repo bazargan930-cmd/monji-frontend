@@ -20,6 +20,7 @@ export type MenuItem = {
   href: string;       // می‌تواند '#'/base باشد
   icon: IconType;
   children?: MenuItem[]; // ← زیرمنو
+  disabled?: boolean; // ← آیتم غیرفعال (فعلاً غیرقابل کلیک)
 };
 
 export const modianMenu: MenuItem[][] = [
@@ -125,10 +126,31 @@ export const modianMenu: MenuItem[][] = [
         },
       ],
     },
-    { label: 'اطلاعیه‌های خرید', href: '#', icon: FaHandshake },
-    { label: 'صدور قبوض مالیاتی', href: '#', icon: FaHandshake },
-    { label: 'درخواست‌ها', href: '#', icon: RiFileListLine },
-    { label: 'اطلاعیه تخلف', href: '#', icon: RiFileListLine },
+    { label: 'اطلاعیه‌های خرید', href: '#', icon: FaHandshake, disabled: true },
+    { label: 'صدور قبوض مالیاتی', href: '/simulators/modian/tax-bills', icon: HiOutlineDocumentReport },
+    {
+      label: 'درخواست‌ها',
+      href: '/simulators/modian/requests',
+      icon: RiFileListLine,
+      children: [
+        {
+          label: 'افزایش حد مجاز فروش',
+          href: '/simulators/modian/requests/increase-sales-limit',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'رد خودکار صورت‌حساب‌ ارجاعی',
+          href: '/simulators/modian/requests/auto-reject-referred-invoices',
+          icon: HiOutlineDocumentReport,
+        },
+        {
+          label: 'تعویق اثر مالیاتی صورتحساب',
+          href: '/simulators/modian/requests/defer-invoice-tax-effect',
+          icon: HiOutlineDocumentReport,
+        },
+      ],
+    },
+    { label: 'اطلاعیه تخلف', href: '#', icon: RiFileListLine, disabled: true },
   ],
 ];
 
