@@ -13,9 +13,13 @@ import {
 
 export default function ModianLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  // سایدبار در صفحه «پورتال» نمایش داده نشود
-  const hideSidebar = pathname === '/simulators/modian';
-
+  // سایدبار در صفحه «پورتال» و «خلاصه اظهارنامه» نمایش داده نشود
+  const hideSidebar =
+    pathname === '/simulators/modian' ||
+    pathname === '/simulators/modian/declaration/summary' ||
+    pathname === '/simulators/modian/declaration/details' ||
+    pathname === '/simulators/modian/declaration/feedback'||
+    pathname === '/simulators/modian/declaration/complete';
   return (
      <div className="min-h-screen flex flex-col bg-gray-50">
        {/* هدر بالا */}
