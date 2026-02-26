@@ -10,7 +10,7 @@ import {
   ColumnsIcon,
   FieldGrid,
   FormField,
-} from '@/components/modian';
+} from '@/features/modian';
 
 const PAGE_TITLE = 'صدور قبوض مالیاتی';
 const TAX_BILLS_STORAGE_KEY = 'modian.tax-bills';

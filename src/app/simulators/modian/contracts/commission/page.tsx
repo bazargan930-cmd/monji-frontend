@@ -5,15 +5,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { ColumnsIcon, IconExcelExport } from '@/components/modian';
+import { ColumnsIcon, IconExcelExport } from '@/features/modian';
 // eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
-import { SearchByFilters, type FilterField } from '@/components/modian/common/search';
+import { SearchByFilters, type FilterField } from '@/features/modian/common/search';
 // eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
 import {
   ColumnsVisibilityBar,
   EmptyTableRow,
   ScrollableTableShell,
-} from '@/components/modian/common/table';
+} from '@/features/modian/common/table';
 
 // این دو ثابت فقط مخصوص همین صفحه هستند.
 // اگر بخواهی نسخه‌های مشابه بسازی، کافی است این دو مقدار را عوض کنی.

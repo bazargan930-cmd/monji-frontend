@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { PortalHelpContent } from '@/components/modian';
-import { ModianPortal } from '@/components/modian';
+import { PortalHelpContent } from '@/features/modian';
+import { ModianPortal } from '@/features/modian';
 
 
 export const dynamic = 'force-dynamic';

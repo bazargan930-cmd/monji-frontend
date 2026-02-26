@@ -10,7 +10,7 @@ import {
   ColumnsVisibilityBar,
   InvoiceDetailSection,
   ScrollableTableShell,
-} from '@/components/modian';
+} from '@/features/modian';
 
 export default function ModianInvoiceExportsDetailPage() {
 

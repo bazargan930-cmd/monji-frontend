@@ -60,6 +60,16 @@ export async function GET(req: NextRequest) {
   // پاس‌ترو پاسخ نهایی
   const ct = res.headers.get('content-type') ?? 'application/json';
   const body = await res.text();
+  // اگر 401 شد، در حالت توسعه کاربر فیک بده
+  if (res.status === 401 && process.env.NODE_ENV === 'development') {
+    return NextResponse.json({
+      id: 1,
+      email: 'admin@local.dev',
+      role: 'admin',
+      devBypass: true,
+    });
+  }
+
   const out = new NextResponse(body, {
     status: res.status,
     headers: { 'content-type': ct },

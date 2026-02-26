@@ -11,7 +11,7 @@ import {
   ColumnsIcon,
   IconExcelExport,
   InvoiceHeaderArrowIcon,
-} from '@/components/modian';
+} from '@/features/modian';
 
 export default function ModianInvoiceSalesDetailPage() {
   // وضعیت‌های ممکن صورتحساب (فعلاً ثابت، بعداً از API خوانده می‌شود)

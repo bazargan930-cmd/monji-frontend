@@ -8,7 +8,7 @@ import {
   ScrollableTableShell,
   FieldGrid,
   FormField,
-} from '@/components/modian';
+} from '@/features/modian';
 
 // گزینه‌ها مطابق صفحه «صورتحساب‌های فروش داخلی»
 // (فیلدهای ۱ تا ۳ هدر جستجو)

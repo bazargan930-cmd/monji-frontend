@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 
-import { EmptyTableRow, ScrollableTableShell } from '@/components/modian';
+import { EmptyTableRow, ScrollableTableShell } from '@/features/modian';
 
 const PAGE_TITLE = 'درخواست تعویق اثر مالیاتی صورتحساب باطل شده در خارج از موعد';
 

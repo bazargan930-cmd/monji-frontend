@@ -1,7 +1,7 @@
 // src/app/simulators/modian/home/page.tsx
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { HomeHelpContent } from '@/components/modian';
-import { ModianHome } from '@/components/modian';
+import { HomeHelpContent } from '@/features/modian';
+import { ModianHome } from '@/features/modian';
 
 // جلوگیری از SSG/Prerender روی این صفحه
 export const dynamic = 'force-dynamic';

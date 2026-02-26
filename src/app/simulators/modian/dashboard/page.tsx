@@ -7,9 +7,9 @@ import { useMemo, useState } from 'react';
 import { FaSyncAlt } from 'react-icons/fa';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { AdminDashboardHelpContent } from '@/components/modian';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { AdminDashboardHelpContent } from '@/features/modian';
 
 /* ===== اعداد فارسی/انگلیسی ===== */
 const faDigits = '۰۱۲۳۴۵۶۷۸۹';

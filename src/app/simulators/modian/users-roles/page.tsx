@@ -4,7 +4,7 @@
  import { useState } from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { ToolbarBar, ToolbarSearch, SimulatorBadge, UsersRolesHelpContent } from '@/components/modian';
+import { ToolbarBar, ToolbarSearch, SimulatorBadge, UsersRolesHelpContent } from '@/features/modian';
 
  export default function UsersRolesPage() {
    const [tab, setTab] = useState<'users' | 'roles'>('users');

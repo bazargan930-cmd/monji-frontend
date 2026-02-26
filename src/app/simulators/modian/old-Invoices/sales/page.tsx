@@ -11,7 +11,7 @@ import {
   ColumnsIcon,
   IconExcelExport,
   type FilterField,
-} from '@/components/modian';
+} from '@/features/modian';
 
 // این دو ثابت فقط مخصوص همین صفحه هستند.
 // اگر بخواهی نسخه‌ی «فروش داخلی» بسازی، می‌توانی این فایل را کپی کنی

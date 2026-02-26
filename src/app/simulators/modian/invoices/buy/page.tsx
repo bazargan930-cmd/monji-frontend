@@ -12,7 +12,7 @@ import {
   ColumnsIcon,
   IconExcelExport,
   type FilterField,
-} from '@/components/modian';
+} from '@/features/modian';
 
 // داده‌ی نمایشی برای چند ردیف (فعلاً ماک)
 type Row = {

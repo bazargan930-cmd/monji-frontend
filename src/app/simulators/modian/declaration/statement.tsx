@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import HelpTrigger from '@/components/common/help/HelpTrigger';
-import { DeclarationHelpContent } from '@/components/modian';
+import { DeclarationHelpContent } from '@/features/modian';
 
 export default function StatementPage() {
   const router = useRouter();
@@ -31,14 +31,13 @@ export default function StatementPage() {
    </p>
    <div className="mt-4 flex justify-end">
      <button
-       type="button"
-       disabled
-       className="rounded-md px-6 py-3 text-white bg-green-600 opacity-50 cursor-not-allowed"
-       aria-disabled="true"
-       title="به‌زودی فعال می‌شود"
-     >
-       اظهارنامه عوارض سبز
+        type="button"
+        onClick={() => router.push('/simulators/modian/declaration/green-tax')}
+        className="rounded-md px-6 py-3 text-white bg-green-600 hover:bg-green-700"
+      >
+        اظهارنامه عوارض سبز
      </button>
+
    </div>
  </div>
 

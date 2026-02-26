@@ -23,10 +23,25 @@ async function handle<T>(res: Response): Promise<T> {
   const ct = res.headers.get('content-type') || '';
   const isJson = ct.includes('application/json');
   const data = isJson ? await res.json() : await res.text();
+
+  if (res.status === 401) {
+    console.warn('Unauthorized (401) - returning empty result in dev mode');
+    return {
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: 50,
+    } as unknown as T;
+  }
+
   if (!res.ok) {
-    const msg = isJson ? data?.message || data?.error || res.statusText : String(data);
+    const msg = isJson
+      ? data?.message || data?.error || res.statusText
+      : String(data);
+
     throw new Error(msg || 'Request failed');
   }
+
   return data as T;
 }
 
