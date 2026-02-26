@@ -83,18 +83,18 @@ const eslintConfig = [
         ]
       }] : "off",
       // جلوگیری از ایمپورت مستقیم Modian* از components/layout
-      // همه مصرف‌کننده‌ها باید از barrel: "@/components/modian/layout" ایمپورت کنند
+      // همه مصرف‌کننده‌ها باید از barrel: "@/features/modian/layout" ایمپورت کنند
       // ✅ برای بازآرایی تدریجی importهای مودیان، فعلاً به warn تنزل بده
       "no-restricted-imports": ["warn", {
         "patterns": [
           {
             "group": ["@/components/layout/Modian*", "@/components/layout/**/Modian*"],
-            "message": "به‌جای '@/components/layout/Modian*' از barrel '@/components/modian/layout' ایمپورت کن."
+            "message": "به‌جای '@/components/layout/Modian*' از barrel '@/features/modian/layout' ایمپورت کن."
           },
           // جلوگیری از ایمپورت عمیق داخل زیرماژول‌های مودیان (الزام به ایمپورت از ایندکس زیرماژول)
           {
-            "group": ["@/components/modian/**/**"],
-            "message": "ایمپورت از زیرماژول‌های مودیان باید از ایندکس همان زیرپوشه باشد (مثلاً '@/components/modian/portal')."
+            "group": ["@/features/modian/**/**"],
+            "message": "ایمپورت از زیرماژول‌های مودیان باید از ایندکس همان زیرپوشه باشد (مثلاً '@/features/modian/portal')."
           }
         ]
       }],

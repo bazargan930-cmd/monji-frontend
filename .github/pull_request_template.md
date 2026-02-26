@@ -5,7 +5,7 @@
   - `npm run docs:all`
   - و اطمینان از آپدیت‌شدن: `app-tree.txt` + `components-tree.txt` + `docs-project-structure.updated.md`
 - [ ] **Barrel-only برای Modian + منع import عمیق**
-  - import فقط از Barrelها: `@/components/modian`، `@/components/modian/ui`، `@/components/modian/common` (و Barrelهای رسمی)
+  - import فقط از Barrelها: `@/features/modian`، `@/features/modian/ui`، `@/features/modian/common` (و Barrelهای رسمی)
   - import مستقیم از فایل‌های داخلی `modian/*` ممنوع (ESLint: `no-restricted-imports` + `import/order`)
 - [ ] **CI (Baseline صفر هشدار روی main)**
   - `npm run lint:ci` باید بدون error/warning باشد

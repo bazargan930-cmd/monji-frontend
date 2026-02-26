@@ -11,7 +11,7 @@ import {
   ScrollableTableShell,
   ColumnsIcon,
   IconExcelExport,
-} from '@/components/modian';
+} from '@/features/modian';
 
 // این دو ثابت فقط مخصوص همین صفحه هستند.
 // اگر بخواهی نسخه‌های مشابه بسازی، کافی است این دو مقدار را عوض کنی.

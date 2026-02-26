@@ -9,7 +9,7 @@ import {
   ModianHeader,
   ModianSidebar,
   ModianSubHeader,
-} from '@/components/modian';
+} from '@/features/modian';
 
 export default function ModianLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function ModianLayout({ children }: { children: React.ReactNode }
     pathname === '/simulators/modian/declaration/feedback'||
     pathname === '/simulators/modian/declaration/complete';
   return (
-     <div className="min-h-screen flex flex-col bg-gray-50">
+     <div className="modian-theme min-h-screen flex flex-col bg-gray-50">
        {/* هدر بالا */}
        <ModianHeader />
 

@@ -6,7 +6,7 @@ export const revalidate = 0;
 
 import { Suspense } from 'react';
 
-import { ModianLoginForm } from '@/components/modian';
+import { ModianLoginForm } from '@/features/modian';
 
 export default function ModianLoginPage() {
   return (

@@ -1,14 +1,16 @@
 // src\app\simulators\modian\contracts\commission\new\page.tsx
 
 'use client';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-// eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
-import { ContractsContractDateField } from '@/components/modian/common/search';
-// eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
-import { EmptyTableRow } from '@/components/modian/common/table';
 import Stepper from '@/components/Stepper';
+// eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
+import { ContractsContractDateField } from '@/features/modian/common/search';
+// eslint-disable-next-line no-restricted-imports -- rule فعلاً این Barrel را هم محدود کرده؛ موقت تا اصلاح Rule سراسری
+import { EmptyTableRow } from '@/features/modian/common/table';
+
 
 type Role = 'employer' | 'contractor';
 

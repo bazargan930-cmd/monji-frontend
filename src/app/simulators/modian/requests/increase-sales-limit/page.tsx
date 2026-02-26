@@ -10,7 +10,7 @@ import {
   ColumnsIcon,
   FieldGrid,
   FormField,
-} from '@/components/modian';
+} from '@/features/modian';
 
 const PAGE_TITLE = 'افزایش حد مجاز فروش';
 const STORAGE_KEY = 'modian.requests.increase-sales-limit';

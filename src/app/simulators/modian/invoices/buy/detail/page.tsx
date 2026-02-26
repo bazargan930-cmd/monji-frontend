@@ -10,7 +10,7 @@ import {
   ColumnsVisibilityBar,
   InvoiceDetailSection,
   ScrollableTableShell,
-} from '@/components/modian';
+} from '@/features/modian';
 
 export default function ModianInvoiceBuyDetailPage() {
   // وضعیت‌های ممکن صورتحساب (فعلاً ثابت، بعداً از API خوانده می‌شود)

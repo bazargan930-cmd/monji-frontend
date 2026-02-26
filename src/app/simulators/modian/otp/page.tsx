@@ -2,13 +2,13 @@
  'use client'
 import React from 'react';
 
-import { ModianOtpForm } from '@/components/modian';
+import { Otppage } from '@/features/modian';
 
 
 export default function ModianOtpPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
-      <ModianOtpForm />
+      <Otppage />
     </div>
   );
 }
