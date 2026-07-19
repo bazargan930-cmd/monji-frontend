@@ -1,4 +1,4 @@
-// src/app/simulators/modian/contracts/commission/page.tsx
+// src/app/simulators/modian/(with-shell)/contracts/commission/page.tsx
 
 'use client';
 import Link from 'next/link';

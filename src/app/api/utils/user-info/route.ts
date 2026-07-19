@@ -18,9 +18,10 @@ export async function GET(req: NextRequest) {
 
   // درصورت وجود توکن در کوکی، Authorization را هم پاس بده (Bearer)
   const authToken =
-    ck.get('__Host-auth-token')?.value ??
-    ck.get('auth_token')?.value ??
     ck.get('access_token')?.value ??
+    ck.get('auth_token')?.value ??
+    // سازگاری موقت با کوکی قدیمی
+    ck.get('__Host-auth-token')?.value ??
     null;
   const baseHeaders: Record<string, string> = { cookie: cookieHeader };
   if (authToken) baseHeaders.Authorization = `Bearer ${authToken}`;
@@ -60,15 +61,6 @@ export async function GET(req: NextRequest) {
   // پاس‌ترو پاسخ نهایی
   const ct = res.headers.get('content-type') ?? 'application/json';
   const body = await res.text();
-  // اگر 401 شد، در حالت توسعه کاربر فیک بده
-  if (res.status === 401 && process.env.NODE_ENV === 'development') {
-    return NextResponse.json({
-      id: 1,
-      email: 'admin@local.dev',
-      role: 'admin',
-      devBypass: true,
-    });
-  }
 
   const out = new NextResponse(body, {
     status: res.status,

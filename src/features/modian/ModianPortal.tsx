@@ -3,9 +3,23 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { apiFetch } from '@/lib/api/client';
 
+function getCaseRole(taxpayerType?: string) {
+  switch (taxpayerType) {
+    case 'حقوقی':
+      return 'کاربر حقوقی';
 
+    case 'حقیقی':
+      return 'کاربر حقیقی';
+
+    default:
+      return taxpayerType
+        ? `کاربر ${taxpayerType}`
+        : '-';
+  }
+}
 
 type Props = {
   user: {
@@ -17,9 +31,43 @@ type Props = {
 
 export default function ModianPortal({ user }: Props) {
   const router = useRouter();
-  const handleEnter = () => {
+  const handleEnter = async (businessId: string) => {
+
+  const res = await fetch('/api/business/switch', {
+    method: 'POST',
+    headers:{
+      'Content-Type':'application/json'
+    },
+    credentials:'include',
+    body: JSON.stringify({
+      businessId
+    })
+  });
+
+  if(!res.ok){
+    console.error('Business switch failed');
+    return;
+  }
+
   router.push('/simulators/modian/home');
 };
+
+  // ----- دریافت داده پرونده از API -----
+  const [caseData, setCaseData] = useState<any | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await apiFetch('/businesses/me', { method: 'GET' });
+        console.log('✅ case data:', data);
+        
+        setCaseData(data);
+      } catch (err) {
+        console.error('Failed to load case data', err);
+      }
+    }
+    load();
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4 text-right space-y-10">
@@ -78,29 +126,41 @@ export default function ModianPortal({ user }: Props) {
               </tr>
             </thead>
             <tbody className="text-gray-800">
-              <tr>
-                <td className="border px-2 py-1 text-center">1</td>
-                <td className="border px-2 py-1">سایت آموزشی منجی</td>
-                <td className="border px-2 py-1">10103770077</td>
-                <td className="border px-2 py-1">100505078</td>
-                <td className="border px-2 py-1">حقوقی</td>
-                <td className="border px-2 py-1">کاربر حقوقی</td>
-                <td className="border px-2 py-1">1847165768</td>
-                <td>
-                  <span className="text-green-600 flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full border border-green-500"></span>
-                    فعال مجاز
-                  </span>
-                </td>
-                <td className="border px-2 py-1">
-                  <button
-                    onClick={handleEnter}
-                    className="text-green-600 hover:underline focus:outline-none"
-                  >
-                    ورود به پرونده
-                  </button>
-                </td>
-              </tr>
+              {Array.isArray(caseData) && caseData.length > 0 ? (
+                caseData.map((item: any, index: number) => (
+                  <tr key={index}>
+                    <td className="border px-2 py-1 text-center">{index + 1}</td>
+                    <td className="border px-2 py-1">{item.entityName}</td>                  
+                    <td className="border px-2 py-1">{item.economicCode}</td>
+                    <td className="border px-2 py-1">{item.trackingCode}</td>
+                    <td className="border px-2 py-1">{item.taxpayerType}</td>
+                    <td className="border px-2 py-1">
+                      {getCaseRole(item.taxpayerType)}
+                    </td>
+                    <td className="border px-2 py-1">{item.postalCode}</td>
+                    <td>
+                      <span className="text-green-600 flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full border border-green-500"></span>
+                        فعال مجاز
+                      </span>
+                    </td>
+                    <td className="border px-2 py-1">
+                      <button
+                        onClick={() => handleEnter(item.id)}
+                        className="text-green-600 hover:underline focus:outline-none"
+                      >
+                        ورود به پرونده
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={9} className="text-center py-4">
+                    هیچ پرونده‌ای یافت نشد
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

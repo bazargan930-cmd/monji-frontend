@@ -1,5 +1,5 @@
 // Usage examples:
-// node tools/update-docs.js --structure ./docs-project-structure.md --app-tree ./app-tree.txt --components-tree ./components-tree.txt --backend-tree ../ghaaanoon-backend/backend-src-tree.txt
+// node tools/update-docs.js --structure ./docs-project-structure.md --app-tree ./frontend-tree.txt --components-tree ./components-tree.txt --backend-tree ../ghaaanoon-backend/backend-src-tree.txt
 // node tools/update-docs.js --endpoints ./docs-modian-endpoints.md
 const fs = require('fs');
 const path = require('path');
@@ -24,7 +24,7 @@ function arg(name) {
 
 const structure = arg('structure');       // docs-project-structure.md
 const endpoints = arg('endpoints');       // docs-modian-endpoints.md
-const appTree = arg('app-tree');          // app-tree.txt
+const appTree = arg('app-tree');          // frontend-tree.txt
 const compTree = arg('components-tree');  // components-tree.txt
 const backTree = arg('backend-tree');     // backend-src-tree.txt
 

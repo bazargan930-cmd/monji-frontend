@@ -21,7 +21,7 @@
 ### 0) قرارداد نام‌گذاری و پیش‌فرض‌ها
 
  - **Global API Prefix (Dev):** ندارد (بدون `api/`). در Production ممکن است `api/` افزوده شود.
- - **Namespace (Dev):** روت‌های مودیان تحت **`/simulators/modian/...`**.
+ - Namespace (Dev): روت‌های مودیان تحت `/simulators/modian/...` (بدون prefix).
  - **Auth:** نشست با **کوکی HttpOnly**؛ همهٔ درخواست‌ها با `credentials:'include'`.
  - **Role/Access:** ستون «گارد» در جدول‌ها مشخص می‌کند (Admin/AccessLevel).
  - **Proxy داخلی فرانت:** `GET /api/utils/user-info` → پاس‌ترو به بک‌اند `GET /utils/user-info` با فوروارد کوکی برای تشخیص کاربر/نقش.  
@@ -29,15 +29,36 @@
 
 > **Dev-only (برای ۲ نفر فعلی)**: گارد سبک «DEV_BYPASS» فعال با ENV فقط در `NODE_ENV=development` و فقط از `localhost`؛ در Prod کاملاً غیرفعال. (جزئیات و نمونه fetch در §8.)
 
+### 0.1) Update (2026-02-27) — وضعیت main و نکته عملیاتی PR Merge
+- در یک رخداد عملیاتی، پس از PR merge مشخص شد `main` هنوز خطای build دارد؛ در نتیجه با مسیر امن `reflog → cherry-pick`
+  کامیت فیکس روی `main` اعمال شد.
+- معیار پذیرش merge برای بک‌اند (خصوصاً با migrations):
+  1) `npm run build` سبز روی برنچ
+  2) بعد از merge، `main` باید دارای SHA جدید باشد + build مجدد سبز
 ---
 
 ### 1) نگاشت صفحات Next.js → سرویس‌ها
 
 | صفحه (App Router) | هدف | سرویس‌های بک‌اند موردنیاز |
 |---|---|---|
-| `/simulators/modian/login` | ورود به شبیه‌ساز | **فعلاً** از جریان عمومی استفاده می‌شود: `POST auth/signin` (ست کوکی)، سپس `GET utils/user-info` |
-| `/simulators/modian/otp` | تایید OTP (در صورت فعال‌شدن) | `POST api/auth/otp/verify` (رزرو) |
-| `/simulators/modian/portal` | کارپوشه/پور تال | `GET modian/portal/summary`, `GET modian/notices` |
+|✅ تکمیل‌شده (۱۴۰۵/۰۳/۱۳):
+|- اعتبارسنجی Captcha در فرانت‌اند
+|- Dropdown انتخاب کسب‌وکار با `GET businesses/me`
+|- ارسال `POST /api/simulators/modian/login` با nationalId/password
+|- انتقال به `/simulators/modian/otp` پس از ورود موفق
+
+|✅ ایجادشده (۱۴۰۵/۰۳/۱۳) — UI-only با Mock:
+|- تولید کد ۶ رقمی رندوم در فرانت‌اند
+|- شمارنده معکوس ۶ دقیقه‌ای (۳۶۰ ثانیه)
+|- نمایش موبایل با پیامک شبیه‌سازی‌شده
+|- بازگشت خودکار به Login در صورت اتمام زمان
+|- TODO: اتصال به API واقعی OTP
+
+|✅ تکمیل‌شده (۱۴۵/۰۳/۱۳):
+|- افزودن Header/Footer به Layout
+|- دریافت اطلاعات کاربر از `GET /api/utils/user-info`
+|- نمایش پرونده‌ها با `GET businesses/me` (شامل economicCode و trackingCode)
+|- رفع مشکل خالی بودن فیلدهای «کد اقتصادی» و «کد رهگیری ثبت‌نام»
 | `/simulators/modian/home` | صفحهٔ خانهٔ مودیان | `GET modian/home/tiles` |
 | `/simulators/modian/workspace` | شِل کاری | بسته به منوهای فعال |
 | `/simulators/modian/invoice/new` | فرم صدور صورتحساب تمرینی | `POST modian/invoice` |
@@ -93,6 +114,55 @@
 | `api/utils/today` | `GET` | تاریخ شمسی/میلادی (برای UI) |
 | `api/utils/user-info` | `GET` | خلاصه کاربر لاگین‌شده (نام/نقش/AccessLevel) — **Proxy فرانت به** `GET /utils/user-info` بک‌اند |
 
+#### لایه پروکسی کلاینت (Next.js API Routes)
+این مسیرها واسط امنیتی بین فرانت‌اند و بک‌اند NestJS هستند و کوکی نشست را بدون نشت به کلاینت پاس می‌دهند:
+
+| روش   | مسیر پروکسی                  | هدف بک‌اند                          | وضعیت پاسخ               |
+|-------|-----------------------------|-------------------------------------|--------------------------|
+| POST  | `/api/business/onboarding/step-1` | ` POST /businesses/onboarding/step-1` | `200 OK` (پیلود Modal موفقیت) |
+| POST  | `/api/business/onboarding/step-2` | `POST /registration/tax-verification` | `200 OK` یا `400` (اعتبارسنجی) |
+
+### 3.3) API — ماژول «کسب‌وکار و ثبت‌نام» (Business & Onboarding)
+Endpointهای مربوط به ایجاد نهاد کسب‌وکار و تکمیل اطلاعات ثبت‌نامی (Onboarding).
+| مسیر
+|متد
+|ورودی (Body)
+|خروجی
+|گارد
+|
+| ---|---|---|---|---|
+| businesses/create
+|POST
+|ـ (JWT Context)
+|{ success, businessId, message }
+|JWT
+|
+| businesses/onboarding/step-1
+|POST
+|RegistrationStep1Dto
+|{ registrationId }
+|JWT
+|
+| businesses/me
+|GET
+|ـ (JWT Context)
+|✅ به‌روزرسانی‌شده (۱۴۰۵/۰۳/۱۳):
+|BusinessInfo[] شامل:
+|- id, name, nationalId, economicCode, entityName
+|- trackingCode (از BusinessRegistration)
+|- taxpayerType, postalCode, address, city, userRole
+|JWT
+|
+| admin/grant-admin-access
+|POST
+|{ phone: string }
+|{ success, user: { id, phone, accessLevel } }
+|Dev-Guard (NODE_ENV=development)
+
+نکات امنیتی:
+- `businessId` در پاسخ‌ها یا ورودی‌ها به کاربر ارسال نمی‌شود (مگر در فرآیند اولیه create).
+- `businesses/create` به‌صورت خودکار یک `TaxFile` پیش‌نویس و رکورد `UserBusiness` ایجاد می‌کند.
+- Endpointهای `admin` فقط در محیط Development فعال هستند.
 ---
 
 ### 4) API — ماژول «مودیان» (کاربر)
@@ -110,14 +180,74 @@
 | `modian/taxfile/registration` | `PUT` | `RegistrationUpdateDto` | `{ ok: true }` | JWT + مالکیت |
 
 
-### 4.3 قبوض/انشعابات (User)
+### 4.3 قبوض/انشعابات (User) — نسخه اصلاح‌شده
+
 | مسیر | متد | ورودی | خروجی | گارد |
 |---|---|---|---|---|
-| `/simulators/modian/bills` | `GET` | Query: `type?`, `postalCode?`, `page?`, `pageSize?` | `{ items: any[], total, page, pageSize }` | JWT + مالکیت |
-| `/simulators/modian/bills` | `POST` | `CreateBillBody` ← `{ billIdentifier, type, postalCode, branchName?, sharePercent? }` | `{ message, id }` | JWT + مالکیت |
+| `/simulators/modian/bills` | GET | QueryBillsDto | `{items,total,page,pageSize}` | JWT + Business Ownership |
+| `/simulators/modian/bills` | POST | CreateUtilityBillDto | `{message,id}` | JWT + Business Ownership |
+| `/simulators/modian/bills/:id` | PUT | UpdateUtilityBillDto | `{message,id}` | JWT + Business Ownership |
+| `/simulators/modian/bills/:id` | DELETE | Path id | `{message}` | JWT + Business Ownership |
 | `/simulators/modian/bills/:id` | `GET` | Path: `id` | `{ bill }` | JWT + مالکیت |
 > نگاشت فرانت: متدهای `getBills` و `createBill` در `src/lib/...ین مسیرها استفاده می‌کنند.
 
+## معماری امنیتی جدید
+
+ قبل:
+
+ SimulatorModianController
+        |
+ SimulatorModianService
+        |
+ UtilityBill
+
+ بعد:
+
+ BillsController
+        |
+ BillsService
+        |
+ RequestContextService
+        |
+ Business Scope
+        |
+ UtilityBill
+
+ ## حذف مسیر Legacy
+
+ SimulatorModianService حذف شد.
+
+ مسئولیت‌های قدیمی:
+ - listBills
+ - createBill
+ - updateBill
+ - deleteBill
+
+ به BillsService منتقل شدند.
+
+ ## قرارداد امنیتی
+
+ - businessId از JWT Context استخراج می‌شود.
+ - registrationId توسط Backend تعیین می‌شود.
+ - دریافت این مقادیر از Body/Query ممنوع است.
+
+ ## وضعیت عملیاتی
+
+ تست‌های انجام‌شده:
+
+ - POST قبض: 201 Created
+ - GET قبض‌ها: 200 OK
+ - PUT قبض: 200 OK
+ - DELETE نرم قبض: 200 OK
+
+ Soft Delete با deletedAt انجام می‌شود
+ و رکورد فیزیکی حذف نمی‌شود.
+
+#### 4.3.1 Update (2026-02-27) — الزام businessId در UtilityBill
+- در مدل DB، `UtilityBill.businessId` اجباری است.
+- قرارداد اجرایی: هنگام ایجاد قبض (هر دو مسیر سرویس)، مقدار `businessId` باید از «منبع معتبر» تعیین شود
+  (ترجیحاً Context استخراج‌شده از JWT یا ارتباط Registration↔Business) و نباید از body/query به عنوان منبع حقیقت استفاده شود.
+- نتیجه: build بک‌اند روی `main` سبز و ایجاد قبض بدون خطای TypeScript انجام می‌شود.
 ### 4.4 اعلان‌ها
 | مسیر | متد | خروجی | گارد |
 |---|---|---|---|
@@ -130,6 +260,10 @@
 - «داشبورد مدیریتی»: نمودار/گزارش‌ها، مصرف‌کنندهٔ دادهٔ صورتحساب‌ها باشند (endpoint/selector مشترک).
 > هدف: جلوگیری از چندپارگی داده و تکثیر Utilityها در پروژه.
 
+**Update (1405-03-13)** — اصلاح ساختار پاسخ `businesses/me`:
+- فیلد `nationalOrForeignOrLegalId` حذف و با `nationalId` جایگزین شد
+- اولویت‌دهی به `reg?.economicCode` قبل از `ub.business.economicCode`
+- افزودن `trackingCode` از جدول `BusinessRegistration`
 ---
 
 ### 5) API — ماژول «مودیان ادمین»
@@ -339,6 +473,22 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 ### 8) Dev Bypass (فقط برای دورهٔ دو‌نفرهٔ پیش از تیم)
 - ENV: `DEV_BYPASS_TOKEN` و `DEV_BYPASS_ENABLED=true` (فقط در Development)
 - شرط‌ها: درخواست از `127.0.0.1/::1`، هدر `X-Dev-Bypass: <token>`, مسیر مجاز: `auth/dev-login`.
+
+#### 8.1) Admin Dev Access (Development Only)
+برای تست‌های محلی، امکان ارتقای سطح دسترسی کاربر به ADMIN بدون دیتابیس واقعی فراهم شده است.
+| مسیر
+|متد
+|ورودی
+|خروجی
+|وضعیت
+|
+| ---|---|---|---|---|
+| /admin/grant-admin-access
+|POST
+|{ "phone": "09..." }
+|{ "success": true, "message": "..." }
+|Active in Dev only
+
 - خروج: صدور نشست تستی با نقش انتخابی (`role=ADMIN` یا سطح دسترسی مشخص) فقط برای UI/QA.
 - **هشدار:** در محض آماده‌شدن MVP، این گارد باید حذف/غیرفعال شود.
 
@@ -594,7 +744,7 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 #### به‌روزرسانی ۱۴۰۴/۰۹/۱۴ — اعلامیه‌های خرید (Imports / بورس کالا، UI-only)
 
 **مسیرها و صفحات UI**
-- زیرمنوی «اعلامیه‌های خرید» در ماژول مودیان با ساختار زیر پیاده‌سازی شده است (طبق `app-tree.txt` و گزارش تیم مودیان ۱۴۰۴/۰۹/۱۴):
+- زیرمنوی «اعلامیه‌های خرید» در ماژول مودیان با ساختار زیر پیاده‌سازی شده است (طبق `frontend-tree.txt` و گزارش تیم مودیان ۱۴۰۴/۰۹/۱۴):
   - `/simulators/modian/purchase-announcements` — شِل/Wrapper اصلی زیرمنو.
   - `/simulators/modian/purchase-announcements/imports` — صفحه «اعلامیه‌های واردات».
   - `/simulators/modian/purchase-announcements/bourse` — صفحه «خرید از بورس کالا».
@@ -638,9 +788,12 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 | `/simulators/modian/purchase-announcements` | اعلامیه‌های خرید | شِل/Wrapper زیرمنو؛ بدون تماس مستقیم API. |
 | `/simulators/modian/purchase-announcements/imports` | اعلامیه‌های خرید | لیست اعلامیه‌های واردات؛ Search Suite و جدول آماده، endpointها TBD. |
 | `/simulators/modian/purchase-announcements/bourse` | اعلامیه‌های خرید | لیست خریدهای بورس کالا؛ فقط UI. |
-| `/simulators/modian/contracts/contracting` | قراردادها | لیست قراردادهای پیمانکاری؛ جدول و فیلترها کامل، API ثبت/لیست قرارداد TBD. |
-| `/simulators/modian/contracts/contracting/new` | قراردادها | قدم اول ویزارد ثبت قرارداد پیمانکاری؛ فقط UI. |
-| `/simulators/modian/contracts/commission` | قراردادها | لیست قراردادهای حق‌العملکاری؛ اسکلت لیست و دکمه «ثبت جدید» آماده، API TBD. |
+| `/simulators/modian/contracts/contracting` | قراردادها | لیست قراردادهای پیمانکاری؛ جدول، Search Suite و ستون‌ها کامل، API ثبت/لیست قرارداد TBD. |
+| `/simulators/modian/contracts/contracting/new` | قراردادها | ویزارد ثبت قرارداد پیمانکاری (چندمرحله‌ای تا «تأیید نهایی»؛ شامل اعتبارسنجی و جدول پیش‌پرداخت/علی‌الحساب)؛ UI-only، API TBD. |
+| `/simulators/modian/contracts/contracting/detail` | قراردادها | صفحه جزئیات قرارداد پیمانکاری؛ UI-only (TBD: نگاشت دقیق به API/شناسه). |
+| `/simulators/modian/contracts/commission` | قراردادها | لیست قراردادهای حق‌العملکاری؛ Search Suite و جدول همسان‌سازی شده، دکمه «ثبت قرارداد جدید» فعال، API TBD. |
+| `/simulators/modian/contracts/commission/new` | قراردادها | ویزارد ثبت قرارداد حق‌العملکاری؛ شامل فیلد «نرخ کارمزد» (اختیاری) و مرتب‌سازی تأیید نهایی مطابق UI؛ UI-only، API TBD. |
+| `/simulators/modian/contracts/commission/detail` | قراردادها | صفحه جزئیات قرارداد حق‌العملکاری؛ UI-only (TBD: نگاشت دقیق به API/شناسه). |
 
 #### به‌روزرسانی ۱۴۰۴/۰۹/۱۷ — قراردادهای پیمانکاری و حق‌العملکاری (UI-only)
 
@@ -649,10 +802,12 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 - منوی «قراردادها» در سایدبار مودیان فعال شده و شامل زیرمسیرهای زیر است:
   - لیست قراردادهای پیمانکاری:
     - صفحه: `/simulators/modian/contracts/contracting`
-  - ویزارد ثبت قرارداد پیمانکاری (قدم اول):
+  - ویزارد ثبت قرارداد پیمانکاری (چندمرحله‌ای تا تأیید نهایی):
     - صفحه: `/simulators/modian/contracts/contracting/new`
   - لیست قراردادهای حق‌العملکاری:
     - صفحه: `/simulators/modian/contracts/commission`
+  - ویزارد ثبت قرارداد حق‌العملکاری:
+    - صفحه: `/simulators/modian/contracts/commission/new`
 
 **وضعیت پیاده‌سازی UI و Search Suite**
 
@@ -671,6 +826,37 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 - صفحهٔ لیست حق‌العملکاری (`/simulators/modian/contracts/commission`) از نظر اسکلت لیست، نوار ابزار و دکمهٔ «ثبت قرارداد جدید»
   با لیست پیمانکاری هم‌تراز شده است؛ هم‌ترازسازی کامل فیلترها و ستون‌ها بعد از نهایی‌شدن قوانین دامنه‌ای پیمانکاری انجام خواهد شد.
 
+
+#### به‌روزرسانی ۱۴۰۴/۱۰/۰۶ — تکمیل منوی قراردادها و تثبیت Flowها (UI-only)
+
+**قراردادهای حق‌العملکاری (Commission)**
+- تکمیل منوی «قراردادها» و فعال‌سازی Flow دکمهٔ «ثبت قرارداد جدید» در لیست حق‌العملکاری (نمایش مراحل درست مطابق UI).
+- اصلاح برچسب‌های نقش‌ها در لیست و ویزارد: «آمر / حق‌العملکار».
+- اصلاح جستجوی پیشرفته حق‌العملکاری:
+  - «نوع قرارداد» محدود به «خرید / فروش».
+  - جایگزینی تمام لیبل‌های «کارفرما/پیمانکار» با «آمر/حق‌العملکار».
+- تغییرات ویزارد حق‌العملکاری:
+  - حذف فیلد «نوع آمر» از مرحلهٔ «نوع و تاریخ قرارداد».
+  - افزودن فیلد جدید «نرخ کارمزد حق‌العملکاری (اختیاری)» بین «شماره داخلی قرارداد» و «توضیحات».
+  - مرتب‌سازی آیتم‌های مرحلهٔ «تأیید نهایی» مطابق شماره‌بندی UI.
+- جدول لیست: حذف ستون «مسئولیت ماده۱۸».
+
+**قراردادهای پیمانکاری (Contracting)**
+- تکمیل ویزارد ثبت قرارداد پیمانکاری تا مرحلهٔ «تأیید نهایی» (نوع و تاریخ قرارداد، اطلاعات قرارداد، اطلاعات تکمیلی، تأیید نهایی).
+- اعتبارسنجی فیلدهای اجباری «مبلغ قرارداد(ریال)» و «تاریخ شروع قرارداد» با پیام خطای قرمز هنگام تلاش برای عبور.
+- جدول «پیش‌پرداخت و علی‌الحساب‌ها»: افزودن/حذف در state و عدم نمایش تیتر/جدول در «تأیید نهایی» در صورت خالی بودن.
+- بهبودهای UX/Flow گزارش‌شده: اصلاح توست ماده ۱۸ و افزودن مسیر «ثبت‌نام‌شدگان» + مرحلهٔ «تأیید پرونده» برای سناریوی ثبت‌نام‌شدگان.
+
+**استانداردسازی Importها (Barrelها) و کیفیت**
+- ایجاد/آپدیت Barrelهای مشترک برای جستجو و جدول:
+  - `src/components/modian/common/search/index.ts`
+  - `src/components/modian/common/table/index.ts`
+- Lint برای فایل‌های اصلاح‌شده/ایجادشده در این دوره گزارش، صفر شده است؛ نتیجهٔ Build در گزارش ثبت نشده است.
+
+**موارد نیازمند تصمیم مدیر پروژه**
+- سیاست تیم دربارهٔ `eslint-disable`های موضعی برای `no-restricted-imports` و اصلاح مرکزی Rule (پیشنهاد تیم: اصلاح مرکزی).
+- الزام اجرای `npm run build` قبل از merge و ثبت خروجی در گزارش.
+
 **وضعیت اتصال به بک‌اند در این فاز**
 
 - در بازهٔ مربوط به این به‌روزرسانی، هیچ endpoint جدیدی در بک‌اند ماژول مودیان برای فیچرهای زیر تعریف نشده است:
@@ -686,12 +872,15 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
   - `/simulators/modian/old-Invoices/exports`, `/simulators/modian/old-Invoices/exports/detail`
   - `/simulators/modian/purchase-announcements`, `/simulators/modian/purchase-announcements/imports`,
     `/simulators/modian/purchase-announcements/bourse`
-  - `/simulators/modian/contracts/contracting`, `/simulators/modian/contracts/contracting/new`,
-    `/simulators/modian/contracts/commission`
+  - `/simulators/modian/contracts/contracting`
+- `/simulators/modian/contracts/contracting/new`
+- `/simulators/modian/contracts/contracting/detail`
+- `/simulators/modian/contracts/commission`
+- `/simulators/modian/contracts/commission/new`
+- `/simulators/modian/contracts/commission/detail`
 - بخش‌های قبلی سند که endpointهای موجود مودیان را پوشش می‌دهند (مانند `taxfile`, `bills`, `memory-uid`,
   `users-roles`, `roles`, `portal`, `home` و …) در این فاز بدون تغییر باقی می‌مانند؛
   تنها مصرف UI جدید روی همین endpoints در گزارش‌های فیچر توضیح داده شده است.
-  +
 
 
 ## بخش ۳ — Future API Mapping (TBD)
@@ -745,15 +934,19 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 | purchase-announcements/* | فیلترها | موضوع اعلامیه | `noticeSubject` | string[] | `noticeSubject` | `noticeSubject` | TBD | واژگان دامنه TBD |
 | purchase-announcements/* | فیلترها | تاریخ از/تا | `noticeDateFrom/To` | date | `noticeDateFrom`, `noticeDateTo` | `noticeDate` | TBD | UI جلالی → ISO8601 |
 
-#### 3.1.4 فیلدهای اختصاصی قراردادها (Contracting)
+#### 3.1.4 فیلدهای اختصاصی قراردادها (Contracting / Commission)
 
 | دامنه/صفحه | بخش UI | فیلد UI (Label) | کلید UI (پیشنهادی) | نوع | Query/Body (پیشنهادی) | API Field (پیشنهادی) | وضعیت | توضیح |
 |---|---|---|---|---|---|---|---|---|
-| contracts/contracting | جستجو پیشرفته | نوع قرارداد | `contractType` | string | `contractType` | `contractType` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
-| contracts/contracting | جستجو پیشرفته | وضعیت قرارداد | `contractStatus` | string | `contractStatus` | `contractStatus` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
-| contracts/contracting | جستجو پیشرفته | موضوع قرارداد | `contractSubject` | string | `contractSubject` | `contractSubject` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
-| contracts/contracting/new | ویزارد (قدم ۱) | نقش | `contractRole` | string | `contractRole` | `contractRole` | UI-only | گزینه‌ها: «کارفرما / پیمانکار» |
-| contracts/contracting | جستجو پیشرفته | سایر فیلدهای پیشرفته (۱۷ مورد) | — | — | — | — | TBD | **نیازمند استخراج دقیق کلیدها از کانفیگ SearchByFilters** |
+| contracts/contracting | جستجو پیشرفته | نوع قرارداد | `contractType` | `contractType` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
+| contracts/contracting | جستجو پیشرفته | وضعیت قرارداد | `contractStatus` | `contractStatus` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
+| contracts/contracting | جستجو پیشرفته | موضوع قرارداد | `contractSubject` | `contractSubject` | TBD | گزینه‌ها در UI تنظیم شده‌اند |
+| contracts/contracting/new | ویزارد | نقش | `contractRole` | `contractRole` | UI-only | گزینه‌ها: «کارفرما / پیمانکار» (پیش‌فرض UI: کارفرما) |
+| contracts/contracting | جستجو پیشرفته | سایر فیلدهای پیشرفته | — | — | TBD | **نیازمند استخراج دقیق کلیدها از کانفیگ SearchByFilters** |
+| contracts/commission | جستجو پیشرفته | نقش مودی | `role` | `role` | TBD | لیبل‌های UI: «آمر / حق‌العملکار» |
+| contracts/commission | جستجو پیشرفته | نوع قرارداد | `contractType` | `contractType` | TBD | گزینه‌ها: فقط «خرید / فروش» (پیشنهاد مقدار ذخیره‌سازی: `buy` / `sell`) |
+| contracts/commission/new | ویزارد | نرخ کارمزد حق‌العملکاری (اختیاری) | `commissionRate` | `commissionRate` | UI-only | درصد (۰ تا ۱۰۰) — محل نمایش: بین «شماره داخلی قرارداد» و «توضیحات» |
+
 
 #### 3.1.5 Governance (الزامی)
 - هر صفحه‌ای که از Search Suite استفاده می‌کند باید فقط از `src/components/modian/common/search/*` مصرف کند؛ **کپی/فورک ممنوع**.
@@ -770,6 +963,7 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 - `/simulators/modian/contracts/contracting`
 - `/simulators/modian/contracts/contracting/new`
 - `/simulators/modian/contracts/commission`
+- `/simulators/modian/contracts/commission/new`
 
 #### 3.2.2 Endpointهای پیشنهادی (TBD)
 
@@ -778,6 +972,7 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 | `/api/modian/contracts/contracting` | `GET` | لیست قراردادهای پیمانکاری (پشتیبانی از Search Suite؛ Query TBD) | TBD |
 | `/api/modian/contracts/contracting` | `POST` | ثبت قرارداد پیمانکاری (خروجی: `id` قرارداد) | TBD |
 | `/api/modian/contracts/commission` | `GET` | لیست قراردادهای حق‌العملکاری (Query TBD) | TBD |
+| `/api/modian/contracts/commission` | `POST` | ثبت قرارداد حق‌العملکاری (خروجی: `id` قرارداد) | TBD |
 | `/api/modian/contracts/:id` | `GET` | جزئیات قرارداد (برای صفحهٔ جزئیات/ویرایش در آینده) | TBD |
 | `/api/modian/contracts/:id` | `PATCH` | ویرایش/تکمیل قرارداد (برای ویزارد چندمرحله‌ای در آینده) | TBD |
 | `/api/modian/contracts` | `GET` | لیست کلی قراردادها (فیلترهای مشترک مثل `role=...` و ...) | TBD |
@@ -814,3 +1009,67 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
   - `counterpartyPostalCode` اجباری و دقیقاً ۱۰ رقم.
   - بر اساس `counterpartyPersonType` یکی از فیلدهای شناسه (`counterpartyNationalOrForeignId` یا `counterpartyLegalId` یا `counterpartyPartnershipId`) اجباری است.
   
+  
+---
+## Update (1404-10-17 / Requests + Tax Bills UI Flow)
+
+> منبع: `team2-status-report-14041017.txt`
+> این به‌روزرسانی صرفاً وضعیت **UI/Flow** را ثبت می‌کند و به‌معنای وجود endpoint جدید در بک‌اند نیست.
+
+### UI-only / Flow Status (گزارش‌شده)
+
+- جریان «درخواست‌ها > افزایش حد مجاز فروش» تا سطح اسکلت و مودالهای چندمرحله‌ای در UI پیاده‌سازی شده است.
+- بخش «صدور قبوض مالیاتی» نیز تا سطح اسکلت/اتصال مودال صدور قبض در UI گزارش شده است.
+- رفتار منوی کشویی «درخواست‌ها» در سایدبار به‌صورت toggle (بدون redirect خودکار به اولین زیرمنو) تثبیت شده است.
+
+### جزئیات Flow ثبت‌شده برای `/simulators/modian/requests/increase-sales-limit` (UI-only)
+
+- مرحله ۱: انتخاب نوع درخواست + سال/دوره (با پیش‌فرض‌های UI گزارش‌شده)
+- مرحله ۲ (پرداخت نقدی): «ماشین محاسبه» با محاسبه خودکار مبلغ پرداختی
+- مرحله ۲ (ارائه تضمین): انتخاب نوع تضمین با فعال‌بودن «چک صیادی/چک الکترونیکی»
+- مرحله ۳ (پرداخت نقدی): مودال «بررسی نهایی» (نمایش خلاصه انتخاب‌ها)
+
+### WIP Validation (هنوز نهایی نشده / UI-level)
+
+- اعتبارسنجی «شناسه صیاد = دقیقاً 16 رقم عددی» در گزارش به‌عنوان WIP ثبت شده است.
+- تا زمان تعریف/تأیید endpoint رسمی برای این جریان، این اعتبارسنجی‌ها در حوزه UI/شبیه‌ساز تلقی می‌شوند.
+
+---
+## Update (1404-12-06 / Multi-tenant Business Isolation – Backend Contract Notes)
+
+> منابع: `team2-status-report-14041206.txt` + `team2-status2-report-14041206.txt`
+> این بخش «قرارداد عملیاتی/امنیتی» endpointهای موجود را به‌روزرسانی می‌کند و endpoint جدید اضافه نمی‌کند.
+
+### Auth / Context Contract (به‌روزرسانی)
+
+- فاز اول Business Isolation در بک‌اند تکمیل شده و `businessId` اکنون در JWT قرار می‌گیرد.
+- Middleware/Context برای استخراج `businessId` از JWT و نگهداری request-scoped (AsyncLocalStorage) گزارش شده است.
+- استاندارد امنیتی: `businessId` فقط از JWT استخراج شود و به body/request اعتماد نشود.
+
+### Update (2026-02-27) — تثبیت عملیاتی Bills + آماده‌سازی DB Integration
+- برای جلوگیری از شکست build و هم‌راستاسازی با الزام `businessId`، مسیرهای create قبض در سرویس‌های مربوطه
+  با ست‌کردن `businessId` اصلاح شدند.
+- برنچ کاری جدید برای آماده‌سازی اتصال کامل DB ایجاد شد:
+  - `feature/backend-db-integration-prep`
+- سیاست hygiene برنچ‌ها در بک‌اند:
+  - روی ریموت فقط `main` و برنچ کاری فعال نگه داشته می‌شود (حذف سایر برنچ‌ها پس از تثبیت).
+### Registration Endpoint Status (WIP Note)
+
+- Endpoint ثبت Registration در مرحله تثبیت relation اجباری `legalInfo` قرار دارد.
+- در طراحی/پیاده‌سازی endpointهای Registration باید سناریوی `nested connect` یا `nested create` به‌صورت استاندارد پوشش داده شود.
+
+Registration Endpoint Status (تثبیت‌شده)
+- Endpoint: `POST /businesses/onboarding/step-1`
+- اعتبارسنجی: فیلدهای `legalInfo` به‌صورت `nested create/connect` در `BusinessService` پوشش داده شده‌اند.
+- امنیت: `businessId` منحصراً از JWT Context استخراج می‌شود؛ دریافت از body/query ممنوع است.
+
+### Test/QA Contract for Protected Endpoints
+
+- در تست endpointهای محافظت‌شده باید صراحتاً از **access token** معتبر استفاده شود
+  (ریسک گزارش‌شده: ارسال refresh token و خالی‌ماندن `businessId` در Context).
+
+### PM Decision Hook (برای فازهای بعد)
+
+- استراتژی انتخاب `business` فعال (UI-selected / first business / activeBusinessId روی User)
+  هنوز نیازمند تصمیم رسمی است؛ تا قبل از تصمیم، از hardcode رفتاری در قرارداد endpointها خودداری شود.
+- استراتژی `active business`: پیش‌فرض فعلی `businesses[0]` است. در صورت نیاز به سوییچ بیزینس، باید از طریق `POST /auth/switch-business` یا UI-Selector مدیریت شود (تصمیم رسمی معلق است).

@@ -1,4 +1,4 @@
-//src/features/modian/taxfile/bills/page.tsx
+//src/features/modian/taxfile/bills/BillsPage.tsx
 
 'use client';
 

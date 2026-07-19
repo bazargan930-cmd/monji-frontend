@@ -1,4 +1,4 @@
-// src/app/dashboard/layout.tsx+
+// src/app/dashboard/layout.tsx
 
 import { cookies, headers } from 'next/headers';
 import Link from 'next/link';
@@ -30,8 +30,8 @@ async function getUser() {
   try {
     const res = await fetch(`${baseUrl}/api/utils/user-info`, {
       headers: { Cookie: cookieHeader },
-      // دادهٔ کم‌تغییر → revalidate ملایم
-      next: { revalidate: 30 },
+      // اطلاعات هویتی هرگز نباید بین نشست‌ها Cache شود.
+      cache: 'no-store',
     });
     if (!res.ok) return null;
     const raw = await res.json();
@@ -64,13 +64,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <i className="fa-solid fa-gauge ms-2" /> داشبورد
           </Link>
           <div className="mt-4 px-2 text-xs uppercase text-muted/80">شبیه‌سازها</div>
-          <Link href="/simulators/salary-tax/dashboard" className="nav-item">
+          <Link href="/simulators/platform-check?platform=مالیات بر حقوق&next=/simulators/salary-tax/dashboard" className="nav-item">
             <i className="fa-solid fa-file-invoice-dollar ms-2" /> مالیات بر حقوق
           </Link>
-          <Link href="/simulators/insurance/single" className="nav-item">
+          <Link href="/simulators/platform-check?platform=بیمه تأمین اجتماعی&next=/simulators/insurance/single" className="nav-item">
             <i className="fa-solid fa-shield-heart ms-2" /> بیمه تأمین اجتماعی
           </Link>
-          <Link href="/simulators/modian/portal" className="nav-item">
+          <Link href="/simulators/platform-check?platform=سامانه مودیان&next=/simulators/modian/login" className="nav-item">
             <i className="fa-solid fa-building-columns ms-2" /> سامانه مودیان
           </Link>
         </nav>

@@ -62,7 +62,10 @@ export async function getBills(q: BillsGetOpts = {}) {
    if (q.page)                          params.set('page', String(q.page));
    if (q.pageSize)                      params.set('pageSize', String(q.pageSize));
    const url = `${API_BASE}/simulators/modian/bills${params.toString() ? `?${params.toString()}` : ''}`;
-   const res = await fetch(url, { method: 'GET' });
+   const res = await fetch(url, { 
+     method: 'GET',
+     credentials: 'include' // <<< الزامی برای ارسال کوکی احراز هویت
+   });
    return handle<{ items: unknown[]; total: number; page: number; pageSize: number }>(res);
  }
 
@@ -70,6 +73,7 @@ export async function createBill(body: CreateBillBody) {
   const url = `${API_BASE}/simulators/modian/bills`;
   const res = await fetch(url, {
     method: 'POST',
+     credentials: 'include', // <<< الزامی
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       billIdentifier: body.billIdentifier,
@@ -85,7 +89,10 @@ export async function createBill(body: CreateBillBody) {
 // حذف قبض
 export async function deleteBill(id: number) {
   const url = `${API_BASE}/simulators/modian/bills/${id}`;
-  const res = await fetch(url, { method: 'DELETE' });
+  const res = await fetch(url, { 
+     method: 'DELETE',
+     credentials: 'include' // <<< الزامی
+   });
   return handle<{ message: string }>(res);
 }
 
@@ -100,50 +107,14 @@ export async function updateBill(id: number, payload: {
 
 { 
    // سناریوهای احتمالی بک‌اند: PUT/PATCH روی /:id یا PATCH روی ?id= و یا /:id/edit
-  const base = `${API_BASE}/simulators/modian/bills`;
-  const tries: Array<RequestInfo | [RequestInfo, RequestInit]> = [
-    [ `${base}/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) } ],
-  ];
-
-
-  let lastStatus = 0, lastText = '';
-  let lastHref = '';
- const debug: Array<{ href: string; method: string; status?: number; note?: string }> = [];
- for (const t of tries) {
-   const [href, init] = Array.isArray(t) ? t : [t, {}];
-   lastHref = String(href);
-   try {
-     const res = await fetch(href as string, init as RequestInit);
-     if (res.ok) {
-       return handle<{ message: string }>(res);
-     }
-     lastStatus = res.status;
-     lastText = (await res.text()) || res.statusText;
-     const method = (init as RequestInit | undefined)?.method || 'GET';
-     debug.push({
-       href: lastHref,
-       method,
-       status: res.status,
-       note: (lastText || '').slice(0, 140),
-     });
-     if (res.status === 404 || res.status === 405) continue;
-     throw new Error(lastText || `HTTP ${res.status}`);
-   } catch (e) {
-     lastText = (e as Error)?.message || String(e);
-     const method = (init as RequestInit | undefined)?.method || 'ERR';
-     debug.push({
-       href: lastHref,
-       method,
-       note: (lastText || '').slice(0, 140),
-     });
-     continue;
-   }
- }
- throw new Error(
-   `ویرایش قبض ناموفق بود.\n` +
-   `آخرین وضعیت: ${lastStatus} ${lastText}\n` +
-   `تلاش‌ها:\n` + debug.map(d => `- [${d.method}] ${d.href} => ${d.status ?? 'ERR'} ${d.note ?? ''}`).join('\n')
- );
+  const url = `${API_BASE}/simulators/modian/bills/${id}`;
+   const res = await fetch(url, {
+     method: 'PUT',
+     credentials: 'include', // <<< الزامی
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(payload),
+   });
+   return handle<{ message: string }>(res);
 
 }
 

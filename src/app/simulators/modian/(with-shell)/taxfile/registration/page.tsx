@@ -6,7 +6,8 @@ import { RegistrationInformation } from '@/features/modian';
 export default function RegistrationInformationPage() {
   
   return (
-    <section className="w-full" dir="rtl">
+    <section className="w-full max-w-7xl mx-auto px-4" dir="rtl">
+
 
       {/* Page Help */}
       <div className="mb-2 flex justify-end">
@@ -24,14 +25,6 @@ export default function RegistrationInformationPage() {
               </p>
             </div>
 
-            <div>
-              <h3 className="font-semibold">منطق تکمیل خودکار «اطلاعات شعب»</h3>
-              <ul className="list-disc pr-6 space-y-1">
-                <li>کد شعبه: <strong>****</strong></li>
-                <li>نام شعبه: <strong>مرکزی</strong></li>
-                <li>سایر فیلدها از اطلاعات نشانی قانونی خوانده می‌شود.</li>
-              </ul>
-            </div>
           </div>
         </HelpTrigger>
       </div>

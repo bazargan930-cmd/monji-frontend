@@ -1,4 +1,4 @@
-// src/components/layout/ModianFooter.tsx
+// src/features/modian/layout/ModianFooter.tsx
 export default function ModianFooter() {
   return (
         <footer className="w-full bg-gray-100 border-t border-gray-300 py-3 text-center text-[12px] text-gray-600">

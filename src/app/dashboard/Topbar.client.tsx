@@ -196,13 +196,13 @@ export default function Topbar({ userName, userRole }: Props) {
                   <i className="fa-solid fa-gauge ms-2" /> داشبورد
                 </a>
                 <div className="mt-4 text-xs uppercase text-muted/80">شبیه‌سازها</div>
-                <a href="/simulators/salary-tax/dashboard" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/salary-tax/dashboard', where: 'drawer' }); }}>
+                <a href="/simulators/platform-check?platform=مالیات بر حقوق&next=/simulators/salary-tax/dashboard" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/platform-check', where: 'drawer' }); }}>
                   <i className="fa-solid fa-file-invoice-dollar ms-2" /> مالیات بر حقوق
                 </a>
-                <a href="/simulators/insurance/single" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/insurance/single', where: 'drawer' }); }}>
+                <a href="/simulators/platform-check?platform=بیمه تأمین اجتماعی&next=/simulators/insurance/single" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/platform-check', where: 'drawer' }); }}>
                   <i className="fa-solid fa-shield-heart ms-2" /> بیمه تأمین اجتماعی
                 </a>
-                <a href="/simulators/modian/portal" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/modian/portal', where: 'drawer' }); }}>
+                <a href="/simulators/platform-check?platform=سامانه مودیان&next=/simulators/modian/portal" className="nav-item block" onClick={() => { setMobileOpen(false); track('nav_click', { to: '/simulators/platform-check', where: 'drawer' }); }}>
                   <i className="fa-solid fa-building-columns ms-2" /> سامانه مودیان
                 </a>
               </nav>

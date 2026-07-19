@@ -1,9 +1,15 @@
-src/components
+src\components
 ├─ admin/
 │  └─ NoticeForm.tsx
 ├─ auth/
 │  ├─ ChangePasswordForm.tsx
 │  └─ LoginForm.tsx
+├─ business/
+│  └─ onboarding/
+│     ├─ AddBranchModal.tsx
+│     ├─ OnboardingChoiceModal.tsx
+│     ├─ Step2Tabs.tsx
+│     └─ StepRegistration.tsx
 ├─ common/
 │  ├─ date/
 │  │  └─ JalaliDateField.tsx
@@ -35,113 +41,6 @@ src/components
 │  ├─ SocialProof.tsx
 │  ├─ StickyPromoBar.tsx
 │  └─ TrustStrip.tsx
-├─ modian/
-│  ├─ admin/
-│  │  ├─ dashboard/
-│  │  │  └─ AdminDashboardHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ auth/
-│  │  ├─ index.ts
-│  │  ├─ ModianLoginForm.tsx
-│  │  └─ ModianOtpForm.tsx
-│  ├─ common/
-│  │  ├─ date/
-│  │  │  └─ jalali-utils.ts
-│  │  ├─ search/
-│  │  │  ├─ index.ts
-│  │  │  ├─ InvoicesSearchHeader.tsx
-│  │  │  ├─ SearchByFilters.tsx
-│  │  │  └─ SearchByTaxId.tsx
-│  │  ├─ table/
-│  │  │  ├─ ColumnsVisibilityBar.tsx
-│  │  │  ├─ EmptyTableRow.tsx
-│  │  │  ├─ index.ts
-│  │  │  └─ ScrollableTableShell.tsx
-│  │  ├─ index.ts
-│  │  ├─ InvoiceDetailSection.tsx
-│  │  ├─ memoryKey.utils.ts
-│  │  ├─ ModianJalaliDateField.tsx
-│  │  └─ useMemoryPublicKey.ts
-│  ├─ declaration/
-│  │  ├─ DeclarationHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ home/
-│  │  ├─ HomeHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ layout/
-│  │  ├─ index.ts
-│  │  ├─ ModianFooter.tsx
-│  │  ├─ ModianHeader.tsx
-│  │  ├─ ModianShell.tsx
-│  │  └─ ModianSubHeader.tsx
-│  ├─ otp/
-│  │  └─ page.tsx
-│  ├─ portal/
-│  │  ├─ index.ts
-│  │  └─ PortalHelpContent.tsx
-│  ├─ roles/
-│  │  └─ index.ts
-│  ├─ taxfile/
-│  │  ├─ bank-accounts/
-│  │  │  ├─ BankAccountsHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ bills/
-│  │  │  ├─ BillsHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ memory-uid/
-│  │  │  ├─ add/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ details/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ edit/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ MemoryUidHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ payments/
-│  │  │  └─ page.tsx
-│  │  ├─ pos-uid/
-│  │  │  └─ page.tsx
-│  │  ├─ registration-information/
-│  │  │  ├─ page.tsx
-│  │  │  └─ types.ts
-│  │  ├─ trusted-companies/
-│  │  │  ├─ page.tsx
-│  │  │  └─ TrustedHelpContent.tsx
-│  │  ├─ index.ts
-│  │  ├─ layout.tsx
-│  │  ├─ page.tsx
-│  │  └─ TaxfileSubmenu.tsx
-│  ├─ ui/
-│  │  ├─ date/
-│  │  │  └─ ModianJalaliDatePicker.tsx
-│  │  ├─ Card.tsx
-│  │  ├─ FieldGrid.tsx
-│  │  ├─ FormField.tsx
-│  │  ├─ FormToolbar.tsx
-│  │  ├─ icons.tsx
-│  │  ├─ index.ts
-│  │  ├─ PageShell.tsx
-│  │  ├─ Section.tsx
-│  │  ├─ SimulatorBadge.tsx
-│  │  ├─ Tabs.tsx
-│  │  ├─ ToolbarControls.tsx
-│  │  └─ UploadPublicKeyModal.tsx
-│  ├─ users-roles/
-│  │  ├─ index.ts
-│  │  └─ UsersRolesHelpContent.tsx
-│  ├─ workspace/
-│  │  └─ index.ts
-│  ├─ faq-data.ts
-│  ├─ index.ts
-│  ├─ karpooshe-code-search.tsx
-│  ├─ menu-items.ts
-│  ├─ ModianFaqTab.tsx
-│  ├─ ModianHome.tsx
-│  ├─ ModianNoticesTabs.tsx
-│  ├─ ModianPortal.tsx
-│  ├─ ModianQuickAccess.tsx
-│  ├─ ModianSidebar.tsx
-│  └─ ModianWorkspace.tsx
 ├─ salary-tax/
 │  ├─ page.tsx
 │  ├─ SalaryTaxForm.tsx
@@ -153,6 +52,10 @@ src/components
 ├─ ui/
 │  ├─ button.tsx
 │  ├─ card.tsx
+│  ├─ dialog.tsx
 │  ├─ input.tsx
-│  └─ SkeletonLoader.tsx
+│  ├─ label.tsx
+│  ├─ SkeletonLoader.tsx
+│  ├─ table.tsx
+│  └─ tabs.tsx
 └─ Stepper.tsx

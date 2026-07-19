@@ -1,3 +1,4 @@
+// src/types/moment-jalaali.d.ts
 declare module 'moment-jalaali' {
   // تعریف مینیمال بدون import برای جلوگیری از خطای Lint
   // از unknown استفاده می‌کنیم تا هشدار no-explicit-any هم حذف شود

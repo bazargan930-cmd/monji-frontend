@@ -12,13 +12,13 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:3001';
 export type RegistrationInfo = {
   // اطلاعات پرونده
   tradeName: string; // نام تجاری
-  nationalOrForeignOrLegalId: string; // کد ملی/کدفراگیر/شناسه ملی
-  registrationTrackingNumber: string; // شماره رهگیری ثبت نام
+  nationalId: string; // کد ملی/کدفراگیر/شناسه ملی
+  trackingCode: string; // شماره رهگیری ثبت نام
   entityName: string; // نام شرکت/مودی/تشکل قانونی/واحد صنفی
   taxpayerType: string; // نوع مودی
   economicCode: string; // شماره اقتصادی
-  businessRegistrationNo: string; // شماره ثبت/شماره پرونده کسب
-  activityStartDate: string; // تاریخ شروع فعالیت
+  registrationNo: string; // شماره ثبت/شماره پرونده کسب
+  activityStart: string; // تاریخ شروع فعالیت
 
   // اطلاعات تماس،نشانی و اقامتگاه قانونی
   province: string; // استان
@@ -222,7 +222,7 @@ function InfoSection({
           const [a, b] = pair;
           return (
             //* فاصلهٔ افقی بیشتر، مخصوصاً حوالی خط عمودی وسط */
-            <div key={idx} className="grid grid-cols-4 items-center gap-y-2 gap-x-20 text-sm">
+            <div key={idx} className="grid grid-cols-4 items-center gap-y-2 gap-x-8 text-sm">
               {/* ستون ۱: لیبل آیتم اول */}
               <span className="text-gray-500 text-right">{a?.label}</span>
               {/* ستون ۲..۴: مقدار آیتم اول (در صورت colSpan=2 سه‌ستونه) */}
@@ -236,8 +236,9 @@ function InfoSection({
               {b && a?.colSpan !== 2 && (
                 <>
                   {/* پَدینگ/مارجین سمتِ چپ فقط برای ستون دوم تا از دیوایدر فاصله بگیرد */}
-                  <span className="text-gray-500 text-right ml-4 md:ml-6">{b.label}</span>
-                  <span className="text-gray-900 font-medium text-right ml-4 md:ml-6">
+                  <span className="text-gray-500 text-right">{b.label}</span>
+                  <span className="text-gray-900 font-medium text-right">
+
                     {toFaDigits(b.value ?? '') || '—'}
                   </span>
                 </>
@@ -306,7 +307,7 @@ export default function RegistrationInformation() {
 
   return (
     <>
-    <div className="lg:pr-4 pr-2">
+    <div className="px-6 max-w-[1500px] mx-auto">
       {/* تیتر صفحه */}
       <div className="flex items-center justify-between mb-2">
         <h1 className="relative -top-4 leading-tight text-lg font-semibold text-gray-800">

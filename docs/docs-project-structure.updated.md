@@ -16,6 +16,17 @@
   - **ESLint:** `^9` + `eslint-config-next@15.3.1` (طبق `package.json`)
 - **Backend:** `ghaaanoon-backend` — (فایل `tsconfig.json` ارسال شده است؛ مسیر `src/app/` در بک‌اند وجود ندارد.)
 
+### 1.2) Update (2026-02-27) — وضعیت مرج‌ها، برنچ‌ها و آماده‌سازی DB
+
+- **Frontend (Modian):**
+  - مرج «backend integration + انتقال ساختار Modian به features» به `main` انجام شده و baseline کیفیت روی `main` سبز است (lint/build).
+  - سیاست Import برای ماژول مودیان **Barrel-only** باقی می‌ماند؛ اما مسیر مرجع برای عناصر مودیان از `src/components/modian/*`
+    به `src/features/modian/*` منتقل شده است و Wrapperهای `src/app/simulators/modian/**` فقط خروجی‌های Barrel را مصرف می‌کنند.
+- **Backend:**
+  - فاز زیرساخت Multi-tenant و الزام `businessId` در مدل‌ها تثبیت شده است.
+  - یک فیکس عملیاتی به `main` اضافه شد: هنگام ایجاد UtilityBill، مقدار `businessId` (از طریق ریشه‌ی داده معتبر) ست می‌شود تا build سبز بماند.
+  - برنچ کاری جدید برای آماده‌سازی اتصال DB ایجاد شد: `feature/backend-db-integration-prep`.
+  - پاکسازی برنچ‌ها: در ریموت و لوکال فقط `main` و برنچ کاری جدید نگه داشته می‌شوند (سیاست Hygiene).
 > نکته: هشدار تکراری بیلد
 > ```
 > ESLint: Failed to patch ESLint because the calling module was not recognized ...
@@ -26,379 +37,543 @@
 برای هم‌راستا نگه‌داشتن این سند با ساختار واقعی سورس، از اسکریپت‌های زیر استفاده کن:
 ```bash
 # تولید اسنپ‌شات مسیرها
-npm run docs:scan      # → app-tree.txt + components-tree.txt
+npm run docs:scan      # → frontend-tree.txt + components-tree.txt
 
 # تزریق خودکار در همین سند (DOCS)
 npm run docs:all       # docs:scan + docs:update-structure
 ```
 > این اسکریپت‌ها در `package.json` تعریف شده‌اند و محتوا را بین بلوک‌های
-> `<!-- BEGIN:APP_TREE -->
-```txt
-src\app
-├─ admin/
-│  └─ notices/
-│     ├─ [id]/
-│     │  └─ edit/
-│     │     └─ page.tsx
-│     ├─ new/
-│     │  └─ page.tsx
-│     └─ page.tsx
-├─ api/
-│  ├─ auth/
-│  │  └─ logout/
-│  │     └─ route.ts
-│  ├─ csrf/
-│  │  └─ route.ts
-│  ├─ simulators/
-│  │  └─ insurance/
-│  │     └─ calculate/
-│  │        └─ route.ts
-│  ├─ telemetry/
-│  │  └─ route.ts
-│  └─ utils/
-│     ├─ today/
-│     │  └─ route.ts
-│     └─ user-info/
-│        └─ route.ts
-├─ auth/
-│  ├─ signin/
-│  │  └─ page.tsx
-│  └─ signup/
-│     └─ page.tsx
-├─ auth-debug/
-│  └─ page.tsx
-├─ dashboard/
-│  ├─ layout.tsx
-│  ├─ page.tsx
-│  └─ Topbar.client.tsx
-├─ privacy/
-│  └─ page.tsx
-├─ profile/
-│  └─ page.tsx
-├─ simulators/
-│  ├─ insurance/
-│  │  ├─ free/
-│  │  │  └─ page.tsx
-│  │  └─ single/
-│  │     └─ page.tsx
-│  ├─ karpooshe/
-│  │  └─ login/
-│  │     └─ page.tsx
-│  ├─ modian/
-│  │  ├─ dashboard/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ contracts/
-│  │  │  ├─ contracting/
-│  │  │  │  ├─ new/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ commission/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ layout.tsx
-│  │  ├─ declaration/
-│  │  │  ├─ page.tsx
-│  │  │  ├─ statement.tsx
-│  │  │  └─ summary.tsx
-│  │  ├─ home/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ invoices/
-│  │  │  ├─ buy/
-│  │  │  │  ├─ detail/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ exports/
-│  │  │  │  ├─ detail/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ sales/
-│  │  │  │  ├─ detail/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ files/
-│  │  │  │  └─ page.tsx
-│  │  │  └─ layout.tsx
-│  │  ├─ login/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ old-Invoices/
-│  │  │  ├─ buy/
-│  │  │  │  ├─ detail/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ exports/
-│  │  │  │  ├─ detail/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ sales/
-│  │  │     ├─ detail/
-│  │  │     │  └─ page.tsx
-│  │  │     └─ page.tsx
-│  │  ├─ otp/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ portal/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ purchase-announcements/
-│  │  │  ├─ bourse/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ imports/
-│  │  │  │  └─ page.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ contracts/
-│  │  │  ├─ contracting/
-│  │  │  │  ├─ page.tsx
-│  │  │  │  └─ new/
-│  │  │  │     └─ page.tsx
-│  │  │  └─ commission/
-│  │  │     └─ page.tsx
-│  │  ├─ roles/
-│  │  │  ├─ add/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ layout.tsx
-│  │  ├─ taxfile/
-│  │  │  ├─ bank-accounts/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ bills/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ memory-uid/
-│  │  │  │  ├─ add/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ details/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ registration/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ trusted/
-│  │  │     ├─ add/
-│  │  │     │  └─ page.tsx
-│  │  │     ├─ layout.tsx
-│  │  │     └─ page.tsx
-│  │  ├─ users-roles/
-│  │  │  ├─ add/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  └─ layout.tsx
-│  └─ salary-tax/
-│     ├─ batch/
-│     │  └─ page.tsx
-│     ├─ dashboard/
-│     │  └─ page.tsx
-│     ├─ free/
-│     │  └─ page.tsx
-│     ├─ login/
-│     │  └─ page.tsx
-│     └─ pro/
-│        └─ page.tsx
-├─ terms/
-│  └─ page.tsx
-├─ head.tsx
-├─ layout.tsx
-└─ page.tsx
-```
- <!-- END:APP_TREE -->` و
-> `<!-- BEGIN:COMPONENTS_TREE -->
-```txt
-src\components
-├─ admin/
-│  └─ NoticeForm.tsx
-├─ auth/
-│  ├─ ChangePasswordForm.tsx
-│  └─ LoginForm.tsx
-├─ common/
-│  ├─ date/
-│  │  └─ JalaliDateField.tsx
-│  ├─ help/
-│  │  ├─ HelpModal.tsx
-│  │  └─ HelpTrigger.tsx
-│  ├─ Captcha.tsx
-│  ├─ FaDigits.tsx
-│  ├─ HelpGuideButton.tsx
-│  └─ InputField.tsx
-├─ insurance/
-│  ├─ InputGroup.tsx
-│  ├─ InsuranceResultBox.tsx
-│  ├─ InsuranceSingleForm.tsx
-│  └─ tax-result.interface.ts
-├─ landing/
-│  ├─ analytics.ts
-│  ├─ ArticlePreview.tsx
-│  ├─ ComparisonTable.tsx
-│  ├─ DemoCard.tsx
-│  ├─ FeatureCard.tsx
-│  ├─ HeroSection.tsx
-│  ├─ HowItWorks.tsx
-│  ├─ LandingFooter.tsx
-│  ├─ MiniAnchorNav.tsx
-│  ├─ perf-metrics.ts
-│  ├─ SocialProof.tsx
-│  └─ TrustStrip.tsx
-├─ layout/
-├─ modian/
-│  ├─ admin/
-│  │  ├─ dashboard/
-│  │  │  └─ AdminDashboardHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ auth/
-│  │  ├─ index.ts
-│  │  ├─ ModianLoginForm.tsx
-│  │  └─ ModianOtpForm.tsx
-│  ├─ common/
-│  │  ├─ date/
-│  │  │  └─ jalali-utils.ts
-│  │  ├─ search/
-│  │  │  ├─ index.ts
-│  │  │  ├─ InvoicesSearchHeader.tsx
-│  │  │  ├─ SearchByFilters.tsx
-│  │  │  └─ SearchByTaxId.tsx
-│  │  ├─ table/
-│  │  │  ├─ ColumnsVisibilityBar.tsx
-│  │  │  ├─ EmptyTableRow.tsx
-│  │  │  └─ ScrollableTableShell.tsx
-│  │  ├─ index.ts
-│  │  ├─ InvoiceDetailSection.tsx
-│  │  ├─ memoryKey.utils.ts
-│  │  ├─ ModianJalaliDateField.tsx
-│  │  └─ useMemoryPublicKey.ts
-│  ├─ declaration/
-│  │  ├─ DeclarationHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ home/
-│  │  ├─ HomeHelpContent.tsx
-│  │  └─ index.ts
-│  ├─ layout/
-│  │  ├─ index.ts
-│  │  ├─ ModianFooter.tsx
-│  │  ├─ ModianHeader.tsx
-│  │  ├─ ModianShell.tsx
-│  │  └─ ModianSubHeader.tsx
-│  ├─ otp/
-│  │  └─ page.tsx
-│  ├─ portal/
-│  │  ├─ index.ts
-│  │  └─ PortalHelpContent.tsx
-│  ├─ roles/
-│  │  └─ index.ts
-│  ├─ taxfile/
-│  │  ├─ bank-accounts/
-│  │  │  ├─ BankAccountsHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ bills/
-│  │  │  ├─ BillsHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ memory-uid/
-│  │  │  ├─ add/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ details/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ edit/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ MemoryUidHelpContent.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ payments/
-│  │  │  └─ page.tsx
-│  │  ├─ pos-uid/
-│  │  │  └─ page.tsx
-│  │  ├─ registration-information/
-│  │  │  ├─ page.tsx
-│  │  │  └─ types.ts
-│  │  ├─ trusted-companies/
-│  │  │  ├─ page.tsx
-│  │  │  └─ TrustedHelpContent.tsx
-│  │  ├─ index.ts
-│  │  ├─ layout.tsx
-│  │  ├─ page.tsx
-│  │  └─ TaxfileSubmenu.tsx
-│  ├─ ui/
-│  │  ├─ date/
-│  │  │  └─ ModianJalaliDatePicker.tsx
-│  │  ├─ Card.tsx
-│  │  ├─ FieldGrid.tsx
-│  │  ├─ FormField.tsx
-│  │  ├─ FormToolbar.tsx
-│  │  ├─ icons.tsx
-│  │  ├─ index.ts
-│  │  ├─ PageShell.tsx
-│  │  ├─ Section.tsx
-│  │  ├─ SimulatorBadge.tsx
-│  │  ├─ Tabs.tsx
-│  │  └─ ToolbarControls.tsx
-│  ├─ users-roles/
-│  │  ├─ index.ts
-│  │  └─ UsersRolesHelpContent.tsx
-│  ├─ workspace/
-│  │  └─ index.ts
-│  ├─ faq-data.ts
-│  ├─ index.ts
-│  ├─ karpooshe-code-search.tsx
-│  ├─ menu-items.ts
-│  ├─ ModianFaqTab.tsx
-│  ├─ ModianHome.tsx
-│  ├─ ModianNoticesTabs.tsx
-│  ├─ ModianPortal.tsx
-│  ├─ ModianQuickAccess.tsx
-│  ├─ ModianSidebar.tsx
-│  └─ ModianWorkspace.tsx
-├─ salary-tax/
-│  ├─ page.tsx
-│  ├─ SalaryTaxForm.tsx
-│  ├─ SalaryTaxResult.tsx
-│  └─ SimulatorHeader.tsx
-├─ simulators/
-│  └─ karpooshe/
-│     └─ KarpoosheLoginForm.tsx
-├─ ui/
-│  ├─ button.tsx
-│  ├─ card.tsx
-│  ├─ input.tsx
-│  └─ SkeletonLoader.tsx
-└─ Stepper.tsx
-```
- <!-- END:COMPONENTS_TREE -->`
- +
+
+ ## APP_TREE
+ <!-- BEGIN:APP_TREE -->
+ src/app
+ ├── head.tsx
+ ├── layout.tsx
+ ├── page.tsx
+ ├── admin/
+ │   └── notices/
+ │       │   page.tsx
+ │       ├── new/
+ │       │       page.tsx
+ │       └── [id]/
+ │           └── edit/
+ │                   page.tsx
+ ├── api/
+ │   ├── auth/
+ │   │   └── logout/
+ │   │           route.ts
+ │   ├── business/
+ │   │   └── onboarding/
+ │   │       └── step-1/
+ │   │               route.ts
+ │   ├── csrf/
+ │   │       route.ts
+ │   ├── simulators/
+ │   │   └── insurance/
+ │   │       └── calculate/
+ │   │               route.ts
+ │   ├── telemetry/
+ │   │       route.ts
+ │   └── utils/
+ │       ├── today/
+ │       │       route.ts
+ │       └── user-info/
+ │               route.ts
+ ├── auth/
+ │   ├── signin/
+ │   │       page.tsx
+ │   └── signup/
+ │           page.tsx
+ ├── auth-debug/
+ │       page.tsx
+ ├── business/
+ │   ├── onboarding/
+ │   │   │   page.tsx
+ │   │   ├── step/
+ │   │   │   └── 1/
+ │   │   │           route.ts
+ │   │   ├── step-1/
+ │   │   │       page.tsx
+ │   │   └── step-2/
+ │   │           page.tsx
+ │   └── registration-status/
+ │           route.ts
+ ├── dashboard/
+ │       layout.tsx
+ │       page.tsx
+ │       Topbar.client.tsx
+ ├── privacy/
+ │       page.tsx
+ ├── profile/
+ │       page.tsx
+ ├── simulators/
+ │   ├── insurance/
+ │   │   ├── free/
+ │   │   │       page.tsx
+ │   │   └── single/
+ │   │           page.tsx
+ │   ├── karpooshe/
+ │   │   └── login/
+ │   │           page.tsx
+ │   ├── modian/
+ │   │   │   layout.tsx
+ │   │   ├── contracts/
+ │   │   │   ├── commission/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── detail/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── new/
+ │   │   │   │           page.tsx
+ │   │   │   └── contracting/
+ │   │   │       │   page.tsx
+ │   │   │       ├── detail/
+ │   │   │       │       page.tsx
+ │   │   │       └── new/
+ │   │   │               page.tsx
+ │   │   ├── dashboard/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── declaration/
+ │   │   │   │   page.tsx
+ │   │   │   │   statement.tsx
+ │   │   │   │   summary.tsx
+ │   │   │   ├── complete/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── calculation/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── credit/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── final/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── purchase/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── sale/
+ │   │   │   │           page.tsx
+ │   │   │   ├── details/
+ │   │   │   │       page.tsx
+ │   │   │   ├── feedback/
+ │   │   │   │       page.tsx
+ │   │   │   ├── green-tax/
+ │   │   │   │       page.tsx
+ │   │   │   └── summary/
+ │   │   │           page.tsx
+ │   │   ├── home/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── invoices/
+ │   │   │   │   layout.tsx
+ │   │   │   ├── buy/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── exports/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── files/
+ │   │   │   │       page.tsx
+ │   │   │   └── sales/
+ │   │   │       │   page.tsx
+ │   │   │       └── detail/
+ │   │   │               page.tsx
+ │   │   ├── login/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── old-Invoices/
+ │   │   │   ├── buy/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── exports/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   └── sales/
+ │   │   │       │   page.tsx
+ │   │   │       └── detail/
+ │   │   │               page.tsx
+ │   │   ├── otp/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── portal/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── purchase-announcements/
+ │   │   │   │   page.tsx
+ │   │   │   ├── bourse/
+ │   │   │   │       page.tsx
+ │   │   │   └── imports/
+ │   │   │           page.tsx
+ │   │   ├── requests/
+ │   │   │   ├── auto-reject-referred-invoices/
+ │   │   │   │       page.tsx
+ │   │   │   ├── defer-invoice-tax-effect/
+ │   │   │   │       page.tsx
+ │   │   │   └── increase-sales-limit/
+ │   │   │           page.tsx
+ │   │   ├── roles/
+ │   │   │   │   layout.tsx
+ │   │   │   └── add/
+ │   │   │           layout.tsx
+ │   │   │           page.tsx
+ │   │   ├── tax-bills/
+ │   │   │       page.tsx
+ │   │   ├── taxfile/
+ │   │   │   │   layout.tsx
+ │   │   │   │   page.tsx
+ │   │   │   ├── bank-accounts/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── bills/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── memory-uid/
+ │   │   │   │   │   layout.tsx
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── add/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── details/
+ │   │   │   │           page.tsx
+ │   │   │   ├── payments/
+ │   │   │   │       page.tsx
+ │   │   │   ├── registration/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── trusted/
+ │   │   │   │   │   layout.tsx
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── add/
+ │   │   │   │           page.tsx
+ │   │   │   └── trusted-companies/
+ │   │   │           page.tsx
+ │   │   └── users-roles/
+ │   │       │   layout.tsx
+ │   │       │   page.tsx
+ │   │       └── add/
+ │   │               layout.tsx
+ │   │               page.tsx
+ │   └── salary-tax/
+ │       ├── batch/
+ │       │       page.tsx
+ │       ├── dashboard/
+ │       │       page.tsx
+ │       ├── free/
+ │       │       page.tsx
+ │       ├── login/
+ │       │       page.tsx
+ │       └── pro/
+ │               page.tsx
+ └── terms/
+         page.tsx
+ <!-- END:APP_TREE -->
+
+ ## COMPONENTS_TREE
+    <!-- BEGIN:COMPONENTS_TREE -->
+ src/components
+ ├── Stepper.tsx
+ ├── admin/
+ │       NoticeForm.tsx
+ ├── auth/
+ │       ChangePasswordForm.tsx
+ │       LoginForm.tsx
+ ├── business/
+ │   └── onboarding/
+ │           AddBranchModal.tsx
+ │           OnboardingChoiceModal.tsx
+ │           Step2Tabs.tsx
+ │           StepRegistration.tsx
+ ├── common/
+ │   │   Captcha.tsx
+ │   │   FaDigits.tsx
+ │   │   HelpGuideButton.tsx
+ │   │   InputField.tsx
+ │   ├── date/
+ │   │       JalaliDateField.tsx
+ │   └── help/
+ │           HelpModal.tsx
+ │           HelpTrigger.tsx
+ ├── insurance/
+ │       InputGroup.tsx
+ │       InsuranceResultBox.tsx
+ │       InsuranceSingleForm.tsx
+ │       tax-result.interface.ts
+ ├── landing/
+ │       analytics.ts
+ │       ArticlePreview.tsx
+ │       ComparisonTable.tsx
+ │       DemoCard.tsx
+ │       FeatureCard.tsx
+ │       HeroSection.tsx
+ │       HowItWorks.tsx
+ │       index.ts
+ │       LandingFooter.tsx
+ │       LandingShell.tsx
+ │       MiniAnchorNav.tsx
+ │       perf-metrics.ts
+ │       SocialProof.tsx
+ │       StickyPromoBar.tsx
+ │       TrustStrip.tsx
+ ├── salary-tax/
+ │       page.tsx
+ │       SalaryTaxForm.tsx
+ │       SalaryTaxResult.tsx
+ │       SimulatorHeader.tsx
+ ├── simulators/
+ │   └── karpooshe/
+ │           KarpoosheLoginForm.tsx
+ └── ui/
+         button.tsx
+         card.tsx
+         dialog.tsx
+         input.tsx
+         label.tsx
+         SkeletonLoader.tsx
+         table.tsx
+         tabs.tsx
+
+ src/features
+ └── modian/
+     │   faq-data.ts
+     │   index.ts
+     │   karpooshe-code-search.tsx
+     │   menu-items.ts
+     │   ModianFaqTab.tsx
+     │   ModianHome.tsx
+     │   ModianNoticesTabs.tsx
+     │   ModianPortal.tsx
+     │   ModianQuickAccess.tsx
+     │   ModianSidebar.tsx
+     │   ModianWorkspace.tsx
+     ├── admin/
+     │   │   index.ts
+     │   └── dashboard/
+     │           AdminDashboardHelpContent.tsx
+     ├── auth/
+     │       index.ts
+     │       ModianLoginForm.tsx
+     │       ModianOtpForm.tsx
+     ├── common/
+     │   │   index.ts
+     │   │   InvoiceDetailSection.tsx
+     │   │   memoryKey.utils.ts
+     │   │   ModianJalaliDateField.tsx
+     │   │   useMemoryPublicKey.ts
+     │   ├── date/
+     │   │       jalali-utils.ts
+     │   ├── search/
+     │   │       index.ts
+     │   │       InvoicesSearchHeader.tsx
+     │   │       SearchByFilters.tsx
+     │   │       SearchByTaxId.tsx
+     │   └── table/
+     │           ColumnsVisibilityBar.tsx
+     │           EmptyTableRow.tsx
+     │           index.ts
+     │           ScrollableTableShell.tsx
+     ├── declaration/
+     │       DeclarationHelpContent.tsx
+     │       index.ts
+     ├── home/
+     │       HomeHelpContent.tsx
+     │       index.ts
+     ├── layout/
+     │       index.ts
+     │       ModianFooter.tsx
+     │       ModianHeader.tsx
+     │       ModianShell.tsx
+     │       ModianSubHeader.tsx
+     ├── otp/
+     │       Otppage.tsx
+     ├── portal/
+     │       index.ts
+     │       PortalHelpContent.tsx
+     ├── roles/
+     │       index.ts
+     ├── taxfile/
+     │   │   index.ts
+     │   │   TaxfileLayoutView.tsx
+     │   │   TaxfilePageView.tsx
+     │   │   TaxfileSubmenu.tsx
+     │   ├── bank-accounts/
+     │   │       BankAccountsHelpContent.tsx
+     │   │       BankAccountsPage.tsx
+     │   ├── bills/
+     │   │       BillsHelpContent.tsx
+     │   │       BillsPage.tsx
+     │   ├── memory-uid/
+     │   │   │   Memory-uidpage.tsx
+     │   │   │   MemoryUidHelpContent.tsx
+     │   │   ├── add/
+     │   │   │       Addpage.tsx
+     │   │   ├── details/
+     │   │   │       Detailspage.tsx
+     │   │   └── edit/
+     │   │           page.tsx
+     │   ├── payments/
+     │   │       PaymentsPage.tsx
+     │   ├── pos-uid/
+     │   │       page.tsx
+     │   ├── registration-information/
+     │   │       RegistrationInformationPage.tsx
+     │   │       types.ts
+     │   └── trusted-companies/
+     │           TrustedCompaniesPage.tsx
+     │           TrustedHelpContent.tsx
+     ├── ui/
+     │   │   Card.tsx
+     │   │   FieldGrid.tsx
+     │   │   FormField.tsx
+     │   │   FormToolbar.tsx
+     │   │   icons.tsx
+     │   │   index.ts
+     │   │   PageShell.tsx
+     │   │   Section.tsx
+     │   │   SimulatorBadge.tsx
+     │   │   Tabs.tsx
+     │   │   ToolbarControls.tsx
+     │   │   UploadPublicKeyModal.tsx
+     │   └── date/
+     │           ModianJalaliDatePicker.tsx
+     ├── users-roles/
+     │       index.ts
+     │       UsersRolesHelpContent.tsx
+     └── workspace/
+             index.ts
+ <!-- END:COMPONENTS_TREE -->
+
 ### BACKEND_SRC_TREE
-<!-- BEGIN:BACKEND_SRC_TREE -->
-```txt
-src
-├─ api
-│  ├─ api.module.ts
-│  ├─ api.service.ts
-│  └─ modian
-│     ├─ contracts
-│     │  ├─ contracts.controller.ts
-│     │  ├─ contracts.module.ts
-│     │  ├─ contracts.service.ts
-│     │  └─ dto
-│     │     ├─ create-contract.dto.ts
-│     │     └─ index.ts
-│     ├─ modian.module.ts
-│     ├─ purchase-announcements
-│     │  ├─ dto
-│     │  │  ├─ create-purchase-announcement.dto.ts
-│     │  │  └─ index.ts
-│     │  ├─ purchase-announcements.controller.ts
-│     │  ├─ purchase-announcements.module.ts
-│     │  └─ purchase-announcements.service.ts
-│     └─ taxfile
-│        ├─ dto
-│        │  ├─ index.ts
-│        │  └─ submit-bill.dto.ts
-│        ├─ taxfile.controller.ts
-│        ├─ taxfile.module.ts
-│        └─ taxfile.service.ts
-├─ app.module.ts
-└─ main.ts
+ <!-- BEGIN:BACKEND_SRC_TREE -->
+ src
+ ├── app.module.ts
+ ├── main.ts
+ ├── admin/
+ │       admin.controller.ts
+ │       admin.module.ts
+ ├── auth/
+ │   │   access-level.decorator.ts
+ │   │   access-level.guard.ts
+ │   │   auth.controller.spec.ts
+ │   │   auth.controller.ts
+ │   │   auth.module.ts
+ │   │   auth.service.spec.ts
+ │   │   auth.service.ts
+ │   │   dev-bypass.guard.ts
+ │   │   hash.service.ts
+ │   │   jwt-auth.guard.ts
+ │   │   jwt-payload.interface.ts
+ │   │   jwt.strategy.ts
+ │   │   roles.decorator.ts
+ │   ├── dto/
+ │   │       change-password.dto.ts
+ │   │       login.dto.ts
+ │   │       register.dto.ts
+ │   │       signin.dto.ts
+ │   │       signup.dto.ts
+ │   └── interfaces/
+ │           request-with-user.interface.ts
+ ├── business/
+ │   │   business.controller.ts
+ │   │   business.module.ts
+ │   │   business.service.ts
+ │   └── dto/
+ │           onboarding-step1.dto.ts
+ ├── common/
+ │   ├── context/
+ │   │       business-context.middleware.ts
+ │   │       business-context.module.ts
+ │   │       business-context.service.ts
+ │   │       context.middleware.ts
+ │   │       request-context.interface.ts
+ │   │       request-context.service.ts
+ │   └── decorators/
+ │           public.decorator.ts
+ ├── core/
+ │   │   core.module.ts
+ │   └── payroll/
+ │       │   calculateSalaryTax.ts
+ │       │   payroll-entry.entity.ts
+ │       │   payroll-item.entity.ts
+ │       │   payroll.controller.ts
+ │       │   payroll.service.ts
+ │       ├── dto/
+ │       │       create-entry-wrapper.dto.ts
+ │       └── tax-brackets/
+ │               1404.tax-brackets.ts
+ │               tax-bracket.interface.ts
+ ├── health/
+ │       health.controller.ts
+ │       health.module.ts
+ │       health.service.ts
+ ├── modules/
+ │   ── business-profile/
+ │           business-profile.controller.ts
+ │           business-profile.service.ts
+ ├── notice/
+ │   │   notice.controller.ts
+ │   │   notice.module.ts
+ │   │   notice.service.ts
+ │   └── dto/
+ │           create-notice.dto.ts
+ ├── orders/
+ │       orders.controller.ts
+ │       orders.module.ts
+ │       orders.service.ts
+ ├── prisma/
+ │   │   prisma.middleware.ts
+ │   │   prisma.module.ts
+ │   │   prisma.service.spec.ts
+ │   │   prisma.service.ts
+ │   └── extensions/
+ │           businessIsolation.extension.ts
+ │           tenantTransaction.extension.ts
+ ├── registration/
+ │       registration.controller.ts
+ │       registration.module.ts
+ │       registration.service.ts
+ ├── services/
+ ├── simulator/
+ │   │   simulator-access.service.ts
+ │   │   simulator.controller.ts
+ │   │   simulator.module.ts
+ │   │   simulator.service.ts
+ │   │   test-tax.ts
+ │   ├── dto/
+ │   │       insurance-single.dto.ts
+ │   ├── interfaces/
+ │   │       simple-tax-result.interface.ts
+ │   │       tax-result.interface.ts
+ │   ├── karpooshe/
+ │   │       karpooshe.controller.ts
+ │   │       karpooshe.service.ts
+ │   ├── logic/
+ │   │       calculateSalaryTaxBatch.ts
+ │   └── salary-tax/
+ │       ── dto/
+ │               create-simulator.dto.ts
+ │               salary-tax-batch.dto.ts
+ │               salary-tax.dto.ts
+ │               update-simulator.dto.ts
+ ├── simulator-modian/
+ │   │   bills.controller.ts
+ │   │   bills.service.ts
+ │   │   registration.controller.ts
+ │   │   registration.service.ts
+ │   │   simulator-modian.controller.ts
+ │   │   simulator-modian.module.ts
+ │   │   simulator-modian.service.ts
+ │   └── dto/
+ │           create-utility-bill.dto.ts
+ │           query-bills.dto.ts
+ │           update-utility-bill.dto.ts
+ ├── types/
+ │       ambient.d.ts
+ ├── user/
+ │       user.controller.ts
+ │       user.module.ts
+ └── utils/
+         utils.controller.ts
+         utils.module.ts
+ <!-- END:BACKEND_SRC_TREE -->
 ```
 
 <!-- END:BACKEND_SRC_TREE -->
@@ -493,6 +668,13 @@ export default function PageClient() {
 > در ماژول مودیان، این الگو هم‌اکنون در صفحات `otp`, `portal`, `users-roles/add` و چند صفحهٔ مشابه اعمال شده است.
 
 > فایل‌های کلاینتی (مثل `ModianOtpForm.tsx`, `ModianLoginForm.tsx`) درون پوشهٔ `src/components/modian/` قرار دارند و از طریق Wrapper در `page.tsx` سروری فراخوانی می‌شوند.
+
+### 3.3 معماری یکپارچه و Proxy مسیرهای حساس (بر اساس Baseline)
+طبق مستند `baseline-current-state.md`، لایه‌های `app/api/` به‌عنوان پروکسی امنیتی/توسعه‌ای عمل می‌کنند:
+- `POST /api/business/onboarding/step-1` → درخواست را با `credentials: "include"` به بک‌اند فوروارد می‌کند تا کوکی JWT حفظ شود.
+- پس از موفقیت، دیگر redirect خودکار به `step-2` وجود ندارد؛ به‌جای آن Modal موفقیت نمایش و کاربر به `/dashboard` هدایت می‌شود.
+- این الگو coupling مستقیم فرانت↔بک‌اند را کاهش داده و برای مهاجرت‌های آینده به‌عنوان استاندارد `side-by-side` ثبت می‌شود.
+
 ---
 
 ## 4) مسیرها/صفحات کلاینت مودیان (طبق فهرست ارسالی شما)
@@ -515,6 +697,16 @@ export default function PageClient() {
 > فایل‌های `layout.tsx` و/یا `page.tsx` حداقلی ایجاد شد تا خطاهای
 > «**Expected to return a React component**» و **Missing Suspense** برطرف شود.
 
+### تحویل‌های جدید (۱۴۰۵/۰۳/۱۳)
+**صفحه Login (`/simulators/modian/login`):**
+- اصلاح کپچا (کاراکترهای رنگی و چرخشی).
+- اصلاح جریان Tab Navigation (پرش مستقیم از رمز عبور به کپچا).
+- افزودن دکمه نمایش رمز عبور با `tabIndex={-1}`.
+- افزودن Dropdown انتخاب کسب‌وکار (فراخوانی `businesses/me`).
+
+**صفحه OTP (`/simulators/modian/otp`):**
+- پیاده‌سازی تایمر ۶ دقیقه‌ای با نوار پیشرفت گرافیکی.
+- افزودن ماکاپ موبایل (نمایش کد پیامک).
 
 ---
 
@@ -540,6 +732,11 @@ export default function PageClient() {
 > تا وقتی بیلد/ران تایید شد، **همین پیاده‌سازی مستند می‌شود**؛ در صورت نیاز به مهاجرت، باید به سمت
 > بررسی توکن با `next/headers` و/یا JWT سروری (داخل API Route) برویم.
 
+### 6.1) Update (2026-02-27) — نکته عملیاتی مرج/PR
+- بعد از هر PR Merge، حتماً روی `main` (لوکال و ریموت) **صحت SHA** و **سبز بودن build** کنترل شود:
+  - `git log -1 --oneline` (روی main)
+  - `npm run build`
+- اگر PR ظاهراً merge شد ولی `main` هنوز خطا داشت، بازیابی امن از `git reflog` و `cherry-pick` مجاز است (طبق فرآیند مرج امن در §21).
 
 ---
 
@@ -600,7 +797,7 @@ export default function PageClient() {
 - ایمپورت فقط از Barrel مجاز است؛ ایمپورت عمیق مستقیم ممنوع (قاعدهٔ ESLint).
 
 ## 8.3 Inventory — Modian Components & Utilities (v1)
-> منبع: components-tree.txt + app-tree.txt (این لیست با PRهای بعدی کامل می‌شود).
+> منبع: components-tree.txt + frontend-tree.txt (این لیست با PRهای بعدی کامل می‌شود).
 
 | نام | مسیر | نوع | قلمرو | کاربرد کلیدی | وضعیت تکثیر | اقدام |
 |---|---|---|---|---|---|---|
@@ -982,13 +1179,26 @@ export default function PageClient() {
       - حذف برنچ‌های کاری: `feature/...`، `chore/...`، `integrate/...`  
     - برنچ‌ها و تگ‌های `backup/...` فقط با تصمیم صریح مدیر پروژه حذف می‌شوند.
 
+### 21.3) Playbook بازیابی مرج (Reflog / Cherry-pick)
+گاهی ممکن است «merge در UI گیت‌هاب» انجام نشده باشد یا روی `main` اثر نگذارد (مثلاً به‌دلیل حذف برنچ قبل از Verify).
+در این حالت، مسیر امن بازیابی:
+1) روی `main`:
+   - `git status` باید clean باشد.
+2) یافتن SHA کامیت از reflog:
+   - `git reflog --all --date=local | findstr /i "<keyword>"`
+3) اعمال تغییر روی `main`:
+   - `git cherry-pick <SHA>`
+4) تست و Push:
+   - `npm run build`
+   - `git push origin main`    
+
 ## 22) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۹/۱۴
 
 بر اساس فایل `team2-status-report-14040914.txt`.
 
 ### 22.1) مسیرها و صفحات جدید در زیرمنوی «اعلامیه‌های خرید»
 
-- مطابق `app-tree.txt` و خروجی تیم مودیان، زیرمنوی جدید «اعلامیه‌های خرید» در ساختار Routing مودیان اضافه شده است:
+- مطابق `frontend-tree.txt` و خروجی تیم مودیان، زیرمنوی جدید «اعلامیه‌های خرید» در ساختار Routing مودیان اضافه شده است:
   - `src/app/simulators/modian/purchase-announcements/page.tsx`  
     - شِل/Wrapper اصلی زیرمنو که layout و ساب‌هدر را فراهم می‌کند.
   - `src/app/simulators/modian/purchase-announcements/imports/page.tsx`  
@@ -1045,7 +1255,72 @@ export default function PageClient() {
 
 ## 23) به‌روزرسانی ساختار ماژول مودیان — ۱۴۰۴/۰۹/۱۷
 
-بر اساس فایل project-structure-update-notes-14040917.txt و آخرین نسخهٔ app-tree.txt و components-tree.txt، این بخش وضعیت جدید ساختار مودیان را در سطح مسیرها، لایه‌های کامپوننت و استانداردهای lint/Barrel مستند می‌کند.
+بر اساس فایل project-structure-update-notes-14040917.txt و آخرین نسخهٔ frontend-tree.txt و components-tree.txt، این بخش وضعیت جدید ساختار مودیان را در سطح مسیرها، لایه‌های کامپوننت و استانداردهای lint/Barrel مستند می‌کند.
+
+ ## 23.1) اصلاح معماری قبوض مودیان
+
+ بر اساس Refactor انجام‌شده در Backend:
+
+ ### ساختار نهایی ماژول مودیان
+
+ src/simulator-modian/
+ ├── bills.controller.ts
+ ├── bills.service.ts
+ ├── registration.controller.ts
+ ├── registration.service.ts
+ ├── simulator-modian.controller.ts
+ ├── simulator-modian.module.ts
+ └── dto/
+     ├── create-utility-bill.dto.ts
+     ├── query-bills.dto.ts
+     └── update-utility-bill.dto.ts
+
+ ### حذف شده
+
+ src/simulator-modian/simulator-modian.service.ts
+
+ علت حذف:
+ - مربوط به معماری MVP اولیه بود.
+ - مسئولیت CRUD قبوض را برعهده داشت.
+ - با معماری Multi-Tenant جدید هم‌راستا نبود.
+
+ ### قرارداد جدید
+
+ مسیر استاندارد قبوض:
+
+ BillsController
+        |
+        v
+ BillsService
+        |
+        v
+ RequestContextService
+        |
+        v
+ businessId + registrationId
+        |
+        v
+ UtilityBill
+
+ ### الزامات امنیتی
+
+ - Client نباید businessId یا registrationId را به عنوان منبع حقیقت ارسال کند.
+ - مالکیت رکوردها از JWT Context استخراج می‌شود.
+ - عملیات Create/List/Update/Delete با Business Scope انجام می‌شود.
+
+ ### Validation
+
+ - ValidationPipe سراسری NestJS فعال شد.
+ - DTO validation برای ورودی‌های API فعال است.
+
+ ### وضعیت تست
+
+ - npm run build: موفق
+ - npm run start:dev: موفق
+ - Create Bill: موفق
+ - List Bill: موفق
+ - Update Bill: موفق
+ - Soft Delete: موفق
 
 ### 23.1) تغییرات ساختاری در مسیرها (app-tree)
 
@@ -1241,7 +1516,7 @@ builtin → external → internal → parent → sibling → index
 این چک‌لیست باید در توضیحات PR تیک بخورد و معیار merge امن است:
 
 - [ ] **Sync مستندات ساختار با tree**: اگر route/component اضافه/حذف شد:
-  - `npm run docs:scan` (تولید `app-tree.txt` و `components-tree.txt`)
+  - `npm run docs:scan` (تولید `frontend-tree.txt` و `components-tree.txt`)
   - `npm run docs:all` (تزریق خودکار در همین سند)
   - و اطمینان از آپدیت‌شدن بلوک‌های `APP_TREE` و `COMPONENTS_TREE` در همین فایل
 - [ ] **Barrel-only برای Modian + منع import عمیق**:
@@ -1255,6 +1530,121 @@ builtin → external → internal → parent → sibling → index
     «Server Wrapper + Client Component» و `<Suspense>` در لایهٔ سروری پوشش داده شود (برای جلوگیری از `CSR bailout` / `missing-suspense-with-csr-bailout`)
 
 ---
+
+## 24) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۰/۰۶ (تکمیل منوی قراردادها)
+
+بر اساس فایل `team2-status-report-14041006.txt` و ادامهٔ گزارش‌های تکمیلی قراردادها. fileciteturn12file2turn12file0
+
+### 24.1) مسیرها و صفحات درگیر (Contracts)
+
+- تکمیل منوی قراردادها و اصلاح مسیر/Flow «ثبت قرارداد جدید» در قراردادهای حق‌العملکاری. fileciteturn12file2
+- مسیرهای اصلی که در این دوره درگیر بوده‌اند: fileciteturn12file0
+  - `src/app/simulators/modian/contracts/commission/page.tsx`
+  - `src/app/simulators/modian/contracts/commission/new/page.tsx`
+  - `src/app/simulators/modian/contracts/contracting/page.tsx`
+  - `src/app/simulators/modian/contracts/contracting/new/page.tsx`
+
+> یادداشت: Snapshotهای APP_TREE/COMPONENTS_TREE که از `frontend-tree.txt` و `components-tree.txt` تولید شده‌اند،
+ممکن است هنوز مسیر `contracts/commission/new` را نشان ندهند؛ در اولین بروزرسانی treeها باید بازتولید شوند. fileciteturn12file0
+
+### 24.2) Barrelها و سیاست Import (common/search + common/table)
+
+- در راستای سیاست «عدم ایمپورت مستقیم از فایل‌های داخلی زیر `modian/*`»، تیم مودیان موارد زیر را اضافه/به‌روزرسانی کرد: fileciteturn12file0turn12file2
+  - `src/components/modian/common/search/index.ts` (Update)
+  - `src/components/modian/common/table/index.ts` (New)
+
+- نکتهٔ lint: گزارش شده که Rule فعلی `no-restricted-imports` حتی روی Barrelهای تازه‌اضافه‌شده هم Warning می‌دهد؛
+  پیشنهاد تیم: اصلاح مرکزی Rule (Allowlist کردن Barrelها) و استفادهٔ موقت از `eslint-disable-next-line` فقط برای unblock تحویل. fileciteturn12file0turn12file13
+
+### 24.3) کیت UI مودیان — کامپوننت‌های مصرف‌شده/درگیر در قراردادها
+
+- `Stepper`
+- `SearchByFilters`
+- `ContractsContractDateField`
+- `ContractsContractTypeField`
+- `ColumnsVisibilityBar`
+- `ScrollableTableShell`
+- `EmptyTableRow` fileciteturn12file0
+
+
+## 25) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۰/۱۷ (Requests + Tax Bills UI Flow)
+
+بر اساس فایل `team2-status-report-14041017.txt`.
+
+### 25.1) دامنه تغییرات (در سطح ساختار/مسیرها)
+
+- گزارش این دوره مربوط به **UI/Flow** در مسیرهای مودیان بوده است (نه افزودن endpoint بک‌اند).
+- مسیرهای مرتبط در اسنپ‌شات `frontend-tree.txt` قابل مشاهده‌اند و باید در استانداردسازی Route Ownership
+  به‌عنوان زیرشاخه‌های رسمی مودیان حفظ شوند:
+  - `src/app/simulators/modian/requests/increase-sales-limit/page.tsx`
+  - `src/app/simulators/modian/requests/auto-reject-referred-invoices/page.tsx`
+  - `src/app/simulators/modian/requests/defer-invoice-tax-effect/page.tsx`
+  - `src/app/simulators/modian/tax-bills/page.tsx`
+
+### 25.2) استانداردهای ساختاری تثبیت‌شده از گزارش
+
+- منوی کشویی «درخواست‌ها» باید رفتار **toggle-only** داشته باشد و از redirect خودکار به اولین زیرمنو پرهیز شود
+  (استاندارد UX/Navigation برای جلوگیری از coupling ناخواسته منو ↔ route).
+- Flowهای چندمرحله‌ای (مودال‌های پشت‌سرهم) باید در همان route دامنه‌ای نگه داشته شوند و از پراکندگی state
+  بین مسیرهای نامرتبط جلوگیری شود.
+- اعتبارسنجی‌های دامنه‌ای در حال تکمیل (مثل «شناسه صیاد = 16 رقم») باید تا زمان نهایی‌شدن، به‌وضوح با وضعیت WIP
+  در گزارش/PR ثبت شوند تا با «قرارداد نهایی» اشتباه نشوند.
+
+### 25.3) کنترل انحراف تیم‌ها (Project Governance)
+
+- هر تغییر UI در شاخه `requests/*` یا `tax-bills` که منجر به افزودن/حذف route شود، الزاماً باید با بازتولید
+  `frontend-tree.txt` و همگام‌سازی همین سند همراه باشد (`docs:scan` / `docs:all`).
+- گزارش این دوره حاوی تحویل UI/Flow است؛ بنابراین **بدون مستند endpoint جداگانه** نباید به‌عنوان API-ready تفسیر شود.
+
+---
+
+## 26) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۲/۰۶ (زیرساخت Multi-tenant در بک‌اند)
+
+بر اساس فایل‌های `team2-status-report-14041206.txt` و `team2-status2-report-14041206.txt`.
+
+### 26.1) تغییرات ساختاری ثبت‌شده در بک‌اند (Infrastructure Layer)
+
+- لایهٔ context در مسیر `src/common/context/` برای نگهداری `businessId` به‌صورت request-scoped مستقر شده است:
+  - `business-context.middleware.ts`
+  - `business-context.module.ts`
+  - `business-context.service.ts`
+- لایهٔ Prisma نیز دارای اجزای مرتبط با isolation است:
+  - `src/prisma/businessIsolation.extension.ts`
+  - `src/prisma/prisma.middleware.ts`
+
+### 26.2) استانداردهای ساختاری/امنیتی (الزامی)
+
+- `businessId` باید فقط از JWT وارد Context شود؛ دریافت آن از body/query/request به‌عنوان منبع حقیقت ممنوع است.
+- اتصال middleware/context برای هر request محافظت‌شده باید جزء الزامات بازبینی ساختاری باشد
+  (در غیر این صورت `getBusinessId()` ممکن است `undefined` برگرداند).
+- در تست‌ها/دموهای endpointهای محافظت‌شده، نوع توکن (access vs refresh) باید صریحاً کنترل شود؛
+  این مورد اکنون یک ریسک ساختاری-عملیاتی ثبت‌شده است.
+
+### 26.3) اثر روی فرآیند استانداردسازی پروژه (برای مدیر پروژه)
+
+- تغییرات Multi-tenant فاز اول «زیرساختی» هستند؛ بنابراین تیم‌ها مجاز نیستند تفسیر دامنه‌ای/محصولی مستقل
+  (مثلاً انتخاب business فعال) را قبل از تصمیم رسمی پروژه در کد ثابت کنند.
+- تصمیم دربارهٔ استراتژی `active business` باید به‌صورت مرکزی تصویب و سپس در مستندات endpoint/structure
+  به‌روزرسانی شود.
+
+### 26.4) Update (2026-02-27) — وضعیت فعلی شاخه‌ها و آماده‌سازی DB
+- پس از تثبیت `businessId` و سبز شدن build روی `main`، برنچ‌های اضافی حذف و فقط موارد زیر نگه داشته شدند:
+  - `main`
+  - `feature/backend-db-integration-prep`
+- هدف برنچ DB integration prep:
+  - آماده‌سازی فایل‌ها/ماژول‌ها برای اتصال کامل به DB و حذف hardcodeهای موقت (مثلاً registrationId پیش‌فرض)
+  - تثبیت جریان Context → Service → Prisma در تمام سرویس‌های محافظت‌شده
+
+### 26.5) Update (1405-03-13) — بهبود متد findBusinessesByUserId
+تغییرات اعمال‌شده در `src/business/business.service.ts`:
+- متد `findBusinessesByUserId` بروزرسانی شد تا فیلدهای `economicCode` و `trackingCode` را نیز بازگرداند.
+- منطق جدید برای پر کردن این فیلدها:
+  1. اولویت با جدول `BusinessRegistration` (اگر ثبت‌نام تکمیل شده باشد).
+  2. fallback به جدول `Business` (اگر ثبت‌نام تکمیل نشده باشد).
+---
+
+
+
 
 
 
@@ -1302,6 +1692,16 @@ src\app
 │  └─ page.tsx
 ├─ profile/
 │  └─ page.tsx
+├─ business/
+│  └─ onboarding/
+│     ├─ page.tsx
+│     ├─ step-1/
+│     │  └─ page.tsx
+│     ├─ step-2/
+│     │  └─ page.tsx
+│     └─ step/
+│        └─ 1/
+│           └─ route.ts
 ├─ simulators/
 │  ├─ insurance/
 │  │  ├─ free/
@@ -1506,6 +1906,21 @@ src\components
 │  ├─ ModianQuickAccess.tsx
 │  ├─ ModianSidebar.tsx
 │  └─ ModianWorkspace.tsx
+│  ├─ ui/
+│  │  ├─ date/
+│  │  │  └─ ModianJalaliDatePicker.tsx
+│  │  ├─ Card.tsx
+│  │  ├─ FieldGrid.tsx
+│  │  ├─ FormField.tsx
+│  │  ├─ FormToolbar.tsx
+│  │  ├─ icons.tsx
+│  │  ├─ index.ts
+│  │  ├─ PageShell.tsx
+│  │  ├─ Section.tsx
+│  │  ├─ SimulatorBadge.tsx
+│  │  ├─ Tabs.tsx
+│  │  ├─ ToolbarControls.tsx
+│  │  └─ UploadPublicKeyModal.tsx
 ├─ salary-tax/
 │  ├─ page.tsx
 │  ├─ SalaryTaxForm.tsx

@@ -1,0 +1,229 @@
+src\app
+├─ admin/
+│  └─ notices/
+│     ├─ [id]/
+│     │  └─ edit/
+│     │     └─ page.tsx
+│     ├─ new/
+│     │  └─ page.tsx
+│     └─ page.tsx
+├─ api/
+│  ├─ auth/
+│  │  └─ logout/
+│  │     └─ route.ts
+│  ├─ business/
+│  │  ├─ create/
+│  │  │  └─ route.ts
+│  │  ├─ onboarding/
+│  │  │  └─ step-1/
+│  │  │     └─ route.ts
+│  │  └─ switch/
+│  │     └─ route.ts
+│  ├─ csrf/
+│  │  └─ route.ts
+│  ├─ simulators/
+│  │  ├─ insurance/
+│  │  │  └─ calculate/
+│  │  │     └─ route.ts
+│  │  └─ modian/
+│  │     └─ login/
+│  │        └─ route.ts
+│  ├─ telemetry/
+│  │  └─ route.ts
+│  └─ utils/
+│     ├─ today/
+│     │  └─ route.ts
+│     └─ user-info/
+│        └─ route.ts
+├─ auth/
+│  ├─ signin/
+│  │  └─ page.tsx
+│  └─ signup/
+│     └─ page.tsx
+├─ auth-debug/
+│  └─ page.tsx
+├─ business/
+│  ├─ onboarding/
+│  │  ├─ step/
+│  │  │  └─ 1/
+│  │  │     └─ route.ts
+│  │  ├─ step-1/
+│  │  │  └─ page.tsx
+│  │  ├─ step-2/
+│  │  │  └─ page.tsx
+│  │  └─ page.tsx
+│  └─ registration-status/
+│     └─ route.ts
+├─ dashboard/
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ Topbar.client.tsx
+├─ privacy/
+│  └─ page.tsx
+├─ profile/
+│  └─ page.tsx
+├─ simulators/
+│  ├─ insurance/
+│  │  ├─ free/
+│  │  │  └─ page.tsx
+│  │  └─ single/
+│  │     └─ page.tsx
+│  ├─ karpooshe/
+│  │  └─ login/
+│  │     └─ page.tsx
+│  ├─ modian/
+│  │  ├─ (with-shell)/
+│  │  │  ├─ contracts/
+│  │  │  │  ├─ commission/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ new/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ contracting/
+│  │  │  │     ├─ detail/
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ new/
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ page.tsx
+│  │  │  ├─ dashboard/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ declaration/
+│  │  │  │  ├─ complete/
+│  │  │  │  │  ├─ calculation/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ credit/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ final/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ purchase/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ sale/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ details/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ feedback/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ green-tax/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ summary/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ statement.tsx
+│  │  │  │  └─ summary.tsx
+│  │  │  ├─ home/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ invoices/
+│  │  │  │  ├─ buy/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ exports/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ files/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ sales/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ layout.tsx
+│  │  │  ├─ old-Invoices/
+│  │  │  │  ├─ buy/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ exports/
+│  │  │  │  │  ├─ detail/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ sales/
+│  │  │  │     ├─ detail/
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ page.tsx
+│  │  │  ├─ purchase-announcements/
+│  │  │  │  ├─ bourse/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ imports/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ requests/
+│  │  │  │  ├─ auto-reject-referred-invoices/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ defer-invoice-tax-effect/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ increase-sales-limit/
+│  │  │  │     └─ page.tsx
+│  │  │  ├─ roles/
+│  │  │  │  ├─ add/
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  └─ layout.tsx
+│  │  │  ├─ tax-bills/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ taxfile/
+│  │  │  │  ├─ bank-accounts/
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ bills/
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ memory-uid/
+│  │  │  │  │  ├─ add/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ details/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ payments/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ registration/
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ trusted/
+│  │  │  │  │  ├─ add/
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ trusted-companies/
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ users-roles/
+│  │  │  │  ├─ add/
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ login/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ otp/
+│  │  │  └─ page.tsx
+│  │  ├─ portal/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  └─ layout.tsx
+│  ├─ platform-check/
+│  │  └─ page.tsx
+│  └─ salary-tax/
+│     ├─ batch/
+│     │  └─ page.tsx
+│     ├─ dashboard/
+│     │  └─ page.tsx
+│     ├─ free/
+│     │  └─ page.tsx
+│     ├─ login/
+│     │  └─ page.tsx
+│     └─ pro/
+│        └─ page.tsx
+├─ terms/
+│  └─ page.tsx
+├─ head.tsx
+├─ layout.tsx
+└─ page.tsx

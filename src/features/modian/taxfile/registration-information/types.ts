@@ -9,20 +9,20 @@ export interface RegistrationBasicInfo {
   /** نام تجاری */
   tradeName: string;
   /** کد ملی/کدفراگیر/شناسه ملی */
-  nationalIdentifier: string;
+  nationalId: string;
   /** شماره رهگیری ثبت نام */
-  registrationTrackingNumber: string;
+  trackingCode: string;
   /** نام شرکت/مودی/تشکل قانونی/واحد صنفی */
-  taxpayerName: string;
+  entityName: string;
 
   /** نوع مودی */
   taxpayerType: string;
   /** شماره اقتصادی */
   economicCode: string;
   /** شماره ثبت/شماره پرونده کسب */
-  businessRegistrationNumber: string;
+  registrationNo: string;
   /** تاریخ شروع فعالیت */
-  activityStartDate: string;
+  activityStart: string;
 }
 
 /** اطلاعات تماس، نشانی و اقامتگاه قانونی */
@@ -73,16 +73,16 @@ export interface RegistrationInfo {
 /** نگاشت لیبل‌ها برای رندر مطابق سند (ستون‌های بالا) */
 export const BASIC_LEFT_ORDER: Array<[keyof RegistrationBasicInfo, string]> = [
   ["tradeName", "نام تجاری"],
-  ["nationalIdentifier", "کد ملی/کدفراگیر/شناسه ملی"],
-  ["registrationTrackingNumber", "شماره رهگیری ثبت نام"],
-  ["taxpayerName", "نام شرکت/مودی/تشکل قانونی/واحد صنفی"],
+  ["nationalId", "کد ملی/کدفراگیر/شناسه ملی"],
+  ["trackingCode", "شماره رهگیری ثبت نام"],
+  ["entityName", "نام شرکت/مودی/تشکل قانونی/واحد صنفی"],
 ];
 
 export const BASIC_RIGHT_ORDER: Array<[keyof RegistrationBasicInfo, string]> = [
   ["taxpayerType", "نوع مودی"],
   ["economicCode", "شماره اقتصادی"],
-  ["businessRegistrationNumber", "شماره ثبت/شماره پرونده کسب"],
-  ["activityStartDate", "تاریخ شروع فعالیت"],
+  ["registrationNo", "شماره ثبت/شماره پرونده کسب"],
+  ["activityStart", "تاریخ شروع فعالیت"],
 ];
 
 /** سرستون‌های جدول شعب دقیقاً مطابق سند و به همان ترتیب */

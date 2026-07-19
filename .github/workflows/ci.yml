@@ -60,7 +60,7 @@ jobs:
           git status --porcelain
           # if docs:all modified files, git diff will be non-empty -> exit non-zero
           if [ -n "$(git status --porcelain)" ]; then
-            echo "::error::Docs generated changes after running npm run docs:all. Please run 'npm run docs:all' locally and commit the updated artifacts (app-tree.txt, components-tree.txt, docs injection) before creating the PR."
+            echo "::error::Docs generated changes after running npm run docs:all. Please run 'npm run docs:all' locally and commit the updated artifacts (frontend-tree.txt, components-tree.txt, docs injection) before creating the PR."
             git --no-pager status --porcelain
             git --no-pager diff
             exit 1
