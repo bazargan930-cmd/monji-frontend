@@ -13,8 +13,6 @@ import {
   registrationStep1Schema,
 } from "@/lib/validation/onboarding.schema"
 import { Button } from "@/components/ui/button"
-import { apiFetch } from "@/lib/api/client"
-import { endpoints } from "@/lib/api/endpoints"
 
 type Mode = "fast" | "form"
 
@@ -50,43 +48,43 @@ export default function OnboardingPage() {
     try {
       setIsSubmitting(true)
 
-      // ✅ . ایجاد بیزینس جدید در بک‌اند
-      const createRes = await fetch('/api/business/create', {
-        method: 'POST',
-        credentials: 'include',
-      })
-      const createJson = await createRes.json()
-      if (!createJson.success) throw new Error(createJson.message || 'خطا در ایجاد کسب‌وکار')
-      const newBusinessId = createJson.businessId
-
-      // ✅ ۲. سوئیچ Context و به‌روزرسانی JWT/Cookie
-      const switchRes = await fetch('/api/business/switch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ businessId: newBusinessId }),
-      })
-      if (!switchRes.ok) throw new Error('خطا در به‌روزرسانی نشست کاربر')
-
-      await apiFetch(endpoints.business.onboardingStep1, {
+      const createRes = await fetch("/api/business/create", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
         body: JSON.stringify(data),
       })
-      // ✅ بعد از موفقیت، نمایش مودال موفقیت
-      setEntityName(data.tradeName ?? data.entityName) // ✅ استفاده از tradeName که در backend وجود دارد
-      setShowSuccessModal(true)
-    } catch (error: any) {
-      console.error("Error submitting step 1", error)
-      
-      // ✅ مدیریت هوشمند خطای 409 (ثبت‌نام تکراری)
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      
-      if (errorMessage.includes('409') || errorMessage.includes('Registration already exists')) {
-        alert('این کسب‌وکار قبلاً ثبت شده است. به داشبورد منتقل می‌شوید.');
-        router.push('/dashboard');
-      } else {
-        alert('خطا در ثبت اطلاعات: ' + (error.message || 'مشکلی رخ داد'));
+
+      const createJson = await createRes.json().catch(() => null)
+
+      if (createRes.status === 409) {
+        alert(
+          createJson?.message ??
+            "این کسب‌وکار قبلاً ثبت شده است. به داشبورد منتقل می‌شوید.",
+        )
+        router.push("/dashboard")
+        return
       }
+
+      if (!createRes.ok || !createJson?.success) {
+        throw new Error(
+          createJson?.message ?? "خطا در ایجاد کسب‌وکار و پرونده ثبت‌نامی",
+        )
+      }
+
+      setEntityName(data.tradeName || data.entityName)
+      setShowSuccessModal(true)
+    } catch (error: unknown) {
+      console.error("Error creating business", error)
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "خطای پیش‌بینی‌نشده‌ای رخ داد"
+
+      alert(`خطا در ثبت اطلاعات: ${message}`)
     } finally {
       setIsSubmitting(false)
     }
