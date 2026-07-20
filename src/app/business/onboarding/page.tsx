@@ -4,45 +4,85 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useForm, FormProvider } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import OnboardingChoiceModal from "@/components/business/onboarding/OnboardingChoiceModal"
 import StepRegistration from "@/components/business/onboarding/StepRegistration"
+import { Button } from "@/components/ui/button"
 import {
   type RegistrationStep1Input,
   registrationStep1Schema,
 } from "@/lib/validation/onboarding.schema"
-import { Button } from "@/components/ui/button"
 
 type Mode = "fast" | "form"
 
+const createEmptyFormValues = (): RegistrationStep1Input => ({
+  tradeName: "",
+  nationalId: "",
+  trackingCode: "",
+  entityName: "",
+  taxpayerType: "",
+  economicCode: "",
+  registrationNo: "",
+  activityStart: "",
+  workshopCode: "",
+  Contact: {
+    province: "",
+    city: "",
+    county: "",
+    postalCode: "",
+    phone: "",
+    mobile: "",
+    address: "",
+    fax: "",
+  },
+})
+
+const createMvpAutoFillTemplate = (): RegistrationStep1Input => ({
+  tradeName: "فروشگاه آموزشی منجی",
+  nationalId: "10101010101",
+  trackingCode: "MVP-TRAINING-001",
+  entityName: "شرکت آموزشی منجی",
+  taxpayerType: "حقوقی",
+  economicCode: "411111111111",
+  registrationNo: "14050001",
+  activityStart: "2025-03-21",
+  workshopCode: "",
+  Contact: {
+    province: "تهران",
+    city: "تهران",
+    county: "تهران",
+    postalCode: "1111111111",
+    phone: "02111111111",
+    mobile: "09121111111",
+    address: "تهران، نشانی آموزشی نمونه منجی",
+    fax: "",
+  },
+})
+
 export default function OnboardingPage() {
-  // حالت fast فعلاً غیرفعال است ولی برای آینده نگه داشته می‌شود
-  const [mode] = useState<Mode>("form")
+  const [mode, setMode] = useState<Mode | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
-  const [entityName, setEntityName] = useState<string>("")
+  const [entityName, setEntityName] = useState("")
   const router = useRouter()
 
   const methods = useForm<RegistrationStep1Input>({
     resolver: zodResolver(registrationStep1Schema),
     mode: "onSubmit",
     reValidateMode: "onChange",
-    defaultValues: {
-      taxpayerType: "",
-      workshopCode: "",
-      Contact: { // ✅ تطابق با backend: Contact به جای legalInfo
-        province: "",
-        city: "",
-        county: "",
-        postalCode: "",
-        phone: "", // ✅ تطابق با backend: phone به جای landline
-        mobile: "",
-        address: "",
-        fax: "",
-      },
-    },
+    defaultValues: createEmptyFormValues(),
   })
+
+  const handleModeConfirm = (selectedMode: Mode) => {
+    setMode(selectedMode)
+    methods.reset(
+      selectedMode === "fast"
+        ? createMvpAutoFillTemplate()
+        : createEmptyFormValues(),
+    )
+  }
 
   const onSubmit = async (data: RegistrationStep1Input) => {
     try {
@@ -90,28 +130,45 @@ export default function OnboardingPage() {
     }
   }
 
-  // ✅ فعلاً فقط حالت فرم را نمایش می‌دهیم، fast برای آینده محفوظ است
-  if (mode === "fast") {
-    // TODO: پیاده‌سازی حالت fast در آینده
+  if (mode === null) {
     return (
-      <div className="p-8 space-y-4">
-        <h1 className="text-2xl font-bold">ورود سریع اطلاعات (در حال آماده‌سازی)</h1>
-        <p className="text-sm text-muted-foreground">
-          این قابلیت به‌زودی در دسترس قرار می‌گیرد. فعلاً لطفاً از فرم تکمیل اطلاعات استفاده کنید.
-        </p>
+      <div className="min-h-screen">
+        <OnboardingChoiceModal
+          open
+          onConfirm={handleModeConfirm}
+          onCancel={() => router.push("/dashboard")}
+        />
       </div>
     )
   }
 
-  // mode === "form"
   return (
     <div className="p-8 space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold">فرم اطلاعات کسب‌وکار</h1>
-        <p className="text-sm text-muted-foreground">
-          لطفاً اطلاعات زیر را با دقت تکمیل کنید.
-        </p>
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold">فرم اطلاعات کسب‌وکار</h1>
+          <p className="text-sm text-muted-foreground">
+            {mode === "fast"
+              ? "قالب آموزشی منجی در فرم قرار گرفته است. همه اطلاعات را بررسی و در صورت نیاز ویرایش کنید."
+              : "اطلاعات کسب‌وکار را با دقت تکمیل کنید."}
+          </p>
+        </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setMode(null)}
+          disabled={isSubmitting}
+        >
+          تغییر روش ورود اطلاعات
+        </Button>
       </div>
+
+      {mode === "fast" && (
+        <div className="rounded-md border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+          اطلاعات این قالب صرفاً آموزشی است و قبل از ثبت نهایی باید توسط کاربر بررسی شود.
+        </div>
+      )}
 
       <FormProvider {...methods}>
         <form
@@ -121,13 +178,15 @@ export default function OnboardingPage() {
           <StepRegistration />
 
           <div className="flex justify-between">
-             <Button
-               type="button"
-               variant="outline"
-               onClick={() => router.push('/dashboard')}
-             >
-               انصراف
-             </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/dashboard")}
+              disabled={isSubmitting}
+            >
+              انصراف
+            </Button>
+
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "در حال ارسال..." : "ثبت"}
             </Button>
@@ -135,7 +194,6 @@ export default function OnboardingPage() {
         </form>
       </FormProvider>
 
-      {/* ✅ Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-md rounded-lg bg-white p-6 space-y-4 shadow-lg">
@@ -144,11 +202,7 @@ export default function OnboardingPage() {
             </h2>
 
             <div className="flex justify-center pt-4">
-              <Button
-                onClick={() => router.push("/dashboard")}
-              >
-                بستن
-              </Button>
+              <Button onClick={() => router.push("/dashboard")}>بستن</Button>
             </div>
           </div>
         </div>

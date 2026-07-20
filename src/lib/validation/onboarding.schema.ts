@@ -7,23 +7,23 @@ export const ContactSchema = z.object({
   city: z.string().min(1),
   county: z.string().min(1),
   postalCode: z.string().min(1),
-  phone: z.string().min(1), // ✅ تطابق با backend: phone به جای landline
+  phone: z.string().min(1),
   mobile: z.string().min(1),
   address: z.string().min(1),
-  fax: z.string().optional()
+  fax: z.string().optional(),
 });
 
 export const registrationStep1Schema = z.object({
   tradeName: z.string().min(1),
-  nationalId: z.string().min(1), // ✅ تطابق با backend
-  trackingCode: z.string().min(1), // ✅ تطابق با backend
+  nationalId: z.string().min(1),
+  trackingCode: z.string().min(1),
   entityName: z.string().min(1),
   taxpayerType: z.string().min(1),
   economicCode: z.string().min(1),
   registrationNo: z.string().min(1),
-  activityStart: z.string().min(1), // ISO date
-  workshopCode: z.string().min(1), // اضافه‌شده
-  Contact: ContactSchema // ✅ تطابق با backend: Contact به جای legalInfo
+  activityStart: z.string().min(1),
+  workshopCode: z.string().optional(),
+  Contact: ContactSchema,
 });
 
 export type RegistrationStep1Input = z.infer<typeof registrationStep1Schema>;

@@ -15,69 +15,61 @@ interface Props {
 export default function OnboardingChoiceModal({
   open,
   onConfirm,
-  onCancel
+  onCancel,
 }: Props) {
-
   const [mode, setMode] = useState<Mode>("fast")
 
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="w-[420px] rounded-xl bg-white p-6 shadow-lg">
+        <h2 className="mb-4 text-lg font-bold">انتخاب روش ورود اطلاعات</h2>
 
-      <div className="bg-white rounded-xl p-6 w-[420px] shadow-lg">
-
-        <h2 className="text-lg font-bold mb-4">
-          انتخاب نحوه ورود اطلاعات
-        </h2>
-
-        <p className="text-sm text-gray-600 mb-6">
-          برای شروع استفاده از سامانه می‌توانید اطلاعات کسب‌وکار خود را تکمیل کنید
-          یا سریع وارد سامانه شوید و تکمیل اطلاعات را به منجی بسپارید.
+        <p className="mb-6 text-sm text-gray-600">
+          در هر دو روش، فرم نهایی پیش از ثبت نمایش داده می‌شود و تمام اطلاعات قابل ویرایش است.
         </p>
 
-        <div className="space-y-3 mb-6">
-
-          <label className="flex items-center gap-2 cursor-pointer">
+        <div className="mb-6 space-y-3">
+          <label className="flex cursor-pointer items-center gap-2">
             <input
               type="radio"
+              name="onboarding-mode"
               checked={mode === "fast"}
               onChange={() => setMode("fast")}
             />
-            <span>ورود سریع (تکمیل توسط منجی)</span>
+            <span>تکمیل خودکار با قالب آموزشی منجی</span>
           </label>
 
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex cursor-pointer items-center gap-2">
             <input
               type="radio"
+              name="onboarding-mode"
               checked={mode === "form"}
               onChange={() => setMode("form")}
             />
-            <span>تکمیل فرم</span>
+            <span>تکمیل دستی فرم</span>
           </label>
-
         </div>
 
         <div className="flex justify-end gap-3">
-
           <button
+            type="button"
             onClick={onCancel}
-            className="px-4 py-2 border rounded"
+            className="rounded border px-4 py-2"
           >
             انصراف
           </button>
 
           <button
+            type="button"
             onClick={() => onConfirm(mode)}
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="rounded bg-blue-600 px-4 py-2 text-white"
           >
-            تایید
+            تأیید
           </button>
-
         </div>
-
       </div>
-
     </div>
   )
 }
