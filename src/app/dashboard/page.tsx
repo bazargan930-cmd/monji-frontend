@@ -5,7 +5,6 @@ import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import useSWR from 'swr';
 import { z } from 'zod';
 import { BusinessCreationEligibilityModal } from "@/components/business/BusinessCreationEligibilityModal";
