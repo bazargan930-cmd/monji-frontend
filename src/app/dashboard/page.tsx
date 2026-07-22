@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { z } from 'zod';
-import OnboardingChoiceModal from '@/components/business/onboarding/OnboardingChoiceModal';
+import { BusinessCreationEligibilityModal } from "@/components/business/BusinessCreationEligibilityModal";
+import { useBusinessCreationEligibility } from "@/hooks/useBusinessCreationEligibility";
 
 const UserInfoSchema = z.object({
   fullName: z.string().optional(),
@@ -30,7 +31,13 @@ type BusinessInfo = z.infer<typeof BusinessSchema>;
 
 export default function DashboardPage() {
   const [error, setError] = useState('');
-  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+
+  const {
+  checkAndNavigate,
+  closeModal,
+  modalState,
+} = useBusinessCreationEligibility();
+
   const [businessRequiredModal, setBusinessRequiredModal] = useState<{ open: boolean; platform: string }>({ open: false, platform: '' });
 
 
@@ -276,9 +283,13 @@ export default function DashboardPage() {
           <section className="rounded border bg-white p-4 shadow mb-6 dark:bg-slate-800 dark:border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base md:text-lg font-semibold">کسب و کارها</h2>
-              <Link href="/business/onboarding" className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline">
-                ایجاد کسب و کار
-              </Link>
+              <button
+                 type="button"
+                 onClick={() => checkAndNavigate()}
+                 className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+               >
+                 ایجاد کسب و کار
+               </button>
             </div>
 
             {businessesLoading && !businessesError && (
@@ -323,11 +334,6 @@ export default function DashboardPage() {
             {!businessesLoading && !businessesError && businesses && businesses.length === 0 && (
               <div className="py-6 text-center text-slate-500">
                 هنوز کسب‌وکاری ثبت نشده است.
-                <div className="mt-3">
-                  <Link href="/business/onboarding" className="text-blue-600 hover:underline">
-                    ایجاد کسب‌وکار جدید
-                  </Link>
-                </div>
               </div>
             )}
           </section>
@@ -344,14 +350,6 @@ export default function DashboardPage() {
         </>
       )}
 
-      <OnboardingChoiceModal
-        open={showOnboardingModal}
-        onCancel={() => setShowOnboardingModal(false)}
-        onConfirm={() => {
-          setShowOnboardingModal(false);
-          window.location.href = '/business/onboarding';
-        }}
-      />
       {businessRequiredModal.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-md rounded-lg bg-white p-6 space-y-4 shadow-lg">
@@ -369,7 +367,7 @@ export default function DashboardPage() {
                 انصراف
               </button>
               <button
-                onClick={() => window.location.href = '/business/onboarding'}
+                 onClick={() => checkAndNavigate()}
                 className="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700"
               >
                 ایجاد کسب‌وکار
@@ -378,6 +376,18 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      <BusinessCreationEligibilityModal
+        open={modalState.open}
+        reason={modalState.reason}
+        message={modalState.message}
+        onOpenChange={(open) => {
+          if (!open) {
+            closeModal();
+          }
+        }}
+      />
+
     </main>
   );
 }
