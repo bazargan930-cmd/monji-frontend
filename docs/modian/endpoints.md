@@ -78,7 +78,7 @@
 > **یادداشت فرانت (Next 15):** صفحات فوق که کلاینتی هستند و از `useSearchParams` استفاده می‌کنند باید زیر یک `layout.tsx` محلی با `<Suspense>` رندر شوند تا خطای *missing-suspense-with-csr-bailout* در بیلد رخ ندهد. همچنین در صفحات کلاینت به‌جای `next/headers` از `GET /api/utils/user-info` استفاده کنید.
 
 > **یادداشت جدید:** ساختار «مودیان» اکنون ماژولار شده و تمام شِل‌ها و هدرهای اختصاصی در مسیر
-`src/components/modian/layout/` قرار دارند. مسیرهای قبلی در `src/components/layout/` فقط برای صفحات اصلی (Site-level) باقی مانده‌اند.
+`src/features/modian/layout/` قرار دارند. مسیرهای قبلی در `src/components/modian/layout/` فقط برای صفحات اصلی (Site-level) باقی مانده‌اند.
 
 > برای صفحات کلاینتی مانند `otp`, `portal`, `users-roles/add`، ساختار `page.tsx (Server)` + `PageClient.tsx (Client)` استفاده شده تا خطای
 `useSearchParams()` و CSR bailout رفع شود.
@@ -612,9 +612,13 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 ### به‌روزرسانی ۱۴۰۴/۰۷/۲۲ — Trusted Companies و تاریخ شمسی (UI)
 
 - بر اساس گزارش تیم، فیلترهای صفحهٔ شرکت‌های معتمد با **تقویم جلالی اختصاصی** و فیلد تاریخ به‌روزرسانی شدند:
-  - `src/components/modian/common/ModianJalaliDatePicker.tsx`
-  - `src/components/modian/common/ModianJalaliDateField.tsx`
-  - صفحهٔ مصرف‌کننده در قلمرو `modian/taxfile/trusted-companies/page.tsx` (مطابق ساختار فعلی پروژه).
+  - `src/features/modian/common/ModianJalaliDatePicker.tsx`
+  - `src/features/modian/common/ModianJalaliDateField.tsx`
+
+- مسیر Route مصرف‌کننده:
+  - `src/app/simulators/modian/taxfile/trusted-companies/page.tsx`
+
+- منطق و Componentهای Domain از Feature مودیان مصرف می‌شوند.
 
 - **تغییر API در این فاز گزارش نشده است**؛ این تغییرات در سطح **UI/UX فیلترها و ورودی تاریخ** هستند و با ساختار فعلی endpoints همخوانی دارند. در صورت تغییر در کنترلرها (مثل `simulator-modian/*`) مستند جداگانه افزوده خواهد شد. :contentReference[oaicite:10]{index=10}
 
@@ -634,10 +638,18 @@ interface AdminDashboardOut { registrations: number; bills: number; notices: num
 - `POST /api/telemetry` — Lightweight telemetry endpoint.
 
 #### UI — Shared Search Suite (Invoices و زیرماژول‌های وابسته)
-- Components: `src/components/modian/common/search/{SearchByTaxId.tsx, SearchByFilters.tsx, InvoicesSearchHeader.tsx, index.ts}`
+
+- Components:
+  `src/features/modian/common/search/{SearchByTaxId.tsx, SearchByFilters.tsx, InvoicesSearchHeader.tsx, index.ts}`
+
+- معماری مسیر:
+  - `src/features/modian/*` → Feature Domain و Componentهای اختصاصی مودیان
+  - `src/app/simulators/modian/*` → فقط Route Layer و URL Structure
+
 - مصرف در صفحات:
   - نسل فعلی صورتحساب‌ها: `/simulators/modian/invoices/buy`, `/simulators/modian/invoices/sales`, `/simulators/modian/invoices/exports`
   - صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶: `/simulators/modian/old-Invoices/buy`, `/simulators/modian/old-Invoices/sales`, `/simulators/modian/old-Invoices/exports`
+
   - اعلامیه‌های خرید: `/simulators/modian/purchase-announcements/imports`, `/simulators/modian/purchase-announcements/bourse`
   - قراردادهای پیمانکاری (و در آینده احتمالاً حق‌العملکاری): `/simulators/modian/contracts/contracting`
 - سیاست طراحی API جستجو:
