@@ -656,16 +656,35 @@ npm run docs:all       # docs:scan + docs:update-structure
 > چرا این تفکیک؟ برای جلوگیری از «آدرس‌های اشتباه» و **عدم تداخل نام** (دقیقاً مشکل اشاره‌شده در گفتگو).
 
 **افزودنی جدید (اصلاح ساختار ماژول مودیان):**
-- تمام عناصر نمایشی مودیان (Header, Footer, SubHeader, Shell) از `src/components/layout/` به مسیر زیر منتقل شدند:
-  ```
-  src/components/modian/layout/
-  ├─ ModianHeader.tsx
-  ├─ ModianFooter.tsx
-  ├─ ModianSubHeader.tsx
-  ├─ ModianShell.tsx
-  └─ index.ts
-  ```
-- تمام صفحات `modian` از این پس هدر و فوتر خود را از `@/components/modian/layout` ایمپورت می‌کنند.
+- ساختار ماژول مودیان به معماری Feature-Based منتقل شده است.
+
+ مسیر مرجع Domain و Componentهای اختصاصی مودیان:
+
+ ```
+ src/features/modian/
+ ```
+
+ این مسیر شامل بخش‌های اختصاصی مودیان مانند:
+
+ - layout
+ - common
+ - taxfile
+ - declaration
+ - portal
+ - roles
+
+ است.
+
+- تمام صفحات `modian` باید Component و منطق Domain خود را از Feature مربوطه مصرف کنند.
+
+ مسیر:
+
+ ```
+ src/app/simulators/modian/
+ ```
+
+ صرفاً مسئول Route، URL Structure و Composition لایه‌های Next.js است.
+
   **قانون مسیرها (مودیان):** استفاده از سگمنت `admin/` در زیرشاخهٔ `modian/` ممنوع است؛
   هرگونه بخش مدیریتی یا داشبورد داخلی باید با نام‌گذاری معنایی خودش در زیر `modian/` تعریف شود
   (مثلاً `modian/dashboard`, `modian/taxfile`, ...). برای لینک‌های قدیمی، قانون redirect در `next.config.ts`
