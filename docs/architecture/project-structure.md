@@ -921,9 +921,17 @@ Form Prefill               Empty Form
   export default eslintConfig;
 
 ## 8.1 الگوی مجاز ایمپورت برای «مودیان»
-- مجاز: `@/components/modian` و `@/components/modian/<barrel>` مثل `@/components/modian/common`، `@/components/modian/taxfile`، `@/components/modian/layout`.
-- **غیرمجاز:** اشاره مستقیم به فایل‌ها زیر هر پوشهٔ مودیان (مثل `@/components/modian/taxfile/bills/page`)؛ همهٔ مصرف‌کنندگان باید از Barrel ایمپورت کنند.
-- **یادداشت UI:** برای زیرپوشهٔ `ui/*` فقط از Barrel `@/components/modian/ui` استفاده شود.
+- مجاز: `@/features/modian` و Barrelهای رسمی زیر Feature مودیان مثل:
+  - `@/features/modian/common`
+  - `@/features/modian/taxfile`
+  - `@/features/modian/layout`
+
+- **غیرمجاز:** اشاره مستقیم به فایل‌های داخلی زیر Feature مودیان
+  (مثل `@/features/modian/taxfile/bills/page`)؛ مصرف‌کنندگان باید از Barrelهای رسمی استفاده کنند.
+
+- **یادداشت UI:** برای زیرپوشهٔ `ui/*` فقط از Barrel رسمی:
+  `@/features/modian/ui`
+  استفاده شود.
 - این سیاست در ESLint با قاعده‌ی `no-restricted-imports` enforce شده و گروه‌بندی ایمپورت‌ها نیز طبق `import/order` برقرار است. این نکته در گزارش تیم صفحه اصلی هم تأیید شده است. :contentReference[oaicite:0]{index=0}
 
 ## 8.2 Governance تمیزکاری مودیان (صورتحساب‌ها)
@@ -956,7 +964,8 @@ Form Prefill               Empty Form
 ### 8.4 Route Wrappers (App Router)
 برای یکسان‌سازی URL و جداسازی UI از Routing، بعضی صفحات در `app/…` فقط یک **Wrapper** هستند و محتوای اصلی را از بشکه‌ی feature می‌گیرند:
 
-- `app/simulators/modian/taxfile/bills/page.tsx` ⟶ `<BillsPage />` از `@/components/modian/taxfile`. (الگوی Route Wrapper برای حفظ URL فعلی.)
+- `app/simulators/modian/taxfile/bills/page.tsx` ⟶ `<BillsPage />` از
+`@/features/modian/taxfile`. (الگوی Route Wrapper برای حفظ URL فعلی.)
   _یادداشت:_ همین الگو در سایر زیردامنه‌های Taxfile نیز استفاده می‌شود (مثل صفحات Memory UID و Registration Information) و درخت‌های پروژه آن را نشان می‌دهند. :contentReference[oaicite:1]{index=1}
 
 ### 8.5 لایه API فرانت
@@ -1586,15 +1595,15 @@ useSearchParams() و CSR bailout در بیلد رفع شود.
 
 - سیاست import در مودیان:
 مسیرهای مجاز:
-@/components/modian
-@/components/modian/ui
-@/components/modian/common
+@/features/modian
+@/features/modian/ui
+@/features/modian/common
 زیرBarrelهای رسمی مانند:
- - `@/components/modian/declaration`
- - `@/components/modian/home`
- - `@/components/modian/portal`
- - `@/components/modian/users-roles`
- - و سایر indexهای ماژولار.
+- `@/features/modian/declaration`
+- `@/features/modian/home`
+- `@/features/modian/portal`
+- `@/features/modian/users-roles`
+- و سایر indexهای ماژولار.
 
 مسیرهای غیرمجاز:
 import مستقیم از مسیر فایل داخلی (مثلاً @/components/modian/ui/icons,
