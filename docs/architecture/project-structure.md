@@ -638,12 +638,34 @@ npm run docs:all       # docs:scan + docs:update-structure
 
  صرفاً لایه Route بوده و منطق و Componentهای Domain را از Feature مربوطه مصرف می‌کنند.
 
- وضعیت Migration:
+## Platform Migration Status
 
- - `Modian` به ساختار Feature-Based منتقل شده است:
-   `src/features/modian/*`
+معماری Frontend در حال مهاجرت تدریجی Platformها به ساختار Feature-Based است.
 
- - Platformهای دیگر در مراحل بعدی Migration خواهند شد.
+وضعیت فعلی Migration:
+
+- Modian:
+  - وضعیت: منتقل شده
+  - مسیر مرجع:
+    `src/features/modian/*`
+
+- Insurance:
+  - وضعیت: در انتظار Migration
+  - مسیر فعلی:
+    `src/components/insurance/*`
+
+- Salary Tax:
+  - وضعیت: در انتظار Migration
+  - مسیر فعلی:
+    `src/components/salary-tax/*`
+
+Migration این Platformها پس از تکمیل و تثبیت Modian انجام خواهد شد.
+
+نکته:
+
+`Business` در این Migration قرار ندارد، زیرا یک Domain مشترک بین Platformها است.
+مسیر مرجع:
+`src/components/business/*`
 
 **یادداشت تغییر ساختاری (مودیان):**
 - مسیر استاندارد «پروندهٔ مالیاتی» از این به بعد **بدون سگمنت ادمین** است:
