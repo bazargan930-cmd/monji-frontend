@@ -1,326 +1,326 @@
-﻿# ظ…ط³طھظ†ط¯ آ«ط³ط§ط®طھط§ط± ظ¾ط±ظˆعکظ‡آ» (ghaaanoon â€“ ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ)
+﻿# مستند «ساختار پروژه» (ghaaanoon – به‌روزرسانی)
 
 
-> ط§غŒظ† ظپط§غŒظ„ ط­ط§طµظ„ ط¬ظ…ط¹â€Œط¨ظ†ط¯غŒ ظ‡ظ…غŒظ† ع¯ظپطھع¯ظˆ ظˆ **طھظ†ظ‡ط§** ظ…ط¨طھظ†غŒ ط¨ط± ظپط§غŒظ„â€Œظ‡ط§ ظˆ ط®ط±ظˆط¬غŒâ€Œظ‡ط§غŒ ط§ط±ط³ط§ظ„â€Œط´ط¯ظ‡ ط¯ط± ط¨ط®ط´ *project* ط§ط³طھ. ظ‡ط¯ظپ: ط´ظپط§ظپغŒطھ ط³ط§ط®طھط§ط±طŒ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ط³ط§ط²غŒ ظ…ط³غŒط±ظ‡ط§طŒ ظˆ ط­ط°ظپ ط®ط·ط§ظ‡ط§غŒ طھع©ط±ط§ط±غŒ ط¯ط± ط¨غŒظ„ط¯/ظ„غŒظ†طھ.
+> این فایل حاصل جمع‌بندی همین گفتگو و **تنها** مبتنی بر فایل‌ها و خروجی‌های ارسال‌شده در بخش *project* است. هدف: شفافیت ساختار، استانداردسازی مسیرها، و حذف خطاهای تکراری در بیلد/لینت.
 
 
 ---
 
-## 1) ظ†ظ…ط§غŒ ع©ظ„غŒ ط±غŒظ¾ظˆظ‡ط§ ظˆ ظ†ط³ط®ظ‡â€Œظ‡ط§
+## 1) نمای کلی ریپوها و نسخه‌ها
 
-- **Frontend:** `ghaaanoon-frontend` â€” Next.js (App Router), TypeScript, TailwindCSS.
-  - **Next.js:** `15.3.1` (ط·ط¨ظ‚ ط®ط±ظˆط¬غŒ `npm run build`)
-  - **React:** `^19.0.0` (ط·ط¨ظ‚ `package.json`)
-  - **TypeScript:** `^5.9.2` (ط·ط¨ظ‚ `package.json`)
-  - **TailwindCSS:** `^3.4.17` (ط·ط¨ظ‚ `package.json`)
-  - **ESLint:** `^9` + `eslint-config-next@15.3.1` (ط·ط¨ظ‚ `package.json`)
-- **Backend:** `ghaaanoon-backend` â€” (ظپط§غŒظ„ `tsconfig.json` ط§ط±ط³ط§ظ„ ط´ط¯ظ‡ ط§ط³طھط› ظ…ط³غŒط± `src/app/` ط¯ط± ط¨ع©â€Œط§ظ†ط¯ ظˆط¬ظˆط¯ ظ†ط¯ط§ط±ط¯.)
+- **Frontend:** `ghaaanoon-frontend` — Next.js (App Router), TypeScript, TailwindCSS.
+  - **Next.js:** `15.3.1` (طبق خروجی `npm run build`)
+  - **React:** `^19.0.0` (طبق `package.json`)
+  - **TypeScript:** `^5.9.2` (طبق `package.json`)
+  - **TailwindCSS:** `^3.4.17` (طبق `package.json`)
+  - **ESLint:** `^9` + `eslint-config-next@15.3.1` (طبق `package.json`)
+- **Backend:** `ghaaanoon-backend` — (فایل `tsconfig.json` ارسال شده است؛ مسیر `src/app/` در بک‌اند وجود ندارد.)
 
-### 1.2) Update (2026-02-27) â€” ظˆط¶ط¹غŒطھ ظ…ط±ط¬â€Œظ‡ط§طŒ ط¨ط±ظ†ع†â€Œظ‡ط§ ظˆ ط¢ظ…ط§ط¯ظ‡â€Œط³ط§ط²غŒ DB
+### 1.2) Update (2026-02-27) — وضعیت مرج‌ها، برنچ‌ها و آماده‌سازی DB
 
 - **Frontend (Modian):**
-  - ظ…ط±ط¬ آ«backend integration + ط§ظ†طھظ‚ط§ظ„ ط³ط§ط®طھط§ط± Modian ط¨ظ‡ featuresآ» ط¨ظ‡ `main` ط§ظ†ط¬ط§ظ… ط´ط¯ظ‡ ظˆ baseline ع©غŒظپغŒطھ ط±ظˆغŒ `main` ط³ط¨ط² ط§ط³طھ (lint/build).
-  - ط³غŒط§ط³طھ Import ط¨ط±ط§غŒ ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ† **Barrel-only** ط¨ط§ظ‚غŒ ظ…غŒâ€Œظ…ط§ظ†ط¯ط› ط§ظ…ط§ ظ…ط³غŒط± ظ…ط±ط¬ط¹ ط¨ط±ط§غŒ ط¹ظ†ط§طµط± ظ…ظˆط¯غŒط§ظ† ط§ط² `src/components/modian/*`
-    ط¨ظ‡ `src/features/modian/*` ظ…ظ†طھظ‚ظ„ ط´ط¯ظ‡ ط§ط³طھ ظˆ Wrapperظ‡ط§غŒ `src/app/simulators/modian/**` ظپظ‚ط· ط®ط±ظˆط¬غŒâ€Œظ‡ط§غŒ Barrel ط±ط§ ظ…طµط±ظپ ظ…غŒâ€Œع©ظ†ظ†ط¯.
+  - مرج «backend integration + انتقال ساختار Modian به features» به `main` انجام شده و baseline کیفیت روی `main` سبز است (lint/build).
+  - سیاست Import برای ماژول مودیان **Barrel-only** باقی می‌ماند؛ اما مسیر مرجع برای عناصر مودیان از `src/components/modian/*`
+    به `src/features/modian/*` منتقل شده است و Wrapperهای `src/app/simulators/modian/**` فقط خروجی‌های Barrel را مصرف می‌کنند.
 - **Backend:**
-  - ظپط§ط² ط²غŒط±ط³ط§ط®طھ Multi-tenant ظˆ ط§ظ„ط²ط§ظ… `businessId` ط¯ط± ظ…ط¯ظ„â€Œظ‡ط§ طھط«ط¨غŒطھ ط´ط¯ظ‡ ط§ط³طھ.
-  - غŒع© ظپغŒع©ط³ ط¹ظ…ظ„غŒط§طھغŒ ط¨ظ‡ `main` ط§ط¶ط§ظپظ‡ ط´ط¯: ظ‡ظ†ع¯ط§ظ… ط§غŒط¬ط§ط¯ UtilityBillطŒ ظ…ظ‚ط¯ط§ط± `businessId` (ط§ط² ط·ط±غŒظ‚ ط±غŒط´ظ‡â€ŒغŒ ط¯ط§ط¯ظ‡ ظ…ط¹طھط¨ط±) ط³طھ ظ…غŒâ€Œط´ظˆط¯ طھط§ build ط³ط¨ط² ط¨ظ…ط§ظ†ط¯.
-  - ط¨ط±ظ†ع† ع©ط§ط±غŒ ط¬ط¯غŒط¯ ط¨ط±ط§غŒ ط¢ظ…ط§ط¯ظ‡â€Œط³ط§ط²غŒ ط§طھطµط§ظ„ DB ط§غŒط¬ط§ط¯ ط´ط¯: `feature/backend-db-integration-prep`.
-  - ظ¾ط§ع©ط³ط§ط²غŒ ط¨ط±ظ†ع†â€Œظ‡ط§: ط¯ط± ط±غŒظ…ظˆطھ ظˆ ظ„ظˆع©ط§ظ„ ظپظ‚ط· `main` ظˆ ط¨ط±ظ†ع† ع©ط§ط±غŒ ط¬ط¯غŒط¯ ظ†ع¯ظ‡ ط¯ط§ط´طھظ‡ ظ…غŒâ€Œط´ظˆظ†ط¯ (ط³غŒط§ط³طھ Hygiene).
-> ظ†ع©طھظ‡: ظ‡ط´ط¯ط§ط± طھع©ط±ط§ط±غŒ ط¨غŒظ„ط¯
+  - فاز زیرساخت Multi-tenant و الزام `businessId` در مدل‌ها تثبیت شده است.
+  - یک فیکس عملیاتی به `main` اضافه شد: هنگام ایجاد UtilityBill، مقدار `businessId` (از طریق ریشه‌ی داده معتبر) ست می‌شود تا build سبز بماند.
+  - برنچ کاری جدید برای آماده‌سازی اتصال DB ایجاد شد: `feature/backend-db-integration-prep`.
+  - پاکسازی برنچ‌ها: در ریموت و لوکال فقط `main` و برنچ کاری جدید نگه داشته می‌شوند (سیاست Hygiene).
+> نکته: هشدار تکراری بیلد
 > ```
 > ESLint: Failed to patch ESLint because the calling module was not recognized ...
 > ```
-> ظ…ط·ط§ط¨ظ‚ ظ„ط§ع¯â€Œظ‡ط§غŒ ط¨غŒظ„ط¯ ظ…ط´ط§ظ‡ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯ ظˆ **ظ…ط§ظ†ط¹ ط¨غŒظ„ط¯ ظ†غŒط³طھ**.
+> مطابق لاگ‌های بیلد مشاهده می‌شود و **مانع بیلد نیست**.
 
-### 1.1) ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط®ظˆط¯ع©ط§ط± آ«ط³ط§ط®طھط§ط± ظ¾ط±ظˆعکظ‡آ»
-ط¨ط±ط§غŒ ظ‡ظ…â€Œط±ط§ط³طھط§ ظ†ع¯ظ‡â€Œط¯ط§ط´طھظ† ط§غŒظ† ط³ظ†ط¯ ط¨ط§ ط³ط§ط®طھط§ط± ظˆط§ظ‚ط¹غŒ ط³ظˆط±ط³طŒ ط§ط² ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§غŒ ط²غŒط± ط§ط³طھظپط§ط¯ظ‡ ع©ظ†:
+### 1.1) به‌روزرسانی خودکار «ساختار پروژه»
+برای هم‌راستا نگه‌داشتن این سند با ساختار واقعی سورس، از اسکریپت‌های زیر استفاده کن:
 ```bash
-# طھظˆظ„غŒط¯ ط§ط³ظ†ظ¾â€Œط´ط§طھ ظ…ط³غŒط±ظ‡ط§
-npm run docs:scan      # â†’ app-tree.txt + components-tree.txt
+# تولید اسنپ‌شات مسیرها
+npm run docs:scan      # → app-tree.txt + components-tree.txt
 
-# طھط²ط±غŒظ‚ ط®ظˆط¯ع©ط§ط± ط¯ط± ظ‡ظ…غŒظ† ط³ظ†ط¯ (DOCS)
+# تزریق خودکار در همین سند (DOCS)
 npm run docs:all       # docs:scan + docs:update-structure
 ```
-> ط§غŒظ† ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§ ط¯ط± `package.json` طھط¹ط±غŒظپ ط´ط¯ظ‡â€Œط§ظ†ط¯ ظˆ ظ…ط­طھظˆط§ ط±ط§ ط¨غŒظ† ط¨ظ„ظˆع©â€Œظ‡ط§غŒ
+> این اسکریپت‌ها در `package.json` تعریف شده‌اند و محتوا را بین بلوک‌های
 
  ## APP_TREE
  <!-- BEGIN:APP_TREE -->
  src/app
- â”œâ”€â”€ head.tsx
- â”œâ”€â”€ layout.tsx
- â”œâ”€â”€ page.tsx
- â”œâ”€â”€ admin/
- â”‚   â””â”€â”€ notices/
- â”‚       â”‚   page.tsx
- â”‚       â”œâ”€â”€ new/
- â”‚       â”‚       page.tsx
- â”‚       â””â”€â”€ [id]/
- â”‚           â””â”€â”€ edit/
- â”‚                   page.tsx
- â”œâ”€â”€ api/
- â”‚   â”œâ”€ auth/
- â”‚   â”‚  â””â”€ logout/
-â”‚   â”‚     â””â”€ route.ts
-â”‚   â”œâ”€ business/
-â”‚   â”‚  â”œâ”€ create/
-â”‚   â”‚  â”‚  â””â”€ route.ts
-â”‚   â”‚  â”œâ”€ onboarding/
-â”‚   â”‚  â”‚  â””â”€ step-1/
-â”‚   â”‚  â”‚     â””â”€ route.ts
-â”‚   â”‚  â””â”€ switch/
- â”‚   â”‚     â””â”€ route.ts
- â”‚   â”œâ”€â”€ csrf/
- â”‚   â”‚       route.ts
- â”‚   â”œâ”€â”€ simulators/
- â”‚   â”‚   â””â”€â”€ insurance/
- â”‚   â”‚       â””â”€â”€ calculate/
- â”‚   â”‚               route.ts
- â”‚   â”œâ”€â”€ telemetry/
- â”‚   â”‚       route.ts
- â”‚   â””â”€â”€ utils/
- â”‚       â”œâ”€â”€ today/
- â”‚       â”‚       route.ts
- â”‚       â””â”€â”€ user-info/
- â”‚               route.ts
- â”œâ”€â”€ auth/
- â”‚   â”œâ”€â”€ signin/
- â”‚   â”‚       page.tsx
- â”‚   â””â”€â”€ signup/
- â”‚           page.tsx
- â”œâ”€â”€ auth-debug/
- â”‚       page.tsx
- â”œâ”€â”€ business/
- â”‚   â”‚   â”œâ”€â”€ step-1/
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â””â”€â”€ step-2/
- â”‚   â”‚           page.tsx
- â”‚   â””â”€â”€ registration-status/
- â”‚           route.ts
- â”œâ”€â”€ dashboard/
- â”‚       layout.tsx
- â”‚       page.tsx
- â”‚       Topbar.client.tsx
- â”œâ”€â”€ privacy/
- â”‚       page.tsx
- â”œâ”€â”€ profile/
- â”‚       page.tsx
- â”œâ”€â”€ simulators/
- â”‚   â”œâ”€â”€ insurance/
- â”‚   â”‚   â”œâ”€â”€ free/
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â””â”€â”€ single/
- â”‚   â”‚           page.tsx
- â”‚   â”œâ”€â”€ karpooshe/
- â”‚   â”‚   â””â”€â”€ login/
- â”‚   â”‚           page.tsx
- â”‚   â”œâ”€â”€ modian/
- â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”œâ”€â”€ contracts/
- â”‚   â”‚   â”‚   â”œâ”€â”€ commission/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ detail/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ new/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ contracting/
- â”‚   â”‚   â”‚       â”‚   page.tsx
- â”‚   â”‚   â”‚       â”œâ”€â”€ detail/
- â”‚   â”‚   â”‚       â”‚       page.tsx
- â”‚   â”‚   â”‚       â””â”€â”€ new/
- â”‚   â”‚   â”‚               page.tsx
- â”‚   â”‚   â”œâ”€â”€ dashboard/
- â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ declaration/
- â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   statement.tsx
- â”‚   â”‚   â”‚   â”‚   summary.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ complete/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ calculation/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ credit/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ final/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ purchase/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ sale/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ details/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ feedback/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ green-tax/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ summary/
- â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”œâ”€â”€ home/
- â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ invoices/
- â”‚   â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ buy/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ detail/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ exports/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ detail/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ files/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ sales/
- â”‚   â”‚   â”‚       â”‚   page.tsx
- â”‚   â”‚   â”‚       â””â”€â”€ detail/
- â”‚   â”‚   â”‚               page.tsx
- â”‚   â”‚   â”œâ”€â”€ login/
- â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ old-Invoices/
- â”‚   â”‚   â”‚   â”œâ”€â”€ buy/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â”€â”€ detail/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ exports/
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ detail/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ sales/
- â”‚   â”‚   â”‚       â”‚   page.tsx
- â”‚   â”‚   â”‚       â””â”€â”€ detail/
- â”‚   â”‚   â”‚               page.tsx
- â”‚   â”‚   â”œâ”€â”€ otp/
- â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ portal/
- â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ purchase-announcements/
- â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ bourse/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ imports/
- â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”œâ”€â”€ requests/
- â”‚   â”‚   â”‚   â”œâ”€â”€ auto-reject-referred-invoices/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ defer-invoice-tax-effect/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ increase-sales-limit/
- â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”œâ”€â”€ roles/
- â”‚   â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ add/
- â”‚   â”‚   â”‚           layout.tsx
- â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”œâ”€â”€ tax-bills/
- â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”œâ”€â”€ taxfile/
- â”‚   â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ bank-accounts/
- â”‚   â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ bills/
- â”‚   â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ memory-uid/
- â”‚   â”‚   â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â”œâ”€â”€ add/
- â”‚   â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ details/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ payments/
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ registration/
- â”‚   â”‚   â”‚   â”‚       layout.tsx
- â”‚   â”‚   â”‚   â”‚       page.tsx
- â”‚   â”‚   â”‚   â”œâ”€â”€ trusted/
- â”‚   â”‚   â”‚   â”‚   â”‚   layout.tsx
- â”‚   â”‚   â”‚   â”‚   â”‚   page.tsx
- â”‚   â”‚   â”‚   â”‚   â””â”€â”€ add/
- â”‚   â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â”‚   â””â”€â”€ trusted-companies/
- â”‚   â”‚   â”‚           page.tsx
- â”‚   â”‚   â””â”€â”€ users-roles/
- â”‚   â”‚       â”‚   layout.tsx
- â”‚   â”‚       â”‚   page.tsx
- â”‚   â”‚       â””â”€â”€ add/
- â”‚   â”‚               layout.tsx
- â”‚   â”‚               page.tsx
- â”‚   â””â”€â”€ salary-tax/
- â”‚       â”œâ”€â”€ batch/
- â”‚       â”‚       page.tsx
- â”‚       â”œâ”€â”€ dashboard/
- â”‚       â”‚       page.tsx
- â”‚       â”œâ”€â”€ free/
- â”‚       â”‚       page.tsx
- â”‚       â”œâ”€â”€ login/
- â”‚       â”‚       page.tsx
- â”‚       â””â”€â”€ pro/
- â”‚               page.tsx
- â””â”€â”€ terms/
+ ├── head.tsx
+ ├── layout.tsx
+ ├── page.tsx
+ ├── admin/
+ │   └── notices/
+ │       │   page.tsx
+ │       ├── new/
+ │       │       page.tsx
+ │       └── [id]/
+ │           └── edit/
+ │                   page.tsx
+ ├── api/
+ │   ├─ auth/
+ │   │  └─ logout/
+│   │     └─ route.ts
+│   ├─ business/
+│   │  ├─ create/
+│   │  │  └─ route.ts
+│   │  ├─ onboarding/
+│   │  │  └─ step-1/
+│   │  │     └─ route.ts
+│   │  └─ switch/
+ │   │     └─ route.ts
+ │   ├── csrf/
+ │   │       route.ts
+ │   ├── simulators/
+ │   │   └── insurance/
+ │   │       └── calculate/
+ │   │               route.ts
+ │   ├── telemetry/
+ │   │       route.ts
+ │   └── utils/
+ │       ├── today/
+ │       │       route.ts
+ │       └── user-info/
+ │               route.ts
+ ├── auth/
+ │   ├── signin/
+ │   │       page.tsx
+ │   └── signup/
+ │           page.tsx
+ ├── auth-debug/
+ │       page.tsx
+ ├── business/
+ │   │   ├── step-1/
+ │   │   │       page.tsx
+ │   │   └── step-2/
+ │   │           page.tsx
+ │   └── registration-status/
+ │           route.ts
+ ├── dashboard/
+ │       layout.tsx
+ │       page.tsx
+ │       Topbar.client.tsx
+ ├── privacy/
+ │       page.tsx
+ ├── profile/
+ │       page.tsx
+ ├── simulators/
+ │   ├── insurance/
+ │   │   ├── free/
+ │   │   │       page.tsx
+ │   │   └── single/
+ │   │           page.tsx
+ │   ├── karpooshe/
+ │   │   └── login/
+ │   │           page.tsx
+ │   ├── modian/
+ │   │   │   layout.tsx
+ │   │   ├── contracts/
+ │   │   │   ├── commission/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── detail/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── new/
+ │   │   │   │           page.tsx
+ │   │   │   └── contracting/
+ │   │   │       │   page.tsx
+ │   │   │       ├── detail/
+ │   │   │       │       page.tsx
+ │   │   │       └── new/
+ │   │   │               page.tsx
+ │   │   ├── dashboard/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── declaration/
+ │   │   │   │   page.tsx
+ │   │   │   │   statement.tsx
+ │   │   │   │   summary.tsx
+ │   │   │   ├── complete/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── calculation/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── credit/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── final/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   ├── purchase/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── sale/
+ │   │   │   │           page.tsx
+ │   │   │   ├── details/
+ │   │   │   │       page.tsx
+ │   │   │   ├── feedback/
+ │   │   │   │       page.tsx
+ │   │   │   ├── green-tax/
+ │   │   │   │       page.tsx
+ │   │   │   └── summary/
+ │   │   │           page.tsx
+ │   │   ├── home/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── invoices/
+ │   │   │   │   layout.tsx
+ │   │   │   ├── buy/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── exports/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── files/
+ │   │   │   │       page.tsx
+ │   │   │   └── sales/
+ │   │   │       │   page.tsx
+ │   │   │       └── detail/
+ │   │   │               page.tsx
+ │   │   ├── login/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── old-Invoices/
+ │   │   │   ├── buy/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ── detail/
+ │   │   │   │           page.tsx
+ │   │   │   ├── exports/
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── detail/
+ │   │   │   │           page.tsx
+ │   │   │   └── sales/
+ │   │   │       │   page.tsx
+ │   │   │       └── detail/
+ │   │   │               page.tsx
+ │   │   ├── otp/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── portal/
+ │   │   │       layout.tsx
+ │   │   │       page.tsx
+ │   │   ├── purchase-announcements/
+ │   │   │   │   page.tsx
+ │   │   │   ├── bourse/
+ │   │   │   │       page.tsx
+ │   │   │   └── imports/
+ │   │   │           page.tsx
+ │   │   ├── requests/
+ │   │   │   ├── auto-reject-referred-invoices/
+ │   │   │   │       page.tsx
+ │   │   │   ├── defer-invoice-tax-effect/
+ │   │   │   │       page.tsx
+ │   │   │   └── increase-sales-limit/
+ │   │   │           page.tsx
+ │   │   ├── roles/
+ │   │   │   │   layout.tsx
+ │   │   │   └── add/
+ │   │   │           layout.tsx
+ │   │   │           page.tsx
+ │   │   ├── tax-bills/
+ │   │   │       page.tsx
+ │   │   ├── taxfile/
+ │   │   │   │   layout.tsx
+ │   │   │   │   page.tsx
+ │   │   │   ├── bank-accounts/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── bills/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── memory-uid/
+ │   │   │   │   │   layout.tsx
+ │   │   │   │   │   page.tsx
+ │   │   │   │   ├── add/
+ │   │   │   │   │       page.tsx
+ │   │   │   │   └── details/
+ │   │   │   │           page.tsx
+ │   │   │   ├── payments/
+ │   │   │   │       page.tsx
+ │   │   │   ├── registration/
+ │   │   │   │       layout.tsx
+ │   │   │   │       page.tsx
+ │   │   │   ├── trusted/
+ │   │   │   │   │   layout.tsx
+ │   │   │   │   │   page.tsx
+ │   │   │   │   └── add/
+ │   │   │   │           page.tsx
+ │   │   │   └── trusted-companies/
+ │   │   │           page.tsx
+ │   │   └── users-roles/
+ │   │       │   layout.tsx
+ │   │       │   page.tsx
+ │   │       └── add/
+ │   │               layout.tsx
+ │   │               page.tsx
+ │   └── salary-tax/
+ │       ├── batch/
+ │       │       page.tsx
+ │       ├── dashboard/
+ │       │       page.tsx
+ │       ├── free/
+ │       │       page.tsx
+ │       ├── login/
+ │       │       page.tsx
+ │       └── pro/
+ │               page.tsx
+ └── terms/
          page.tsx
  <!-- END:APP_TREE -->
 
  ## COMPONENTS_TREE
     <!-- BEGIN:COMPONENTS_TREE -->
  src/components
- â”œâ”€â”€ Stepper.tsx
- â”œâ”€â”€ admin/
- â”‚       NoticeForm.tsx
- â”œâ”€â”€ auth/
- â”‚       ChangePasswordForm.tsx
- â”‚       LoginForm.tsx
- â”œâ”€ business/
- â”‚  â””â”€ onboarding/
- â”‚     â”œâ”€ AddBranchModal.tsx
- â”‚     â”œâ”€ OnboardingChoiceModal.tsx
- â”‚     â”œâ”€ Step2Tabs.tsx
- â”‚     â””â”€ StepRegistration.tsx
- â”œâ”€â”€ common/
- â”‚   â”‚   Captcha.tsx
- â”‚   â”‚   FaDigits.tsx
- â”‚   â”‚   HelpGuideButton.tsx
- â”‚   â”‚   InputField.tsx
- â”‚   â”œâ”€â”€ date/
- â”‚   â”‚       JalaliDateField.tsx
- â”‚   â””â”€â”€ help/
- â”‚           HelpModal.tsx
- â”‚           HelpTrigger.tsx
- â”œâ”€â”€ insurance/
- â”‚       InputGroup.tsx
- â”‚       InsuranceResultBox.tsx
- â”‚       InsuranceSingleForm.tsx
- â”‚       tax-result.interface.ts
- â”œâ”€â”€ landing/
- â”‚       analytics.ts
- â”‚       ArticlePreview.tsx
- â”‚       ComparisonTable.tsx
- â”‚       DemoCard.tsx
- â”‚       FeatureCard.tsx
- â”‚       HeroSection.tsx
- â”‚       HowItWorks.tsx
- â”‚       index.ts
- â”‚       LandingFooter.tsx
- â”‚       LandingShell.tsx
- â”‚       MiniAnchorNav.tsx
- â”‚       perf-metrics.ts
- â”‚       SocialProof.tsx
- â”‚       StickyPromoBar.tsx
- â”‚       TrustStrip.tsx
- â”œâ”€â”€ salary-tax/
- â”‚       page.tsx
- â”‚       SalaryTaxForm.tsx
- â”‚       SalaryTaxResult.tsx
- â”‚       SimulatorHeader.tsx
- â”œâ”€â”€ simulators/
- â”‚   â””â”€â”€ karpooshe/
- â”‚           KarpoosheLoginForm.tsx
- â””â”€â”€ ui/
+ ├── Stepper.tsx
+ ├── admin/
+ │       NoticeForm.tsx
+ ├── auth/
+ │       ChangePasswordForm.tsx
+ │       LoginForm.tsx
+ ├─ business/
+ │  └─ onboarding/
+ │     ├─ AddBranchModal.tsx
+ │     ├─ OnboardingChoiceModal.tsx
+ │     ├─ Step2Tabs.tsx
+ │     └─ StepRegistration.tsx
+ ├── common/
+ │   │   Captcha.tsx
+ │   │   FaDigits.tsx
+ │   │   HelpGuideButton.tsx
+ │   │   InputField.tsx
+ │   ├── date/
+ │   │       JalaliDateField.tsx
+ │   └── help/
+ │           HelpModal.tsx
+ │           HelpTrigger.tsx
+ ├── insurance/
+ │       InputGroup.tsx
+ │       InsuranceResultBox.tsx
+ │       InsuranceSingleForm.tsx
+ │       tax-result.interface.ts
+ ├── landing/
+ │       analytics.ts
+ │       ArticlePreview.tsx
+ │       ComparisonTable.tsx
+ │       DemoCard.tsx
+ │       FeatureCard.tsx
+ │       HeroSection.tsx
+ │       HowItWorks.tsx
+ │       index.ts
+ │       LandingFooter.tsx
+ │       LandingShell.tsx
+ │       MiniAnchorNav.tsx
+ │       perf-metrics.ts
+ │       SocialProof.tsx
+ │       StickyPromoBar.tsx
+ │       TrustStrip.tsx
+ ├── salary-tax/
+ │       page.tsx
+ │       SalaryTaxForm.tsx
+ │       SalaryTaxResult.tsx
+ │       SimulatorHeader.tsx
+ ├── simulators/
+ │   └── karpooshe/
+ │           KarpoosheLoginForm.tsx
+ └── ui/
          button.tsx
          card.tsx
          dialog.tsx
@@ -331,311 +331,311 @@ npm run docs:all       # docs:scan + docs:update-structure
          tabs.tsx
 
  src/features
- â””â”€â”€ modian/
-     â”‚   faq-data.ts
-     â”‚   index.ts
-     â”‚   karpooshe-code-search.tsx
-     â”‚   menu-items.ts
-     â”‚   ModianFaqTab.tsx
-     â”‚   ModianHome.tsx
-     â”‚   ModianNoticesTabs.tsx
-     â”‚   ModianPortal.tsx
-     â”‚   ModianQuickAccess.tsx
-     â”‚   ModianSidebar.tsx
-     â”‚   ModianWorkspace.tsx
-     â”œâ”€â”€ admin/
-     â”‚   â”‚   index.ts
-     â”‚   â””â”€â”€ dashboard/
-     â”‚           AdminDashboardHelpContent.tsx
-     â”œâ”€â”€ auth/
-     â”‚       index.ts
-     â”‚       ModianLoginForm.tsx
-     â”‚       ModianOtpForm.tsx
-     â”œâ”€â”€ common/
-     â”‚   â”‚   index.ts
-     â”‚   â”‚   InvoiceDetailSection.tsx
-     â”‚   â”‚   memoryKey.utils.ts
-     â”‚   â”‚   ModianJalaliDateField.tsx
-     â”‚   â”‚   useMemoryPublicKey.ts
-     â”‚   â”œâ”€â”€ date/
-     â”‚   â”‚       jalali-utils.ts
-     â”‚   â”œâ”€â”€ search/
-     â”‚   â”‚       index.ts
-     â”‚   â”‚       InvoicesSearchHeader.tsx
-     â”‚   â”‚       SearchByFilters.tsx
-     â”‚   â”‚       SearchByTaxId.tsx
-     â”‚   â””â”€â”€ table/
-     â”‚           ColumnsVisibilityBar.tsx
-     â”‚           EmptyTableRow.tsx
-     â”‚           index.ts
-     â”‚           ScrollableTableShell.tsx
-     â”œâ”€â”€ declaration/
-     â”‚       DeclarationHelpContent.tsx
-     â”‚       index.ts
-     â”œâ”€â”€ home/
-     â”‚       HomeHelpContent.tsx
-     â”‚       index.ts
-     â”œâ”€â”€ layout/
-     â”‚       index.ts
-     â”‚       ModianFooter.tsx
-     â”‚       ModianHeader.tsx
-     â”‚       ModianShell.tsx
-     â”‚       ModianSubHeader.tsx
-     â”œâ”€â”€ otp/
-     â”‚       Otppage.tsx
-     â”œâ”€â”€ portal/
-     â”‚       index.ts
-     â”‚       PortalHelpContent.tsx
-     â”œâ”€â”€ roles/
-     â”‚       index.ts
-     â”œâ”€â”€ taxfile/
-     â”‚   â”‚   index.ts
-     â”‚   â”‚   TaxfileLayoutView.tsx
-     â”‚   â”‚   TaxfilePageView.tsx
-     â”‚   â”‚   TaxfileSubmenu.tsx
-     â”‚   â”œâ”€â”€ bank-accounts/
-     â”‚   â”‚       BankAccountsHelpContent.tsx
-     â”‚   â”‚       BankAccountsPage.tsx
-     â”‚   â”œâ”€â”€ bills/
-     â”‚   â”‚       BillsHelpContent.tsx
-     â”‚   â”‚       BillsPage.tsx
-     â”‚   â”œâ”€â”€ memory-uid/
-     â”‚   â”‚   â”‚   Memory-uidpage.tsx
-     â”‚   â”‚   â”‚   MemoryUidHelpContent.tsx
-     â”‚   â”‚   â”œâ”€â”€ add/
-     â”‚   â”‚   â”‚       Addpage.tsx
-     â”‚   â”‚   â”œâ”€â”€ details/
-     â”‚   â”‚   â”‚       Detailspage.tsx
-     â”‚   â”‚   â””â”€â”€ edit/
-     â”‚   â”‚           page.tsx
-     â”‚   â”œâ”€â”€ payments/
-     â”‚   â”‚       PaymentsPage.tsx
-     â”‚   â”œâ”€â”€ pos-uid/
-     â”‚   â”‚       page.tsx
-     â”‚   â”œâ”€â”€ registration-information/
-     â”‚   â”‚       RegistrationInformationPage.tsx
-     â”‚   â”‚       types.ts
-     â”‚   â””â”€â”€ trusted-companies/
-     â”‚           TrustedCompaniesPage.tsx
-     â”‚           TrustedHelpContent.tsx
-     â”œâ”€â”€ ui/
-     â”‚   â”‚   Card.tsx
-     â”‚   â”‚   FieldGrid.tsx
-     â”‚   â”‚   FormField.tsx
-     â”‚   â”‚   FormToolbar.tsx
-     â”‚   â”‚   icons.tsx
-     â”‚   â”‚   index.ts
-     â”‚   â”‚   PageShell.tsx
-     â”‚   â”‚   Section.tsx
-     â”‚   â”‚   SimulatorBadge.tsx
-     â”‚   â”‚   Tabs.tsx
-     â”‚   â”‚   ToolbarControls.tsx
-     â”‚   â”‚   UploadPublicKeyModal.tsx
-     â”‚   â””â”€â”€ date/
-     â”‚           ModianJalaliDatePicker.tsx
-     â”œâ”€â”€ users-roles/
-     â”‚       index.ts
-     â”‚       UsersRolesHelpContent.tsx
-     â””â”€â”€ workspace/
+ └── modian/
+     │   faq-data.ts
+     │   index.ts
+     │   karpooshe-code-search.tsx
+     │   menu-items.ts
+     │   ModianFaqTab.tsx
+     │   ModianHome.tsx
+     │   ModianNoticesTabs.tsx
+     │   ModianPortal.tsx
+     │   ModianQuickAccess.tsx
+     │   ModianSidebar.tsx
+     │   ModianWorkspace.tsx
+     ├── admin/
+     │   │   index.ts
+     │   └── dashboard/
+     │           AdminDashboardHelpContent.tsx
+     ├── auth/
+     │       index.ts
+     │       ModianLoginForm.tsx
+     │       ModianOtpForm.tsx
+     ├── common/
+     │   │   index.ts
+     │   │   InvoiceDetailSection.tsx
+     │   │   memoryKey.utils.ts
+     │   │   ModianJalaliDateField.tsx
+     │   │   useMemoryPublicKey.ts
+     │   ├── date/
+     │   │       jalali-utils.ts
+     │   ├── search/
+     │   │       index.ts
+     │   │       InvoicesSearchHeader.tsx
+     │   │       SearchByFilters.tsx
+     │   │       SearchByTaxId.tsx
+     │   └── table/
+     │           ColumnsVisibilityBar.tsx
+     │           EmptyTableRow.tsx
+     │           index.ts
+     │           ScrollableTableShell.tsx
+     ├── declaration/
+     │       DeclarationHelpContent.tsx
+     │       index.ts
+     ├── home/
+     │       HomeHelpContent.tsx
+     │       index.ts
+     ├── layout/
+     │       index.ts
+     │       ModianFooter.tsx
+     │       ModianHeader.tsx
+     │       ModianShell.tsx
+     │       ModianSubHeader.tsx
+     ├── otp/
+     │       Otppage.tsx
+     ├── portal/
+     │       index.ts
+     │       PortalHelpContent.tsx
+     ├── roles/
+     │       index.ts
+     ├── taxfile/
+     │   │   index.ts
+     │   │   TaxfileLayoutView.tsx
+     │   │   TaxfilePageView.tsx
+     │   │   TaxfileSubmenu.tsx
+     │   ├── bank-accounts/
+     │   │       BankAccountsHelpContent.tsx
+     │   │       BankAccountsPage.tsx
+     │   ├── bills/
+     │   │       BillsHelpContent.tsx
+     │   │       BillsPage.tsx
+     │   ├── memory-uid/
+     │   │   │   Memory-uidpage.tsx
+     │   │   │   MemoryUidHelpContent.tsx
+     │   │   ├── add/
+     │   │   │       Addpage.tsx
+     │   │   ├── details/
+     │   │   │       Detailspage.tsx
+     │   │   └── edit/
+     │   │           page.tsx
+     │   ├── payments/
+     │   │       PaymentsPage.tsx
+     │   ├── pos-uid/
+     │   │       page.tsx
+     │   ├── registration-information/
+     │   │       RegistrationInformationPage.tsx
+     │   │       types.ts
+     │   └── trusted-companies/
+     │           TrustedCompaniesPage.tsx
+     │           TrustedHelpContent.tsx
+     ├── ui/
+     │   │   Card.tsx
+     │   │   FieldGrid.tsx
+     │   │   FormField.tsx
+     │   │   FormToolbar.tsx
+     │   │   icons.tsx
+     │   │   index.ts
+     │   │   PageShell.tsx
+     │   │   Section.tsx
+     │   │   SimulatorBadge.tsx
+     │   │   Tabs.tsx
+     │   │   ToolbarControls.tsx
+     │   │   UploadPublicKeyModal.tsx
+     │   └── date/
+     │           ModianJalaliDatePicker.tsx
+     ├── users-roles/
+     │       index.ts
+     │       UsersRolesHelpContent.tsx
+     └── workspace/
              index.ts
  <!-- END:COMPONENTS_TREE -->
 
 ### BACKEND_SRC_TREE
  <!-- BEGIN:BACKEND_SRC_TREE -->
  src
- â”œâ”€â”€ app.module.ts
- â”œâ”€â”€ main.ts
- â”œâ”€â”€ admin/
- â”‚       admin.controller.ts
- â”‚       admin.module.ts
- â”œâ”€â”€ auth/
- â”‚   â”‚   access-level.decorator.ts
- â”‚   â”‚   access-level.guard.ts
- â”‚   â”‚   auth.controller.spec.ts
- â”‚   â”‚   auth.controller.ts
- â”‚   â”‚   auth.module.ts
- â”‚   â”‚   auth.service.spec.ts
- â”‚   â”‚   auth.service.ts
- â”‚   â”‚   dev-bypass.guard.ts
- â”‚   â”‚   hash.service.ts
- â”‚   â”‚   jwt-auth.guard.ts
- â”‚   â”‚   jwt-payload.interface.ts
- â”‚   â”‚   jwt.strategy.ts
- â”‚   â”‚   roles.decorator.ts
- â”‚   â”œâ”€â”€ dto/
- â”‚   â”‚       change-password.dto.ts
- â”‚   â”‚       login.dto.ts
- â”‚   â”‚       register.dto.ts
- â”‚   â”‚       signin.dto.ts
- â”‚   â”‚       signup.dto.ts
- â”‚   â””â”€â”€ interfaces/
- â”‚           request-with-user.interface.ts
- â”œâ”€â”€ business/
- â”‚   â”‚   business.controller.ts
- â”‚   â”‚   business.module.ts
- â”‚   â”‚   business.service.ts
- â”‚   â””â”€â”€ dto/
- â”‚           onboarding-step1.dto.ts
- â”œâ”€â”€ common/
- â”‚   â”œâ”€â”€ context/
- â”‚   â”‚       business-context.middleware.ts
- â”‚   â”‚       business-context.module.ts
- â”‚   â”‚       business-context.service.ts
- â”‚   â”‚       context.middleware.ts
- â”‚   â”‚       request-context.interface.ts
- â”‚   â”‚       request-context.service.ts
- â”‚   â””â”€â”€ decorators/
- â”‚           public.decorator.ts
- â”œâ”€â”€ core/
- â”‚   â”‚   core.module.ts
- â”‚   â””â”€â”€ payroll/
- â”‚       â”‚   calculateSalaryTax.ts
- â”‚       â”‚   payroll-entry.entity.ts
- â”‚       â”‚   payroll-item.entity.ts
- â”‚       â”‚   payroll.controller.ts
- â”‚       â”‚   payroll.service.ts
- â”‚       â”œâ”€â”€ dto/
- â”‚       â”‚       create-entry-wrapper.dto.ts
- â”‚       â””â”€â”€ tax-brackets/
- â”‚               1404.tax-brackets.ts
- â”‚               tax-bracket.interface.ts
- â”œâ”€â”€ health/
- â”‚       health.controller.ts
- â”‚       health.module.ts
- â”‚       health.service.ts
- â”œâ”€â”€ modules/
- â”‚   â”€â”€ business-profile/
- â”‚           business-profile.controller.ts
- â”‚           business-profile.service.ts
- â”œâ”€â”€ notice/
- â”‚   â”‚   notice.controller.ts
- â”‚   â”‚   notice.module.ts
- â”‚   â”‚   notice.service.ts
- â”‚   â””â”€â”€ dto/
- â”‚           create-notice.dto.ts
- â”œâ”€â”€ orders/
- â”‚       orders.controller.ts
- â”‚       orders.module.ts
- â”‚       orders.service.ts
- â”œâ”€â”€ prisma/
- â”‚   â”‚   prisma.middleware.ts
- â”‚   â”‚   prisma.module.ts
- â”‚   â”‚   prisma.service.spec.ts
- â”‚   â”‚   prisma.service.ts
- â”‚   â””â”€â”€ extensions/
- â”‚           businessIsolation.extension.ts
- â”‚           tenantTransaction.extension.ts
- â”œâ”€â”€ registration/
- â”‚       registration.controller.ts
- â”‚       registration.module.ts
- â”‚       registration.service.ts
- â”œâ”€â”€ services/
- â”œâ”€â”€ simulator/
- â”‚   â”‚   simulator-access.service.ts
- â”‚   â”‚   simulator.controller.ts
- â”‚   â”‚   simulator.module.ts
- â”‚   â”‚   simulator.service.ts
- â”‚   â”‚   test-tax.ts
- â”‚   â”œâ”€â”€ dto/
- â”‚   â”‚       insurance-single.dto.ts
- â”‚   â”œâ”€â”€ interfaces/
- â”‚   â”‚       simple-tax-result.interface.ts
- â”‚   â”‚       tax-result.interface.ts
- â”‚   â”œâ”€â”€ karpooshe/
- â”‚   â”‚       karpooshe.controller.ts
- â”‚   â”‚       karpooshe.service.ts
- â”‚   â”œâ”€â”€ logic/
- â”‚   â”‚       calculateSalaryTaxBatch.ts
- â”‚   â””â”€â”€ salary-tax/
- â”‚       â”€â”€ dto/
- â”‚               create-simulator.dto.ts
- â”‚               salary-tax-batch.dto.ts
- â”‚               salary-tax.dto.ts
- â”‚               update-simulator.dto.ts
- â”œâ”€â”€ simulator-modian/
- â”‚   â”‚   bills.controller.ts
- â”‚   â”‚   bills.service.ts
- â”‚   â”‚   registration.controller.ts
- â”‚   â”‚   registration.service.ts
- â”‚   â”‚   simulator-modian.controller.ts
- â”‚   â”‚   simulator-modian.module.ts
- â”‚   â”‚   simulator-modian.service.ts
- â”‚   â””â”€â”€ dto/
- â”‚           create-utility-bill.dto.ts
- â”‚           query-bills.dto.ts
- â”‚           update-utility-bill.dto.ts
- â”œâ”€â”€ types/
- â”‚       ambient.d.ts
- â”œâ”€â”€ user/
- â”‚       user.controller.ts
- â”‚       user.module.ts
- â””â”€â”€ utils/
+ ├── app.module.ts
+ ├── main.ts
+ ├── admin/
+ │       admin.controller.ts
+ │       admin.module.ts
+ ├── auth/
+ │   │   access-level.decorator.ts
+ │   │   access-level.guard.ts
+ │   │   auth.controller.spec.ts
+ │   │   auth.controller.ts
+ │   │   auth.module.ts
+ │   │   auth.service.spec.ts
+ │   │   auth.service.ts
+ │   │   dev-bypass.guard.ts
+ │   │   hash.service.ts
+ │   │   jwt-auth.guard.ts
+ │   │   jwt-payload.interface.ts
+ │   │   jwt.strategy.ts
+ │   │   roles.decorator.ts
+ │   ├── dto/
+ │   │       change-password.dto.ts
+ │   │       login.dto.ts
+ │   │       register.dto.ts
+ │   │       signin.dto.ts
+ │   │       signup.dto.ts
+ │   └── interfaces/
+ │           request-with-user.interface.ts
+ ├── business/
+ │   │   business.controller.ts
+ │   │   business.module.ts
+ │   │   business.service.ts
+ │   └── dto/
+ │           onboarding-step1.dto.ts
+ ├── common/
+ │   ├── context/
+ │   │       business-context.middleware.ts
+ │   │       business-context.module.ts
+ │   │       business-context.service.ts
+ │   │       context.middleware.ts
+ │   │       request-context.interface.ts
+ │   │       request-context.service.ts
+ │   └── decorators/
+ │           public.decorator.ts
+ ├── core/
+ │   │   core.module.ts
+ │   └── payroll/
+ │       │   calculateSalaryTax.ts
+ │       │   payroll-entry.entity.ts
+ │       │   payroll-item.entity.ts
+ │       │   payroll.controller.ts
+ │       │   payroll.service.ts
+ │       ├── dto/
+ │       │       create-entry-wrapper.dto.ts
+ │       └── tax-brackets/
+ │               1404.tax-brackets.ts
+ │               tax-bracket.interface.ts
+ ├── health/
+ │       health.controller.ts
+ │       health.module.ts
+ │       health.service.ts
+ ├── modules/
+ │   ── business-profile/
+ │           business-profile.controller.ts
+ │           business-profile.service.ts
+ ├── notice/
+ │   │   notice.controller.ts
+ │   │   notice.module.ts
+ │   │   notice.service.ts
+ │   └── dto/
+ │           create-notice.dto.ts
+ ├── orders/
+ │       orders.controller.ts
+ │       orders.module.ts
+ │       orders.service.ts
+ ├── prisma/
+ │   │   prisma.middleware.ts
+ │   │   prisma.module.ts
+ │   │   prisma.service.spec.ts
+ │   │   prisma.service.ts
+ │   └── extensions/
+ │           businessIsolation.extension.ts
+ │           tenantTransaction.extension.ts
+ ├── registration/
+ │       registration.controller.ts
+ │       registration.module.ts
+ │       registration.service.ts
+ ├── services/
+ ├── simulator/
+ │   │   simulator-access.service.ts
+ │   │   simulator.controller.ts
+ │   │   simulator.module.ts
+ │   │   simulator.service.ts
+ │   │   test-tax.ts
+ │   ├── dto/
+ │   │       insurance-single.dto.ts
+ │   ├── interfaces/
+ │   │       simple-tax-result.interface.ts
+ │   │       tax-result.interface.ts
+ │   ├── karpooshe/
+ │   │       karpooshe.controller.ts
+ │   │       karpooshe.service.ts
+ │   ├── logic/
+ │   │       calculateSalaryTaxBatch.ts
+ │   └── salary-tax/
+ │       ── dto/
+ │               create-simulator.dto.ts
+ │               salary-tax-batch.dto.ts
+ │               salary-tax.dto.ts
+ │               update-simulator.dto.ts
+ ├── simulator-modian/
+ │   │   bills.controller.ts
+ │   │   bills.service.ts
+ │   │   registration.controller.ts
+ │   │   registration.service.ts
+ │   │   simulator-modian.controller.ts
+ │   │   simulator-modian.module.ts
+ │   │   simulator-modian.service.ts
+ │   └── dto/
+ │           create-utility-bill.dto.ts
+ │           query-bills.dto.ts
+ │           update-utility-bill.dto.ts
+ ├── types/
+ │       ambient.d.ts
+ ├── user/
+ │       user.controller.ts
+ │       user.module.ts
+ └── utils/
          utils.controller.ts
          utils.module.ts
  <!-- END:BACKEND_SRC_TREE -->
 ```
 
 <!-- END:BACKEND_SRC_TREE -->
-> ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ظ…غŒâ€Œع©ظ†ظ†ط¯. :contentReference[oaicite:5]{index=5}
+> به‌روزرسانی می‌کنند. :contentReference[oaicite:5]{index=5}
 ---
 
-## 2) ظ‚ط±ط§ط±ط¯ط§ط¯ ظ†ط§ظ…â€Œع¯ط°ط§ط±غŒ ظˆ ط³ط§ط®طھط§ط± ظ¾ظˆط´ظ‡â€Œظ‡ط§ (Frontend)
+## 2) قرارداد نام‌گذاری و ساختار پوشه‌ها (Frontend)
 
-- ظ‡ظ…ظ‡â€ŒغŒ ظ…ط³غŒط±ظ‡ط§ ط²غŒط± `src/` ظ‚ط±ط§ط± ظ…غŒâ€Œع¯غŒط±ظ†ط¯.
-- ظ…ط§عکظˆظ„â€Œظ‡ط§ (ط´ط¨غŒظ‡â€Œط³ط§ط²ظ‡ط§) طھط­طھ `src/app/simulators/*`:
-  - `modian`  (ط³ط§ظ…ط§ظ†ظ‡ ظ…ظˆط¯غŒط§ظ†)
-  - `salary-tax`  (ط³ط§ظ…ط§ظ†ظ‡ ظ…ط§ظ„غŒط§طھ ط¨ط± ط­ظ‚ظˆظ‚)
-  - `insurance`  (ط³ط§ظ…ط§ظ†ظ‡ ط¨غŒظ…ظ‡ طھط£ظ…غŒظ† ط§ط¬طھظ…ط§ط¹غŒ)
-- ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ط§ط´طھط±ط§ع©غŒ/ظ…ط§عکظˆظ„ط§ط± ط¯ط± `src/components/*` ط¨ط§ **ظ†ط§ظ…â€Œع¯ط°ط§ط±غŒ ظ…ط§عکظˆظ„â€Œظ…ط­ظˆط± ظˆ ظ„ط§غŒظ‡â€Œط¨ظ†ط¯غŒ ظˆط§ط¶ط­**:
-  - `src/components/layout/*` â€” ط´ظگظ„/ظ‡ط¯ط±/ط³ط§ط¨â€Œظ‡ط¯ط± ط³ط±ط§ط³ط±غŒ ط³ط§غŒطھ
-  - `src/components/modian/layout/*` â€” ط´ظگظ„/ظ‡ط¯ط± ط§ط®طھطµط§طµغŒ ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ†
-  - `src/components/salary-tax/layout/*` â€” ط´ظگظ„/ظ‡ط¯ط± ط§ط®طھطµط§طµغŒ ظ…ط§ظ„غŒط§طھ ط¨ط± ط­ظ‚ظˆظ‚
-  - `src/components/insurance/layout/*` â€” ط´ظگظ„/ظ‡ط¯ط± ط§ط®طھطµط§طµغŒ ط¨غŒظ…ظ‡
-  - ط³ط§غŒط± ط§ط¬ط²ط§ط، ظ…ط§عکظˆظ„â€Œظ‡ط§ ط¨ظ‡ طھظپع©غŒع© ظ‡ظ…ط§ظ† ظ…ط§عکظˆظ„: `src/components/modian/...`طŒ `src/components/salary-tax/...`طŒ ...
+- همه‌ی مسیرها زیر `src/` قرار می‌گیرند.
+- ماژول‌ها (شبیه‌سازها) تحت `src/app/simulators/*`:
+  - `modian`  (سامانه مودیان)
+  - `salary-tax`  (سامانه مالیات بر حقوق)
+  - `insurance`  (سامانه بیمه تأمین اجتماعی)
+- کامپوننت‌های اشتراکی/ماژولار در `src/components/*` با **نام‌گذاری ماژول‌محور و لایه‌بندی واضح**:
+  - `src/components/layout/*` — شِل/هدر/ساب‌هدر سراسری سایت
+  - `src/components/modian/layout/*` — شِل/هدر اختصاصی ماژول مودیان
+  - `src/components/salary-tax/layout/*` — شِل/هدر اختصاصی مالیات بر حقوق
+  - `src/components/insurance/layout/*` — شِل/هدر اختصاصی بیمه
+  - سایر اجزاء ماژول‌ها به تفکیک همان ماژول: `src/components/modian/...`، `src/components/salary-tax/...`، ...
 
-**غŒط§ط¯ط¯ط§ط´طھ طھط؛غŒغŒط± ط³ط§ط®طھط§ط±غŒ (ظ…ظˆط¯غŒط§ظ†):**
-- ظ…ط³غŒط± ط§ط³طھط§ظ†ط¯ط§ط±ط¯ آ«ظ¾ط±ظˆظ†ط¯ظ‡ظ” ظ…ط§ظ„غŒط§طھغŒآ» ط§ط² ط§غŒظ† ط¨ظ‡ ط¨ط¹ط¯ **ط¨ط¯ظˆظ† ط³ع¯ظ…ظ†طھ ط§ط¯ظ…غŒظ†** ط§ط³طھ:
+**یادداشت تغییر ساختاری (مودیان):**
+- مسیر استاندارد «پروندهٔ مالیاتی» از این به بعد **بدون سگمنت ادمین** است:
   `src/app/simulators/modian/taxfile/...`
-  (طھظ…ط§ظ… طµظپط­ط§طھ ظ…ط±طھط¨ط· ط¨ط§ آ«ظ¾ط±ظˆظ†ط¯ظ‡ظ” ظ…ط§ظ„غŒط§طھغŒ ظˆ ط¹ط¶ظˆغŒطھآ» ط²غŒط± ظ‡ظ…غŒظ† ظ…ط³غŒط± ظ…ط¯غŒط±غŒطھ ظ…غŒâ€Œط´ظˆظ†ط¯.)
-  ط§ع¯ط± ظ„غŒظ†ع©/ط§ط±ط¬ط§ط¹ ظ‚ط¯غŒظ…غŒ ط¨ط§ ظ¾غŒط´ظˆظ†ط¯ `/admin/taxfile` ظˆط¬ظˆط¯ ط¯ط§ط´طھطŒ ط¨ط§غŒط¯ **redirect 301/308**
-  ط¨ظ‡ ظ…ط³غŒط± ط¬ط¯غŒط¯ (`/simulators/modian/taxfile/:path*`) ط§ط¹ظ…ط§ظ„ ط´ظˆط¯. ط§غŒظ† ط³غŒط§ط³طھ ط¯ط± `next.config.ts`
-  طھط­طھ ط¨ط®ط´ `redirects()` ظ†ع¯ظ‡â€Œط¯ط§ط±غŒ ظ…غŒâ€Œط´ظˆط¯.
+  (تمام صفحات مرتبط با «پروندهٔ مالیاتی و عضویت» زیر همین مسیر مدیریت می‌شوند.)
+  اگر لینک/ارجاع قدیمی با پیشوند `/admin/taxfile` وجود داشت، باید **redirect 301/308**
+  به مسیر جدید (`/simulators/modian/taxfile/:path*`) اعمال شود. این سیاست در `next.config.ts`
+  تحت بخش `redirects()` نگه‌داری می‌شود.
 
-> ع†ط±ط§ ط§غŒظ† طھظپع©غŒع©طں ط¨ط±ط§غŒ ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² آ«ط¢ط¯ط±ط³â€Œظ‡ط§غŒ ط§ط´طھط¨ط§ظ‡آ» ظˆ **ط¹ط¯ظ… طھط¯ط§ط®ظ„ ظ†ط§ظ…** (ط¯ظ‚غŒظ‚ط§ظ‹ ظ…ط´ع©ظ„ ط§ط´ط§ط±ظ‡â€Œط´ط¯ظ‡ ط¯ط± ع¯ظپطھع¯ظˆ).
+> چرا این تفکیک؟ برای جلوگیری از «آدرس‌های اشتباه» و **عدم تداخل نام** (دقیقاً مشکل اشاره‌شده در گفتگو).
 
-**ط§ظپط²ظˆط¯ظ†غŒ ط¬ط¯غŒط¯ (ط§طµظ„ط§ط­ ط³ط§ط®طھط§ط± ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ†):**
-- طھظ…ط§ظ… ط¹ظ†ط§طµط± ظ†ظ…ط§غŒط´غŒ ظ…ظˆط¯غŒط§ظ† (Header, Footer, SubHeader, Shell) ط§ط² `src/components/layout/` ط¨ظ‡ ظ…ط³غŒط± ط²غŒط± ظ…ظ†طھظ‚ظ„ ط´ط¯ظ†ط¯:
+**افزودنی جدید (اصلاح ساختار ماژول مودیان):**
+- تمام عناصر نمایشی مودیان (Header, Footer, SubHeader, Shell) از `src/components/layout/` به مسیر زیر منتقل شدند:
   ```
   src/components/modian/layout/
-  â”œâ”€ ModianHeader.tsx
-  â”œâ”€ ModianFooter.tsx
-  â”œâ”€ ModianSubHeader.tsx
-  â”œâ”€ ModianShell.tsx
-  â””â”€ index.ts
+  ├─ ModianHeader.tsx
+  ├─ ModianFooter.tsx
+  ├─ ModianSubHeader.tsx
+  ├─ ModianShell.tsx
+  └─ index.ts
   ```
-- طھظ…ط§ظ… طµظپط­ط§طھ `modian` ط§ط² ط§غŒظ† ظ¾ط³ ظ‡ط¯ط± ظˆ ظپظˆطھط± ط®ظˆط¯ ط±ط§ ط§ط² `@/components/modian/layout` ط§غŒظ…ظ¾ظˆط±طھ ظ…غŒâ€Œع©ظ†ظ†ط¯.
-  **ظ‚ط§ظ†ظˆظ† ظ…ط³غŒط±ظ‡ط§ (ظ…ظˆط¯غŒط§ظ†):** ط§ط³طھظپط§ط¯ظ‡ ط§ط² ط³ع¯ظ…ظ†طھ `admin/` ط¯ط± ط²غŒط±ط´ط§ط®ظ‡ظ” `modian/` ظ…ظ…ظ†ظˆط¹ ط§ط³طھط›
-  ظ‡ط±ع¯ظˆظ†ظ‡ ط¨ط®ط´ ظ…ط¯غŒط±غŒطھغŒ غŒط§ ط¯ط§ط´ط¨ظˆط±ط¯ ط¯ط§ط®ظ„غŒ ط¨ط§غŒط¯ ط¨ط§ ظ†ط§ظ…â€Œع¯ط°ط§ط±غŒ ظ…ط¹ظ†ط§غŒغŒ ط®ظˆط¯ط´ ط¯ط± ط²غŒط± `modian/` طھط¹ط±غŒظپ ط´ظˆط¯
-  (ظ…ط«ظ„ط§ظ‹ `modian/dashboard`, `modian/taxfile`, ...). ط¨ط±ط§غŒ ظ„غŒظ†ع©â€Œظ‡ط§غŒ ظ‚ط¯غŒظ…غŒطŒ ظ‚ط§ظ†ظˆظ† redirect ط¯ط± `next.config.ts`
-  ظ†ع¯ظ‡â€Œط¯ط§ط±غŒ ظ…غŒâ€Œط´ظˆط¯ طھط§ ط§ط² ط¨ط±ظˆط² ظ„غŒظ†ع© ط´ع©ط³طھظ‡ ط¬ظ„ظˆع¯غŒط±غŒ ع¯ط±ط¯ط¯
+- تمام صفحات `modian` از این پس هدر و فوتر خود را از `@/components/modian/layout` ایمپورت می‌کنند.
+  **قانون مسیرها (مودیان):** استفاده از سگمنت `admin/` در زیرشاخهٔ `modian/` ممنوع است؛
+  هرگونه بخش مدیریتی یا داشبورد داخلی باید با نام‌گذاری معنایی خودش در زیر `modian/` تعریف شود
+  (مثلاً `modian/dashboard`, `modian/taxfile`, ...). برای لینک‌های قدیمی، قانون redirect در `next.config.ts`
+  نگه‌داری می‌شود تا از بروز لینک شکسته جلوگیری گردد
 
 
 ---
 
-## 3) ط§ظ„ع¯ظˆغŒ طµظپط­ط§طھ (App Router) ظˆ *Client/Server*
+## 3) الگوی صفحات (App Router) و *Client/Server*
 
-### 3.1 ط§طµظ„ ع©ظ„غŒ
-- ط¨ظ‡ ط¯ط±ط®ظˆط§ط³طھ ط´ظ…ط§طŒ **طµظپط­ط§طھ ع©ظ„غŒط¯غŒ ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ† آ«ع©ظ„ط§غŒظ†طھآ» ط´ط¯ظ†ط¯**ط›
-- ظ‡ط± طµظپط­ظ‡â€Œط§غŒ ع©ظ‡ ط§ط² ظ‡ظˆع©â€Œظ‡ط§غŒ **ع©ظ„ط§غŒظ†طھغŒ** ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ط¯ (`useSearchParams`, `useRouter`, ...) ط¨ط§غŒط¯ غŒط§:
-  1) ط®ظˆط¯ط´ `use client` ط¯ط± ط§ط¨طھط¯ط§غŒ ظپط§غŒظ„ ط¯ط§ط´طھظ‡ ط¨ط§ط´ط¯طŒ **غŒط§**
-  2) ط§ظ„ع¯ظˆغŒ آ«**wrapper Server + Client child**آ» ط±ط§ ط±ط¹ط§غŒطھ ع©ظ†ط¯ طھط§ ط®ط·ط§غŒ
-     `useSearchParams() should be wrapped in a suspense boundary` ط±ظپط¹ ط´ظˆط¯.
+### 3.1 اصل کلی
+- به درخواست شما، **صفحات کلیدی ماژول مودیان «کلاینت» شدند**؛
+- هر صفحه‌ای که از هوک‌های **کلاینتی** استفاده می‌کند (`useSearchParams`, `useRouter`, ...) باید یا:
+  1) خودش `use client` در ابتدای فایل داشته باشد، **یا**
+  2) الگوی «**wrapper Server + Client child**» را رعایت کند تا خطای
+     `useSearchParams() should be wrapped in a suspense boundary` رفع شود.
 
-### 3.2 ط§ظ„ع¯ظˆغŒ ظ¾غŒط´ظ†ظ‡ط§ط¯غŒ (ط§ط³طھظپط§ط¯ظ‡â€Œط´ط¯ظ‡ ط¨ط±ط§غŒ ط®ط·ط§ظ‡ط§غŒ ط§ط®غŒط±)
-- `page.tsx` (Server): ظپظ‚ط· غŒع© ط´ظگظ„ ط³ط¨ع© + ط±ظ†ط¯ط± غŒع© **Client Component** ط¯ط§ط®ظ„ `<Suspense>`
-- `PageClient.tsx` (Client): ظ…ظ†ط·ظ‚ ظˆط§ظ‚ط¹غŒ طµظپط­ظ‡ (ط§ط³طھظپط§ط¯ظ‡ ط§ط² `useSearchParams` ظˆ ...)
+### 3.2 الگوی پیشنهادی (استفاده‌شده برای خطاهای اخیر)
+- `page.tsx` (Server): فقط یک شِل سبک + رندر یک **Client Component** داخل `<Suspense>`
+- `PageClient.tsx` (Client): منطق واقعی صفحه (استفاده از `useSearchParams` و ...)
 
-ظ†ظ…ظˆظ†ظ‡â€ŒغŒ ظ…غŒظ†غŒظ…ط§ظ„:
+نمونه‌ی مینیمال:
 ```tsx
 // page.tsx (Server)
 import { Suspense } from 'react';
@@ -662,23 +662,23 @@ export default function PageClient() {
 }
 ```
 
-> ط¹ظ„طھ ط³ط§ط®طھ ظپط§غŒظ„â€Œظ‡ط§غŒ ط®ط§ظ„غŒ/ط­ط¯ط§ظ‚ظ„غŒ: **Next.js ظ‡ط± ط³ع¯ظ…ظ†طھ ط¨ط§غŒط¯ غŒع© ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ط¨ط±ع¯ط±ط¯ط§ظ†ط¯**ط› ظ‡ظ…ع†ظ†غŒظ† ط¨ط±ط§غŒ ط±ظپط¹ ط®ط·ط§غŒ `CSR bailout`طŒ ظ†غŒط§ط² ط¨ظ‡ **ظ…ط±ط² Suspense ط¯ط± ظ„ط§غŒظ‡â€ŒغŒ ط³ط±ظˆط±غŒ** ط¯ط§ط±غŒظ….
+> علت ساخت فایل‌های خالی/حداقلی: **Next.js هر سگمنت باید یک کامپوننت برگرداند**؛ همچنین برای رفع خطای `CSR bailout`، نیاز به **مرز Suspense در لایه‌ی سروری** داریم.
 
-> ط¯ط± ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ†طŒ ط§غŒظ† ط§ظ„ع¯ظˆ ظ‡ظ…â€Œط§ع©ظ†ظˆظ† ط¯ط± طµظپط­ط§طھ `otp`, `portal`, `users-roles/add` ظˆ ع†ظ†ط¯ طµظپط­ظ‡ظ” ظ…ط´ط§ط¨ظ‡ ط§ط¹ظ…ط§ظ„ ط´ط¯ظ‡ ط§ط³طھ.
+> در ماژول مودیان، این الگو هم‌اکنون در صفحات `otp`, `portal`, `users-roles/add` و چند صفحهٔ مشابه اعمال شده است.
 
-> ظپط§غŒظ„â€Œظ‡ط§غŒ ع©ظ„ط§غŒظ†طھغŒ (ظ…ط«ظ„ `ModianOtpForm.tsx`, `ModianLoginForm.tsx`) ط¯ط±ظˆظ† ظ¾ظˆط´ظ‡ظ” `src/components/modian/` ظ‚ط±ط§ط± ط¯ط§ط±ظ†ط¯ ظˆ ط§ط² ط·ط±غŒظ‚ Wrapper ط¯ط± `page.tsx` ط³ط±ظˆط±غŒ ظپط±ط§ط®ظˆط§ظ†غŒ ظ…غŒâ€Œط´ظˆظ†ط¯.
+> فایل‌های کلاینتی (مثل `ModianOtpForm.tsx`, `ModianLoginForm.tsx`) درون پوشهٔ `src/components/modian/` قرار دارند و از طریق Wrapper در `page.tsx` سروری فراخوانی می‌شوند.
 
-### 3.3 ظ…ط¹ظ…ط§ط±غŒ غŒع©ظ¾ط§ط±ع†ظ‡ ظˆ Proxy ظ…ط³غŒط±ظ‡ط§غŒ ط­ط³ط§ط³ (Business Onboarding)
-ظ„ط§غŒظ‡â€Œظ‡ط§غŒ `app/api/` ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ¾ط±ظˆع©ط³غŒ ط§ظ…ظ†غŒطھغŒ ط¨غŒظ† Browser ظˆ NestJS ط¹ظ…ظ„ ظ…غŒâ€Œع©ظ†ظ†ط¯:
+### 3.3 معماری یکپارچه و Proxy مسیرهای حساس (Business Onboarding)
+لایه‌های `app/api/` به‌عنوان پروکسی امنیتی بین Browser و NestJS عمل می‌کنند:
 
-- `POST /api/business/create` ظ…ط³غŒط± ط§طµظ„غŒ MVP ط§ط³طھ ظˆ ط¯ط±ط®ظˆط§ط³طھ ط±ط§ ط¨ظ‡ `POST /businesses/create` ظپظˆط±ظˆط§ط±ط¯ ظ…غŒâ€Œع©ظ†ط¯.
-- ProxyطŒ Body ع©ط§ظ…ظ„ `RegistrationStep1Input`طŒ Cookie ظ†ط´ط³طھ ظˆ Authorization ظ…ظˆط¬ظˆط¯ ط±ط§ ط¨ظ‡ Backend ظ…ظ†طھظ‚ظ„ ظ…غŒâ€Œع©ظ†ط¯.
-- ظ¾ط§ط³ط® Backend ط¨ظ‡â€Œظ‡ظ…ط±ط§ظ‡ `Set-Cookie` ظ…ط±ط¨ظˆط· ط¨ظ‡ `access_token` طھط§ط²ظ‡ ط¨ظ‡ ظ…ط±ظˆط±ع¯ط± ط¨ط§ط²ع¯ط±ط¯ط§ظ†ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯.
-- `POST /api/business/onboarding/step-1` ظˆ `POST /api/business/switch` ط¯ط± Flow ط§غŒط¬ط§ط¯ ط¬ط¯غŒط¯ ظ…طµط±ظپ ظ†ظ…غŒâ€Œط´ظˆظ†ط¯ ظˆ ظپط¹ظ„ط§ظ‹ Legacy ظ‡ط³طھظ†ط¯.
-- ظ¾ط³ ط§ط² ظ…ظˆظپظ‚غŒطھطŒ Modal ظ…ظˆظپظ‚غŒطھ ظ†ظ…ط§غŒط´ ط¯ط§ط¯ظ‡ ظˆ ع©ط§ط±ط¨ط± ط¨ط¯ظˆظ† Login/Switch ظ…ط¬ط¯ط¯ ط¨ظ‡ `/dashboard` ظ‡ط¯ط§غŒطھ ظ…غŒâ€Œط´ظˆط¯.
-- ط§غŒظ† ط§ظ„ع¯ظˆ coupling ظ…ط³طھظ‚غŒظ… ظپط±ط§ظ†طھâ†”ط¨ع©â€Œط§ظ†ط¯ ط±ط§ ع©ط§ظ‡ط´ ظ…غŒâ€Œط¯ظ‡ط¯ ظˆ ظ…ظ†ط¨ط¹ ط­ظ‚غŒظ‚طھ ظ…ط§ظ„ع©غŒطھ ط±ط§ ط¯ط± Backend ظ†ع¯ظ‡ ظ…غŒâ€Œط¯ط§ط±ط¯.
+- `POST /api/business/create` مسیر اصلی MVP است و درخواست را به `POST /businesses/create` فوروارد می‌کند.
+- Proxy، Body کامل `RegistrationStep1Input`، Cookie نشست و Authorization موجود را به Backend منتقل می‌کند.
+- پاسخ Backend به‌همراه `Set-Cookie` مربوط به `access_token` تازه به مرورگر بازگردانده می‌شود.
+- `POST /api/business/onboarding/step-1` و `POST /api/business/switch` در Flow ایجاد جدید مصرف نمی‌شوند و فعلاً Legacy هستند.
+- پس از موفقیت، Modal موفقیت نمایش داده و کاربر بدون Login/Switch مجدد به `/dashboard` هدایت می‌شود.
+- این الگو coupling مستقیم فرانت↔بک‌اند را کاهش می‌دهد و منبع حقیقت مالکیت را در Backend نگه می‌دارد.
 
-### 3.4 ط³ط§ط®طھط§ط± Flow ظ†ظ‡ط§غŒغŒ Create Business ط¯ط± MVP
+### 3.4 ساختار Flow نهایی Create Business در MVP
 
 ```text
 User
@@ -697,31 +697,31 @@ Form Prefill               Empty Form
    POST /api/business/create
               |
    Backend Prisma Transaction
-   â”œâ”€â”€ Business
-   â”œâ”€â”€ UserBusiness
-   â”œâ”€â”€ TaxFile
-   â”œâ”€â”€ BusinessContact
-   â””â”€â”€ BusinessRegistration
+   ├── Business
+   ├── UserBusiness
+   ├── TaxFile
+   ├── BusinessContact
+   └── BusinessRegistration
               |
        Fresh access_token
               |
           Dashboard
 ```
 
-ظ‚ظˆط§ط¹ط¯ ط³ط§ط®طھط§ط±غŒ:
+قواعد ساختاری:
 
-- Signup ظپظ‚ط· `User` ط§غŒط¬ط§ط¯ ظ…غŒâ€Œع©ظ†ط¯ط› User ط¨ط¯ظˆظ† Business غŒع© ظˆط¶ط¹غŒطھ ظ…ط¹طھط¨ط± ط§ط³طھ.
-- `OnboardingChoiceModal` ظپظ‚ط· ط±ظˆط´ ظˆط±ظˆط¯ ط§ط·ظ„ط§ط¹ط§طھ ط±ط§ طھط¹غŒغŒظ† ظ…غŒâ€Œع©ظ†ط¯.
-- ظ‡ط± ط¯ظˆ ط±ظˆط´ ط§ط² `StepRegistration`طŒ `react-hook-form`طŒ Zod Schema ظˆ Submit Handler ظ…ط´طھط±ع© ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ظ†ط¯.
-- Auto-fill ظپظ‚ط· ظپط±ظ… ط±ط§ ط¨ط§ Template ط«ط§ط¨طھ ط¢ظ…ظˆط²ط´غŒ ظ¾ط± ظ…غŒâ€Œع©ظ†ط¯ ظˆ ظ‚ط¨ظ„ ط§ط² ط«ط¨طھ ظ†ظ‡ط§غŒغŒ ظ‚ط§ط¨ظ„ ظˆغŒط±ط§غŒط´ ط§ط³طھ.
-- طµظپط­ظ‡ `src/app/business/onboarding/step-1/page.tsx` ظپظ‚ط· ط¨ط±ط§غŒ ط³ط§ط²ع¯ط§ط±غŒ ظ…ط³غŒط± ظ‚ط¯غŒظ…غŒ ط¨ظ‡ `/business/onboarding` Redirect ظ…غŒâ€Œع©ظ†ط¯.
-- ط­ط°ظپ ظپغŒط²غŒع©غŒ Routeظ‡ط§غŒ Legacy ط¨ظ‡ ظ…ظˆظپظ‚غŒطھ طھط³طھâ€Œظ‡ط§غŒ Rollback/Regression ظˆط§ط¨ط³طھظ‡ ط§ط³طھ.
+- Signup فقط `User` ایجاد می‌کند؛ User بدون Business یک وضعیت معتبر است.
+- `OnboardingChoiceModal` فقط روش ورود اطلاعات را تعیین می‌کند.
+- هر دو روش از `StepRegistration`، `react-hook-form`، Zod Schema و Submit Handler مشترک استفاده می‌کنند.
+- Auto-fill فقط فرم را با Template ثابت آموزشی پر می‌کند و قبل از ثبت نهایی قابل ویرایش است.
+- صفحه `src/app/business/onboarding/step-1/page.tsx` فقط برای سازگاری مسیر قدیمی به `/business/onboarding` Redirect می‌کند.
+- حذف فیزیکی Routeهای Legacy به موفقیت تست‌های Rollback/Regression وابسته است.
 
 ---
 
-## 4) ظ…ط³غŒط±ظ‡ط§/طµظپط­ط§طھ ع©ظ„ط§غŒظ†طھ ظ…ظˆط¯غŒط§ظ† (ط·ط¨ظ‚ ظپظ‡ط±ط³طھ ط§ط±ط³ط§ظ„غŒ ط´ظ…ط§)
+## 4) مسیرها/صفحات کلاینت مودیان (طبق فهرست ارسالی شما)
 
-ط§غŒظ† ظ…ط³غŒط±ظ‡ط§ آ«ع©ظ„ط§غŒظ†طھآ» ط¯ط± ظ†ط¸ط± ع¯ط±ظپطھظ‡ ط´ط¯ظ†ط¯ (غŒط§ ط¨ط§ ط§ظ„ع¯ظˆغŒ Wrapper+Client ظ¾غŒط§ط¯ظ‡ ط´ط¯ظ†ط¯):
+این مسیرها «کلاینت» در نظر گرفته شدند (یا با الگوی Wrapper+Client پیاده شدند):
 
 ```
 /simulators/modian/admin
@@ -735,56 +735,56 @@ Form Prefill               Empty Form
 /simulators/modian/workspace
 ```
 
-> ط¹ظ„ط§ظˆظ‡ ط¨ط± ط§غŒظ†طŒ ط¨ط±ط§غŒ ط²غŒط±ظ…ط³غŒط±ظ‡ط§غŒ ط®ط§طµ (ظ…ط«ظ„ `roles/add`, `admin/taxfile/bank-accounts`, `taxfile/registration` ظˆâ€¦)طŒ
-> ظپط§غŒظ„â€Œظ‡ط§غŒ `layout.tsx` ظˆ/غŒط§ `page.tsx` ط­ط¯ط§ظ‚ظ„غŒ ط§غŒط¬ط§ط¯ ط´ط¯ طھط§ ط®ط·ط§ظ‡ط§غŒ
-> آ«**Expected to return a React component**آ» ظˆ **Missing Suspense** ط¨ط±ط·ط±ظپ ط´ظˆط¯.
+> علاوه بر این، برای زیرمسیرهای خاص (مثل `roles/add`, `admin/taxfile/bank-accounts`, `taxfile/registration` و…)،
+> فایل‌های `layout.tsx` و/یا `page.tsx` حداقلی ایجاد شد تا خطاهای
+> «**Expected to return a React component**» و **Missing Suspense** برطرف شود.
 
-### طھط­ظˆغŒظ„â€Œظ‡ط§غŒ ط¬ط¯غŒط¯ (غ±غ´غ°غµ/غ°غ³/غ±غ³)
-**طµظپط­ظ‡ Login (`/simulators/modian/login`):**
-- ط§طµظ„ط§ط­ ع©ظ¾ع†ط§ (ع©ط§ط±ط§ع©طھط±ظ‡ط§غŒ ط±ظ†ع¯غŒ ظˆ ع†ط±ط®ط´غŒ).
-- ط§طµظ„ط§ط­ ط¬ط±غŒط§ظ† Tab Navigation (ظ¾ط±ط´ ظ…ط³طھظ‚غŒظ… ط§ط² ط±ظ…ط² ط¹ط¨ظˆط± ط¨ظ‡ ع©ظ¾ع†ط§).
-- ط§ظپط²ظˆط¯ظ† ط¯ع©ظ…ظ‡ ظ†ظ…ط§غŒط´ ط±ظ…ط² ط¹ط¨ظˆط± ط¨ط§ `tabIndex={-1}`.
-- ط§ظپط²ظˆط¯ظ† Dropdown ط§ظ†طھط®ط§ط¨ ع©ط³ط¨â€Œظˆع©ط§ط± (ظپط±ط§ط®ظˆط§ظ†غŒ `businesses/me`).
+### تحویل‌های جدید (۱۴۰۵/۰۳/۱۳)
+**صفحه Login (`/simulators/modian/login`):**
+- اصلاح کپچا (کاراکترهای رنگی و چرخشی).
+- اصلاح جریان Tab Navigation (پرش مستقیم از رمز عبور به کپچا).
+- افزودن دکمه نمایش رمز عبور با `tabIndex={-1}`.
+- افزودن Dropdown انتخاب کسب‌وکار (فراخوانی `businesses/me`).
 
-**طµظپط­ظ‡ OTP (`/simulators/modian/otp`):**
-- ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ طھط§غŒظ…ط± غ¶ ط¯ظ‚غŒظ‚ظ‡â€Œط§غŒ ط¨ط§ ظ†ظˆط§ط± ظ¾غŒط´ط±ظپطھ ع¯ط±ط§ظپغŒع©غŒ.
-- ط§ظپط²ظˆط¯ظ† ظ…ط§ع©ط§ظ¾ ظ…ظˆط¨ط§غŒظ„ (ظ†ظ…ط§غŒط´ ع©ط¯ ظ¾غŒط§ظ…ع©).
-
----
-
-## 5) ظ„ط§غŒظ‡â€Œظ‡ط§غŒ Layout
-
-- **ظ†ع©طھظ‡â€ŒغŒ ظ…ظ‡ظ…:** ظˆط¬ظˆط¯ `layout.tsx` ط¯ط± ط³ط·ط­ ط³ع¯ظ…ظ†طھ ط¨ط§ط¹ط« ظ…غŒâ€Œط´ظˆط¯ ظ‡ظ…ظ‡â€ŒغŒ ط²غŒط±طµظپط­ط§طھطŒ ط´ظگظ„ ظ…ظ†ط§ط³ط¨ ظˆ ظ‡ط¯ط±/ط³ط§ط¨â€Œظ‡ط¯ط± ظ…ط´طھط±ع© ط¯ط§ط´طھظ‡ ط¨ط§ط´ظ†ط¯ ظˆ ظ†غŒط§ط² ط¨ظ‡ طھع©ط±ط§ط± ط¯ط± ظ‡ط± طµظپط­ظ‡ ظ†ط¨ط§ط´ط¯.
-- ع†غŒظ†ط´ طھظˆطµغŒظ‡â€Œط´ط¯ظ‡ ط¨ط±ط§غŒ ظ…ظˆط¯غŒط§ظ†:
-  - `src/app/simulators/modian/layout.tsx` â€” ط´ظگظ„ ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ† (ظ…غŒâ€Œطھظˆط§ظ†ط¯ ط³ط±ظˆط±غŒ ط¨ط§ط´ط¯ ظˆ ط¹ظ†ط§طµط± ط³ط±ط§ط³ط±غŒ ظ…ط§عکظˆظ„ ط±ط§ ط±ظ†ط¯ط± ع©ظ†ط¯)
-  - ط¨ط±ط§غŒ ظ‡ط± ط²غŒط±ط¨ط®ط´ ط¨ط§ ظ†غŒط§ط² ط¨ظ‡ ط´ظگظ„ ظ…طھظپط§ظˆطھ (ظ…ط«ظ„ `portal/`, `roles/`, `admin/`): غŒع© `layout.tsx` ط­ط¯ط§ظ‚ظ„غŒ ط¯ط± ظ‡ظ…ط§ظ† ظپظˆظ„ط¯ط±
-
-> ط§ع¯ط± طµظپط­ظ‡â€Œط§غŒ ع©ط§ظ…ظ„ط§ظ‹ ع©ظ„ط§غŒظ†طھ ط§ط³طھطŒ **layout ظ…غŒâ€Œطھظˆط§ظ†ط¯ Server ط¨ظ…ط§ظ†ط¯** ظˆ طµط±ظپط§ظ‹ `<Suspense>` غŒط§ Container ط¨ط¯ظ‡ط¯.
-
+**صفحه OTP (`/simulators/modian/otp`):**
+- پیاده‌سازی تایمر ۶ دقیقه‌ای با نوار پیشرفت گرافیکی.
+- افزودن ماکاپ موبایل (نمایش کد پیامک).
 
 ---
 
-## 6) Middleware ظˆ ط§ط­ط±ط§ط² ظ‡ظˆغŒطھ (Frontend)
+## 5) لایه‌های Layout
 
-- ظپط§غŒظ„ ط§ط±ط³ط§ظ„غŒ ط´ظ…ط§: `src/middleware.ts` ط¨ط§ ط§ط³طھظپط§ط¯ظ‡ ط§ط² `jsonwebtoken` ظˆ ع©ظˆع©غŒ `__Host-auth-token`.
-- ظ…ط³غŒط±ظ‡ط§غŒ ظ…ط­ط§ظپط¸طھâ€Œط´ط¯ظ‡ ظ†ظ…ظˆظ†ظ‡: `/dashboard`, `/profile`, `/settings` (ط·ط¨ظ‚ ظپط§غŒظ„ ط§ط±ط³ط§ظ„غŒ).
-- ط±غŒط¯ط§غŒط±ع©طھ ط¨ظ‡ `/auth/signin?redirect=...` ط¯ط± طµظˆط±طھ ظ†ط¨ظˆط¯/ظ†ط§ط§ط¹طھط¨ط§ط±غŒ طھظˆع©ظ†.
+- **نکته‌ی مهم:** وجود `layout.tsx` در سطح سگمنت باعث می‌شود همه‌ی زیرصفحات، شِل مناسب و هدر/ساب‌هدر مشترک داشته باشند و نیاز به تکرار در هر صفحه نباشد.
+- چینش توصیه‌شده برای مودیان:
+  - `src/app/simulators/modian/layout.tsx` — شِل ماژول مودیان (می‌تواند سروری باشد و عناصر سراسری ماژول را رندر کند)
+  - برای هر زیربخش با نیاز به شِل متفاوت (مثل `portal/`, `roles/`, `admin/`): یک `layout.tsx` حداقلی در همان فولدر
 
-> طھظˆط¬ظ‡: ط§ط¬ط±ط§غŒ Middleware ط¯ط± **Edge Runtime** ط§ط³طھط› ع©طھط§ط¨ط®ط§ظ†ظ‡â€Œظ‡ط§غŒغŒ ظ…ط«ظ„ `jsonwebtoken` ظ…ظ…ع©ظ† ط§ط³طھ ظ…ط­ط¯ظˆط¯غŒطھ ط¯ط§ط´طھظ‡ ط¨ط§ط´ظ†ط¯.
-> طھط§ ظˆظ‚طھغŒ ط¨غŒظ„ط¯/ط±ط§ظ† طھط§غŒغŒط¯ ط´ط¯طŒ **ظ‡ظ…غŒظ† ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ظ…ط³طھظ†ط¯ ظ…غŒâ€Œط´ظˆط¯**ط› ط¯ط± طµظˆط±طھ ظ†غŒط§ط² ط¨ظ‡ ظ…ظ‡ط§ط¬ط±طھطŒ ط¨ط§غŒط¯ ط¨ظ‡ ط³ظ…طھ
-> ط¨ط±ط±ط³غŒ طھظˆع©ظ† ط¨ط§ `next/headers` ظˆ/غŒط§ JWT ط³ط±ظˆط±غŒ (ط¯ط§ط®ظ„ API Route) ط¨ط±ظˆغŒظ….
+> اگر صفحه‌ای کاملاً کلاینت است، **layout می‌تواند Server بماند** و صرفاً `<Suspense>` یا Container بدهد.
 
-### 6.1) Update (2026-02-27) â€” ظ†ع©طھظ‡ ط¹ظ…ظ„غŒط§طھغŒ ظ…ط±ط¬/PR
-- ط¨ط¹ط¯ ط§ط² ظ‡ط± PR MergeطŒ ط­طھظ…ط§ظ‹ ط±ظˆغŒ `main` (ظ„ظˆع©ط§ظ„ ظˆ ط±غŒظ…ظˆطھ) **طµط­طھ SHA** ظˆ **ط³ط¨ط² ط¨ظˆط¯ظ† build** ع©ظ†طھط±ظ„ ط´ظˆط¯:
-  - `git log -1 --oneline` (ط±ظˆغŒ main)
+
+---
+
+## 6) Middleware و احراز هویت (Frontend)
+
+- فایل ارسالی شما: `src/middleware.ts` با استفاده از `jsonwebtoken` و کوکی `__Host-auth-token`.
+- مسیرهای محافظت‌شده نمونه: `/dashboard`, `/profile`, `/settings` (طبق فایل ارسالی).
+- ریدایرکت به `/auth/signin?redirect=...` در صورت نبود/نااعتباری توکن.
+
+> توجه: اجرای Middleware در **Edge Runtime** است؛ کتابخانه‌هایی مثل `jsonwebtoken` ممکن است محدودیت داشته باشند.
+> تا وقتی بیلد/ران تایید شد، **همین پیاده‌سازی مستند می‌شود**؛ در صورت نیاز به مهاجرت، باید به سمت
+> بررسی توکن با `next/headers` و/یا JWT سروری (داخل API Route) برویم.
+
+### 6.1) Update (2026-02-27) — نکته عملیاتی مرج/PR
+- بعد از هر PR Merge، حتماً روی `main` (لوکال و ریموت) **صحت SHA** و **سبز بودن build** کنترل شود:
+  - `git log -1 --oneline` (روی main)
   - `npm run build`
-- ط§ع¯ط± PR ط¸ط§ظ‡ط±ط§ظ‹ merge ط´ط¯ ظˆظ„غŒ `main` ظ‡ظ†ظˆط² ط®ط·ط§ ط¯ط§ط´طھطŒ ط¨ط§ط²غŒط§ط¨غŒ ط§ظ…ظ† ط§ط² `git reflog` ظˆ `cherry-pick` ظ…ط¬ط§ط² ط§ط³طھ (ط·ط¨ظ‚ ظپط±ط¢غŒظ†ط¯ ظ…ط±ط¬ ط§ظ…ظ† ط¯ط± آ§21).
+- اگر PR ظاهراً merge شد ولی `main` هنوز خطا داشت، بازیابی امن از `git reflog` و `cherry-pick` مجاز است (طبق فرآیند مرج امن در §21).
 
 ---
 
-## 7) Tailwind ظˆ `globals.css`
+## 7) Tailwind و `globals.css`
 
-- ظپط§غŒظ„ ط§ط±ط³ط§ظ„غŒ: `src/globals.css`
+- فایل ارسالی: `src/globals.css`
   ```css
   @tailwind base;
   @tailwind components;
@@ -794,22 +794,22 @@ Form Prefill               Empty Form
     background-color: #d9e3f1;
   }
   ```
-- ط¯ط± ظ„ط§ع¯ ط¨غŒظ„ط¯ ظ‚ط¨ظ„غŒطŒ ط®ط·ط§غŒ آ«`bg-background` class does not existآ» ط¯غŒط¯ظ‡ ط´ط¯ط›
-  ع†ظˆظ† ع†ظ†غŒظ† ع©ظ„ط§ط³غŒ ط¯ط± `@layer`ظ‡ط§ طھط¹ط±غŒظپ ظ†ط´ط¯ظ‡ ط§ط³طھ. ط¯ظˆ ط±ط§ظ‡ ط§ط³طھط§ظ†ط¯ط§ط±ط¯:
-  1) **ط¹ط¯ظ… ط§ط³طھظپط§ط¯ظ‡** ط§ط² `bg-background` ط¯ط± JSX/CSSطŒ غŒط§
-  2) طھط¹ط±غŒظپ ع©ظ„ط§ط³ ط³ظپط§ط±ط´غŒ:
+- در لاگ بیلد قبلی، خطای «`bg-background` class does not exist» دیده شد؛
+  چون چنین کلاسی در `@layer`ها تعریف نشده است. دو راه استاندارد:
+  1) **عدم استفاده** از `bg-background` در JSX/CSS، یا
+  2) تعریف کلاس سفارشی:
      ```css
      @layer utilities {
-       .bg-background { background-color: hsl(0 0% 100% / 1); } /* ظ†ظ…ظˆظ†ظ‡ */
+       .bg-background { background-color: hsl(0 0% 100% / 1); } /* نمونه */
      }
      ```
 
 
 ---
 
-## 8) ESLint ظˆ TypeScript
+## 8) ESLint و TypeScript
 
-- ظپط§غŒظ„ ESLint ط§ط±ط³ط§ظ„غŒ (Flat Config):
+- فایل ESLint ارسالی (Flat Config):
   ```js
   // eslint.config.mjs
   import { dirname } from "path";
@@ -827,73 +827,73 @@ Form Prefill               Empty Form
 
   export default eslintConfig;
 
-## 8.1 ط§ظ„ع¯ظˆغŒ ظ…ط¬ط§ط² ط§غŒظ…ظ¾ظˆط±طھ ط¨ط±ط§غŒ آ«ظ…ظˆط¯غŒط§ظ†آ»
-- ظ…ط¬ط§ط²: `@/components/modian` ظˆ `@/components/modian/<barrel>` ظ…ط«ظ„ `@/components/modian/common`طŒ `@/components/modian/taxfile`طŒ `@/components/modian/layout`.
-- **ط؛غŒط±ظ…ط¬ط§ط²:** ط§ط´ط§ط±ظ‡ ظ…ط³طھظ‚غŒظ… ط¨ظ‡ ظپط§غŒظ„â€Œظ‡ط§ ط²غŒط± ظ‡ط± ظ¾ظˆط´ظ‡ظ” ظ…ظˆط¯غŒط§ظ† (ظ…ط«ظ„ `@/components/modian/taxfile/bills/page`)ط› ظ‡ظ…ظ‡ظ” ظ…طµط±ظپâ€Œع©ظ†ظ†ط¯ع¯ط§ظ† ط¨ط§غŒط¯ ط§ط² Barrel ط§غŒظ…ظ¾ظˆط±طھ ع©ظ†ظ†ط¯.
-- **غŒط§ط¯ط¯ط§ط´طھ UI:** ط¨ط±ط§غŒ ط²غŒط±ظ¾ظˆط´ظ‡ظ” `ui/*` ظپظ‚ط· ط§ط² Barrel `@/components/modian/ui` ط§ط³طھظپط§ط¯ظ‡ ط´ظˆط¯.
-- ط§غŒظ† ط³غŒط§ط³طھ ط¯ط± ESLint ط¨ط§ ظ‚ط§ط¹ط¯ظ‡â€ŒغŒ `no-restricted-imports` enforce ط´ط¯ظ‡ ظˆ ع¯ط±ظˆظ‡â€Œط¨ظ†ط¯غŒ ط§غŒظ…ظ¾ظˆط±طھâ€Œظ‡ط§ ظ†غŒط² ط·ط¨ظ‚ `import/order` ط¨ط±ظ‚ط±ط§ط± ط§ط³طھ. ط§غŒظ† ظ†ع©طھظ‡ ط¯ط± ع¯ط²ط§ط±ط´ طھغŒظ… طµظپط­ظ‡ ط§طµظ„غŒ ظ‡ظ… طھط£غŒغŒط¯ ط´ط¯ظ‡ ط§ط³طھ. :contentReference[oaicite:0]{index=0}
+## 8.1 الگوی مجاز ایمپورت برای «مودیان»
+- مجاز: `@/components/modian` و `@/components/modian/<barrel>` مثل `@/components/modian/common`، `@/components/modian/taxfile`، `@/components/modian/layout`.
+- **غیرمجاز:** اشاره مستقیم به فایل‌ها زیر هر پوشهٔ مودیان (مثل `@/components/modian/taxfile/bills/page`)؛ همهٔ مصرف‌کنندگان باید از Barrel ایمپورت کنند.
+- **یادداشت UI:** برای زیرپوشهٔ `ui/*` فقط از Barrel `@/components/modian/ui` استفاده شود.
+- این سیاست در ESLint با قاعده‌ی `no-restricted-imports` enforce شده و گروه‌بندی ایمپورت‌ها نیز طبق `import/order` برقرار است. این نکته در گزارش تیم صفحه اصلی هم تأیید شده است. :contentReference[oaicite:0]{index=0}
 
-## 8.2 Governance طھظ…غŒط²ع©ط§ط±غŒ ظ…ظˆط¯غŒط§ظ† (طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§)
-- Global (src/components/ui, src/components/common): ظپظ‚ط· ط§ط¬ط²ط§غŒ ع©ط§ظ…ظ„ط§ظ‹ ط¹ظ…ظˆظ…غŒ (ط¯ع©ظ…ظ‡طŒ ط§غŒظ†ظ¾ظˆطھ ط¹ظ…ظˆظ…غŒطŒ طھط§ط±غŒط® ط¬ظ„ط§ظ„غŒ ط¹ظ…ظˆظ…غŒ).
-- Modian (src/components/modian/*): ظ‡ط± ط¬ط²ط، ظ…ط±ط¨ظˆط· ط¨ظ‡ UX/ظ…ظ†ط·ظ‚ ظ…ظˆط¯غŒط§ظ†: ط¬ط¯ط§ظˆظ„/ظپغŒظ„طھط±ظ‡ط§غŒ طµظˆط±طھط­ط³ط§ط¨طŒ DatePicker/DateField ط§ط®طھطµط§طµغŒطŒ ط¢غŒع©ظˆظ†/Toolbar ط®ط§طµ.
-- ط§غŒظ…ظ¾ظˆط±طھ ظپظ‚ط· ط§ط² Barrel ظ…ط¬ط§ط² ط§ط³طھط› ط§غŒظ…ظ¾ظˆط±طھ ط¹ظ…غŒظ‚ ظ…ط³طھظ‚غŒظ… ظ…ظ…ظ†ظˆط¹ (ظ‚ط§ط¹ط¯ظ‡ظ” ESLint).
+## 8.2 Governance تمیزکاری مودیان (صورتحساب‌ها)
+- Global (src/components/ui, src/components/common): فقط اجزای کاملاً عمومی (دکمه، اینپوت عمومی، تاریخ جلالی عمومی).
+- Modian (src/components/modian/*): هر جزء مربوط به UX/منطق مودیان: جداول/فیلترهای صورتحساب، DatePicker/DateField اختصاصی، آیکون/Toolbar خاص.
+- ایمپورت فقط از Barrel مجاز است؛ ایمپورت عمیق مستقیم ممنوع (قاعدهٔ ESLint).
 
-## 8.3 Inventory â€” Modian Components & Utilities (v1)
-> ظ…ظ†ط¨ط¹: components-tree.txt + app-tree.txt (ط§غŒظ† ظ„غŒط³طھ ط¨ط§ PRظ‡ط§غŒ ط¨ط¹ط¯غŒ ع©ط§ظ…ظ„ ظ…غŒâ€Œط´ظˆط¯).
+## 8.3 Inventory — Modian Components & Utilities (v1)
+> منبع: components-tree.txt + app-tree.txt (این لیست با PRهای بعدی کامل می‌شود).
 
-| ظ†ط§ظ… | ظ…ط³غŒط± | ظ†ظˆط¹ | ظ‚ظ„ظ…ط±ظˆ | ع©ط§ط±ط¨ط±ط¯ ع©ظ„غŒط¯غŒ | ظˆط¶ط¹غŒطھ طھع©ط«غŒط± | ط§ظ‚ط¯ط§ظ… |
+| نام | مسیر | نوع | قلمرو | کاربرد کلیدی | وضعیت تکثیر | اقدام |
 |---|---|---|---|---|---|---|
-| InvoicesSearchHeader | src/components/modian/common/search/InvoicesSearchHeader.tsx | Component | Modian | ظ‡ط¯ط± ط¬ط³طھط¬ظˆ ط¯ط± طµظپط­ط§طھ طµظˆط±طھط­ط³ط§ط¨ | **طھط£غŒغŒط¯ ظˆ ط¯ط± ظ…طµط±ظپ** | ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ظ…ط±ط¬ط¹ ط¨ط±ط§غŒ طھط¨â€Œظ‡ط§/طھغŒطھط±/ع†غŒظ†ط´ط› ظ…طµط±ظپ طµط±ظپط§ظ‹ ط§ط² Barrel |
-| SearchByFilters | src/components/modian/common/search/SearchByFilters.tsx | Component | Modian | ظپغŒظ„طھط±ظ‡ط§غŒ طµظˆط±طھط­ط³ط§ط¨ | **طھط£غŒغŒط¯ ظˆ ط¯ط± ظ…طµط±ظپ** | ط§طھطµط§ظ„ غŒع©ط³ط§ظ† DateFields ط¨ظ‡ util ط¬ظ„ط§ظ„غŒ ظ…ط´طھط±ع©ط› ظ…ظ†ط¹ import ط¹ظ…غŒظ‚ |
-| SearchByTaxId | src/components/modian/common/search/SearchByTaxId.tsx | Component | Modian | ط¬ط³طھط¬ظˆ ط¨ط± ط§ط³ط§ط³ ط´ظ†ط§ط³ظ‡/ع©ط¯ ظ…ط§ظ„غŒط§طھغŒ | ظ†ط§ظ…ط´ط®طµ | ط§ط³طھظپط§ط¯ظ‡ ط§ط² Barrelط› ط­ط°ظپ import ط¹ظ…غŒظ‚ |
-| ModianJalaliDateField | src/components/modian/common/ModianJalaliDateField.tsx | Component | Modian | ظپغŒظ„ط¯ طھط§ط±غŒط® ط§ط®طھطµط§طµغŒ ظ…ظˆط¯غŒط§ظ† | **ظ…ط±ط¬ط¹ ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ** | ط§ط³طھظپط§ط¯ظ‡ غŒع©ظ†ظˆط§ط®طھط› ط®ط±ظˆط¬ utilâ€Œظ‡ط§غŒ طھط¨ط¯غŒظ„/ظ¾ط§ط±ط³ظ‡ ط§ط² WIP ط¨ظ‡ shared |
-| ModianJalaliDatePicker | src/components/modian/common/ModianJalaliDatePicker.tsx | Component | Modian | DatePicker ط§ط®طھطµط§طµغŒ | ط§ط­طھظ…ط§ظ„ ظ‡ظ…ظ¾ظˆط´ط§ظ†غŒ | ظ‡ظ…ط§ظ† ط¨ط§ظ„ط§ |
-| InvoiceDetailSection | src/components/modian/common/InvoiceDetailSection.tsx | Component | Modian | ط¨ظ„ظˆع© ظ…ط´طھط±ع© ط¨ط±ط§غŒ آ«ظ…ط´ط®طµط§طھ طµظˆط±طھط­ط³ط§ط¨/ظپط±ظˆط´ظ†ط¯ظ‡/ط®ط±غŒط¯ط§ط±/ط§ط·ظ„ط§ط¹ط§طھ ظ¾ط±ط¯ط§ط®طھآ» ط¯ط± طµظپط­ط§طھ ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨ | ط¨ط¯ظˆظ†â€Œطھع©ط«غŒط± | ظ…طµط±ظپ طµط±ظپط§ظ‹ ط§ط² Barrelط› ط¯ط± ط·ط±ط§ط­غŒ طµظپط­ط§طھ ط¬ط²ط¦غŒط§طھ ط¨ط¹ط¯غŒ reuse ط´ظˆط¯ |
-| ToolbarControls | src/components/modian/common/ToolbarControls.tsx | Component | Modian | ع©ظ†طھط±ظ„â€Œظ‡ط§غŒ ط§ط¨ط²ط§ط±ع© ط¬ط¯ظˆظ„ | **ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ط±ظپطھط§ط± ط¯ع©ظ…ظ‡â€Œظ‡ط§** | ظ‡ظ…â€Œط±ط§ط³طھط§ط³ط§ط²غŒ ط¨ط§ ظ…ظ†ط·ظ‚ آ«ظ¾غŒط´ط±ظپطھظ‡ ط¨ط§ط²/ط¨ط³طھظ‡آ» ط¯ط± Toolbar |
-| SimulatorBadge | src/components/modian/common/SimulatorBadge.tsx | Component | Modian | ظ†ط´ط§ظ†ع¯ط± ظˆط¶ط¹غŒطھ ط³غŒظ…ظˆظ„ط§طھظˆط± | ظ†ط§ظ…ط´ط®طµ | طھط«ط¨غŒطھ Barrel |
-| icons | src/components/modian/ui/icons.tsx | Module | Modian | ط¢غŒع©ظˆظ†â€Œظ‡ط§غŒ ظ…ط­ظ„غŒ ظ…ظˆط¯غŒط§ظ† | ط§ط­طھظ…ط§ظ„ طھع©ط±ط§ط± ط¨ط§ Global | ط¯ط± طµظˆط±طھ ط¹ظ…ظˆظ…غŒâ€Œط´ط¯ظ† â†’ ط§ظ†طھظ‚ط§ظ„ ط¨ظ‡ Global |
-| Card / FormField / PageShell ... | src/components/modian/ui/*.tsx | UI Building Blocks | Modian | ط§ط³ع©ظ„طھâ€Œط¨ظ†ط¯غŒ طµظپط­ط§طھ ظ…ظˆط¯غŒط§ظ† | ط¨ط±ط±ط³غŒ ظ‡ظ…ظ¾ظˆط´ط§ظ†غŒ | غŒط§ طھط¬ظ…غŒط¹ ط¯ط± Global غŒط§ ط­ظپط¸ Modian-Scoped |
-| JalaliDateField | src/components/common/date/JalaliDateField.tsx | Component | Global | طھط§ط±غŒط® ط¬ظ„ط§ظ„غŒ ط¹ظ…ظˆظ…غŒ | â€” | ظ…ط±ط¬ط¹ ط¹ظ…ظˆظ…غŒط› ط¯ط± طµظˆط±طھ ظ†غŒط§ط² Adapter Modian ط¨ط³ط§ط²غŒط¯ |
+| InvoicesSearchHeader | src/components/modian/common/search/InvoicesSearchHeader.tsx | Component | Modian | هدر جستجو در صفحات صورتحساب | **تأیید و در مصرف** | استاندارد مرجع برای تب‌ها/تیتر/چینش؛ مصرف صرفاً از Barrel |
+| SearchByFilters | src/components/modian/common/search/SearchByFilters.tsx | Component | Modian | فیلترهای صورتحساب | **تأیید و در مصرف** | اتصال یکسان DateFields به util جلالی مشترک؛ منع import عمیق |
+| SearchByTaxId | src/components/modian/common/search/SearchByTaxId.tsx | Component | Modian | جستجو بر اساس شناسه/کد مالیاتی | نامشخص | استفاده از Barrel؛ حذف import عمیق |
+| ModianJalaliDateField | src/components/modian/common/ModianJalaliDateField.tsx | Component | Modian | فیلد تاریخ اختصاصی مودیان | **مرجع دامنه‌ای** | استفاده یکنواخت؛ خروج util‌های تبدیل/پارسه از WIP به shared |
+| ModianJalaliDatePicker | src/components/modian/common/ModianJalaliDatePicker.tsx | Component | Modian | DatePicker اختصاصی | احتمال همپوشانی | همان بالا |
+| InvoiceDetailSection | src/components/modian/common/InvoiceDetailSection.tsx | Component | Modian | بلوک مشترک برای «مشخصات صورتحساب/فروشنده/خریدار/اطلاعات پرداخت» در صفحات جزئیات صورتحساب | بدون‌تکثیر | مصرف صرفاً از Barrel؛ در طراحی صفحات جزئیات بعدی reuse شود |
+| ToolbarControls | src/components/modian/common/ToolbarControls.tsx | Component | Modian | کنترل‌های ابزارک جدول | **استاندارد رفتار دکمه‌ها** | هم‌راستاسازی با منطق «پیشرفته باز/بسته» در Toolbar |
+| SimulatorBadge | src/components/modian/common/SimulatorBadge.tsx | Component | Modian | نشانگر وضعیت سیمولاتور | نامشخص | تثبیت Barrel |
+| icons | src/components/modian/ui/icons.tsx | Module | Modian | آیکون‌های محلی مودیان | احتمال تکرار با Global | در صورت عمومی‌شدن → انتقال به Global |
+| Card / FormField / PageShell ... | src/components/modian/ui/*.tsx | UI Building Blocks | Modian | اسکلت‌بندی صفحات مودیان | بررسی همپوشانی | یا تجمیع در Global یا حفظ Modian-Scoped |
+| JalaliDateField | src/components/common/date/JalaliDateField.tsx | Component | Global | تاریخ جلالی عمومی | — | مرجع عمومی؛ در صورت نیاز Adapter Modian بسازید |
 
-> ظ…ط¹غŒط§ط± آ«ظˆط¶ط¹غŒطھ طھع©ط«غŒط±آ»: (ظ†ط§ظ…ط´ط®طµ/ط¨ط¯ظˆظ†â€Œطھع©ط«غŒط±/طھع©ط«غŒط±-غŒط§ظپطھâ€Œط´ط¯ظ‡). ط§غŒظ† ط³طھظˆظ† ط¯ط± ظ‡ط± PR ط¨ظ‡â€Œط±ظˆط² ظ…غŒâ€Œط´ظˆط¯.
+> معیار «وضعیت تکثیر»: (نامشخص/بدون‌تکثیر/تکثیر-یافت‌شده). این ستون در هر PR به‌روز می‌شود.
   ```
 
-- ظپط§غŒظ„ `tsconfig.json` ط§ط±ط³ط§ظ„غŒ: `strict: true`, `skipLibCheck: true`, `noEmit: true` ظˆ طھظ†ط¸غŒظ…ط§طھ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ App Router.
+- فایل `tsconfig.json` ارسالی: `strict: true`, `skipLibCheck: true`, `noEmit: true` و تنظیمات استاندارد App Router.
 
 ### 8.4 Route Wrappers (App Router)
-ط¨ط±ط§غŒ غŒع©ط³ط§ظ†â€Œط³ط§ط²غŒ URL ظˆ ط¬ط¯ط§ط³ط§ط²غŒ UI ط§ط² RoutingطŒ ط¨ط¹ط¶غŒ طµظپط­ط§طھ ط¯ط± `app/â€¦` ظپظ‚ط· غŒع© **Wrapper** ظ‡ط³طھظ†ط¯ ظˆ ظ…ط­طھظˆط§غŒ ط§طµظ„غŒ ط±ط§ ط§ط² ط¨ط´ع©ظ‡â€ŒغŒ feature ظ…غŒâ€Œع¯غŒط±ظ†ط¯:
+برای یکسان‌سازی URL و جداسازی UI از Routing، بعضی صفحات در `app/…` فقط یک **Wrapper** هستند و محتوای اصلی را از بشکه‌ی feature می‌گیرند:
 
-- `app/simulators/modian/taxfile/bills/page.tsx` âں¶ `<BillsPage />` ط§ط² `@/components/modian/taxfile`. (ط§ظ„ع¯ظˆغŒ Route Wrapper ط¨ط±ط§غŒ ط­ظپط¸ URL ظپط¹ظ„غŒ.)
-  _غŒط§ط¯ط¯ط§ط´طھ:_ ظ‡ظ…غŒظ† ط§ظ„ع¯ظˆ ط¯ط± ط³ط§غŒط± ط²غŒط±ط¯ط§ظ…ظ†ظ‡â€Œظ‡ط§غŒ Taxfile ظ†غŒط² ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯ (ظ…ط«ظ„ طµظپط­ط§طھ Memory UID ظˆ Registration Information) ظˆ ط¯ط±ط®طھâ€Œظ‡ط§غŒ ظ¾ط±ظˆعکظ‡ ط¢ظ† ط±ط§ ظ†ط´ط§ظ† ظ…غŒâ€Œط¯ظ‡ظ†ط¯. :contentReference[oaicite:1]{index=1}
+- `app/simulators/modian/taxfile/bills/page.tsx` ⟶ `<BillsPage />` از `@/components/modian/taxfile`. (الگوی Route Wrapper برای حفظ URL فعلی.)
+  _یادداشت:_ همین الگو در سایر زیردامنه‌های Taxfile نیز استفاده می‌شود (مثل صفحات Memory UID و Registration Information) و درخت‌های پروژه آن را نشان می‌دهند. :contentReference[oaicite:1]{index=1}
 
-### 8.5 ظ„ط§غŒظ‡ API ظپط±ط§ظ†طھ
-- غŒظˆطھغŒظ„ ظپط±ط§ظ†طھ `src/lib/modianApi.ts` ط¨ط±ط§غŒ ظپط±ط§ط®ظˆط§ظ†غŒâ€Œظ‡ط§غŒ Bills (GET/POST) ط§ط¶ط§ظپظ‡ ط´ط¯ظ‡ ط§ط³طھ ظˆ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§غŒ ظ¾ط§ط±ط§ظ…طھط±/ط¨ط¯ظ†ظ‡ ط±ط§ ظ…طھظ…ط±ع©ط² ظ…غŒâ€Œع©ظ†ط¯. :contentReference[oaicite:2]{index=2}
+### 8.5 لایه API فرانت
+- یوتیل فرانت `src/lib/modianApi.ts` برای فراخوانی‌های Bills (GET/POST) اضافه شده است و قراردادهای پارامتر/بدنه را متمرکز می‌کند. :contentReference[oaicite:2]{index=2}
 ---
 
-## 9) ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§ (ط·ط¨ظ‚ `package.json`)
+## 9) اسکریپت‌ها (طبق `package.json`)
 
-- `dev` â†’ `next dev`
-- `build` â†’ `next build`
-- `start` â†’ `next start`
-- `lint` â†’ `next lint`
-- ظ…ط³طھظ†ط¯ط³ط§ط²غŒ ط®ظˆط¯ع©ط§ط± ط³ط§ط®طھط§ط± (ط§ط³ط§ظ…غŒ ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§ ط¯غŒط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯):
-  - `docs:app-tree` طŒ `docs:components-tree` طŒ `docs:scan`
+- `dev` → `next dev`
+- `build` → `next build`
+- `start` → `next start`
+- `lint` → `next lint`
+- مستندسازی خودکار ساختار (اسامی اسکریپت‌ها دیده می‌شود):
+  - `docs:app-tree` ، `docs:components-tree` ، `docs:scan`
   - `docs:update-structure`
-  (ظپط§غŒظ„â€Œظ‡ط§غŒ `tools/gen-tree.js` ظˆ `tools/update-docs.js` ط¯ط± ط§غŒظ† ع¯ظپطھع¯ظˆ ط§ط±ط³ط§ظ„ ظ†ط´ط¯ظ‡â€Œط§ظ†ط¯ط› ظپظ‚ط· ظ†ط§ظ… ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§ ظ…ط³طھظ†ط¯ ظ…غŒâ€Œط´ظˆط¯.)
+  (فایل‌های `tools/gen-tree.js` و `tools/update-docs.js` در این گفتگو ارسال نشده‌اند؛ فقط نام اسکریپت‌ها مستند می‌شود.)
 
 
 ---
 
-## 10) ع†ع©â€Œظ„غŒط³طھ ط§ظپط²ظˆط¯ظ† غŒع© طµظپط­ظ‡/ط³ع¯ظ…ظ†طھ ط¬ط¯غŒط¯ (ط§ط³طھط§ظ†ط¯ط§ط±ط¯)
+## 10) چک‌لیست افزودن یک صفحه/سگمنت جدید (استاندارد)
 
-1) ظ…ط³غŒط± ط±ط§ ط²غŒط± ظ…ط§عکظˆظ„ طµط­غŒط­ ط¨ط³ط§ط²غŒط¯:
+1) مسیر را زیر ماژول صحیح بسازید:
    `src/app/simulators/<module>/<segment>/...`
-2) ط§ع¯ط± طµظپط­ظ‡ ع©ظ„ط§غŒظ†طھ ط§ط³طھ ظˆ ط§ط² ظ‡ظˆع©â€Œظ‡ط§غŒ ع©ظ„ط§غŒظ†طھغŒ ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ط¯:
-   - **ط§ظ„ع¯ظˆغŒ Wrapper+Client** ط±ط§ ظ¾غŒط§ط¯ظ‡ ع©ظ†غŒط¯ (ط¨ط®ط´ 3.2).
-3) ط§ع¯ط± ط²غŒط±ط´ط§ط®ظ‡ ظ†غŒط§ط² ط¨ظ‡ ط´ظگظ„ ط¯ط§ط±ط¯: `layout.tsx` ط­ط¯ط§ظ‚ظ„غŒ ط¨ط³ط§ط²غŒط¯ (Server).
-4) ط§ط² ع©ظ„ط§ط³â€Œظ‡ط§غŒ Tailwind طھط¹ط±غŒظپâ€Œظ†ط´ط¯ظ‡ (ظ…ط«ظ„ `bg-background`) ط§ط³طھظپط§ط¯ظ‡ ظ†ع©ظ†غŒط¯ط› غŒط§ ظ‚ط¨ظ„ط´ ط¯ط± `@layer` طھط¹ط±غŒظپ ع©ظ†غŒط¯.
-5) ظ…ط³غŒط±ظ‡ط§غŒ ط¬ط¯غŒط¯ ط±ط§ â€“ط¯ط± طµظˆط±طھ ظ†غŒط§ط²â€“ ط¯ط± `middleware` ظ‡ظ… ط¯ط± ظ†ط¸ط± ط¨ع¯غŒط±غŒط¯.
-6) ط§ط¬ط±ط§غŒ ط³ظ‡ ظپط±ظ…ط§ظ† ظ¾ط³ ط§ط² طھط؛غŒغŒط±ط§طھ:
+2) اگر صفحه کلاینت است و از هوک‌های کلاینتی استفاده می‌کند:
+   - **الگوی Wrapper+Client** را پیاده کنید (بخش 3.2).
+3) اگر زیرشاخه نیاز به شِل دارد: `layout.tsx` حداقلی بسازید (Server).
+4) از کلاس‌های Tailwind تعریف‌نشده (مثل `bg-background`) استفاده نکنید؛ یا قبلش در `@layer` تعریف کنید.
+5) مسیرهای جدید را –در صورت نیاز– در `middleware` هم در نظر بگیرید.
+6) اجرای سه فرمان پس از تغییرات:
    ```bash
    npm run lint
    npm run typecheck
@@ -903,312 +903,312 @@ Form Prefill               Empty Form
 
 ---
 
-## 11) ظ¾ط±ط³ط´â€Œظ‡ط§غŒ ط¨ط§ط²/ط¢غŒطھظ…â€Œظ‡ط§غŒ ط¨ط¹ط¯غŒ
+## 11) پرسش‌های باز/آیتم‌های بعدی
 
-- ظ‡ظ…ط³ط§ظ†â€Œط³ط§ط²غŒ ع©ط§ظ…ظ„ ظ†ط§ظ…â€Œع¯ط°ط§ط±غŒ ظ¾ظˆط´ظ‡â€Œظ‡ط§غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§ (ط­ط±ظˆظپ ع©ظˆع†ع©/ع©ط¨ع©ظگغŒط³).
-- ط®ط±ظˆط¬غŒâ€Œظ‡ط§غŒ طھط³طھ (Integration/E2E) ط¨ط±ط§غŒ ظ…ط³غŒط±ظ‡ط§غŒ ع©ظ„غŒط¯â€ŒغŒ ظ…ظˆط¯غŒط§ظ†.
-- ط¯ط± طµظˆط±طھ طھظ…ط§غŒظ„ ط¨ظ‡ ط­ط°ظپ ظ‡ط´ط¯ط§ط± ESLintظگ آ«patchآ»: ط¨ط±ط±ط³غŒ ط³ط§ط²ع¯ط§ط±غŒ ظ†ط³ط®ظ‡â€Œظ‡ط§ غŒط§ ط­ط°ظپ patch ط؛غŒط±ط¶ط±ظˆط±غŒ.
-- **آ«ظ†ظ…ط§غŒط´ ط³طھظˆظ†â€Œظ‡ط§آ» ط¯ط± ط¬ط¯ط§ظˆظ„ طµظˆط±طھط­ط³ط§ط¨**: ط¯ط± طµظپط­ظ‡ ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒطŒ ظ…ظ†ظˆغŒ ط§ظ†طھط®ط§ط¨ ط³طھظˆظ†â€Œظ‡ط§ ط¨ط±ط§غŒ ط¬ط¯ظˆظ„ ط§ظ‚ظ„ط§ظ… ظ‡ظ…ط±ط§ظ‡ ط¨ط§ ط¯ع©ظ…ظ‡ آ«ظ¾غŒط´â€Œظپط±ط¶آ» ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ط´ط¯ظ‡ط› ط§ظ…ط§ ظ…ط­ظ„ ظ†ع¯ظ‡â€Œط¯ط§ط±غŒ طھظ†ط¸غŒظ…ط§طھ (ظ…ط«ظ„ط§ظ‹ `localStorage` غŒط§ ط³ظ…طھ ط³ط±ظˆط±) ظˆ ط¯ط§ظ…ظ†ظ‡ظ” ط®ط±ظˆط¬غŒ ط§ع©ط³ظ„ (ظ‡ظ…ظ‡ظ” ط±ع©ظˆط±ط¯ظ‡ط§غŒ ظپغŒظ„طھط±ط´ط¯ظ‡ غŒط§ ظپظ‚ط· طµظپط­ظ‡ظ” ط¬ط§ط±غŒ) ظ‡ظ†ظˆط² ظ†غŒط§ط² ط¨ظ‡ طھطµظ…غŒظ… ظ…ط­طµظˆظ„ ط¯ط§ط±ط¯.
-- **غŒع©ظ†ظˆط§ط®طھغŒ طھط§ط±غŒط® ط¬ظ„ط§ظ„غŒ ط¯ط± ظپغŒظ„طھط±ظ‡ط§**: ط±غŒط³ع© ظ†ط§ط³ط§ط²ع¯ط§ط±غŒ ط¨غŒظ† طµظپط­ط§طھط› ظ¾غŒط´ظ†ظ‡ط§ط¯ ط§غŒط¬ط§ط¯ غŒع© util ظ…ط±ع©ط²غŒ (ظ…ط«ظ„ط§ظ‹ `toISOJalali / parseJalali`) ظˆ ظ…طµط±ظپ غŒع©ظ†ظˆط§ط®طھ ط¯ط± `SearchByFilters`. :contentReference[oaicite:3]{index=3}
-- **ظˆط§عکع¯ط§ظ†/enum آ«ظ…ظˆط¶ظˆط¹ طµظˆط±طھط­ط³ط§ط¨آ»**: طھط£غŒغŒط¯ ظ†ظ‡ط§غŒغŒ ط¯ط§ظ…ظ†ظ‡ ظˆ طھظˆظ„غŒ...ط¯ `enum/constant` ظ…ط´طھط±ع© ظپط±ط§ظ†طھ/ط¨ع© ط¨ط±ط§غŒ ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² ط¯ظˆط¨ط§ط±ظ‡â€Œع©ط§ط±غŒ UI.
-- **ط§ط³طھط§ظ†ط¯ط§ط±ط¯ط³ط§ط²غŒ Barrel-only ط¯ط± ظ…ظˆط¯غŒط§ظ†**: ظ¾ط§غŒط´ ظ…ط³طھظ…ط± ط§غŒظ…ظ¾ظˆط±...ط³طھ barrel ظˆ ظ‚ظˆط§ظ†غŒظ† ESLint (no-restricted-imports, import/order).
+- همسان‌سازی کامل نام‌گذاری پوشه‌های کامپوننت‌ها (حروف کوچک/کبکِیس).
+- خروجی‌های تست (Integration/E2E) برای مسیرهای کلید‌ی مودیان.
+- در صورت تمایل به حذف هشدار ESLintِ «patch»: بررسی سازگاری نسخه‌ها یا حذف patch غیرضروری.
+- **«نمایش ستون‌ها» در جداول صورتحساب**: در صفحه جزئیات صورتحساب خرید داخلی، منوی انتخاب ستون‌ها برای جدول اقلام همراه با دکمه «پیش‌فرض» پیاده‌سازی شده؛ اما محل نگه‌داری تنظیمات (مثلاً `localStorage` یا سمت سرور) و دامنهٔ خروجی اکسل (همهٔ رکوردهای فیلترشده یا فقط صفحهٔ جاری) هنوز نیاز به تصمیم محصول دارد.
+- **یکنواختی تاریخ جلالی در فیلترها**: ریسک ناسازگاری بین صفحات؛ پیشنهاد ایجاد یک util مرکزی (مثلاً `toISOJalali / parseJalali`) و مصرف یکنواخت در `SearchByFilters`. :contentReference[oaicite:3]{index=3}
+- **واژگان/enum «موضوع صورتحساب»**: تأیید نهایی دامنه و تولی...د `enum/constant` مشترک فرانت/بک برای جلوگیری از دوباره‌کاری UI.
+- **استانداردسازی Barrel-only در مودیان**: پایش مستمر ایمپور...ست barrel و قوانین ESLint (no-restricted-imports, import/order).
 
-> غŒط§ط¯ط¯ط§ط´طھ: ظ†ظˆط§ط± ط§ط¨ط²ط§ط± ط¬ط¯ظˆظ„ آ«ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒآ» (ط¢غŒع©ظˆظ† ط§ع©ط³ظ„ + ط¯ع©ظ…ظ‡â€ŒغŒ ظ†ظ…ط§غŒط´ ط³طھظˆظ†â€Œظ‡ط§) ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ط´ط¯ظ‡ ظˆ ظ¾ط§غŒط¯ط§ط± ط§ط³طھط› ط§ط¯ط§ظ…ظ‡â€ŒغŒ ع©ط§ط± ط±ظˆغŒ آ«ظ¾ظ†ظ„ ط§ظ†طھط®ط§ط¨ ط³طھظˆظ†â€Œظ‡ط§آ» ظˆ ط°ط®غŒط±ظ‡â€Œط³ط§ط²غŒ طھظ†ط¸غŒظ…ط§طھ ط·ط¨ظ‚ طھطµظ…غŒظ… ط¨ط§ظ„ط§ ط§ظ†ط¬ط§ظ… ظ…غŒâ€Œط´ظˆط¯. :contentReference[oaicite:6]{index=6}
-- **طµظپط­ظ‡ آ«ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒآ»**: ط§ط³ع©ظ„طھ طµظپط­ظ‡ ط´ط§ظ…ظ„ ظ‡ط¯ط±طŒ ط¨ظ„ظˆع©â€Œظ‡ط§غŒ ط§ط·ظ„ط§ط¹ط§طھغŒ ظ…ط´طھط±ع©طŒ ط¬ط¯ظˆظ„ غ²غ¹ ط³طھظˆظ†غŒ آ«ط§ظ‚ظ„ط§ظ… طµظˆط±طھط­ط³ط§ط¨آ» ط¨ط§ ظ…ظ†ظˆغŒ ط§ظ†طھط®ط§ط¨ ط³طھظˆظ†â€Œظ‡ط§ ظˆ ط¨ط®ط´ آ«ط§ط·ظ„ط§ط¹ط§طھ ظ¾ط±ط¯ط§ط®طھآ» طھع©ظ…غŒظ„ ط´ط¯ظ‡ ط§ط³طھط› ط¬ط¯ظˆظ„ آ«ظ¾ط±ط¯ط§ط®طھâ€Œظ‡ط§آ» ظˆ ط§طھطµط§ظ„ ط¨ظ‡ ط¯ط§ط¯ظ‡â€Œظ‡ط§غŒ ظˆط§ظ‚ط¹غŒ (غŒط§ Mock ط³ط§ط®طھط§ط±ظ…ظ†ط¯) ط¨ط±ط§غŒ ط§ط³ظ¾ط±غŒظ†طھ ط¨ط¹ط¯غŒ ط¨ط±ظ†ط§ظ…ظ‡â€Œط±غŒط²غŒ ط´ط¯ظ‡â€Œط§ظ†ط¯.
-- **غŒع©ظ¾ط§ط±ع†ع¯غŒ طھط§ط±غŒط® ط¬ظ„ط§ظ„غŒ**: ظپغŒظ„ط¯ظ‡ط§غŒ طھط§ط±غŒط® ط§ط®طھطµط§طµغŒ ظ…ظˆط¯غŒط§ظ† (Jalali) ط¯ط± Shared Search Suite ظ…طµط±ظپ ظ…غŒâ€Œط´ظˆظ†ط¯ط› ط°ط®غŒط±ظ‡/ط§ط±ط³ط§ظ„ ط¨ظ‡ ISO ط¯ط± ظ„ط§غŒظ‡ظ” ظپط±ط§ظ†طھ ط§ظ†ط¬ط§ظ… ط´ظˆط¯.
-- **طµظپط­ظ‡ آ«ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§غŒ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒآ»**: ط§ط³ع©ظ„طھ طµظپط­ظ‡ ط¯ط± ظ…ط³غŒط± `src/app/simulators/modian/invoices/buy/detail/page.tsx` ط´ط§ظ…ظ„ ظ‡ط¯ط± آ«طµظˆط±طھط­ط³ط§ط¨ ط®ط±غŒط¯آ»طŒ ط¨ظ„ظˆع©â€Œظ‡ط§غŒ آ«ظ…ط´ط®طµط§طھ طµظˆط±طھط­ط³ط§ط¨/ظپط±ظˆط´ظ†ط¯ظ‡/ط®ط±غŒط¯ط§ط±آ»طŒ ط¬ط¯ظˆظ„ غ²غ¹ ط³طھظˆظ†ظ‡ظ” ط§ظ‚ظ„ط§ظ… ط¨ط§ ط§ط³ع©ط±ظˆظ„ ط§ظپظ‚غŒ ظˆ ظ…ظ†ظˆغŒ آ«ظ†ظ…ط§غŒط´ ط³طھظˆظ†â€Œظ‡ط§آ» ظˆ ط¨ط®ط´ آ«ط§ط·ظ„ط§ط¹ط§طھ ظ¾ط±ط¯ط§ط®طھآ» ظ¾غŒط§ط¯ظ‡ ط´ط¯ظ‡ ط§ط³طھط› ط¬ط¯ظˆظ„ آ«ظ¾ط±ط¯ط§ط®طھâ€Œظ‡ط§آ» ظˆ ط§طھطµط§ظ„ ط¯ط§ط¯ظ‡ظ” ظˆط§ظ‚ط¹غŒ/Mock ط¨ط§غŒط¯ ط¯ط± ط§ط³ظ¾ط±غŒظ†طھ ط¨ط¹ط¯غŒ طھع©ظ…غŒظ„ ط´ظˆط¯.
-- **ط§ط³طھط®ط±ط§ط¬ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ظ…ط´طھط±ع© طµظپط­ظ‡ ط¬ط²ط¦غŒط§طھ**: ط·ط¨ظ‚ ط¨ط±ظ†ط§ظ…ظ‡ طھغŒظ… ظ…ظˆط¯غŒط§ظ†طŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ `InvoiceDetailSection`, `InvoiceExpandableCard`, `InvoiceColumnsChooser` ط¨ظ‡â€Œطµظˆط±طھ ظ…ط§عکظˆظ„ط§ط± ط§ط³طھط®ط±ط§ط¬ ظ…غŒâ€Œط´ظˆظ†ط¯ طھط§ ط¯ط± ط³ط§غŒط± طµظپط­ط§طھ ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨ ظ‚ط§ط¨ظ„â€Œط§ط³طھظپط§ط¯ظ‡ ط¨ط§ط´ظ†ط¯.
+> یادداشت: نوار ابزار جدول «خرید داخلی» (آیکون اکسل + دکمه‌ی نمایش ستون‌ها) پیاده‌سازی شده و پایدار است؛ ادامه‌ی کار روی «پنل انتخاب ستون‌ها» و ذخیره‌سازی تنظیمات طبق تصمیم بالا انجام می‌شود. :contentReference[oaicite:6]{index=6}
+- **صفحه «جزئیات صورتحساب خرید داخلی»**: اسکلت صفحه شامل هدر، بلوک‌های اطلاعاتی مشترک، جدول ۲۹ ستونی «اقلام صورتحساب» با منوی انتخاب ستون‌ها و بخش «اطلاعات پرداخت» تکمیل شده است؛ جدول «پرداخت‌ها» و اتصال به داده‌های واقعی (یا Mock ساختارمند) برای اسپرینت بعدی برنامه‌ریزی شده‌اند.
+- **یکپارچگی تاریخ جلالی**: فیلدهای تاریخ اختصاصی مودیان (Jalali) در Shared Search Suite مصرف می‌شوند؛ ذخیره/ارسال به ISO در لایهٔ فرانت انجام شود.
+- **صفحه «جزئیات صورتحساب‌های خرید داخلی»**: اسکلت صفحه در مسیر `src/app/simulators/modian/invoices/buy/detail/page.tsx` شامل هدر «صورتحساب خرید»، بلوک‌های «مشخصات صورتحساب/فروشنده/خریدار»، جدول ۲۹ ستونهٔ اقلام با اسکرول افقی و منوی «نمایش ستون‌ها» و بخش «اطلاعات پرداخت» پیاده شده است؛ جدول «پرداخت‌ها» و اتصال دادهٔ واقعی/Mock باید در اسپرینت بعدی تکمیل شود.
+- **استخراج کامپوننت‌های مشترک صفحه جزئیات**: طبق برنامه تیم مودیان، کامپوننت‌های `InvoiceDetailSection`, `InvoiceExpandableCard`, `InvoiceColumnsChooser` به‌صورت ماژولار استخراج می‌شوند تا در سایر صفحات جزئیات صورتحساب قابل‌استفاده باشند.
  ---
 
-## 12) ط®ظ„ط§طµظ‡â€ŒغŒ طھطµظ…غŒظ…ط§طھ ع©ظ„غŒط¯غŒ ط§غŒظ† ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ
+## 12) خلاصه‌ی تصمیمات کلیدی این به‌روزرسانی
 
-- **طھظپع©غŒع© ظ…ط§عکظˆظ„â€Œظ‡ط§ ظˆ ظ„ط§غŒظ‡â€Œظ‡ط§غŒ layout ط¨ظ‡â€Œطµظˆط±طھ ط§ط³طھط§ظ†ط¯ط§ط±ط¯.**
-- **ع©ظ„ط§غŒظ†طھâ€Œط³ط§ط²غŒ طµظپط­ط§طھ ظ…ظˆط¯غŒط§ظ†** + ط­ظ„ ط®ط·ط§غŒ `useSearchParams` ط¨ط§ **ظ…ط±ط² `Suspense`**.
-- ط³ط§ط®طھ **ظپط§غŒظ„â€Œظ‡ط§غŒ ط­ط¯ط§ظ‚ظ„غŒ** (`page.tsx`/`layout.tsx`) ظپظ‚ط· ط¨ط±ط§غŒ ظ¾ط§ط³ ع©ط±ط¯ظ† ظ‚ط±ط§ط±ط¯ط§ط¯ App Router ظˆ ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² ط®ط·ط§غŒ آ«ط¨ط§غŒط¯ غŒع© ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ط¨ط±ع¯ط±ط¯ط¯آ».
-- طµط±غŒط­â€Œط³ط§ط²غŒ ط¯ط±ط¨ط§ط±ظ‡â€ŒغŒ **Tailwind custom utility**â€Œظ‡ط§ (ظ…ط«ظ„ `bg-background`).
+- **تفکیک ماژول‌ها و لایه‌های layout به‌صورت استاندارد.**
+- **کلاینت‌سازی صفحات مودیان** + حل خطای `useSearchParams` با **مرز `Suspense`**.
+- ساخت **فایل‌های حداقلی** (`page.tsx`/`layout.tsx`) فقط برای پاس کردن قرارداد App Router و جلوگیری از خطای «باید یک کامپوننت برگردد».
+- صریح‌سازی درباره‌ی **Tailwind custom utility**‌ها (مثل `bg-background`).
 
-## غŒط§ط¯ط¯ط§ط´طھ طھط؛غŒغŒط± ط³ط§ط®طھط§ط±غŒ (ظ…ظˆط¯غŒط§ظ†) â€” ط­ط°ظپ ط³ع¯ظ…ظ†طھ `admin`
-ط§ط² ط§غŒظ† ط¨ظ‡ ط¨ط¹ط¯طŒ ظ…ط³غŒط± ط§ط³طھط§ظ†ط¯ط§ط±ط¯ آ«ظ¾ط±ظˆظ†ط¯ظ‡ظ” ظ…ط§ظ„غŒط§طھغŒ ظˆ ط¹ط¶ظˆغŒطھآ» ط¯ط± ظ…ظˆط¯غŒط§ظ† **ط¨ط¯ظˆظ† ط³ع¯ظ…ظ†طھ `admin`** ط§ط³طھ:
+## یادداشت تغییر ساختاری (مودیان) — حذف سگمنت `admin`
+از این به بعد، مسیر استاندارد «پروندهٔ مالیاتی و عضویت» در مودیان **بدون سگمنت `admin`** است:
 
 ```text
-/simulators/modian/taxfile/...    âœ… ط§ط³طھط§ظ†ط¯ط§ط±ط¯
-/simulators/modian/admin/taxfile  â›” ط؛غŒط±ط§ط³طھط§ظ†ط¯ط§ط±ط¯ (طµط±ظپط§ظ‹ ط¨ط±ط§غŒ Redirectظ‡ط§غŒ ظ…ظˆظ‚طھ)
+/simulators/modian/taxfile/...    ✅ استاندارد
+/simulators/modian/admin/taxfile  ⛔ غیراستاندارد (صرفاً برای Redirectهای موقت)
 ```
 
-- ط§ع¯ط± ظ„غŒظ†ع©/ط§ط±ط¬ط§ط¹غŒ ط¯ط± ع©ط¯ ظ‡ظ†ظˆط² ط¨ظ‡ ظ…ط³غŒط± ظ‚ط¯غŒظ…غŒ (`/simulators/modian/admin/...`) ط§ط´ط§ط±ظ‡ ظ…غŒâ€Œع©ظ†ط¯طŒ ط¨ط§غŒط¯ ط¯ط± ط§ظˆظ„غŒظ† ظپط±طµطھ ط¨ظ‡ ظ…ط³غŒط±ظ‡ط§غŒ ط¬ط¯غŒط¯ ظ…ظ†طھظ‚ظ„ ط´ظˆط¯ ظˆ ظپظ‚ط· Redirect ط³ظ…طھ ط³ط±ظˆط±/ظپط±ط§ظ†طھ ط¨ط±ط§غŒ ط­ظپط¸ ط³ط§ط²ع¯ط§ط±غŒ ط¨ط§ظ‚غŒ ط¨ظ…ط§ظ†ط¯.
-- **ظ‚ط§ط¹ط¯ظ‡ظ” ظ†ط§ظ…â€Œع¯ط°ط§ط±غŒ:** ط§ط³طھظپط§ط¯ظ‡ ط§ط² ط³ع¯ظ…ظ†طھ `admin/` ط¯ط± ط²غŒط±ط´ط§ط®ظ‡ظ” `modian/` ظ…ظ…ظ†ظˆط¹ ط§ط³طھ. ظ‡ط± ط¨ط®ط´ ظ…ط¯غŒط±غŒطھغŒ ط¨ط§غŒط¯ ط¨ط§ ظ†ط§ظ… ظ…ط¹ظ†ط§غŒغŒ ط®ظˆط¯ط´ ط¯ط± ظ‡ظ…ط§ظ† ط³ط·ط­ ظ‚ط±ط§ط± ع¯غŒط±ط¯
-  (ظ…ط«ظ„ط§ظ‹ `modian/dashboard`, `modian/taxfile`, ...). ظ„غŒظ†ع©â€Œظ‡ط§غŒ ظ‚ط¯غŒظ…غŒ طµط±ظپط§ظ‹ ط¨ط§ Redirect ط­ظپط¸ ط³ط§ط²ع¯ط§ط±غŒ ظ…غŒâ€Œط´ظˆظ†ط¯ ظˆ ظ†ط¨ط§غŒط¯ ط¯ط± ع©ط¯ ط¨ظ‡â€Œطµظˆط±طھ ظ…ط³طھظ‚غŒظ… ط§ط³طھظپط§ط¯ظ‡ ط´ظˆظ†ط¯.
+- اگر لینک/ارجاعی در کد هنوز به مسیر قدیمی (`/simulators/modian/admin/...`) اشاره می‌کند، باید در اولین فرصت به مسیرهای جدید منتقل شود و فقط Redirect سمت سرور/فرانت برای حفظ سازگاری باقی بماند.
+- **قاعدهٔ نام‌گذاری:** استفاده از سگمنت `admin/` در زیرشاخهٔ `modian/` ممنوع است. هر بخش مدیریتی باید با نام معنایی خودش در همان سطح قرار گیرد
+  (مثلاً `modian/dashboard`, `modian/taxfile`, ...). لینک‌های قدیمی صرفاً با Redirect حفظ سازگاری می‌شوند و نباید در کد به‌صورت مستقیم استفاده شوند.
 ---
-## 13) ESLint ط­ظˆط²ظ‡â€Œط§غŒ (Modian) â€” ظ‚ظˆط§ظ†غŒظ† ظˆ ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§
+## 13) ESLint حوزه‌ای (Modian) — قوانین و اسکریپت‌ها
 
-ط§غŒظ† ط¨ط®ط´ ط¨ط±ط§غŒ ظ‡ظ…â€Œط±ط§ط³طھط§ط³ط§ط²غŒ ط¨ط§ **Phase C** ط¯ط± آ«checklist_package_1آ» ط§ط¶ط§ظپظ‡ ط´ط¯ ظˆ ظ…ط¹غŒط§ط± ظ…ظ…غŒط²غŒ ط±ط§ ظ…ط³طھظ†ط¯ ظ…غŒâ€Œع©ظ†ط¯.
-ظ‚ظˆط§ظ†غŒظ† ط§ظ„ط²ط§ظ…غŒ:
-1) `react-hooks/rules-of-hooks` ظˆ `react-hooks/exhaustive-deps` **ظپط¹ط§ظ„** ط¨ط§ط´ظ†ط¯.
-2) `import/order` ط¨ط§ ع¯ط±ظˆظ‡â€Œط¨ظ†ط¯غŒ ط§ط³طھط§ظ†ط¯ط§ط±ط¯: `builtin`, `external`, `internal`, `parent`, `sibling`, `index` ظˆ **غŒع© ط®ط· ظپط§طµظ„ظ‡** ط¨غŒظ† ع¯ط±ظˆظ‡â€Œظ‡ط§.
-3) `no-restricted-imports` ط¨ط±ط§غŒ ظ…ظ†ط¹ import ظ…ط³طھظ‚غŒظ… ط§ط² ظ…ط³غŒط±ظ‡ط§غŒ ط¯ط§ط®ظ„غŒ `modian/ui/*` ظˆ `modian/common/*`ط› **ظ…طµط±ظپ ظپظ‚ط· ط§ط² Barrel**:
+این بخش برای هم‌راستاسازی با **Phase C** در «checklist_package_1» اضافه شد و معیار ممیزی را مستند می‌کند.
+قوانین الزامی:
+1) `react-hooks/rules-of-hooks` و `react-hooks/exhaustive-deps` **فعال** باشند.
+2) `import/order` با گروه‌بندی استاندارد: `builtin`, `external`, `internal`, `parent`, `sibling`, `index` و **یک خط فاصله** بین گروه‌ها.
+3) `no-restricted-imports` برای منع import مستقیم از مسیرهای داخلی `modian/ui/*` و `modian/common/*`؛ **مصرف فقط از Barrel**:
    - `@/components/modian/ui`
    - `@/components/modian/common`
-4) ط§ط³ع©ط±غŒظ¾طھâ€Œظ‡ط§غŒ ظ…ظˆط±ط¯ ط§ظ†طھط¸ط§ط± (ط¨ط±ط§غŒ ط§ط³طھظ†ط§ط¯ CI ظˆ ظ¾ط°غŒط±ط´):
-   - `lint` طŒ `lint:strict` طŒ `typecheck` طŒ `build`
+4) اسکریپت‌های مورد انتظار (برای استناد CI و پذیرش):
+   - `lint` ، `lint:strict` ، `typecheck` ، `build`
 
-ظ†ع©طھظ‡: ظ‡ط´ط¯ط§ط±ظ‡ط§غŒ ESLint ظ…غŒâ€Œطھظˆط§ظ†ظ†ط¯ ط¯ط± ظپط§ط²ظ‡ط§غŒ ظ‚ط¨ظ„غŒ ظˆط¬ظˆط¯ ط¯ط§ط´طھظ‡ ط¨ط§ط´ظ†ط¯ط› ط§ظ…ط§ ط¨ط±ط§غŒ **ط®ط±ظˆط¬غŒ ظ†ظ‡ط§غŒغŒ ط¨ط³طھظ‡ غ±**طŒ ط¢ط³طھط§ظ†ظ‡ظ” ظ¾غŒط´ظ†ظ‡ط§ط¯غŒ آ«طµظپط± ظ‡ط´ط¯ط§ط±آ» ط§ط³طھ.
+نکته: هشدارهای ESLint می‌توانند در فازهای قبلی وجود داشته باشند؛ اما برای **خروجی نهایی بسته ۱**، آستانهٔ پیشنهادی «صفر هشدار» است.
 
-## 14) CI â€” lint/typecheck/build (ط§ظ„ط²ط§ظ…ط§طھ ط³ط¨ع©)
+## 14) CI — lint/typecheck/build (الزامات سبک)
 
-- ط§ط¬ط±ط§غŒ Jobظ‡ط§غŒ `lint:ci`طŒ `typecheck` ظˆ `build` ط±ظˆغŒ Pull Request/Merge Request.
- - ط´ع©ط³طھ ط®ظˆط¯ع©ط§ط± PR ط§ع¯ط± ظ‡ط±ع©ط¯ط§ظ… ط§ط² ط§غŒظ† Jobظ‡ط§ (ط¨ظ‡â€Œط®طµظˆطµ `lint:ci`) ط®ط·ط§ غŒط§ ظ‡ط´ط¯ط§ط± ط¬ط¯غŒط¯غŒ طھظˆظ„غŒط¯ ع©ظ†ظ†ط¯
-   ظ†ط³ط¨طھ ط¨ظ‡ baseline طµظپط± ظ‡ط´ط¯ط§ط± ط±ظˆغŒ `main`.
-- ط®ط±ظˆط¬غŒ ط§غŒظ† Jobظ‡ط§ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ…ط¹غŒط§ط± ظ¾ط°غŒط±ط´ ظپظ†غŒ ط«ط¨طھ ظ…غŒâ€Œط´ظˆط¯.
+- اجرای Jobهای `lint:ci`، `typecheck` و `build` روی Pull Request/Merge Request.
+ - شکست خودکار PR اگر هرکدام از این Jobها (به‌خصوص `lint:ci`) خطا یا هشدار جدیدی تولید کنند
+   نسبت به baseline صفر هشدار روی `main`.
+- خروجی این Jobها به‌عنوان معیار پذیرش فنی ثبت می‌شود.
 
-- **ط§ظ„ط²ط§ظ… ط§ط¬ط±ط§غŒغŒ (Governance):**
-  - PR ط¨ط¯ظˆظ† ط¹ط¨ظˆط± ط§ط² ع†ع©â€Œظ‡ط§غŒ CI ظ†ط¨ط§غŒط¯ merge ط´ظˆط¯ (Branch Protection ط¨ط§غŒط¯ ط§غŒظ† ع†ع©â€Œظ‡ط§ ط±ط§ *Required* ع©ظ†ط¯).
-  - ط¹ظ„ط§ظˆظ‡ ط¨ط± lint/typecheck/buildطŒ غŒع© Job ظ…ط³طھظ‚ظ„ ط¨ط±ط§غŒ **Docs Sync** ظ„ط§ط²ظ… ط§ط³طھ:
-    - ط§ط¬ط±ط§غŒ `npm run docs:all` ظˆ ط³ظ¾ط³ fail ط´ط¯ظ† PR ط¯ط± طµظˆط±طھ ظˆط¬ظˆط¯ `git diff`
-    - ظ‡ط¯ظپ: ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² Drift ط¨غŒظ† ظ…ط³طھظ†ط¯ط§طھ ط³ط§ط®طھط§ط± ظˆ treeظ‡ط§غŒ ظˆط§ظ‚ط¹غŒ.
-  - طھط؛غŒغŒط±ط§طھ ط²غŒط± `src/app/api/**` **ط­ط³ط§ط³ ط§ظ…ظ†غŒطھغŒ** ظ‡ط³طھظ†ط¯:
-    - ط¨ط§غŒط¯ Review ط§ط¬ط¨ط§ط±غŒ Security/Structure ط¯ط§ط´طھظ‡ ط¨ط§ط´ظ†ط¯ (طھط±ط¬غŒط­ط§ظ‹ ط¨ط§ `CODEOWNERS`).
-  - PR Template ط¨ط§غŒط¯ ط´ط§ظ…ظ„ ع†ع©â€Œظ„غŒط³طھ آ«PR Gate / Definition of Doneآ» ط¨ط§ط´ط¯ طھط§ ط¯ظˆط±ط²ط¯ظ† ظپط±ط¢غŒظ†ط¯ ط³ط®طھ ط´ظˆط¯.
+- **الزام اجرایی (Governance):**
+  - PR بدون عبور از چک‌های CI نباید merge شود (Branch Protection باید این چک‌ها را *Required* کند).
+  - علاوه بر lint/typecheck/build، یک Job مستقل برای **Docs Sync** لازم است:
+    - اجرای `npm run docs:all` و سپس fail شدن PR در صورت وجود `git diff`
+    - هدف: جلوگیری از Drift بین مستندات ساختار و treeهای واقعی.
+  - تغییرات زیر `src/app/api/**` **حساس امنیتی** هستند:
+    - باید Review اجباری Security/Structure داشته باشند (ترجیحاً با `CODEOWNERS`).
+  - PR Template باید شامل چک‌لیست «PR Gate / Definition of Done» باشد تا دورزدن فرآیند سخت شود.
 
-## 15) Definition of Done â€” checklist_package_1
+## 15) Definition of Done — checklist_package_1
 
-- `eslint.config.mjs` ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ظˆ ظ‚ظˆط§ظ†غŒظ† ط­ظˆط²ظ‡â€Œط§غŒ ظپط¹ط§ظ„ (ط¨ظ†ط¯ظ‡ط§غŒ 13.1 طھط§ 13.3).
-- ط³ط§ط®طھط§ط± `components/modian` ظ…ط§عکظˆظ„ط§ط± ظˆ **Barrel-only** (ظ‚ظˆط§ظ†غŒظ† 13.3).
-- `npm run build` ط³ط¨ط² + `npm run lint:ci` **ط¨ط¯ظˆظ† ظ‡غŒع† ظ‡ط´ط¯ط§ط± ظˆ ط®ط·ط§**.
- - ظˆط¶ط¹غŒطھ ظپط¹ظ„غŒ `main` ط¨ط§ ظ‡ظ…غŒظ† ظ…ط¹غŒط§ط± ط³ظ†ط¬غŒط¯ظ‡ ط´ط¯ظ‡ ظˆ ط¯ط± ط²ظ…ط§ظ† ظ†ع¯ط§ط±ط´ ط§غŒظ† ط³ظ†ط¯طŒ ظ‡ط± ط¯ظˆ ظپط±ظ…ط§ظ†
-   `npm run lint:ci` ظˆ `npm run build` ط±ظˆغŒ `main` ط³ط¨ط² ظˆ ط¨ط¯ظˆظ† ظ‡ط´ط¯ط§ط± ظ‡ط³طھظ†ط¯ (baseline طµظپط± ظ‡ط´ط¯ط§ط±).
-- ظ…ط³طھظ†ط¯ط§طھ (ظ‡ظ…غŒظ† ظپط§غŒظ„) ط¨ط§ ظ‚ظˆط§ظ†غŒظ† ESLintطŒ CI ظˆ ط³ط§ط®طھط§ط± ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط´ط¯ظ‡ ط§ط³طھ (ط§غŒظ† ظ¾ع†).
+- `eslint.config.mjs` به‌روزرسانی و قوانین حوزه‌ای فعال (بندهای 13.1 تا 13.3).
+- ساختار `components/modian` ماژولار و **Barrel-only** (قوانین 13.3).
+- `npm run build` سبز + `npm run lint:ci` **بدون هیچ هشدار و خطا**.
+ - وضعیت فعلی `main` با همین معیار سنجیده شده و در زمان نگارش این سند، هر دو فرمان
+   `npm run lint:ci` و `npm run build` روی `main` سبز و بدون هشدار هستند (baseline صفر هشدار).
+- مستندات (همین فایل) با قوانین ESLint، CI و ساختار به‌روزرسانی شده است (این پچ).
 
-## 16) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¸/غ±غ¹
-**ط¬ظ…ط¹â€Œط¨ظ†ط¯غŒ ع©ط§ط±ظ‡ط§غŒ Done**
-- ظ‡ط¯ط± ط¬ط³طھط¬ظˆ/ظپغŒظ„طھط± آ«طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§غŒ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒآ» ط¨ظ‡ ظ†ط³ط®ظ‡ظ” ظ‚ط§ط¨ظ„â€Œط§ط³...ط±ط³طھظˆظ†ظ‡ ظˆ آ«ظ…ظˆط¶ظˆط¹ طµظˆط±طھط­ط³ط§ط¨آ».
-- ظ…ظ†ط·ظ‚ Toolbar: ط¯ط± ط­ط§ظ„طھ آ«ظ¾غŒط´ط±ظپطھظ‡ ط¨ط§ط²آ» ظپظ‚ط· غŒع© ط¬ظپطھ ط¯ع©ظ…ظ‡ ط¯ط± ظ¾ط§غŒ...طھط± ظ¾غŒط´â€Œظپط±ط¶آ» ظ†غŒط² ظ‡ظ…ط§ظ‡ظ†ع¯ ط´ط¯.
+## 16) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۸/۱۹
+**جمع‌بندی کارهای Done**
+- هدر جستجو/فیلتر «صورتحساب‌های خرید داخلی» به نسخهٔ قابل‌اس...رستونه و «موضوع صورتحساب».
+- منطق Toolbar: در حالت «پیشرفته باز» فقط یک جفت دکمه در پای...تر پیش‌فرض» نیز هماهنگ شد.
 
-**طھطµظ…غŒظ…ط§طھ ظˆ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§**
-- ظ¾غŒط´â€Œظپط±ط¶ ظپغŒظ„ط¯ظ‡ط§غŒ طھط§ط±غŒط® ظپغŒظ„طھط±ظ‡ط§: آ«ظپطµظ„ ط¬ط§ط±غŒ ط¬ظ„ط§ظ„غŒآ» (ظ‡ظ…ط±ط§ط³طھط§ ط¨ط§ ظ…ط±ط¬ط¹ ظˆ ع©ط§ظ‡ط´ ع©ظ„غŒع©).
-- ظ…طµط±ظپ طµط±ظپط§ظ‹ ط§ط² Barrelظ‡ط§غŒ طھط¹غŒغŒظ†â€Œط´ط¯ظ‡ ط¯ط± Modian UI/Common (طھع©ط±ط§ط± طھط£ع©غŒط¯).
+**تصمیمات و استانداردها**
+- پیش‌فرض فیلدهای تاریخ فیلترها: «فصل جاری جلالی» (همراستا با مرجع و کاهش کلیک).
+- مصرف صرفاً از Barrelهای تعیین‌شده در Modian UI/Common (تکرار تأکید).
 
-**WIP/ط±غŒط³ع©â€Œظ‡ط§ ظˆ ط§ظ‚ط¯ط§ظ… ظ…طھظ‚ط§ط¨ظ„**
-- ظ¾غŒط´â€Œظپط±ط¶ ظپغŒظ„ط¯ظ‡ط§غŒ طھط§ط±غŒط® ظپغŒظ„طھط±ظ‡ط§: آ«ظپطµظ„ ط¬ط§ط±غŒ ط¬ظ„ط§ظ„غŒآ» (ظ‡ظ…ط±ط§ط³طھط§ ط¨ط§ ظ…ط±ط¬ط¹ ظˆ ع©ط§ظ‡ط´ ع©ظ„غŒع©).
-- ظ…طµط±ظپ طµط±ظپط§ظ‹ ط§ط² Barrelظ‡ط§غŒ طھط¹غŒغŒظ†â€Œط´ط¯ظ‡ ط¯ط± Modian UI/Common (طھع©ط±ط§ط± طھط£ع©غŒط¯).
+**WIP/ریسک‌ها و اقدام متقابل**
+- پیش‌فرض فیلدهای تاریخ فیلترها: «فصل جاری جلالی» (همراستا با مرجع و کاهش کلیک).
+- مصرف صرفاً از Barrelهای تعیین‌شده در Modian UI/Common (تکرار تأکید).
 
-**ظˆط¶ط¹غŒطھ ع©غŒظپغŒ**
-- Build âœ… / Lint âœ… (ط§ط®ط·ط§ط±ظ‡ط§غŒ ط³ط§ط¨ظ‚ ظ¾ط±ط§ع©ظ†ط¯ظ‡ ط¯ط± ظ…ط­ط¯ظˆط¯ظ‡â€Œظ‡ط§غŒ ط؛غŒط±ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ط¯ط± ط­ط§ظ„ ظ¾ط§ع©ط³ط§ط²غŒ).
+**وضعیت کیفی**
+- Build ✅ / Lint ✅ (اخطارهای سابق پراکنده در محدوده‌های غیردامنه‌ای در حال پاکسازی).
 
-## 17) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ ع©ظ„غŒ ظ¾ط±ظˆعکظ‡ â€” غ±غ´غ°غ´/غ°غ¹/غ°غµ
+## 17) گزارش وضعیت کلی پروژه — ۱۴۰۴/۰۹/۰۵
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `project-status-report14040905.txt`.
+بر اساس فایل `project-status-report14040905.txt`.
 
-### 17.1) ظ…ط³طھظ†ط¯ط§طھ ظˆ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§غŒ ط¹ظ…ظˆظ…غŒ
+### 17.1) مستندات و استانداردهای عمومی
 
-- ط³ط§ط®طھط§ط± آ«ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ…آ» ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„â€Œظ‡ط§غŒ `team-status-report-prompt.txt` ظˆ `team-status-report-template.md`
-  طھط«ط¨غŒطھ ط´ط¯ظ‡ ظˆ ظ‡ظ…غŒظ† ع¯ط²ط§ط±ط´طŒ ط®ط±ظˆط¬غŒ ظ‡ظ…ط§ظ† ط³ط§ط®طھط§ط± ط§ط³طھ. ط§غŒظ† ظ‚ط§ظ„ط¨ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ط§ظ„ع¯ظˆغŒ ط±ط³ظ…غŒ ط¨ط±ط§غŒ ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ…â€Œظ‡ط§ ط¯ط±
-  ظپط±ط§ظ†طھâ€Œط§ظ†ط¯ ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯.
+- ساختار «گزارش وضعیت تیم» بر اساس فایل‌های `team-status-report-prompt.txt` و `team-status-report-template.md`
+  تثبیت شده و همین گزارش، خروجی همان ساختار است. این قالب به‌عنوان الگوی رسمی برای گزارش وضعیت تیم‌ها در
+  فرانت‌اند استفاده می‌شود.
 
-### 17.2) ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§غŒ UI ظˆ Barrelظ‡ط§ ط¯ط± ظ…ظˆط¯غŒط§ظ†
+### 17.2) استانداردهای UI و Barrelها در مودیان
 
-- ط§ط³طھظپط§ط¯ظ‡ ط§ط² barrelظ‡ط§غŒ ظ…ظˆط¯غŒط§ظ† ط¨ط±ط§غŒ ط§غŒظ…ظ¾ظˆط±طھâ€Œظ‡ط§ (ع©ط¯ ظ†ظ…ظˆظ†ظ‡ ط¯ط± SearchByFilters):
-  - `@/components/modian/ui` ط¨ط±ط§غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ UI ط¹ظ…ظˆظ…غŒ ظ…ظˆط¯غŒط§ظ† ظ…ط«ظ„:
+- استفاده از barrelهای مودیان برای ایمپورت‌ها (کد نمونه در SearchByFilters):
+  - `@/components/modian/ui` برای کامپوننت‌های UI عمومی مودیان مثل:
     `Card`, `FieldGrid`, `FormField`, `IconChevronDown`, `IconSearch`, `IconFilter`, ...
-  - `@/components/modian/common` ط¨ط±ط§غŒ ط§ط¬ط²ط§غŒ ظ…ط´طھط±ع© ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ظ…ط«ظ„:
-    `ModianJalaliDateField` ظˆ ط³ط§غŒط± ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ظ…ط´طھط±ع© ظ…ظˆط¯غŒط§ظ†.
-- ط§ظ„ع¯ظˆغŒ `FormField` ط¨ط§ `variant="floating"` ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ظ„غŒط¨ظ„â€Œظ‡ط§غŒ ط´ظ†ط§ظˆط±
-  ط¯ط± ظپغŒظ„ط¯ظ‡ط§غŒ summary ظˆ advanced ط¨ط±ط§غŒ ظپط±ظ…â€Œظ‡ط§غŒ ظ…ظˆط¯غŒط§ظ† طھط«ط¨غŒطھ ط´ط¯.
-- utilityظ‡ط§غŒ ط²غŒط± ط¯ط± SearchByFilters ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ…ط±ط¬ط¹ ظˆط§ط­ط¯ ط¨ط±ط§غŒ طµظپط­ط§طھ ظ…ط´ط§ط¨ظ‡ (طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§طŒ ع¯ط²ط§ط±ط´â€Œظ‡ط§ ظˆ â€¦) طھط¹ط±غŒظپ ط´ط¯ظ‡â€Œط§ظ†ط¯:
-  - `toEnDigits`, `onlyDigits`, `formatMoney` ط¨ط±ط§غŒ طھط¨ط¯غŒظ„ ظˆ ظپط±ظ…طھâ€Œع©ط±ط¯ظ† ظˆط±ظˆط¯غŒâ€Œظ‡ط§غŒ ط¹ط¯ط¯غŒ (ط¨ظ‡â€Œط®طµظˆطµ ط§ط±ظ‚ط§ظ… ظپط§ط±ط³غŒ â†” ط§ظ†ع¯ظ„غŒط³غŒ).
-  - `extractJalaliYM` ط¨ط±ط§غŒ ط§ط³طھط®ط±ط§ط¬ ط³ط§ظ„/ظ…ط§ظ‡ ط¬ظ„ط§ظ„غŒ ط§ط² ط®ط±ظˆط¬غŒâ€Œظ‡ط§غŒ ظ…ط®طھظ„ظپ `/api/utils/today`
-    (ط³ط§ط®طھط§ط±ظ‡ط§غŒ ظ…طھظپط§ظˆطھ JSON غŒط§ ط±ط´طھظ‡â€Œظ‡ط§غŒ طھط§ط±غŒط® ظ…ط«ظ„ `"1404/08/17"`طŒ `"غ±غ´غ°غ´-غ°غ¸-غ±غ·"` ظˆ â€¦).
+  - `@/components/modian/common` برای اجزای مشترک دامنه‌ای مثل:
+    `ModianJalaliDateField` و سایر کامپوننت‌های مشترک مودیان.
+- الگوی `FormField` با `variant="floating"` به‌عنوان استاندارد لیبل‌های شناور
+  در فیلدهای summary و advanced برای فرم‌های مودیان تثبیت شد.
+- utilityهای زیر در SearchByFilters به‌عنوان مرجع واحد برای صفحات مشابه (صورتحساب‌ها، گزارش‌ها و …) تعریف شده‌اند:
+  - `toEnDigits`, `onlyDigits`, `formatMoney` برای تبدیل و فرمت‌کردن ورودی‌های عددی (به‌خصوص ارقام فارسی ↔ انگلیسی).
+  - `extractJalaliYM` برای استخراج سال/ماه جلالی از خروجی‌های مختلف `/api/utils/today`
+    (ساختارهای متفاوت JSON یا رشته‌های تاریخ مثل `"1404/08/17"`، `"۱۴۰۴-۰۸-۱۷"` و …).
 
-### 17.3) ع©غŒطھ UI ظ…ظˆط¯غŒط§ظ† (ظ…طµط±ظپâ€Œط´ط¯ظ‡ ط¯ط± ط§غŒظ† ط¯ظˆط±ظ‡)
+### 17.3) کیت UI مودیان (مصرف‌شده در این دوره)
 
-ط¨ط±ط§غŒ ط±ظ‡ع¯غŒط±غŒ ظ…ظ‡ط§ط¬ط±طھ ط¨ظ‡ ع©غŒطھ UI ظ…ظˆط¯غŒط§ظ†طŒ ظ„غŒط³طھ ط²غŒط± ظ…ط¬ظ…ظˆط¹ظ‡â€ŒغŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒغŒ ط§ط³طھ ع©ظ‡ ط¯ط± ط§غŒظ† ط¨ط§ط²ظ‡ ظ…طµط±ظپ ط´ط¯ظ‡â€Œط§ظ†ط¯:
+برای رهگیری مهاجرت به کیت UI مودیان، لیست زیر مجموعه‌ی کامپوننت‌هایی است که در این بازه مصرف شده‌اند:
 
 - `Card`, `FieldGrid`, `FormField`, `IconChevronDown`, `IconSearch`, `IconFilter`
 - `ModianJalaliDateField`
-- `ModianSubHeader` (layout ط³ط§ط¨â€Œظ‡ط¯ط± ظ…ظˆط¯غŒط§ظ† ظˆ breadcrumb ط¨ط§ظ„ط§غŒ طµظپط­ط§طھ)
+- `ModianSubHeader` (layout ساب‌هدر مودیان و breadcrumb بالای صفحات)
 
-## 18) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¹/غ°غµ
+## 18) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۹/۰۵
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14040905.txt`.
+بر اساس فایل `team2-status-report-14040905.txt`.
 
-### 18.1) ظ…ظˆط§ط±ط¯ ظ†غŒط§ط²ظ…ظ†ط¯ طھطµظ…غŒظ…/طھط£غŒغŒط¯ ظ…ط¯غŒط± ظ¾ط±ظˆعکظ‡
+### 18.1) موارد نیازمند تصمیم/تأیید مدیر پروژه
 
-1. **ظ¾غŒط´â€Œظپط±ط¶ ط¯ظˆط±ظ‡/ط³ط§ظ„ ط¯ط± طھط¨ آ«ط§ط¸ظ‡ط§ط±ظ†ط§ظ…ظ‡آ» طµظپط­ظ‡ظ” ع¯ط²ط§ط±ط´ ظپط§غŒظ„â€Œظ‡ط§غŒ ط®ط±ظˆط¬غŒ**
-   - ط¯ط± UI ظپط¹ظ„غŒطŒ ط¯ظˆط±ظ‡ظ” ظ¾غŒط´â€Œظپط±ط¶ ط¨ط± ط§ط³ط§ط³ ظپطµظ„ ط¬ط§ط±غŒ ظ…ط­ط§ط³ط¨ظ‡ ظ…غŒâ€Œط´ظˆط¯ (ظ…ط«ظ„ط§ظ‹ ط§ع¯ط± ظپطµظ„ ظپط¹ظ„غŒ Q3 ط¨ط§ط´ط¯طŒ ظ…ظ‚ط¯ط§ط± ظ¾غŒط´â€Œظپط±ط¶ Q2 ظ‡ظ…ط§ظ† ط³ط§ظ„ ط§ط³طھ).
-   - ظ„ط§ط²ظ… ط§ط³طھ ط§غŒظ† ط±ظپطھط§ط± ط¯ط± ط³ط·ط­ ظ…ط­طµظˆظ„/ط¨ع©â€Œط§ظ†ط¯ طھط£غŒغŒط¯ ط´ظˆط¯ غŒط§ ط¯ط± طµظˆط±طھ ظ†غŒط§ط²طŒ ط¨ط§ ظ…ظ†ط·ظ‚ ط¯ظ‚غŒظ‚â€Œطھط±غŒ (ظ…ط«ظ„ط§ظ‹ ط¨ط± ط§ط³ط§ط³ طھط§ط±غŒط® ط´ط±ظˆط¹/ظ¾ط§غŒط§ظ† ط¯ظˆط±ظ‡)
-     ط¬ط§غŒع¯ط²غŒظ† ع¯ط±ط¯ط¯.
+1. **پیش‌فرض دوره/سال در تب «اظهارنامه» صفحهٔ گزارش فایل‌های خروجی**
+   - در UI فعلی، دورهٔ پیش‌فرض بر اساس فصل جاری محاسبه می‌شود (مثلاً اگر فصل فعلی Q3 باشد، مقدار پیش‌فرض Q2 همان سال است).
+   - لازم است این رفتار در سطح محصول/بک‌اند تأیید شود یا در صورت نیاز، با منطق دقیق‌تری (مثلاً بر اساس تاریخ شروع/پایان دوره)
+     جایگزین گردد.
 
-2. **ط³ط·ط­ آ«ظ…ط§ع©آ» ط¨ظˆط¯ظ† طµظپط­ظ‡ظ” ع¯ط²ط§ط±ط´ ظپط§غŒظ„â€Œظ‡ط§غŒ ط®ط±ظˆط¬غŒ**
-   - ع¯ط²غŒظ†ظ‡ظ” A: ظ…ط±ط¬ UI ظˆ ط±ظپطھط§ط±ظ‡ط§غŒ ظپط±ظ…غŒ طµظپط­ظ‡ ط¨ط§ ط¯ط§ط¯ظ‡â€Œظ‡ط§غŒ ظ…ط§ع© طµط±ظپط§ظ‹ ط¨ط±ط§غŒ ط¯ظ…ظˆ ظˆ طھط³طھ UX.
-   - ع¯ط²غŒظ†ظ‡ظ” B: ط¨ظ„ظˆع©ظ‡â€Œع©ط±ط¯ظ† ظ…ط±ط¬ طھط§ ط²ظ…ط§ظ†غŒ ع©ظ‡ ط§طھطµط§ظ„ ط¨ظ‡ API ظ„غŒط³طھ ظپط§غŒظ„â€Œظ‡ط§ ظˆ ظˆط¶ط¹غŒطھ ط¢ظ†â€Œظ‡ط§ ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ط´ظˆط¯.
-   - ظ¾غŒط´ظ†ظ‡ط§ط¯ طھغŒظ… ظ…ظˆط¯غŒط§ظ†: ع¯ط²غŒظ†ظ‡ظ” AطŒ ط¨ظ‡â€Œط´ط±ط·غŒ ع©ظ‡ آ«ظ…ط§ع© ط¨ظˆط¯ظ†آ» ط¨ظ‡â€Œطµظˆط±طھ طµط±غŒط­ ط¯ط± طھظˆط¶غŒط­ط§طھ ظپغŒع†ط± ظˆ ظ„ط§ع¯ ط§ط³ظ¾ط±غŒظ†طھ ط«ط¨طھ ط´ظˆط¯.
+2. **سطح «ماک» بودن صفحهٔ گزارش فایل‌های خروجی**
+   - گزینهٔ A: مرج UI و رفتارهای فرمی صفحه با داده‌های ماک صرفاً برای دمو و تست UX.
+   - گزینهٔ B: بلوکه‌کردن مرج تا زمانی که اتصال به API لیست فایل‌ها و وضعیت آن‌ها پیاده‌سازی شود.
+   - پیشنهاد تیم مودیان: گزینهٔ A، به‌شرطی که «ماک بودن» به‌صورت صریح در توضیحات فیچر و لاگ اسپرینت ثبت شود.
 
-### 18.2) ظ…ط³طھظ†ط¯ط§طھطŒ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§ ظˆ ع©غŒطھ UI ط¯ط± ظپغŒع†ط± آ«ع¯ط²ط§ط±ط´ ظپط§غŒظ„â€Œظ‡ط§غŒ ط®ط±ظˆط¬غŒآ»
+### 18.2) مستندات، استانداردها و کیت UI در فیچر «گزارش فایل‌های خروجی»
 
-- ط§ظ„ع¯ظˆغŒ آ«ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ…آ» ظˆ ظ¾ط±ط§ظ…ظ¾طھ ع†طھ طھغŒظ… طھظˆط³ط¹ظ‡ ظ…ط·ط§ظ„ط¹ظ‡ ظˆ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ…ط¨ظ†ط§غŒ ظ‡ظ…غŒظ† ع¯ط²ط§ط±ط´ ط§ط³طھظپط§ط¯ظ‡ ط´ط¯ظ‡ ط§ط³طھ
-  (ظ‡ظ…â€Œط±ط§ط³طھط§ ط¨ط§ `project-status-report14040905.txt`).
-- ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ع©غŒطھ UI ظ…ظˆط¯غŒط§ظ† ع©ظ‡ ط¯ط± ط§غŒظ† ظپغŒع†ط± (ع¯ط²ط§ط±ط´ ظپط§غŒظ„â€Œظ‡ط§غŒ ط®ط±ظˆط¬غŒ طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§) ظ…طµط±ظپ ط´ط¯ظ‡â€Œط§ظ†ط¯:
-  - `ScrollableTableShell` ط¨ط±ط§غŒ ط¬ط¯ظˆظ„ ط§طµظ„غŒ ع¯ط²ط§ط±ط´ ظپط§غŒظ„â€Œظ‡ط§.
-  - `FieldGrid` ظˆ `FormField` ط¨ط±ط§غŒ ع†غŒط¯ظ…ط§ظ† ظپغŒظ„ط¯ظ‡ط§ ظˆ ظ„غŒط¨ظ„ ط´ظ†ط§ظˆط± ظپط±ظ… (summary ظˆ advanced).
-  - `ModianJalaliDateField` ط¨ط±ط§غŒ ظپغŒظ„ط¯ظ‡ط§غŒ طھط§ط±غŒط® ط¨ط§ طھظ‚ظˆغŒظ… ط¬ظ„ط§ظ„غŒ ط¯ط± طھط¨ آ«ظپط§غŒظ„ طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§آ».
+- الگوی «گزارش وضعیت تیم» و پرامپت چت تیم توسعه مطالعه و به‌عنوان مبنای همین گزارش استفاده شده است
+  (هم‌راستا با `project-status-report14040905.txt`).
+- کامپوننت‌های کیت UI مودیان که در این فیچر (گزارش فایل‌های خروجی صورتحساب‌ها) مصرف شده‌اند:
+  - `ScrollableTableShell` برای جدول اصلی گزارش فایل‌ها.
+  - `FieldGrid` و `FormField` برای چیدمان فیلدها و لیبل شناور فرم (summary و advanced).
+  - `ModianJalaliDateField` برای فیلدهای تاریخ با تقویم جلالی در تب «فایل صورتحساب‌ها».
 
-## 19) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¹/غ°غ·
+## 19) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۹/۰۷
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14040907.txt`.
+بر اساس فایل `team2-status-report-14040907.txt`.
 
-### 19.1) طھط؛غŒغŒط±ط§طھ ط³ط§ط®طھط§ط±غŒ ظˆ ظ…ط³غŒط±ظ‡ط§
+### 19.1) تغییرات ساختاری و مسیرها
 
-- طھط¹ط±غŒظپ ع¯ط±ظˆظ‡ ظ…ظ†ظˆغŒ ط¬ط¯غŒط¯ آ«طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§غŒ ظ‚ط¨ظ„ ط§ط² غ±غ´غ°غ²/غ°غ³/غ²غ¶آ» ط¯ط± ط³ط§غŒط¯ط¨ط§ط± ظ…ظˆط¯غŒط§ظ† ظˆ ط²غŒط±ظ…ظ†ظˆغŒ آ«ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒآ» ظˆ ط§طھطµط§ظ„ ط¢ظ† ط¨ظ‡ ظ…ط³غŒط±
-  `/simulators/modian/old-Invoices/buy` ط¨ط¯ظˆظ† طھط؛غŒغŒط± ط¯ط± ظ…ظ†ظˆظ‡ط§غŒ ظ‚ط¨ظ„غŒ.
-- ط³ط§ط®طھ ط§ط³ع©ظ„طھ طµظپط­ظ‡ `src/app/simulators/modian/old-Invoices/buy/page.tsx` ط¨ط§ ط§ط³طھظپط§ط¯ظ‡ظ” ظ…ط¬ط¯ط¯ ط§ط² ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ظ…ظˆط¬ظˆط¯
-  (HeaderطŒ TableطŒ Actions) ظˆ طھظ†ط¸غŒظ… ط¹ظ†ظˆط§ظ† ظˆ ط²غŒط±ظ…ظ†ظˆ ظ…ط·ط§ط¨ظ‚ ط§ط³ع©ط±غŒظ† ط³ط§ظ…ط§ظ†ظ‡ظ” ط§طµظ„غŒ.
-- ط³ط§ط¯ظ‡â€Œط³ط§ط²غŒ ظ†ظˆط§ط± ط¬ط³طھط¬ظˆ ط¯ط± طµظپط­ظ‡â€ŒغŒ `old-Invoices/buy`:
-  - طھط¨ط¯غŒظ„ طھط¨â€Œظ‡ط§غŒ ظ‚ط¨ظ„غŒ ط¨ظ‡ غŒع© ع©ط§ط¯ط± ط³ط§ط¯ظ‡ظ” ظˆط§ط­ط¯.
-  - ع†ط³ط¨ط§ظ†ط¯ظ† ط³ظ‡ ظپغŒظ„ط¯ ط®ظ„ط§طµظ‡ ط¨ظ‡ ط³ظ…طھ ط±ط§ط³طھ.
-  - ط§ظ†طھظ‚ط§ظ„ ط¯ع©ظ…ظ‡â€Œظ‡ط§غŒ آ«ط¬ط³طھط¬ظˆآ» ظˆ آ«ط¬ط³طھط¬ظˆ ظ¾غŒط´ط±ظپطھظ‡آ» ط¨ظ‡ ظ‡ظ…ط§ظ† ط±ط¯غŒظپ ظپغŒظ„ط¯ظ‡ط§.
-  - ط؛غŒط±ظپط¹ط§ظ„â€Œع©ط±ط¯ظ† ط³ظ‡ ظپغŒظ„ط¯ ط¨ط§ظ„ط§غŒغŒ (ط­ط§ظ„طھ ظپظ‚ط· ظ†ظ…ط§غŒط´غŒ) ظˆ طھظ†ط¸غŒظ… ط¹ط±ط¶ ظˆ ظ¾ط³â€Œط²ظ…غŒظ†ظ‡ ظ…ط·ط§ط¨ظ‚ ظ†ظ…ظˆظ†ظ‡ظ” ط§طµظ„غŒ ط³ط§ظ…ط§ظ†ظ‡.
+- تعریف گروه منوی جدید «صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶» در سایدبار مودیان و زیرمنوی «خرید داخلی» و اتصال آن به مسیر
+  `/simulators/modian/old-Invoices/buy` بدون تغییر در منوهای قبلی.
+- ساخت اسکلت صفحه `src/app/simulators/modian/old-Invoices/buy/page.tsx` با استفادهٔ مجدد از کامپوننت‌های موجود
+  (Header، Table، Actions) و تنظیم عنوان و زیرمنو مطابق اسکرین سامانهٔ اصلی.
+- ساده‌سازی نوار جستجو در صفحه‌ی `old-Invoices/buy`:
+  - تبدیل تب‌های قبلی به یک کادر سادهٔ واحد.
+  - چسباندن سه فیلد خلاصه به سمت راست.
+  - انتقال دکمه‌های «جستجو» و «جستجو پیشرفته» به همان ردیف فیلدها.
+  - غیرفعال‌کردن سه فیلد بالایی (حالت فقط نمایشی) و تنظیم عرض و پس‌زمینه مطابق نمونهٔ اصلی سامانه.
 
-### 19.2) ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒâ€Œظ‡ط§غŒ SearchByFilters ط¨ط±ط§غŒ old-Invoices
+### 19.2) به‌روزرسانی‌های SearchByFilters برای old-Invoices
 
-- ط§ط¶ط§ظپظ‡â€Œط´ط¯ظ† طھط´ط®غŒطµ ظ…ط³غŒط± `old-Invoices` (ظ¾ط±ع†ظ… ظ…ظ†ط·ظ‚غŒ `isOldInvoicesPage`) ظˆ ط§ط¹ظ…ط§ظ„ طھظپط§ظˆطھâ€Œظ‡ط§غŒ UI ظپظ‚ط· ط¯ط± ط§غŒظ† طµظپط­ظ‡:
-  - ظپط±ظ… ط¨غŒط±ظˆظ†غŒ ط¨ظ‡â€Œطµظˆط±طھ ع©ط§ط±طھ ط³ظپغŒط¯ غŒع©â€Œطھع©ظ‡ ط¨ط§ ظ¾ط³â€Œط²ظ…غŒظ†ظ‡ ظˆ ط¨ظˆط±ط¯ط± ظ…ط¬ط²ط§طŒ ط¨ط¯ظˆظ† طھط£ط«غŒط± ط±ظˆغŒ طµظپط­ط§طھ ط¯غŒع¯ط±.
-  - ع†غŒط¯ظ…ط§ظ† ط§ط®طھطµط§طµغŒ ط±ط¯غŒظپ ط®ظ„ط§طµظ‡: ط³ظ‡ ظپغŒظ„ط¯ ط¯ط± ط³ظ…طھ ط±ط§ط³طھ + ط¯ع©ظ…ظ‡â€Œظ‡ط§غŒ ط¬ط³طھط¬ظˆ ط¯ط± ظ‡ظ…ط§ظ† ط±ط¯غŒظپ.
-  - ظ¾ظ†ظ„ آ«ط¬ط³طھط¬ظˆ ظ¾غŒط´ط±ظپطھظ‡آ» ط¨ط§ طھغŒطھط± آ«ط¬ط³طھط¬ظˆ ظ¾غŒط´ط±ظپطھظ‡آ» ط¯ط± ط³ظ…طھ ط±ط§ط³طھ ظˆ ط¯ع©ظ…ظ‡â€ŒغŒ آ«ط¨ط³طھظ†آ» ط¯ط± ط³ظ…طھ ع†ظ¾ ظ‡ط¯ط±طŒ ظ‡ظ…ط±ط§ظ‡ ط¨ط§ ط®ط· ط³ط¨ط² ط²غŒط± طھغŒطھط±
-    ظˆ ط¯ع©ظ…ظ‡â€ŒغŒ ظ¾ط§غŒغŒظ† ظپط±ظ… ع©ظ‡ ظپظ‚ط· ط¯ط± ط­ط§ظ„طھ old-Invoices ظپط¹ط§ظ„ ط§ط³طھ.
-- ط­ط°ظپ ط¨ط±ط®غŒ ظپغŒظ„ط¯ظ‡ط§ ظپظ‚ط· ط¯ط± ط­ط§ظ„طھ old-Invoices (طھط§ط±غŒط® ط¯ط±ط¬ ط¯ط± ع©ط§ط±ظ¾ظˆط´ظ‡ ط§ط²/طھط§طŒ ظ…ط¬ظ…ظˆط¹ طµظˆط±طھط­ط³ط§ط¨ ط§ط²/طھط§طŒ ط´ظ…ط§ط±ظ‡ ط§ظ‚طھطµط§ط¯غŒطŒ
-  ط´ظ†ط§ط³ظ‡ ظ‡ظˆغŒطھغŒطŒ ظ†ط§ظ…/ظ†ط§ظ… طھط¬ط§ط±غŒ ظپط±ظˆط´ظ†ط¯ظ‡ ظˆ ع†ع©â€Œط¨ط§ع©ط³ آ«ظپظ‚ط· ظ…ظˆط§ط±ط¯ ط¯ط§ط±ط§غŒ ط§ظ‚ط¯ط§ظ…آ») ظˆ ط¨ط§ط²ع†غŒظ†ط´ ظپغŒظ„ط¯ظ‡ط§ ظ…ط·ط§ط¨ظ‚ ط§ط³ع©ط±غŒظ† ط±ط³ظ…غŒ:
-  - ط±ط¯غŒظپ ط§ظˆظ„: آ«ع©ط¯ ط´ط¹ط¨ظ‡طŒ ظ…ظˆط¶ظˆط¹ طµظˆط±طھط­ط³ط§ط¨طŒ ط§ظ„ع¯ظˆغŒ طµظˆط±طھط­ط³ط§ط¨طŒ ظˆط¶ط¹غŒطھ ط­ط¯ ظ…ط¬ط§ط²آ».
-  - ط±ط¯غŒظپ ط¯ظˆظ…: آ«طھط§ط±غŒط® طµط¯ظˆط± طµظˆط±طھط­ط³ط§ط¨ ط§ط²/طھط§آ».
-- طھظ†ط¸غŒظ… ط¢غŒع©ظˆظ† ظˆ ط§ط³طھط§غŒظ„ ط¯ع©ظ…ظ‡â€ŒغŒ آ«ط¬ط³طھط¬ظˆ ظ¾غŒط´ط±ظپطھظ‡آ» (ط¢غŒع©ظˆظ† ع†ط±ط®â€Œط¯ظ†ط¯ظ‡ ط¨ط¯ظˆظ† ط¨ظˆط±ط¯ط±طŒ ظپط§طµظ„ظ‡â€Œظ‡ط§طŒ ظ¾ظ‡ظ†ط§غŒ ظپغŒظ„ط¯ظ‡ط§ ظˆ ط±ط§ط³طھâ€Œع†غŒظ†â€Œط¨ظˆط¯ظ† ط§ط¬ط²ط§)
-  ط¨ط±ط§غŒ ط±ط³غŒط¯ظ† ط¨ظ‡ ط´ط¨ط§ظ‡طھ ط­ط¯ط§ع©ط«ط±غŒ ط¨ط§ UI ط±ط³ظ…غŒ ظ…ظˆط¯غŒط§ظ†.
+- اضافه‌شدن تشخیص مسیر `old-Invoices` (پرچم منطقی `isOldInvoicesPage`) و اعمال تفاوت‌های UI فقط در این صفحه:
+  - فرم بیرونی به‌صورت کارت سفید یک‌تکه با پس‌زمینه و بوردر مجزا، بدون تأثیر روی صفحات دیگر.
+  - چیدمان اختصاصی ردیف خلاصه: سه فیلد در سمت راست + دکمه‌های جستجو در همان ردیف.
+  - پنل «جستجو پیشرفته» با تیتر «جستجو پیشرفته» در سمت راست و دکمه‌ی «بستن» در سمت چپ هدر، همراه با خط سبز زیر تیتر
+    و دکمه‌ی پایین فرم که فقط در حالت old-Invoices فعال است.
+- حذف برخی فیلدها فقط در حالت old-Invoices (تاریخ درج در کارپوشه از/تا، مجموع صورتحساب از/تا، شماره اقتصادی،
+  شناسه هویتی، نام/نام تجاری فروشنده و چک‌باکس «فقط موارد دارای اقدام») و بازچینش فیلدها مطابق اسکرین رسمی:
+  - ردیف اول: «کد شعبه، موضوع صورتحساب، الگوی صورتحساب، وضعیت حد مجاز».
+  - ردیف دوم: «تاریخ صدور صورتحساب از/تا».
+- تنظیم آیکون و استایل دکمه‌ی «جستجو پیشرفته» (آیکون چرخ‌دنده بدون بوردر، فاصله‌ها، پهنای فیلدها و راست‌چین‌بودن اجزا)
+  برای رسیدن به شباهت حداکثری با UI رسمی مودیان.
 
-### 19.3) ط±غŒط³ع©â€Œظ‡ط§ ظˆ طھظˆطµغŒظ‡â€Œظ‡ط§غŒ ط³ط§ط®طھط§ط±غŒ
+### 19.3) ریسک‌ها و توصیه‌های ساختاری
 
-- **ظ¾غŒع†غŒط¯ع¯غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھ SearchByFilters**
-  ط¨ظ‡â€Œط¯ظ„غŒظ„ ط§ط¶ط§ظپظ‡ ط´ط¯ظ† ط´ط§ط®ظ‡â€Œظ‡ط§غŒ ط´ط±ط·غŒ ظ…ط§ظ†ظ†ط¯ `isOldInvoicesPage` ظˆ (ط¯ط± ط§ط¯ط§ظ…ظ‡) `isExportsPage`طŒ ط±غŒط³ع© ط±ع¯ط±ط³غŒظˆظ† ط¯ط± ط³ط§غŒط± طµظپط­ط§طھ
-  ظ…طµط±ظپâ€Œع©ظ†ظ†ط¯ظ‡â€ŒغŒ SearchByFilters (ط®ط±غŒط¯/ظپط±ظˆط´ ظپط¹ظ„غŒ) ظˆط¬ظˆط¯ ط¯ط§ط±ط¯. ط¯ط± ع¯ط²ط§ط±ط´ طھغŒظ… ظ¾غŒط´ظ†ظ‡ط§ط¯ ط´ط¯ظ‡:
-  - طھط³طھ ط¯ط³طھغŒ ط±ظˆغŒ ظ‡ظ…ظ‡ظ” طµظپط­ط§طھ ظ…طµط±ظپâ€Œع©ظ†ظ†ط¯ظ‡ظ” SearchByFilters ط§ظ†ط¬ط§ظ… ط´ظˆط¯.
-  - ط¯ط± طµظˆط±طھ ط§ظ…ع©ط§ظ†طŒ طھط³طھâ€Œظ‡ط§غŒ ظˆط§ط­ط¯/ط§ط³ظ†ظ¾â€Œط´ط§طھ ط¨ط±ط§غŒ ط³ظ†ط§ط±غŒظˆظ‡ط§غŒ `invoices/*` ظˆ `old-Invoices/*` ظ†ظˆط´طھظ‡ ط´ظˆط¯.
-- **ط¹ط¯ظ… ط§طھطµط§ظ„ API ط¨ط±ط§غŒ old-Invoices ط¯ط± ط§غŒظ† ظپط§ط²**
-  ط¯ط± ط§غŒظ† ط¯ظˆط±ظ‡ ظپظ‚ط· UI طµظپط­ظ‡â€ŒغŒ `old-Invoices/buy` ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ط´ط¯ظ‡ ظˆ ظ…ظ†ط·ظ‚ ط§ط±ط³ط§ظ„ ظپغŒظ„طھط±ظ‡ط§ ط¨ظ‡ API ظˆط§ظ‚ط¹غŒ/ط´ط¨غŒظ‡â€Œط³ط§ط² ظ‡ظ†ظˆط² ظ…طھطµظ„ ظ†ط´ط¯ظ‡ ط§ط³طھ.
-  ظ„ط§ط²ظ… ط§ط³طھ ط¯ط± ط§ط³ظ¾ط±غŒظ†طھ ط¨ط¹ط¯غŒطŒ ط§طھطµط§ظ„ ط¨ظ‡ API ظˆ ظ†ع¯ط§ط´طھ ظپغŒظ„ط¯ظ‡ط§غŒ ط¬ط³طھط¬ظˆ ط¯ط± ط³ظ†ط¯ `docs-modian-endpoints.updated.md` طھع©ظ…غŒظ„ ظˆ ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط´ظˆط¯.
+- **پیچیدگی کامپوننت SearchByFilters**
+  به‌دلیل اضافه شدن شاخه‌های شرطی مانند `isOldInvoicesPage` و (در ادامه) `isExportsPage`، ریسک رگرسیون در سایر صفحات
+  مصرف‌کننده‌ی SearchByFilters (خرید/فروش فعلی) وجود دارد. در گزارش تیم پیشنهاد شده:
+  - تست دستی روی همهٔ صفحات مصرف‌کنندهٔ SearchByFilters انجام شود.
+  - در صورت امکان، تست‌های واحد/اسنپ‌شات برای سناریوهای `invoices/*` و `old-Invoices/*` نوشته شود.
+- **عدم اتصال API برای old-Invoices در این فاز**
+  در این دوره فقط UI صفحه‌ی `old-Invoices/buy` پیاده‌سازی شده و منطق ارسال فیلترها به API واقعی/شبیه‌ساز هنوز متصل نشده است.
+  لازم است در اسپرینت بعدی، اتصال به API و نگاشت فیلدهای جستجو در سند `docs-modian-endpoints.updated.md` تکمیل و به‌روزرسانی شود.
 
-## 20) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¹/غ°غ¹
+## 20) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۹/۰۹
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14040909.txt`.
+بر اساس فایل `team2-status-report-14040909.txt`.
 
-### 20.1) ظ…ط³غŒط±ظ‡ط§ ظˆ طµظپط­ط§طھ ط¬ط¯غŒط¯ ط¯ط± ظ…ط§عکظˆظ„ old-Invoices
+### 20.1) مسیرها و صفحات جدید در ماژول old-Invoices
 
-- ع¯ط³طھط±ط´ ظ¾ظˆط´ط´ ظ…ط§عکظˆظ„ `src/app/simulators/modian/old-Invoices` ط¨ظ‡ ط³ظ†ط§ط±غŒظˆظ‡ط§غŒ ط²غŒط±:
+- گسترش پوشش ماژول `src/app/simulators/modian/old-Invoices` به سناریوهای زیر:
   - `buy/page.tsx`
-    - ظ‡ظ…â€Œطھط±ط§ط²ط³ط§ط²غŒ ع©ط§ظ…ظ„ ط¬ط¯ظˆظ„ ظ„غŒط³طھ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ ظ‚ط¯غŒظ…غŒ ط¨ط§ ط³ط§ظ…ط§ظ†ظ‡ ط§طµظ„غŒ (ط³طھظˆظ†â€Œظ‡ط§طŒ طھط±طھغŒط¨طŒ ظ¾غŒط´â€Œظپط±ط¶ ظ†ظ…ط§غŒط´/ط¹ط¯ظ…â€Œظ†ظ…ط§غŒط´).
-    - ط­ط°ظپ ط¯ع©ظ…ظ‡â€Œظ‡ط§غŒ ط§ط¶ط§ظپغŒ ط¨ط§ظ„ط§غŒ ط¬ط¯ظˆظ„ (طھط£غŒغŒط¯طŒ ط±ط¯طŒ ط§ظ†طھظ‚ط§ظ„ طµظˆط±طھط­ط³ط§ط¨).
-    - ظپط¹ط§ظ„â€Œط³ط§ط²غŒ ط³طھظˆظ† ط«ط§ط¨طھ آ«ط¬ط²ط¦غŒط§طھآ» ط¨ط±ط§غŒ ظ‡ط± ط±ط¯غŒظپ ظˆ ظ…ط³غŒط±غŒط§ط¨غŒ ط¨ظ‡ طµظپط­ظ‡ظ” ط¬ط²ط¦غŒط§طھ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ.
+    - هم‌ترازسازی کامل جدول لیست خرید داخلی قدیمی با سامانه اصلی (ستون‌ها، ترتیب، پیش‌فرض نمایش/عدم‌نمایش).
+    - حذف دکمه‌های اضافی بالای جدول (تأیید، رد، انتقال صورتحساب).
+    - فعال‌سازی ستون ثابت «جزئیات» برای هر ردیف و مسیریابی به صفحهٔ جزئیات خرید داخلی.
   - `buy/detail/page.tsx`
-    - ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ طµظپط­ظ‡ظ” ط¬ط²ط¦غŒط§طھ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ ظ‚ط¯غŒظ…غŒ ط¨ط± ط§ط³ط§ط³ ط§ظ„ع¯ظˆغŒ ط¬ط²ط¦غŒط§طھ ط®ط±غŒط¯ ظپط¹ظ„غŒ:
-      ط³ع©ط´ظ†â€Œظ‡ط§غŒ آ«ظ…ط´ط®طµط§طھ طµظˆط±طھط­ط³ط§ط¨آ»طŒ آ«ظپط±ظˆط´ظ†ط¯ظ‡آ»طŒ آ«ط®ط±غŒط¯ط§ط±آ»طŒ آ«ط§ظ‚ظ„ط§ظ…آ»طŒ آ«ط¬ظ…ط¹ ع©ظ„آ»طŒ آ«ط§ط·ظ„ط§ط¹ط§طھ طھع©ظ…غŒظ„غŒآ» ظˆ ظ…ط¯ط§ظ„ ط¬ط²ط¦غŒط§طھ ظ¾ط±ط¯ط§ط®طھ.
-  - `sales/page.tsx` ظˆ `sales/detail/page.tsx`
-    - ع©ظ¾غŒâ€Œط¨ط±ط¯ط§ط±غŒ ع©ظ†طھط±ظ„â€Œط´ط¯ظ‡ ط§ط² ط§ط³ع©ظ„طھ ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ ظˆ طھط·ط¨غŒظ‚ ظ…طھظˆظ† ظˆ ظ…ط³غŒط±غŒط§ط¨غŒ ط¨ط§ ط³ظ†ط§ط±غŒظˆغŒ آ«ظپط±ظˆط´ ط¯ط§ط®ظ„غŒآ».
-    - ظپط¹ط§ظ„â€Œط³ط§ط²غŒ ط³طھظˆظ† آ«ط¬ط²ط¦غŒط§طھآ» ط¯ط± ظ„غŒط³طھ ظپط±ظˆط´ ط¯ط§ط®ظ„غŒ ظˆ ط§طھطµط§ظ„ ط¢ظ† ط¨ظ‡ طµظپط­ظ‡ظ” ط¬ط²ط¦غŒط§طھ ظپط±ظˆط´ ط¯ط§ط®ظ„غŒ.
-  - `exports/page.tsx` ظˆ `exports/detail/page.tsx`
-    - ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ ظ„غŒط³طھ ظˆ ط¬ط²ط¦غŒط§طھ آ«ظپط±ظˆط´ طµط§ط¯ط±ط§طھغŒآ» ظ…ط·ط§ط¨ظ‚ ط§ط³ع©ط±غŒظ†â€Œظ‡ط§غŒ ظ…ط±ط¬ط¹ط›
-      ط¯ط± ط¬ط²ط¦غŒط§طھ طµط§ط¯ط±ط§طھطŒ ط³ع©ط´ظ†â€Œظ‡ط§غŒ ط®ط±غŒط¯ط§ط± ظˆ ظ¾ط±ط¯ط§ط®طھ ط·ط¨ظ‚ ط§ط³ع©ط±غŒظ† ط­ط°ظپ ط´ط¯ظ‡â€Œط§ظ†ط¯ ظˆ طھظ…ط±ع©ط² ط±ظˆغŒ ط¬ط¯ظˆظ„ ط§ظ‚ظ„ط§ظ… ظˆ ط§ط·ظ„ط§ط¹ط§طھ طµط§ط¯ط±ط§طھغŒ ط§ط³طھ.
+    - پیاده‌سازی صفحهٔ جزئیات خرید داخلی قدیمی بر اساس الگوی جزئیات خرید فعلی:
+      سکشن‌های «مشخصات صورتحساب»، «فروشنده»، «خریدار»، «اقلام»، «جمع کل»، «اطلاعات تکمیلی» و مدال جزئیات پرداخت.
+  - `sales/page.tsx` و `sales/detail/page.tsx`
+    - کپی‌برداری کنترل‌شده از اسکلت خرید داخلی و تطبیق متون و مسیریابی با سناریوی «فروش داخلی».
+    - فعال‌سازی ستون «جزئیات» در لیست فروش داخلی و اتصال آن به صفحهٔ جزئیات فروش داخلی.
+  - `exports/page.tsx` و `exports/detail/page.tsx`
+    - پیاده‌سازی لیست و جزئیات «فروش صادراتی» مطابق اسکرین‌های مرجع؛
+      در جزئیات صادرات، سکشن‌های خریدار و پرداخت طبق اسکرین حذف شده‌اند و تمرکز روی جدول اقلام و اطلاعات صادراتی است.
 
-### 20.2) طھظ†ط¸غŒظ…ط§طھ ط³طھظˆظ†â€Œظ‡ط§ ظˆ ط¬ط³طھط¬ظˆ
+### 20.2) تنظیمات ستون‌ها و جستجو
 
-- ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ â€“ ظ„غŒط³طھ (`old-Invoices/buy/page.tsx`):
-  - ط³ط§ط®طھط§ط± ط³طھظˆظ†â€Œظ‡ط§ ط¨ط±ط§ط³ط§ط³ ط³ظ†ط§ط±غŒظˆغŒ ظˆط§ظ‚ط¹غŒ ط³ط§ظ…ط§ظ†ظ‡ طھظ†ط¸غŒظ… ط´ط¯ظ‡ ظˆ ط­ط§ظ„طھ ظ¾غŒط´â€Œظپط±ط¶ ظ†ظ…ط§غŒط´ ط¨ط±ط§غŒ ط³طھظˆظ†â€Œظ‡ط§غŒ ط§طµظ„غŒ ظپط¹ط§ظ„ ط§ط³طھ.
-  - ط³طھظˆظ† ط«ط§ط¨طھ آ«ط¬ط²ط¦غŒط§طھآ» ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ط¢ط®ط±غŒظ† ط³طھظˆظ† ط§ط¶ط§ظپظ‡ ط´ط¯ظ‡ طھط§ navigation ط¨غŒظ† ظ„غŒط³طھ ظˆ ط¬ط²ط¦غŒط§طھ ظ¾ط§غŒط¯ط§ط± ط¨ط§ط´ط¯.
-- ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ â€“ ظ¾ظ†ظ„ ط¬ط³طھط¬ظˆ (`buy/page.tsx` + `SearchByFilters.tsx`):
-  - ط§ط¶ط§ظپظ‡â€Œط´ط¯ظ† ط²غŒط±ظ…ظ†ظˆغŒ ط«ط§ط¨طھ آ«ط³ط§ظ„ ظ…ط§ظ„غŒط§طھغŒآ» (غ±غ´غ°غ° طھط§ غ±غ´غ°غ³) ظˆ آ«ط¯ظˆط±ظ‡ ظ…ط§ظ„غŒط§طھغŒآ» (ط¨ظ‡ط§ط±طŒ طھط§ط¨ط³طھط§ظ†طŒ ظ¾ط§غŒغŒط²طŒ ط²ظ…ط³طھط§ظ†) ط¨ظ‡â€Œطµظˆط±طھ ع¯ط²غŒظ†ظ‡â€Œظ‡ط§غŒ ط¨ط¯ظˆظ† ع†ع©â€Œط¨ط§ع©ط³.
-  - ط¯ط± ط­ط§ظ„طھ ط¨ط§ط² ط¨ظˆط¯ظ† ظ¾ظ†ظ„ ظ¾غŒط´ط±ظپطھظ‡طŒ ط¯ع©ظ…ظ‡ظ” آ«ط¬ط³طھط¬ظˆغŒ ظ¾غŒط´ط±ظپطھظ‡آ» ط¨ظ‡ آ«ط­ط°ظپ ظپغŒظ„طھط±آ» ط¨ط§ ط§ط³طھغŒطھ ط±ظ†ع¯غŒ ظ…ط´ط®طµ طھط¨ط¯غŒظ„ ظ…غŒâ€Œط´ظˆط¯
-    ظˆ ط¨ط§ ع©ظ„غŒع© طھظ…ط§ظ… ظپغŒظ„طھط±ظ‡ط§ ط±ط§ ط±غŒط³طھ ظ…غŒâ€Œع©ظ†ط¯ط› ط¯ط± ط­ط§ظ„طھ ط¨ط³طھظ‡طŒ ط±ظپطھط§ط± ظ‡ظ…ط§ظ† ط¬ط³طھط¬ظˆغŒ ظ¾غŒط´ط±ظپطھظ‡ ط§ط³طھ.
-- ظپط±ظˆط´ ط¯ط§ط®ظ„غŒ â€“ ظ„غŒط³طھ ظˆ ط¬ط²ط¦غŒط§طھ:
-  - ط³طھظˆظ†â€Œظ‡ط§ ظˆ ط¬ط²ط¦غŒط§طھ ط§ط² ط®ط±غŒط¯ ط¯ط§ط®ظ„غŒ ظ…ط´طھظ‚ ط´ط¯ظ‡ ظˆ ظپظ‚ط· ط¨ط±ع†ط³ط¨â€Œظ‡ط§/ظ…طھظ†â€Œظ‡ط§ ط¨ط§ ط³ظ†ط§ط±غŒظˆغŒ ظپط±ظˆط´ ط¯ط§ط®ظ„غŒ ظ‡ظ…ط§ظ‡ظ†ع¯ ط´ط¯ظ‡ ط§ط³طھط›
-    ط§غŒظ† ع©ط§ط± ط±غŒط³ع© divergence ط¨غŒظ† ط¯ظˆ طµظپط­ظ‡ ط±ط§ ع©ط§ظ‡ط´ ظ…غŒâ€Œط¯ظ‡ط¯.
-- ظپط±ظˆط´ طµط§ط¯ط±ط§طھغŒ â€“ ظ„غŒط³طھ:
-  - ط­ط°ظپ ظپغŒظ„ط¯ظ‡ط§غŒ آ«ظ†ظˆط¹ طµظˆط±طھط­ط³ط§ط¨آ» ظˆ آ«ط§ظ„ع¯ظˆغŒ طµظˆط±طھط­ط³ط§ط¨آ» ط§ط² ظپغŒظ„طھط±ظ‡ط§غŒ ط³ط§ط¯ظ‡ ط¨ط§ظ„ط§غŒ طµظپط­ظ‡ ط¨ط±ط§غŒ ظ†ط²ط¯غŒع©â€Œطھط± ط´ط¯ظ† ط¨ظ‡ ط§ط³ع©ط±غŒظ† ط§طµظ„غŒ.
-  - ط¯ط± ط¬ط³طھط¬ظˆغŒ ظ¾غŒط´ط±ظپطھظ‡:
-    - ظ„غŒط¨ظ„ آ«ظˆط¶ط¹غŒطھ طµظˆط±طھط­ط³ط§ط¨آ» ط¨ظ‡ آ«ظˆط¶ط¹غŒطھ طھط·ط§ط¨ظ‚آ» طھط؛غŒغŒط± غŒط§ظپطھظ‡ ط§ط³طھطŒ
-    - ط§غŒظ† ظپغŒظ„ط¯ ط¯ط± ط­ط§ظ„ ط­ط§ط¶ط± ط؛غŒط±ظپط¹ط§ظ„ (read-only) ط§ط³طھ ظˆ ط¨ط§ ط¨ظˆط±ط¯ط± ط®ط·â€Œع†غŒظ† ظ†ظ…ط§غŒط´ ط¯ط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯ طھط§ ظ…طھظ…ط§غŒط² ط¨ط§ط´ط¯.
-  - طھط¹ط±غŒظپ ظ…ط¬ط¯ط¯ ط³طھظˆظ†â€Œظ‡ط§غŒ ط¬ط¯ظˆظ„ طµط§ط¯ط±ط§طھغŒ ط´ط§ظ…ظ„ ط³طھظˆظ†â€Œظ‡ط§غŒ طµط§ط¯ط±ط§طھâ€Œظ…ط­ظˆط± (ط´ظ…ط§ط±ظ‡ ظ‚ط±ط§ط±ط¯ط§ط¯ ط­ظ‚â€Œط§ظ„ط¹ظ…ظ„ع©ط§ط±غŒطŒ ظˆط¶ط¹غŒطھ ظˆط§ع©ظ†ط´ ط¢ظ…ط±طŒ
-    طھط§ط±غŒط®/ط´ظ…ط§ط±ظ‡ ع©ظˆطھط§عک ظˆ â€¦) ظˆ طھظ†ط¸غŒظ… ظ¾غŒط´â€Œظپط±ط¶: ظپظ‚ط· ط³طھظˆظ†â€Œظ‡ط§غŒ آ«ظ…ط¬ظ…ظˆط¹ طµظˆط±طھط­ط³ط§ط¨آ»طŒ آ«ظ…ط¬ظ…ظˆط¹ ظ…ط§ظ„غŒط§طھ ط¨ط± ط§ط±ط²ط´ ط§ظپط²ظˆط¯ظ‡آ»طŒ
-    آ«طھط§ط±غŒط® طµط¯ظˆط± طµظˆط±طھط­ط³ط§ط¨آ» ظˆ آ«ظˆط¶ط¹غŒطھ طھط·ط§ط¨ظ‚آ» ط±ظˆط´ظ† ظ‡ط³طھظ†ط¯.
-- ظپط±ظˆط´ طµط§ط¯ط±ط§طھغŒ â€“ ط¬ط²ط¦غŒط§طھ:
-  - ط¬ط¯ظˆظ„ ط§ظ‚ظ„ط§ظ… ط¨ط±ط§ط³ط§ط³ ظ†غŒط§ط²ظ‡ط§غŒ طµط§ط¯ط±ط§طھغŒ ط¨ط§ط²ط·ط±ط§ط­غŒ ط´ط¯ظ‡ ط§ط³طھ (ط³طھظˆظ†â€Œظ‡ط§غŒ ظ†ط±ط®/ظ…ط¨ظ„ط؛ ظ…ط§ظ„غŒط§طھطŒ ط³ط§غŒط± ظˆط¬ظˆظ‡ ظ‚ط§ظ†ظˆظ†غŒطŒ ظˆط²ظ†طŒ ط§ط±ط²ط´ ط§ط±ط²غŒ ظˆ â€¦)طŒ
-    ظˆ ط³طھظˆظ†â€Œظ‡ط§غŒ ظ¾غŒط´â€Œظپط±ط¶ ط¨ط§ ط¨ط±ع†ط³ط¨ آ«(ظ¾غŒط´ظپط±ط¶)آ» ط±ظˆط´ظ† ظ‡ط³طھظ†ط¯.
-  - ط¯ط± ظ…ظ†ظˆغŒ آ«ظ†ظ…ط§غŒط´ ط³طھظˆظ†â€Œظ‡ط§آ»طŒ ط³طھظˆظ† آ«ط´ط±ط­آ» ط§ط¶ط§ظپظ‡ ظˆ ط¬ظپطھ طھع©ط±ط§ط±غŒ آ«ظ†ط±ط® ط³ط§غŒط± ظˆط¬ظˆظ‡ ظ‚ط§ظ†ظˆظ†غŒ / ظ…ط¨ظ„ط؛ ط³ط§غŒط± ظˆط¬ظˆظ‡ ظ‚ط§ظ†ظˆظ†غŒآ» ط­ط°ظپ ط´ط¯ظ‡ ط§ط³طھ.
+- خرید داخلی – لیست (`old-Invoices/buy/page.tsx`):
+  - ساختار ستون‌ها براساس سناریوی واقعی سامانه تنظیم شده و حالت پیش‌فرض نمایش برای ستون‌های اصلی فعال است.
+  - ستون ثابت «جزئیات» به‌عنوان آخرین ستون اضافه شده تا navigation بین لیست و جزئیات پایدار باشد.
+- خرید داخلی – پنل جستجو (`buy/page.tsx` + `SearchByFilters.tsx`):
+  - اضافه‌شدن زیرمنوی ثابت «سال مالیاتی» (۱۴۰۰ تا ۱۴۰۳) و «دوره مالیاتی» (بهار، تابستان، پاییز، زمستان) به‌صورت گزینه‌های بدون چک‌باکس.
+  - در حالت باز بودن پنل پیشرفته، دکمهٔ «جستجوی پیشرفته» به «حذف فیلتر» با استیت رنگی مشخص تبدیل می‌شود
+    و با کلیک تمام فیلترها را ریست می‌کند؛ در حالت بسته، رفتار همان جستجوی پیشرفته است.
+- فروش داخلی – لیست و جزئیات:
+  - ستون‌ها و جزئیات از خرید داخلی مشتق شده و فقط برچسب‌ها/متن‌ها با سناریوی فروش داخلی هماهنگ شده است؛
+    این کار ریسک divergence بین دو صفحه را کاهش می‌دهد.
+- فروش صادراتی – لیست:
+  - حذف فیلدهای «نوع صورتحساب» و «الگوی صورتحساب» از فیلترهای ساده بالای صفحه برای نزدیک‌تر شدن به اسکرین اصلی.
+  - در جستجوی پیشرفته:
+    - لیبل «وضعیت صورتحساب» به «وضعیت تطابق» تغییر یافته است،
+    - این فیلد در حال حاضر غیرفعال (read-only) است و با بوردر خط‌چین نمایش داده می‌شود تا متمایز باشد.
+  - تعریف مجدد ستون‌های جدول صادراتی شامل ستون‌های صادرات‌محور (شماره قرارداد حق‌العملکاری، وضعیت واکنش آمر،
+    تاریخ/شماره کوتاژ و …) و تنظیم پیش‌فرض: فقط ستون‌های «مجموع صورتحساب»، «مجموع مالیات بر ارزش افزوده»،
+    «تاریخ صدور صورتحساب» و «وضعیت تطابق» روشن هستند.
+- فروش صادراتی – جزئیات:
+  - جدول اقلام براساس نیازهای صادراتی بازطراحی شده است (ستون‌های نرخ/مبلغ مالیات، سایر وجوه قانونی، وزن، ارزش ارزی و …)،
+    و ستون‌های پیش‌فرض با برچسب «(پیشفرض)» روشن هستند.
+  - در منوی «نمایش ستون‌ها»، ستون «شرح» اضافه و جفت تکراری «نرخ سایر وجوه قانونی / مبلغ سایر وجوه قانونی» حذف شده است.
 
-### 20.3) ط±غŒط³ع©â€Œظ‡ط§ ظˆ طھطµظ…غŒظ…â€Œظ‡ط§غŒ ظ…ط¹ظˆظ‚
+### 20.3) ریسک‌ها و تصمیم‌های معوق
 
-- **ظˆط§ط¨ط³طھع¯غŒ UI ط¨ظ‡ API ظ†ظ‡ط§غŒغŒ old-Invoices**
-  ط¯ط± ط­ط§ظ„ ط­ط§ط¶ط± ط³طھظˆظ†â€Œظ‡ط§ ظˆ ظپغŒظ„طھط±ظ‡ط§ ط¯ط± ظپط±ط§ظ†طھâ€Œط§ظ†ط¯ ط¨ظ‡â€Œطµظˆط±طھ ظ…ط§ع© طھط¹ط±غŒظپ ط´ط¯ظ‡â€Œط§ظ†ط¯ ظˆ ظ‡ظ†ظˆط² ط¨ظ‡ ط³ط±ظˆغŒط³â€Œظ‡ط§غŒ ظˆط§ظ‚ط¹غŒ old-Invoices ظ…طھطµظ„ ظ†غŒط³طھظ†ط¯.
-  ط§ع¯ط± ظ†ط§ظ… ظپغŒظ„ط¯ظ‡ط§غŒ API ظ†ظ‡ط§غŒغŒ ظ…طھظپط§ظˆطھ ط§ط² ظ†ط§ظ…â€Œظ‡ط§غŒ ظپط¹ظ„غŒ ط¨ط§ط´ط¯طŒ ظ†غŒط§ط² ط¨ظ‡ ظ†ع¯ط§ط´طھ ط²ظ…ط§ظ†â€Œط¨ط± ط¨غŒظ† UI ظˆ ط¨ع©â€Œط§ظ†ط¯ ط®ظˆط§ظ‡غŒظ… ط¯ط§ط´طھ.
-- **ظ¾غŒط´ظ†ظ‡ط§ط¯ طھغŒظ… ظ…ظˆط¯غŒط§ظ† ط¨ط±ط§غŒ ظ…ط¯غŒط±غŒطھ ط±غŒط³ع© mapping**
-  ظ‚ط¨ظ„ ط§ط² ط§طھطµط§ظ„ ظ†ظ‡ط§غŒغŒطŒ ط¨ط§غŒط¯ غŒع© ظپط§غŒظ„ mapping ط±ط³ظ…غŒ ط¨غŒظ† ظ†ط§ظ… ط³طھظˆظ†â€Œظ‡ط§/ظپغŒظ„طھط±ظ‡ط§غŒ ظپط±ط§ظ†طھâ€Œط§ظ†ط¯ ظˆ ظپغŒظ„ط¯ظ‡ط§غŒ ظ¾ط§ط³ط®/QueryString ط¨ع©â€Œط§ظ†ط¯
-  ط¯ط± ط³ظ†ط¯ `docs-modian-endpoints` طھط¹ط±غŒظپ ط´ظˆط¯ ظˆ ظ‡ط± ط¯ظˆ طھغŒظ… ط¨ظ‡ ط¢ظ† ظ…طھط¹ظ‡ط¯ ط¨ظ…ط§ظ†ظ†ط¯.
-- **ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ط§ط´طھط±ط§ع©â€Œع¯ط°ط§ط±غŒ ع©ط§ظ†ظپغŒع¯ ط³طھظˆظ†â€Œظ‡ط§**
-  - ع¯ط²غŒظ†ظ‡ظ” A: ط§غŒط¬ط§ط¯ غŒع© ظ…ط§عکظˆظ„ ع©ط§ظ†ظپغŒع¯ ظ…ط´طھط±ع© ظپظ‚ط· ط¨ط±ط§غŒ old-Invoices ط¯ط± ظ‡ظ…غŒظ† ظ…ط§عکظˆظ„.
-  - ع¯ط²غŒظ†ظ‡ظ” B: ط§ط±طھظ‚ط§ط، ط§غŒظ† ع©ط§ظ†ظپغŒع¯ ط¨ظ‡ آ«Registry ط³طھظˆظ†â€Œظ‡ط§آ» ط¯ط± ع©غŒطھ UI ظ…ظˆط¯غŒط§ظ† ط¨ط±ط§غŒ ط§ط³طھظپط§ط¯ظ‡ظ” ط³ط§غŒط± ظ…ط§عکظˆظ„â€Œظ‡ط§.
-  ظ¾غŒط´ظ†ظ‡ط§ط¯ ظپط¹ظ„غŒ طھغŒظ…: ط§ظ†طھط®ط§ط¨ ع¯ط²غŒظ†ظ‡ظ” A ط¯ط± ط§غŒظ† ط§ط³ظ¾ط±غŒظ†طھ (ط³ط§ط¯ظ‡â€Œطھط± ظˆ ط³ط±غŒط¹â€Œطھط±)طŒ ط¨ط§ ط§ظ…ع©ط§ظ† ظ…ظ‡ط§ط¬ط±طھ ط¨ظ‡ B ط¯ط± ط¢غŒظ†ط¯ظ‡.
-- **ط±ظپطھط§ط± ظپغŒظ„ط¯ آ«ظˆط¶ط¹غŒطھ طھط·ط§ط¨ظ‚آ» ط¯ط± ط¬ط³طھط¬ظˆغŒ ظ¾غŒط´ط±ظپطھظ‡ظ” طµط§ط¯ط±ط§طھ**
-  - ع¯ط²غŒظ†ظ‡ظ” A: ط¨ط§ظ‚غŒâ€Œظ…ط§ظ†ط¯ظ† ط¯ط§ط¦ظ…غŒ ط¨ظ‡â€Œطµظˆط±طھ read-only ظˆ طµط±ظپط§ظ‹ informtional.
-  - ع¯ط²غŒظ†ظ‡ظ” B: طھط¨ط¯غŒظ„ ط¨ظ‡ ظپغŒظ„طھط± ظپط¹ط§ظ„ ط¯ط± ظ†ط³ط®ظ‡â€Œظ‡ط§غŒ ط¨ط¹ط¯غŒ.
-  ظ¾غŒط´ظ†ظ‡ط§ط¯ ظپط¹ظ„غŒ طھغŒظ…: ع¯ط²غŒظ†ظ‡ظ” A طھط§ ط²ظ…ط§ظ†غŒ ع©ظ‡ ط³ظ†ط§ط±غŒظˆغŒ ط¯ظ‚غŒظ‚ ط¨ع©â€Œط§ظ†ط¯ ط¨ط±ط§غŒ ط§غŒظ† ظپغŒظ„ط¯ ظ…ط´ط®طµ ط´ظˆط¯.
+- **وابستگی UI به API نهایی old-Invoices**
+  در حال حاضر ستون‌ها و فیلترها در فرانت‌اند به‌صورت ماک تعریف شده‌اند و هنوز به سرویس‌های واقعی old-Invoices متصل نیستند.
+  اگر نام فیلدهای API نهایی متفاوت از نام‌های فعلی باشد، نیاز به نگاشت زمان‌بر بین UI و بک‌اند خواهیم داشت.
+- **پیشنهاد تیم مودیان برای مدیریت ریسک mapping**
+  قبل از اتصال نهایی، باید یک فایل mapping رسمی بین نام ستون‌ها/فیلترهای فرانت‌اند و فیلدهای پاسخ/QueryString بک‌اند
+  در سند `docs-modian-endpoints` تعریف شود و هر دو تیم به آن متعهد بمانند.
+- **استاندارد اشتراک‌گذاری کانفیگ ستون‌ها**
+  - گزینهٔ A: ایجاد یک ماژول کانفیگ مشترک فقط برای old-Invoices در همین ماژول.
+  - گزینهٔ B: ارتقاء این کانفیگ به «Registry ستون‌ها» در کیت UI مودیان برای استفادهٔ سایر ماژول‌ها.
+  پیشنهاد فعلی تیم: انتخاب گزینهٔ A در این اسپرینت (ساده‌تر و سریع‌تر)، با امکان مهاجرت به B در آینده.
+- **رفتار فیلد «وضعیت تطابق» در جستجوی پیشرفتهٔ صادرات**
+  - گزینهٔ A: باقی‌ماندن دائمی به‌صورت read-only و صرفاً informtional.
+  - گزینهٔ B: تبدیل به فیلتر فعال در نسخه‌های بعدی.
+  پیشنهاد فعلی تیم: گزینهٔ A تا زمانی که سناریوی دقیق بک‌اند برای این فیلد مشخص شود.
 ---
 
-  ظ¾غŒط´ظ†ظ‡ط§ط¯ ظپط¹ظ„غŒ طھغŒظ…: ع¯ط²غŒظ†ظ‡ظ” A طھط§ ط²ظ…ط§ظ†غŒ ع©ظ‡ ط³ظ†ط§ط±غŒظˆغŒ ط¯ظ‚غŒظ‚ ط¨ع©â€Œط§ظ†ط¯ ط¨ط±ط§غŒ ط§غŒظ† ظپغŒظ„ط¯ ظ…ط´ط®طµ ط´ظˆط¯.
+  پیشنهاد فعلی تیم: گزینهٔ A تا زمانی که سناریوی دقیق بک‌اند برای این فیلد مشخص شود.
 
-## 21) ظپط±ط¢غŒظ†ط¯ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ظ…ط±ط¬â€Œظ‡ط§غŒ ط¨ط²ط±ع¯ ط¨ظ‡ main (Feature + Lint)
+## 21) فرآیند استاندارد مرج‌های بزرگ به main (Feature + Lint)
 
-ط§غŒظ† ظپط±ط¢غŒظ†ط¯ ط¨ط±ط§غŒ ط²ظ…ط§ظ†غŒ ط§ط³طھ ع©ظ‡ غŒع© غŒط§ ع†ظ†ط¯ ظپغŒع†ط± ط¨ط²ط±ع¯ ظˆ غŒع© ط¨ط±ظ†ع† ط³ط§ط®طھط§ط±غŒ/ظ„غŒظ†طھ ط¨ط§غŒط¯ ط¨ط§ ط±غŒط³ع© ع©ظ… ط±ظˆغŒ `main` ط§ط¹ظ…ط§ظ„ ط´ظˆظ†ط¯.
+این فرآیند برای زمانی است که یک یا چند فیچر بزرگ و یک برنچ ساختاری/لینت باید با ریسک کم روی `main` اعمال شوند.
 
-### 21.2) ع†ع©â€Œظ„غŒط³طھ ظ…ط±ط¬ ط§ظ…ظ† ط¨ظ‡ main (غ· ظ…ط±ط­ظ„ظ‡)
+### 21.2) چک‌لیست مرج امن به main (۷ مرحله)
 
-  1. **طھع©ظ…غŒظ„ ظˆ طھط³طھ ط¨ط±ظ†ع† integration**
-    - ط§ط¯ط؛ط§ظ… ط¨ط±ظ†ع†â€Œظ‡ط§غŒ ظپغŒع†ط± ظˆ ظ„غŒظ†طھ ط±ظˆغŒ ط¨ط±ظ†ع† integration
-    - ط§ط¬ط±ط§غŒ ع©ط§ظ…ظ„ `npm run lint:ci`طŒ ط¨ط¹ط¯ `npm run build` ظˆ ط¯ط± ظ†ظ‡ط§غŒطھ `npm run dev` ط¨ط±ط§غŒ طھط³طھ ط¯ط³طھغŒ ط³ظ†ط§ط±غŒظˆظ‡ط§غŒ ع©ظ„غŒط¯غŒ
-    - طھط§ ظˆظ‚طھغŒ ط§غŒظ† ط³ظ‡ طھط³طھ ط³ط¨ط² ظ†ط´ط¯ظ†طŒ ظ…ط±ط¬ ط¨ظ‡ `main` ظ…ظ…ظ†ظˆط¹ ط§ط³طھ.
+  1. **تکمیل و تست برنچ integration**
+    - ادغام برنچ‌های فیچر و لینت روی برنچ integration
+    - اجرای کامل `npm run lint:ci`، بعد `npm run build` و در نهایت `npm run dev` برای تست دستی سناریوهای کلیدی
+    - تا وقتی این سه تست سبز نشدن، مرج به `main` ممنوع است.
 
-  2. **ظ¾ط§ع© ط¨ظˆط¯ظ† ظˆط¶ط¹غŒطھ ط±ظˆطھ ط±غŒظ¾ظˆ ط±ظˆغŒ main**
-    - ط¯ط± worktree ط§طµظ„غŒ ط±ظˆغŒ `main`:
-      - `git status` â†’ ط¨ط¯ظˆظ† ظپط§غŒظ„ طھط؛غŒغŒط±â€ŒغŒط§ظپطھظ‡/ط§ط³طھغŒط¬â€Œظ†ط´ط¯ظ‡ (ظˆط¬ظˆط¯ ظپظˆظ„ط¯ط±ظ‡ط§غŒ ع©ظ…ع©غŒ ظ…ط«ظ„ `backups/` ط¨ظ‡ طµظˆط±طھ *untracked* ظ…ط¬ط§ط² ط§ط³طھ)
+  2. **پاک بودن وضعیت روت ریپو روی main**
+    - در worktree اصلی روی `main`:
+      - `git status` → بدون فایل تغییر‌یافته/استیج‌نشده (وجود فولدرهای کمکی مثل `backups/` به صورت *untracked* مجاز است)
       - `git fetch origin && git pull --ff-only origin main`
 
-  3. **ط³ط§ط®طھ ط¨ط±ظ†ع†â€Œظ‡ط§ ظˆ طھع¯â€Œظ‡ط§غŒ ط¨ع©ط§ظ¾**
-    - ط³ط§ط®طھ ط¨ط±ظ†ع† ظˆ طھع¯ ط¨ط±ط§غŒ:
+  3. **ساخت برنچ‌ها و تگ‌های بکاپ**
+    - ساخت برنچ و تگ برای:
       - `backup/main-before-<integration-branch>`
       - `backup/<integration-branch>`
-    - ط¨ط¯ظˆظ† ط§غŒظ† ط¨ع©ط§ظ¾â€Œظ‡ط§طŒ ظ…ط±ط¬ ط¨ظ‡ `main` ط´ط±ظˆط¹ ظ†ظ…غŒâ€Œط´ظˆط¯.
+    - بدون این بکاپ‌ها، مرج به `main` شروع نمی‌شود.
 
-  4. **ظ…ط±ط¬ ع©ظ†طھط±ظ„â€Œط´ط¯ظ‡ظ” integration ط¨ظ‡ main**
-    - ظپظ‚ط· ط§ط² ط±ظˆطھ ط±غŒظ¾ظˆ ظˆ ط±ظˆغŒ `main`:
+  4. **مرج کنترل‌شدهٔ integration به main**
+    - فقط از روت ریپو و روی `main`:
       ```bash
       git merge --no-ff <integration-branch> -m "Merge <integration-branch> into main"
       ```
-    - ط¯ط± طµظˆط±طھ conflict:
-      - ظ‡غŒع† `git add` / `git commit` ط¬ط¯غŒط¯ طھط§ ط²ظ…ط§ظ† طھطµظ…غŒظ…â€Œع¯غŒط±غŒ ط²ط¯ظ‡ ظ†ظ…غŒâ€Œط´ظˆط¯
-      - ط¯ط± طµظˆط±طھ ظ†غŒط§ط²:
+    - در صورت conflict:
+      - هیچ `git add` / `git commit` جدید تا زمان تصمیم‌گیری زده نمی‌شود
+      - در صورت نیاز:
         ```bash
         git merge --abort
         ```
 
-  5. **طھط³طھ ظ…ط¬ط¯ط¯ ط±ظˆغŒ main ط¨ط¹ط¯ ط§ط² ظ…ط±ط¬**
-    - ط±ظˆغŒ `main`:
+  5. **تست مجدد روی main بعد از مرج**
+    - روی `main`:
       ```bash
       npm run lint:ci
       npm run build
-      - ظ…ط¹غŒط§ط± آ«ط³ط¨ط² ط¨ظˆط¯ظ†آ» ط¨ط±ط§غŒ `npm run lint:ci` غŒط¹ظ†غŒ: ظ‡غŒع† ط®ط·ط§ ظˆ ظ‡غŒع† ظ‡ط´ط¯ط§ط± ظپط¹ط§ظ„غŒ ط¯ط± ط®ط±ظˆط¬غŒ ط¨ط§ظ‚غŒ ظ†ظ…ط§ظ†ط¯ظ‡ ط¨ط§ط´ط¯
-      (ط­ظپط¸ baseline طµظپط± ظ‡ط´ط¯ط§ط± ط±ظˆغŒ `main`).
-      # ط¯ط± طµظˆط±طھ ظ†غŒط§ط²:
+      - معیار «سبز بودن» برای `npm run lint:ci` یعنی: هیچ خطا و هیچ هشدار فعالی در خروجی باقی نمانده باشد
+      (حفظ baseline صفر هشدار روی `main`).
+      # در صورت نیاز:
       npm run dev
       ```
-    - ط§ع¯ط± ظ…ط´ع©ظ„ ط¬ط¯غŒ ط¯غŒط¯ظ‡ ط´ط¯ ظˆ طھطµظ…غŒظ… ط¨ظ‡ ط¨ط§ط²ع¯ط´طھ ع¯ط±ظپطھظ‡ ط´ط¯:
+    - اگر مشکل جدی دیده شد و تصمیم به بازگشت گرفته شد:
       ```bash
       git reset --hard backup/main-before-<integration-branch>
       ```
 
-  6. **push ظ†ظ‡ط§غŒغŒ ظˆ ط§ظ†طھط´ط§ط± ط¨ع©ط§ظ¾â€Œظ‡ط§ ط±ظˆغŒ ط±غŒظ…ظˆطھ**
-    - ظ¾ط³ ط§ط² ط³ط¨ط² ط¨ظˆط¯ظ† طھط³طھâ€Œظ‡ط§ ط±ظˆغŒ main:
+  6. **push نهایی و انتشار بکاپ‌ها روی ریموت**
+    - پس از سبز بودن تست‌ها روی main:
       ```bash
       git push origin main
       git push origin backup/main-before-<integration-branch>
@@ -1216,119 +1216,119 @@ Form Prefill               Empty Form
       git push origin --tags
       ```
 
-  7. **طھظ…غŒط²ع©ط§ط±غŒ طھط¯ط±غŒط¬غŒ ط¨ط±ظ†ع†â€Œظ‡ط§**
-    - ط¨ط¹ط¯ ط§ط² ط¯ظˆط±ظ‡ظ” ط§ط·ظ…غŒظ†ط§ظ† (ع†ظ†ط¯ ط±ظˆط² غŒط§ غŒع© ط§ط³ظ¾ط±غŒظ†طھ) ظˆ ظ¾ط§غŒط¯ط§ط± ط¨ظˆط¯ظ† `main`:
-      - ط­ط°ظپ ط¨ط±ظ†ع†â€Œظ‡ط§غŒ ع©ط§ط±غŒ: `feature/...`طŒ `chore/...`طŒ `integrate/...`
-    - ط¨ط±ظ†ع†â€Œظ‡ط§ ظˆ طھع¯â€Œظ‡ط§غŒ `backup/...` ظپظ‚ط· ط¨ط§ طھطµظ…غŒظ… طµط±غŒط­ ظ…ط¯غŒط± ظ¾ط±ظˆعکظ‡ ط­ط°ظپ ظ…غŒâ€Œط´ظˆظ†ط¯.
+  7. **تمیزکاری تدریجی برنچ‌ها**
+    - بعد از دورهٔ اطمینان (چند روز یا یک اسپرینت) و پایدار بودن `main`:
+      - حذف برنچ‌های کاری: `feature/...`، `chore/...`، `integrate/...`
+    - برنچ‌ها و تگ‌های `backup/...` فقط با تصمیم صریح مدیر پروژه حذف می‌شوند.
 
-### 21.3) Playbook ط¨ط§ط²غŒط§ط¨غŒ ظ…ط±ط¬ (Reflog / Cherry-pick)
-ع¯ط§ظ‡غŒ ظ…ظ…ع©ظ† ط§ط³طھ آ«merge ط¯ط± UI ع¯غŒطھâ€Œظ‡ط§ط¨آ» ط§ظ†ط¬ط§ظ… ظ†ط´ط¯ظ‡ ط¨ط§ط´ط¯ غŒط§ ط±ظˆغŒ `main` ط§ط«ط± ظ†ع¯ط°ط§ط±ط¯ (ظ…ط«ظ„ط§ظ‹ ط¨ظ‡â€Œط¯ظ„غŒظ„ ط­ط°ظپ ط¨ط±ظ†ع† ظ‚ط¨ظ„ ط§ط² Verify).
-ط¯ط± ط§غŒظ† ط­ط§ظ„طھطŒ ظ…ط³غŒط± ط§ظ…ظ† ط¨ط§ط²غŒط§ط¨غŒ:
-1) ط±ظˆغŒ `main`:
-   - `git status` ط¨ط§غŒط¯ clean ط¨ط§ط´ط¯.
-2) غŒط§ظپطھظ† SHA ع©ط§ظ…غŒطھ ط§ط² reflog:
+### 21.3) Playbook بازیابی مرج (Reflog / Cherry-pick)
+گاهی ممکن است «merge در UI گیت‌هاب» انجام نشده باشد یا روی `main` اثر نگذارد (مثلاً به‌دلیل حذف برنچ قبل از Verify).
+در این حالت، مسیر امن بازیابی:
+1) روی `main`:
+   - `git status` باید clean باشد.
+2) یافتن SHA کامیت از reflog:
    - `git reflog --all --date=local | findstr /i "<keyword>"`
-3) ط§ط¹ظ…ط§ظ„ طھط؛غŒغŒط± ط±ظˆغŒ `main`:
+3) اعمال تغییر روی `main`:
    - `git cherry-pick <SHA>`
-4) طھط³طھ ظˆ Push:
+4) تست و Push:
    - `npm run build`
    - `git push origin main`
 
-## 22) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¹/غ±غ´
+## 22) گزارش وضعیت تیم مودیان — ۱۴۰۴/۰۹/۱۴
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14040914.txt`.
+بر اساس فایل `team2-status-report-14040914.txt`.
 
-### 22.1) ظ…ط³غŒط±ظ‡ط§ ظˆ طµظپط­ط§طھ ط¬ط¯غŒط¯ ط¯ط± ط²غŒط±ظ…ظ†ظˆغŒ آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯آ»
+### 22.1) مسیرها و صفحات جدید در زیرمنوی «اعلامیه‌های خرید»
 
-- ظ…ط·ط§ط¨ظ‚ `app-tree.txt` ظˆ ط®ط±ظˆط¬غŒ طھغŒظ… ظ…ظˆط¯غŒط§ظ†طŒ ط²غŒط±ظ…ظ†ظˆغŒ ط¬ط¯غŒط¯ آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯آ» ط¯ط± ط³ط§ط®طھط§ط± Routing ظ…ظˆط¯غŒط§ظ† ط§ط¶ط§ظپظ‡ ط´ط¯ظ‡ ط§ط³طھ:
+- مطابق `app-tree.txt` و خروجی تیم مودیان، زیرمنوی جدید «اعلامیه‌های خرید» در ساختار Routing مودیان اضافه شده است:
   - `src/app/simulators/modian/purchase-announcements/page.tsx`
-    - ط´ظگظ„/Wrapper ط§طµظ„غŒ ط²غŒط±ظ…ظ†ظˆ ع©ظ‡ layout ظˆ ط³ط§ط¨â€Œظ‡ط¯ط± ط±ط§ ظپط±ط§ظ‡ظ… ظ…غŒâ€Œع©ظ†ط¯.
+    - شِل/Wrapper اصلی زیرمنو که layout و ساب‌هدر را فراهم می‌کند.
   - `src/app/simulators/modian/purchase-announcements/imports/page.tsx`
-    - طµظپط­ظ‡ظ” آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ظˆط§ط±ط¯ط§طھآ» ط¨ط§ ط¯ظˆ طھط¨:
-      - آ«ط¬ط³طھط¬ظˆ ط¨ط§ ظپغŒظ„طھط±آ» (SearchByFilters + InvoicesSearchHeader)
-      - آ«ط¬ط³طھط¬ظˆ ط¨ط§ ط´ظ…ط§ط±ظ‡ ظ…ط§ظ„غŒط§طھغŒآ».
-    - ظ†ظˆط§ط± ط§ط¨ط²ط§ط± ط¨غŒظ† ظپط±ظ… ط¬ط³طھط¬ظˆ ظˆ ط¬ط¯ظˆظ„ ط´ط§ظ…ظ„:
-      - ط®ط±ظˆط¬غŒ ط§ع©ط³ظ„
-      - ظ†ظ…ط§غŒط´/ظ…ط®ظپغŒâ€Œط³ط§ط²غŒ ط³طھظˆظ†â€Œظ‡ط§
-      - ط§ظ†طھظ‚ط§ظ„ ط´ط¹ط¨ظ‡.
-    - ط¬ط¯ظˆظ„ ط¨ط§ ط­ط¯ظˆط¯ غ±غµ ط³طھظˆظ† ظ‚ط§ط¨ظ„ طھظ†ط¸غŒظ… ظˆ ط³طھظˆظ† ع†ط³ط¨ط§ظ† آ«ط¬ط²ط¦غŒط§طھآ» ط¯ط± ط§ظ†طھظ‡ط§غŒ ظ‡ط± ط±ط¯غŒظپ.
+    - صفحهٔ «اعلامیه‌های واردات» با دو تب:
+      - «جستجو با فیلتر» (SearchByFilters + InvoicesSearchHeader)
+      - «جستجو با شماره مالیاتی».
+    - نوار ابزار بین فرم جستجو و جدول شامل:
+      - خروجی اکسل
+      - نمایش/مخفی‌سازی ستون‌ها
+      - انتقال شعبه.
+    - جدول با حدود ۱۵ ستون قابل تنظیم و ستون چسبان «جزئیات» در انتهای هر ردیف.
   - `src/app/simulators/modian/purchase-announcements/bourse/page.tsx`
-    - طµظپط­ظ‡ظ” آ«ط®ط±غŒط¯ ط§ط² ط¨ظˆط±ط³ ع©ط§ظ„ط§آ» ع©ظ‡ ط§ظ„ع¯ظˆغŒ ظˆط§ط±ط¯ط§طھ ط±ط§ ع©ظ¾غŒ ع©ط±ط¯ظ‡ ظˆ ط¨ط§ ط³ظ†ط§ط±غŒظˆغŒ ط¨ظˆط±ط³ ط³ظپط§ط±ط´غŒ ط´ط¯ظ‡ ط§ط³طھ:
-      - طھغŒطھط± ظˆ ظ…طھظˆظ† طµظپط­ظ‡ ظ…طھظ†ط§ط³ط¨ ط¨ط§ آ«ط®ط±غŒط¯ ط§ط² ط¨ظˆط±ط³ ع©ط§ظ„ط§آ».
-      - طھظ†ط¸غŒظ… ظ…ط¬ط¯ط¯ ظپغŒظ„طھط±ظ‡ط§غŒ ظ¾غŒط´ط±ظپطھظ‡ (ط­ط°ظپ ظپغŒظ„ط¯ظ‡ط§غŒ ط§ط¶ط§ظپغŒ ظ…ط§ظ†ظ†ط¯ ط§ظ„ع¯ظˆطŒ ط­ط¯ ظ…ط¬ط§ط²طŒ ط´ظ†ط§ط³ظ‡â€Œظ‡ط§ ظˆ ع†ع©â€Œط¨ط§ع©ط³â€Œظ‡ط§غŒ ظ†ط§ظ…ط±طھط¨ط·).
-      - ظ…ط­ط¯ظˆط¯ ع©ط±ط¯ظ† آ«ظ…ظˆط¶ظˆط¹ ط§ط¹ظ„ط§ظ…غŒظ‡آ» ط¨ظ‡ ع¯ط²غŒظ†ظ‡â€Œظ‡ط§غŒ آ«ط§طµظ„غŒآ» ظˆ آ«ط§ط¨ط·ط§ظ„غŒآ».
-      - طھط¹ط±غŒظپ ظ…ط¬ط¯ط¯ طھط±طھغŒط¨ ظˆ ظ¾غŒط´â€Œظپط±ط¶ ط³طھظˆظ†â€Œظ‡ط§غŒ ط¬ط¯ظˆظ„ ظ…ط·ط§ط¨ظ‚ ظ†غŒط§ط² ط³ظ†ط§ط±غŒظˆغŒ ط¨ظˆط±ط³.
+    - صفحهٔ «خرید از بورس کالا» که الگوی واردات را کپی کرده و با سناریوی بورس سفارشی شده است:
+      - تیتر و متون صفحه متناسب با «خرید از بورس کالا».
+      - تنظیم مجدد فیلترهای پیشرفته (حذف فیلدهای اضافی مانند الگو، حد مجاز، شناسه‌ها و چک‌باکس‌های نامرتبط).
+      - محدود کردن «موضوع اعلامیه» به گزینه‌های «اصلی» و «ابطالی».
+      - تعریف مجدد ترتیب و پیش‌فرض ستون‌های جدول مطابق نیاز سناریوی بورس.
 
-### 22.2) ع©غŒطھ UI ظˆ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ظ…ط´طھط±ع© ط¯ط± آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯آ»
+### 22.2) کیت UI و کامپوننت‌های مشترک در «اعلامیه‌های خرید»
 
-- ط§ط³طھظپط§ط¯ظ‡â€ŒغŒ ظ…ط¬ط¯ط¯ ط§ط² ط§ظ„ع¯ظˆغŒ Search/Header طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§:
-  - `InvoicesSearchHeader` ط¨ط±ط§غŒ ظ‡ط¯ط± ط¬ط³طھط¬ظˆطŒ طھغŒطھط± ظˆ طھط¨â€Œظ‡ط§غŒ آ«ظپغŒظ„طھط± / ط´ظ…ط§ط±ظ‡ ظ…ط§ظ„غŒط§طھغŒآ».
-  - `SearchByFilters` ط¨ط±ط§غŒ ظپط±ظ… ظپغŒظ„طھط± ط³ط§ط¯ظ‡ + ظ¾غŒط´ط±ظپطھظ‡طŒ ظ‡ظ…ط±ط§ظ‡ ط¨ط§ ط¯ع©ظ…ظ‡â€Œظ‡ط§غŒ:
-    - آ«ط¬ط³طھط¬ظˆآ»
-    - آ«ظپغŒظ„طھط± ظ¾غŒط´â€Œظپط±ط¶آ»
-    - ط¨ط§ط²/ط¨ط³طھظ‡â€Œع©ط±ط¯ظ† ظ¾ظ†ظ„ ظ¾غŒط´ط±ظپطھظ‡.
-- ظ†ظˆط§ط± ط§ط¨ط²ط§ط± ط¬ط¯ظˆظ„:
-  - ط§ط³طھظپط§ط¯ظ‡ ط§ط² ظ‡ظ…ط§ظ† ط§ظ„ع¯ظˆغŒ Toolbar ط³طھظˆظ†â€Œظ‡ط§ (ط¢غŒع©ظˆظ† ظ†ظ…ط§غŒط´ ط³طھظˆظ†â€Œظ‡ط§طŒ ط®ط±ظˆط¬غŒ ط§ع©ط³ظ„طŒ ط§ظ†طھظ‚ط§ظ„ ط´ط¹ط¨ظ‡) ع©ظ‡ ط¯ط± ط³ط§غŒط± طµظپط­ط§طھ طµظˆط±طھط­ط³ط§ط¨ ظ†غŒط² ط§ط³طھظپط§ط¯ظ‡ ط´ط¯ظ‡ ط§ط³طھ.
-- ظ†ظ…ط§غŒ ط®ط§ظ„غŒ ظ…ط´طھط±ع© ط¬ط¯ظˆظ„:
-  - ط§ط³طھط®ط±ط§ط¬ ع©ط§ظ…ظ¾ظˆظ†ظ†طھ `EmptyTableRow` ط¯ط± ظ…ط³غŒط±:
+- استفاده‌ی مجدد از الگوی Search/Header صورتحساب‌ها:
+  - `InvoicesSearchHeader` برای هدر جستجو، تیتر و تب‌های «فیلتر / شماره مالیاتی».
+  - `SearchByFilters` برای فرم فیلتر ساده + پیشرفته، همراه با دکمه‌های:
+    - «جستجو»
+    - «فیلتر پیش‌فرض»
+    - باز/بسته‌کردن پنل پیشرفته.
+- نوار ابزار جدول:
+  - استفاده از همان الگوی Toolbar ستون‌ها (آیکون نمایش ستون‌ها، خروجی اکسل، انتقال شعبه) که در سایر صفحات صورتحساب نیز استفاده شده است.
+- نمای خالی مشترک جدول:
+  - استخراج کامپوننت `EmptyTableRow` در مسیر:
     - `src/components/modian/common/table/EmptyTableRow.tsx`
-  - ط§غŒظ† ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ط´ط§ظ…ظ„ ط¢غŒع©ظˆظ† ظ…ط§ظ†غŒطھظˆط± + ط­ط¨ط§ط¨ ع¯ظپطھع¯ظˆ ظˆ ظ…طھظ† آ«ظ…ظˆط±ط¯غŒ غŒط§ظپطھ ظ†ط´ط¯آ» ط§ط³طھ ظˆ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ†ظ…ط§غŒ ط®ط§ظ„غŒ ط§ط³طھط§ظ†ط¯ط§ط±ط¯
-    ط¯ط± ط¬ط¯ظˆظ„â€Œظ‡ط§غŒ ط§ط¹ظ„ط§ظ…غŒظ‡ ظˆط§ط±ط¯ط§طھ ظˆ ط®ط±غŒط¯ ط§ط² ط¨ظˆط±ط³ ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯.
+  - این کامپوننت شامل آیکون مانیتور + حباب گفتگو و متن «موردی یافت نشد» است و به‌عنوان نمای خالی استاندارد
+    در جدول‌های اعلامیه واردات و خرید از بورس استفاده می‌شود.
 
-### 22.3) ظˆط¶ط¹غŒطھ ع©غŒظپغŒطŒ ط±غŒط³ع©â€Œظ‡ط§ ظˆ ط§ظ‚ط¯ط§ظ…ط§طھ ط¨ط¹ط¯غŒ
+### 22.3) وضعیت کیفی، ریسک‌ها و اقدامات بعدی
 
-- **ع©غŒظپغŒطھ ظˆ CI**
-  - ط¯ط± ع¯ط²ط§ط±ط´ طھغŒظ… ظ…ظˆط¯غŒط§ظ† ط¨ط±ط§غŒ ط§غŒظ† ط¨ط§ط²ظ‡طŒ ط§ط¬ط±ط§غŒ `Build/Lint/Test` ط§ط² ط³ظ…طھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† ط§ظ†ط¬ط§ظ… ظˆ ط«ط¨طھ ظ†ط´ط¯ظ‡ ط§ط³طھ
-    ظˆ ظˆط§ط¨ط³طھظ‡ ط¨ظ‡ ظ¾ط§غŒظ¾â€Œظ„ط§غŒظ† CI ط±غŒظ¾ظˆ ط§طµظ„غŒ ط§ط³طھط› ط¯ط± ظ†طھغŒط¬ظ‡:
-    - ظ¾ط³ ط§ط² ط§ط¯ط؛ط§ظ… ط§غŒظ† ظپغŒع†ط±طŒ ط§ط¬ط±ط§غŒ `npm run lint:ci` ظˆ `npm run build` ط±ظˆغŒ ط¨ط±ظ†ع† ط§طµظ„غŒ (ط³ط§ط®طھط§ط±/ظ…ظˆط¯غŒط§ظ†) ط§ظ„ط²ط§ظ…غŒ ط§ط³طھ.
-- **ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆغŒط³â€Œظ‡ط§غŒ ظˆط§ظ‚ط¹غŒ ظ…ظˆط¯غŒط§ظ†**
-  - ط¯ط± ط­ط§ظ„ ط­ط§ط¶ط±طŒ ط²غŒط±ظ…ظ†ظˆغŒ آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯آ» طµط±ظپط§ظ‹ UI/ط´ط¨غŒظ‡â€Œط³ط§ط² ط§ط³طھ ظˆ ط¨ظ‡ ط³ط±ظˆغŒط³â€Œظ‡ط§غŒ ظˆط§ظ‚ط¹غŒ ظ…ظˆط¯غŒط§ظ† ظ…طھطµظ„ ظ†ط´ط¯ظ‡ ط§ط³طھ.
-  - ظ…ط´ط§ط¨ظ‡ ظ…ط§عکظˆظ„ `old-Invoices`طŒ ظ„ط§ط²ظ… ط§ط³طھ ط¯ط± ط³ظ†ط¯ `docs-modian-endpoints.updated.md`:
-    - mapping ط±ط³ظ…غŒ ط¨غŒظ† ظپغŒظ„ط¯ظ‡ط§غŒ ظپغŒظ„طھط± (ظˆط¶ط¹غŒطھ ط§ط¹ظ„ط§ظ…غŒظ‡طŒ ظ…ظˆط¶ظˆط¹ ط§ط¹ظ„ط§ظ…غŒظ‡طŒ ط¨ط§ط²ظ‡ظ” طھط§ط±غŒط®طŒ ط³ظ†ط§ط±غŒظˆغŒ ظˆط§ط±ط¯ط§طھ/ط¨ظˆط±ط³ ظˆ â€¦) ظˆ ظ¾ط§ط±ط§ظ…طھط±ظ‡ط§غŒ API
-      ط¯ط± ظ†ط³ط®ظ‡â€Œظ‡ط§غŒ ط¨ط¹ط¯غŒ ظ…ط³طھظ†ط¯ ط´ظˆط¯.
-- **ط±غŒط³ع© ظ‡ظ…â€Œع¯ط±ط§غŒغŒ ط¨ط§ UI ط±ط³ظ…غŒ**
-  - ط¨ظ‡â€Œط¯ظ„غŒظ„ ع©ظ¾غŒ ط§ظ„ع¯ظˆ ط§ط² طµظپط­ظ‡ظ” ظˆط§ط±ط¯ط§طھ ظˆ ط³ظپط§ط±ط´غŒâ€Œط³ط§ط²غŒ ط¨ط±ط§غŒ ط¨ظˆط±ط³ ع©ط§ظ„ط§طŒ ط¯ط± طµظˆط±طھ طھط؛غŒغŒط± ط¯ط± ط§ط³ع©ط±غŒظ†â€Œظ‡ط§غŒ ط±ط³ظ…غŒطŒ ط§ط­طھظ…ط§ظ„ divergence ط¨غŒظ†
-    ط§غŒظ† ط¯ظˆ طµظپط­ظ‡ ظˆط¬ظˆط¯ ط¯ط§ط±ط¯ط› ط¨ظ†ط§ط¨ط±ط§غŒظ† ظ¾غŒط´ظ†ظ‡ط§ط¯ ظ…غŒâ€Œط´ظˆط¯:
-    - ظ‡ط± طھط؛غŒغŒط± ط¹ظ…ط¯ظ‡ ط¯ط± ط§ط³ع©ط±غŒظ†â€Œظ‡ط§غŒ ظ…ظˆط¯غŒط§ظ† ط¨ط±ط§غŒ ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§طŒ ط¨ط§ ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ظ‡ظ…â€Œط²ظ…ط§ظ† ط¯ط± ظ‡ط± ط¯ظˆ ط²غŒط±طµظپط­ظ‡ ظˆ ط¯ط± ط§غŒظ† ط³ظ†ط¯ ظ‡ظ…ط±ط§ظ‡ ط¨ط§ط´ط¯.
+- **کیفیت و CI**
+  - در گزارش تیم مودیان برای این بازه، اجرای `Build/Lint/Test` از سمت تیم مودیان انجام و ثبت نشده است
+    و وابسته به پایپ‌لاین CI ریپو اصلی است؛ در نتیجه:
+    - پس از ادغام این فیچر، اجرای `npm run lint:ci` و `npm run build` روی برنچ اصلی (ساختار/مودیان) الزامی است.
+- **اتصال به سرویس‌های واقعی مودیان**
+  - در حال حاضر، زیرمنوی «اعلامیه‌های خرید» صرفاً UI/شبیه‌ساز است و به سرویس‌های واقعی مودیان متصل نشده است.
+  - مشابه ماژول `old-Invoices`، لازم است در سند `docs-modian-endpoints.updated.md`:
+    - mapping رسمی بین فیلدهای فیلتر (وضعیت اعلامیه، موضوع اعلامیه، بازهٔ تاریخ، سناریوی واردات/بورس و …) و پارامترهای API
+      در نسخه‌های بعدی مستند شود.
+- **ریسک هم‌گرایی با UI رسمی**
+  - به‌دلیل کپی الگو از صفحهٔ واردات و سفارشی‌سازی برای بورس کالا، در صورت تغییر در اسکرین‌های رسمی، احتمال divergence بین
+    این دو صفحه وجود دارد؛ بنابراین پیشنهاد می‌شود:
+    - هر تغییر عمده در اسکرین‌های مودیان برای اعلامیه‌ها، با به‌روزرسانی هم‌زمان در هر دو زیرصفحه و در این سند همراه باشد.
 
 ---
 
-> ط¢ط®ط±غŒظ† ظˆغŒط±ط§غŒط´: ط¨ط± ظ…ط¨ظ†ط§غŒ ظپط§غŒظ„â€Œظ‡ط§غŒ ط§ط±ط³ط§ظ„â€Œط´ط¯ظ‡ ط¯ط± ظ‡ظ…غŒظ† ع¯ظپطھع¯ظˆ (ط¨ط®ط´ project) ظˆ ظ„ط§ع¯â€Œظ‡ط§غŒ `npm run build`.
+> آخرین ویرایش: بر مبنای فایل‌های ارسال‌شده در همین گفتگو (بخش project) و لاگ‌های `npm run build`.
 
-## 23) ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط³ط§ط®طھط§ط± ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ°غ¹/غ±غ·
+## 23) به‌روزرسانی ساختار ماژول مودیان — ۱۴۰۴/۰۹/۱۷
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ project-structure-update-notes-14040917.txt ظˆ ط¢ط®ط±غŒظ† ظ†ط³ط®ظ‡ظ” app-tree.txt ظˆ components-tree.txtطŒ ط§غŒظ† ط¨ط®ط´ ظˆط¶ط¹غŒطھ ط¬ط¯غŒط¯ ط³ط§ط®طھط§ط± ظ…ظˆط¯غŒط§ظ† ط±ط§ ط¯ط± ط³ط·ط­ ظ…ط³غŒط±ظ‡ط§طŒ ظ„ط§غŒظ‡â€Œظ‡ط§غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ظˆ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§غŒ lint/Barrel ظ…ط³طھظ†ط¯ ظ…غŒâ€Œع©ظ†ط¯.
+بر اساس فایل project-structure-update-notes-14040917.txt و آخرین نسخهٔ app-tree.txt و components-tree.txt، این بخش وضعیت جدید ساختار مودیان را در سطح مسیرها، لایه‌های کامپوننت و استانداردهای lint/Barrel مستند می‌کند.
 
- ## 23.1) ط§طµظ„ط§ط­ ظ…ط¹ظ…ط§ط±غŒ ظ‚ط¨ظˆط¶ ظ…ظˆط¯غŒط§ظ†
+ ## 23.1) اصلاح معماری قبوض مودیان
 
- ط¨ط± ط§ط³ط§ط³ Refactor ط§ظ†ط¬ط§ظ…â€Œط´ط¯ظ‡ ط¯ط± Backend:
+ بر اساس Refactor انجام‌شده در Backend:
 
- ### ط³ط§ط®طھط§ط± ظ†ظ‡ط§غŒغŒ ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ†
+ ### ساختار نهایی ماژول مودیان
 
  src/simulator-modian/
- â”œâ”€â”€ bills.controller.ts
- â”œâ”€â”€ bills.service.ts
- â”œâ”€â”€ registration.controller.ts
- â”œâ”€â”€ registration.service.ts
- â”œâ”€â”€ simulator-modian.controller.ts
- â”œâ”€â”€ simulator-modian.module.ts
- â””â”€â”€ dto/
-     â”œâ”€â”€ create-utility-bill.dto.ts
-     â”œâ”€â”€ query-bills.dto.ts
-     â””â”€â”€ update-utility-bill.dto.ts
+ ├── bills.controller.ts
+ ├── bills.service.ts
+ ├── registration.controller.ts
+ ├── registration.service.ts
+ ├── simulator-modian.controller.ts
+ ├── simulator-modian.module.ts
+ └── dto/
+     ├── create-utility-bill.dto.ts
+     ├── query-bills.dto.ts
+     └── update-utility-bill.dto.ts
 
- ### ط­ط°ظپ ط´ط¯ظ‡
+ ### حذف شده
 
  src/simulator-modian/simulator-modian.service.ts
 
- ط¹ظ„طھ ط­ط°ظپ:
- - ظ…ط±ط¨ظˆط· ط¨ظ‡ ظ…ط¹ظ…ط§ط±غŒ MVP ط§ظˆظ„غŒظ‡ ط¨ظˆط¯.
- - ظ…ط³ط¦ظˆظ„غŒطھ CRUD ظ‚ط¨ظˆط¶ ط±ط§ ط¨ط±ط¹ظ‡ط¯ظ‡ ط¯ط§ط´طھ.
- - ط¨ط§ ظ…ط¹ظ…ط§ط±غŒ Multi-Tenant ط¬ط¯غŒط¯ ظ‡ظ…â€Œط±ط§ط³طھط§ ظ†ط¨ظˆط¯.
+ علت حذف:
+ - مربوط به معماری MVP اولیه بود.
+ - مسئولیت CRUD قبوض را برعهده داشت.
+ - با معماری Multi-Tenant جدید هم‌راستا نبود.
 
- ### ظ‚ط±ط§ط±ط¯ط§ط¯ ط¬ط¯غŒط¯
+ ### قرارداد جدید
 
- ظ…ط³غŒط± ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ظ‚ط¨ظˆط¶:
+ مسیر استاندارد قبوض:
 
  BillsController
         |
@@ -1344,71 +1344,71 @@ Form Prefill               Empty Form
         v
  UtilityBill
 
- ### ط§ظ„ط²ط§ظ…ط§طھ ط§ظ…ظ†غŒطھغŒ
+ ### الزامات امنیتی
 
- - Client ظ†ط¨ط§غŒط¯ businessId غŒط§ registrationId ط±ط§ ط¨ظ‡ ط¹ظ†ظˆط§ظ† ظ…ظ†ط¨ط¹ ط­ظ‚غŒظ‚طھ ط§ط±ط³ط§ظ„ ع©ظ†ط¯.
- - ظ…ط§ظ„ع©غŒطھ ط±ع©ظˆط±ط¯ظ‡ط§ ط§ط² JWT Context ط§ط³طھط®ط±ط§ط¬ ظ…غŒâ€Œط´ظˆط¯.
- - ط¹ظ…ظ„غŒط§طھ Create/List/Update/Delete ط¨ط§ Business Scope ط§ظ†ط¬ط§ظ… ظ…غŒâ€Œط´ظˆط¯.
+ - Client نباید businessId یا registrationId را به عنوان منبع حقیقت ارسال کند.
+ - مالکیت رکوردها از JWT Context استخراج می‌شود.
+ - عملیات Create/List/Update/Delete با Business Scope انجام می‌شود.
 
  ### Validation
 
- - ValidationPipe ط³ط±ط§ط³ط±غŒ NestJS ظپط¹ط§ظ„ ط´ط¯.
- - DTO validation ط¨ط±ط§غŒ ظˆط±ظˆط¯غŒâ€Œظ‡ط§غŒ API ظپط¹ط§ظ„ ط§ط³طھ.
+ - ValidationPipe سراسری NestJS فعال شد.
+ - DTO validation برای ورودی‌های API فعال است.
 
- ### ظˆط¶ط¹غŒطھ طھط³طھ
+ ### وضعیت تست
 
- - npm run build: ظ…ظˆظپظ‚
- - npm run start:dev: ظ…ظˆظپظ‚
- - Create Bill: ظ…ظˆظپظ‚
- - List Bill: ظ…ظˆظپظ‚
- - Update Bill: ظ…ظˆظپظ‚
- - Soft Delete: ظ…ظˆظپظ‚
+ - npm run build: موفق
+ - npm run start:dev: موفق
+ - Create Bill: موفق
+ - List Bill: موفق
+ - Update Bill: موفق
+ - Soft Delete: موفق
 
-### 23.1) طھط؛غŒغŒط±ط§طھ ط³ط§ط®طھط§ط±غŒ ط¯ط± ظ…ط³غŒط±ظ‡ط§ (app-tree)
+### 23.1) تغییرات ساختاری در مسیرها (app-tree)
 
-- ط²غŒط±ظ…ط³غŒط± ط¬ط¯غŒط¯ آ«ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§آ» ط¯ط± ظ…ط§عکظˆظ„ ظ…ظˆط¯غŒط§ظ†:
-ظ…ط³غŒط±ظ‡ط§:
+- زیرمسیر جدید «قراردادها» در ماژول مودیان:
+مسیرها:
 src/app/simulators/modian/contracts/contracting/page.tsx
 src/app/simulators/modian/contracts/contracting/new/page.tsx
 src/app/simulators/modian/contracts/commission/page.tsx
-طھظˆط¶غŒط­ ظ†ظ‚ط´â€Œظ‡ط§:
-contracting/: ظ„غŒط³طھ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§غŒ ظ¾غŒظ…ط§ظ†ع©ط§ط±غŒ + ظˆغŒط²ط§ط±ط¯ ط«ط¨طھ ظ‚ط±ط§ط±ط¯ط§ط¯ ط¬ط¯غŒط¯.
-commission/: ظ„غŒط³طھ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§غŒ ط­ظ‚â€Œط§ظ„ط¹ظ…ظ„ع©ط§ط±غŒ.
-- طھع©ظ…غŒظ„ ط³ط§ط®طھط§ط± old-Invoices:
-ظ…ط³غŒط±ظ‡ط§غŒ ظ…ظˆط¬ظˆط¯:
+توضیح نقش‌ها:
+contracting/: لیست قراردادهای پیمانکاری + ویزارد ثبت قرارداد جدید.
+commission/: لیست قراردادهای حق‌العملکاری.
+- تکمیل ساختار old-Invoices:
+مسیرهای موجود:
 src/app/simulators/modian/old-Invoices/buy/page.tsx
 src/app/simulators/modian/old-Invoices/buy/detail/page.tsx
 src/app/simulators/modian/old-Invoices/sales/page.tsx
 src/app/simulators/modian/old-Invoices/sales/detail/page.tsx
 src/app/simulators/modian/old-Invoices/exports/page.tsx
 src/app/simulators/modian/old-Invoices/exports/detail/page.tsx
-ط§غŒظ† ط²غŒط±ط´ط§ط®ظ‡ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† آ«ع¯ط±ظˆظ‡ طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§غŒ ظ‚ط¨ظ„ ط§ط² غ±غ´غ°غ²/غ°غ³/غ²غ¶آ» ط¯ط± ط³ط§غŒط¯ط¨ط§ط± ظˆ ط³ط§ط®طھط§ط± Routing ظ…ظˆط¯غŒط§ظ† ط¯ط± ظ†ط¸ط± ع¯ط±ظپطھظ‡ ظ…غŒâ€Œط´ظˆط¯.
-- ط²غŒط±ظ…ظ†ظˆغŒ آ«ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯آ»:
-ظ…ط³غŒط±ظ‡ط§:
+این زیرشاخه به‌عنوان «گروه صورتحساب‌های قبل از ۱۴۰۲/۰۳/۲۶» در سایدبار و ساختار Routing مودیان در نظر گرفته می‌شود.
+- زیرمنوی «اعلامیه‌های خرید»:
+مسیرها:
 src/app/simulators/modian/purchase-announcements/page.tsx
 src/app/simulators/modian/purchase-announcements/imports/page.tsx
 src/app/simulators/modian/purchase-announcements/bourse/page.tsx
-ط§غŒظ† ط²غŒط±ط´ط§ط®ظ‡ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ…ظ†ظˆغŒ ط¬ط¯غŒط¯ ط¯ط± ط³ط§غŒط¯ط¨ط§ط± ظ…ظˆط¯غŒط§ظ† ط«ط¨طھ ظ…غŒâ€Œط´ظˆط¯ ظˆ طµظپط­ط§طھ imports ظˆ bourse ط§ط² Search Suite ظ…ط´طھط±ع© ظˆ ط¬ط¯ظˆظ„ ط§ط³ع©ط±ظˆظ„â€Œط¯ط§ط± ظ…ط´طھط±ع© ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ظ†ط¯.
+این زیرشاخه به‌عنوان منوی جدید در سایدبار مودیان ثبت می‌شود و صفحات imports و bourse از Search Suite مشترک و جدول اسکرول‌دار مشترک استفاده می‌کنند.
 
-### 23.2) ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط³ط§ط®طھط§ط± components (Barrelظ‡ط§ ظˆ ظ…ط§عکظˆظ„â€Œظ‡ط§)
+### 23.2) به‌روزرسانی ساختار components (Barrelها و ماژول‌ها)
 
-#### 23.2.1) ظ„ط§غŒظ‡ظ” modian/common
+#### 23.2.1) لایهٔ modian/common
 
-- ط³ط§ط®طھط§ط± ط¬ط¯غŒط¯ src/components/modian/common ط´ط§ظ…ظ„ ظ…ظˆط§ط±ط¯ ط²غŒط± ط§ط³طھ:
-ظ¾ظˆط´ظ‡ظ” search/ ط´ط§ظ…ظ„:
+- ساختار جدید src/components/modian/common شامل موارد زیر است:
+پوشهٔ search/ شامل:
 InvoicesSearchHeader.tsx
 SearchByFilters.tsx
 SearchByTaxId.tsx
 index.ts
-ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§ ظˆ utilظ‡ط§غŒ ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ:
+کامپوننت‌ها و utilهای دامنه‌ای:
 ModianJalaliDateField.tsx
 memoryKey.utils.ts
 useMemoryPublicKey.ts
-- ط¯ط± ط³ظ†ط¯طŒ ط§غŒظ† ظ„ط§غŒظ‡ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† آ«ظ…ظˆط¯غŒط§ظ† â€” Common Layerآ» طھظˆطµغŒظپ ظ…غŒâ€Œط´ظˆط¯:
-ظ†ظ‚ط´: ظ†ع¯ظ‡â€Œط¯ط§ط±غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§ ظˆ utilظ‡ط§غŒ ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ظ…ط´طھط±ع© ظ…ظˆط¯غŒط§ظ† (JalaliDateField ط§ط®طھطµط§طµغŒطŒ Search SuiteطŒ Memory Key utilitiesطŒ ط¨ظ„ظˆع©â€Œظ‡ط§غŒ ط¬ط²ط¦غŒط§طھ طµظˆط±طھط­ط³ط§ط¨ ظˆ â€¦).
-Barrel ط§طµظ„غŒ:
-@/components/modian/common طھظ†ظ‡ط§ ظ†ظ‚ط·ظ‡ظ” ظ…ط¬ط§ط² import ط§غŒظ† ظ„ط§غŒظ‡ ط§ط² ط¯غŒط¯ طµظپط­ط§طھ ظˆ ط³ط§غŒط± ظ…ط§عکظˆظ„â€Œظ‡ط§ ط§ط³طھ.
- ط´ط§ظ…ظ„ ظپط§غŒظ„â€Œظ‡ط§ ظˆ ظ¾ظˆط´ظ‡â€Œظ‡ط§غŒ ط²غŒط± (ظ…ط·ط§ط¨ظ‚ components-tree):
+- در سند، این لایه به‌عنوان «مودیان — Common Layer» توصیف می‌شود:
+نقش: نگه‌داری کامپوننت‌ها و utilهای دامنه‌ای مشترک مودیان (JalaliDateField اختصاصی، Search Suite، Memory Key utilities، بلوک‌های جزئیات صورتحساب و …).
+Barrel اصلی:
+@/components/modian/common تنها نقطهٔ مجاز import این لایه از دید صفحات و سایر ماژول‌ها است.
+ شامل فایل‌ها و پوشه‌های زیر (مطابق components-tree):
    - ModianJalaliDatePicker.tsx
    - SimulatorBadge.tsx
    - Tabs.tsx
@@ -1417,9 +1417,9 @@ Barrel ط§طµظ„غŒ:
    - memoryKey.utils.ts
    - useMemoryPublicKey.ts
 
-#### 23.2.2) ظ„ط§غŒظ‡ظ” modian/ui
+#### 23.2.2) لایهٔ modian/ui
 
-ط´ط§ظ…ظ„ ظپط§غŒظ„â€Œظ‡ط§غŒ ط¯ظ‚غŒظ‚ ظ…ط·ط§ط¨ظ‚ components-tree:
+شامل فایل‌های دقیق مطابق components-tree:
    - Card.tsx
    - FieldGrid.tsx
    - FormField.tsx
@@ -1428,177 +1428,177 @@ Barrel ط§طµظ„غŒ:
    - Section.tsx
    - icons.tsx
    - index.ts (Barrel)
-- ط¯ط± ظ†ط³ط®ظ‡â€Œظ‡ط§غŒ ط§ط®غŒط±طŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ UI ط®ط§ظ„طµ ظ…ظˆط¯غŒط§ظ† (ظ…ط§ظ†ظ†ط¯ ظ…ط¯ط§ظ„â€Œظ‡ط§غŒغŒ ظ…ط«ظ„ UploadPublicKeyModal ط¯ط± طµظˆط±طھ ظ‚ط±ط§ط±ع¯ط±ظپطھظ† ط²غŒط± ط§غŒظ† ظ„ط§غŒظ‡) ظ†غŒط² ط¨ط§غŒط¯ ظپظ‚ط· ط§ط² Barrel ظ‡ظ…غŒظ† ظ…ط³غŒط± export ط´ظˆظ†ط¯.
-- ط¯ط± ط³ظ†ط¯ طھط£ع©غŒط¯ ظ…غŒâ€Œط´ظˆط¯ ع©ظ‡:
-طھظ…ط§ظ… UIظ‡ط§غŒ ط®ط§ظ„طµ ظˆ ط§طھظ…غŒع© ظ…ظˆط¯غŒط§ظ† ظپظ‚ط· ط§ط² @/components/modian/ui import ظ…غŒâ€Œط´ظˆظ†ط¯.
-import ظ…ط³طھظ‚غŒظ… ط§ط² ظپط§غŒظ„â€Œظ‡ط§غŒ ط²غŒط±ظ…ط³غŒط±غŒ (ظ…ط«ظ„ @/components/modian/ui/icons) ط¯ط± طµظپط­ط§طھ ظ…ظ…ظ†ظˆط¹ ط§ط³طھ ظˆ طھظˆط³ط· ESLint (no-restricted-imports) ع©ظ†طھط±ظ„ ظ…غŒâ€Œط´ظˆط¯.
+- در نسخه‌های اخیر، کامپوننت‌های UI خالص مودیان (مانند مدال‌هایی مثل UploadPublicKeyModal در صورت قرارگرفتن زیر این لایه) نیز باید فقط از Barrel همین مسیر export شوند.
+- در سند تأکید می‌شود که:
+تمام UIهای خالص و اتمیک مودیان فقط از @/components/modian/ui import می‌شوند.
+import مستقیم از فایل‌های زیرمسیری (مثل @/components/modian/ui/icons) در صفحات ممنوع است و توسط ESLint (no-restricted-imports) کنترل می‌شود.
 
-#### 23.2.3) ظ„ط§غŒظ‡ظ” modian/layout
+#### 23.2.3) لایهٔ modian/layout
 
-- ظ¾ظˆط´ظ‡ظ” src/components/modian/layout/ ط´ط§ظ…ظ„:
+- پوشهٔ src/components/modian/layout/ شامل:
 ModianHeader.tsx
 ModianFooter.tsx
 ModianShell.tsx
 ModianSubHeader.tsx
 index.ts
-- ط§غŒظ† ظ„ط§غŒظ‡ ط¯ط± ط³ظ†ط¯ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† آ«ط´ظگظ„ ط§ط®طھطµط§طµغŒ ظ…ظˆط¯غŒط§ظ†آ» طھط¹ط±غŒظپ ظ…غŒâ€Œط´ظˆط¯:
-ظˆط¸ط§غŒظپ: ط±ظ†ط¯ط± ظ‡ط¯ط±طŒ ظپظˆطھط±طŒ ط³ط§غŒط¯ط¨ط§ط±/ط³ط§ط¨â€Œظ‡ط¯ط± ظˆ ط´ظگظ„ ط§طµظ„غŒ ظ…ط­غŒط· ظ…ظˆط¯غŒط§ظ†.
-ظ…طµط±ظپ ظ…ط¹ظ…ظˆظ„ط§ظ‹ ط¯ط±:
+- این لایه در سند به‌عنوان «شِل اختصاصی مودیان» تعریف می‌شود:
+وظایف: رندر هدر، فوتر، سایدبار/ساب‌هدر و شِل اصلی محیط مودیان.
+مصرف معمولاً در:
 src/app/simulators/modian/layout.tsx
-ظˆ ط²غŒط±layoutظ‡ط§غŒ ط®ط§طµ ظ…ط«ظ„ portal/, dashboard/ ظˆ â€¦ .
+و زیرlayoutهای خاص مثل portal/, dashboard/ و … .
 
-#### 23.2.4) Search Suite ظ…ظˆط¯غŒط§ظ† (ظ…ط§عکظˆظ„ ظ…ط´طھط±ع©)
+#### 23.2.4) Search Suite مودیان (ماژول مشترک)
 
-- غŒع© ط²غŒط±â€Œط¨ط®ط´ ط¬ط¯غŒط¯ آ«Shared Search Suite (طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§طŒ ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§طŒ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§)آ» ط¨ط±ط§غŒ ط§غŒظ† ظ„ط§غŒظ‡ ط¯ط± ظ†ط¸ط± ع¯ط±ظپطھظ‡ ظ…غŒâ€Œط´ظˆط¯:
-ظ…ط­ظ„ ظپط§غŒظ„â€Œظ‡ط§:
+- یک زیر‌بخش جدید «Shared Search Suite (صورتحساب‌ها، اعلامیه‌ها، قراردادها)» برای این لایه در نظر گرفته می‌شود:
+محل فایل‌ها:
 src/components/modian/common/search/InvoicesSearchHeader.tsx
 src/components/modian/common/search/SearchByFilters.tsx
 src/components/modian/common/search/SearchByTaxId.tsx
 src/components/modian/common/search/index.ts
-ظ†ظ‚ط´:
-ظپط±ط§ظ‡ظ…â€Œع©ط±ط¯ظ† ظ‡ط¯ط± ط¬ط³طھط¬ظˆ ظˆ ظپط±ظ… ظپغŒظ„طھط± ط³ط§ط¯ظ‡/ظ¾غŒط´ط±ظپطھظ‡ ط¨ط±ط§غŒ:
+نقش:
+فراهم‌کردن هدر جستجو و فرم فیلتر ساده/پیشرفته برای:
  - `invoices/*`
  - `old-Invoices/*`
  - `purchase-announcements/*`
- - `contracts/contracting/*` (ظˆ ط¯ط± ط¢غŒظ†ط¯ظ‡ `contracts/commission/*`)
+ - `contracts/contracting/*` (و در آینده `contracts/commission/*`)
 
-ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ظ…طµط±ظپ:
-طµظپط­ط§طھ ظپظ‚ط· ط§ط² Barrel @/components/modian/common غŒط§ ط¯ط± طµظˆط±طھ ظ†غŒط§ط² @/components/modian/common/search ط§ط³طھظپط§ط¯ظ‡ ع©ظ†ظ†ط¯طŒ ظ†ظ‡ ط§ط² ظپط§غŒظ„ ظ…ظ†ظپط±ط¯.
+استاندارد مصرف:
+صفحات فقط از Barrel @/components/modian/common یا در صورت نیاز @/components/modian/common/search استفاده کنند، نه از فایل منفرد.
 
-#### 23.2.5) ظ†ظ…ط§غŒ ط®ط§ظ„غŒ ظ…ط´طھط±ع© ط¬ط¯ظˆظ„â€Œظ‡ط§
+#### 23.2.5) نمای خالی مشترک جدول‌ها
 
-- ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ظ…ط´طھط±ع© ظ†ظ…ط§غŒ ط®ط§ظ„غŒ ط¬ط¯ظˆظ„:
-ظ…ط³غŒط±: src/components/modian/common/table/EmptyTableRow.tsx
-ط§غŒظ† ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† آ«ظ†ظ…ط§غŒ ط®ط§ظ„غŒ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ ط¬ط¯ظˆظ„â€Œظ‡ط§غŒ ظ…ظˆط¯غŒط§ظ†آ» ظ…ط¹ط±ظپغŒ ظ…غŒâ€Œط´ظˆط¯ ظˆ:
-ط¯ط± طµظپط­ط§طھ ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯ ظˆ ط³ط§غŒط± ط¬ط¯ط§ظˆظ„ ط¬ط¯غŒط¯ ظ…ظˆط¯غŒط§ظ† ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆط¯.
-ظ¾غŒط§ظ…/ط§ط³طھط§غŒظ„ ط«ط§ط¨طھ ط¯ط§ط±ط¯ ظˆ ظپظ‚ط· ط¯ط§ط¯ظ‡â€Œظ‡ط§غŒ ط¬ط¯ظˆظ„ ط¯ط± ط³ظ†ط§ط±غŒظˆظ‡ط§غŒ ظ…ط®طھظ„ظپ طھط؛غŒغŒط± ظ…غŒâ€Œع©ظ†ط¯.
+- کامپوننت مشترک نمای خالی جدول:
+مسیر: src/components/modian/common/table/EmptyTableRow.tsx
+این کامپوننت به‌عنوان «نمای خالی استاندارد جدول‌های مودیان» معرفی می‌شود و:
+در صفحات اعلامیه‌های خرید و سایر جداول جدید مودیان استفاده می‌شود.
+پیام/استایل ثابت دارد و فقط داده‌های جدول در سناریوهای مختلف تغییر می‌کند.
 
-### 23.3) ط§ظ„ع¯ظˆغŒ Client/Server ط¨ط±ط§غŒ طµظپط­ط§طھ ظ…ظˆط¯غŒط§ظ† (App Router)
+### 23.3) الگوی Client/Server برای صفحات مودیان (App Router)
 
-- ط§طµظ„ ع©ظ„غŒ:
-ظ‡ط± طµظپط­ظ‡â€Œط§غŒ ع©ظ‡ ط§ط² ظ‡ظˆع©â€Œظ‡ط§غŒ ع©ظ„ط§غŒظ†طھغŒ Next.js (ظ…ط«ظ„ useSearchParams) ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ط¯ ط¨ط§غŒط¯:
-غŒط§ ط®ظˆط¯ط´ ط¨ط§ use client طھط¹ط±غŒظپ ط´ظˆط¯طŒ
-غŒط§ ط§ط² ط§ظ„ع¯ظˆغŒ آ«Server page + Client childآ» ظˆ <Suspense> ظ¾غŒط±ظˆغŒ ع©ظ†ط¯.
-- ط§ظ„ع¯ظˆغŒ ظ¾غŒط´ظ†ظ‡ط§ط¯غŒ (ظˆ ط§ط¹ظ…ط§ظ„â€Œط´ط¯ظ‡ ط¯ط± ظ…ظˆط¯غŒط§ظ†):
+- اصل کلی:
+هر صفحه‌ای که از هوک‌های کلاینتی Next.js (مثل useSearchParams) استفاده می‌کند باید:
+یا خودش با use client تعریف شود،
+یا از الگوی «Server page + Client child» و <Suspense> پیروی کند.
+- الگوی پیشنهادی (و اعمال‌شده در مودیان):
 Server page (page.tsx):
-ط­ط¯ط§ظ‚ظ„غŒطŒ ط¨ط¯ظˆظ† ط§ط³طھظپط§ط¯ظ‡ ط§ط² ظ‡ظˆع©â€Œظ‡ط§غŒ ع©ظ„ط§غŒظ†طھغŒ.
-ط±ظ†ط¯ط± غŒع© Client Component ط¯ط§ط®ظ„ <Suspense>.
-Client page (ظ…ط«ظ„ PageClient.tsx):
-ط¨ط§ use client ط¯ط± ط§ط¨طھط¯ط§غŒ ظپط§غŒظ„.
-ط§ط³طھظپط§ط¯ظ‡ ط§ط² useSearchParams, useRouter, state ظˆ â€¦ ط¯ط± ط§غŒظ† ظ„ط§غŒظ‡.
-- ط¯ط± ط³ظ†ط¯ ط§ط´ط§ط±ظ‡ ظ…غŒâ€Œط´ظˆط¯ ع©ظ‡ ط§غŒظ† ط§ظ„ع¯ظˆ ط¨ط±ط§غŒ طµظپط­ط§طھغŒ ظ…ط«ظ„ otp, portal, users-roles/add ظˆ ع†ظ†ط¯ طµظپط­ظ‡ظ” ط¯غŒع¯ط± ظ…ظˆط¯غŒط§ظ† ط¨ظ‡â€Œع©ط§ط± ط±ظپطھظ‡ طھط§ ط®ط·ط§ظ‡ط§غŒ
-useSearchParams() ظˆ CSR bailout ط¯ط± ط¨غŒظ„ط¯ ط±ظپط¹ ط´ظˆط¯.
+حداقلی، بدون استفاده از هوک‌های کلاینتی.
+رندر یک Client Component داخل <Suspense>.
+Client page (مثل PageClient.tsx):
+با use client در ابتدای فایل.
+استفاده از useSearchParams, useRouter, state و … در این لایه.
+- در سند اشاره می‌شود که این الگو برای صفحاتی مثل otp, portal, users-roles/add و چند صفحهٔ دیگر مودیان به‌کار رفته تا خطاهای
+useSearchParams() و CSR bailout در بیلد رفع شود.
 
-### 23.4) ط§ط³طھط§ظ†ط¯ط§ط±ط¯ Barrel-only ط¨ط±ط§غŒ ظ…ظˆط¯غŒط§ظ† ظˆ ESLint
+### 23.4) استاندارد Barrel-only برای مودیان و ESLint
 
-- ط³غŒط§ط³طھ import ط¯ط± ظ…ظˆط¯غŒط§ظ†:
-ظ…ط³غŒط±ظ‡ط§غŒ ظ…ط¬ط§ط²:
+- سیاست import در مودیان:
+مسیرهای مجاز:
 @/components/modian
 @/components/modian/ui
 @/components/modian/common
-ط²غŒط±Barrelظ‡ط§غŒ ط±ط³ظ…غŒ ظ…ط§ظ†ظ†ط¯:
+زیرBarrelهای رسمی مانند:
  - `@/components/modian/declaration`
  - `@/components/modian/home`
  - `@/components/modian/portal`
  - `@/components/modian/users-roles`
- - ظˆ ط³ط§غŒط± indexظ‡ط§غŒ ظ…ط§عکظˆظ„ط§ط±.
+ - و سایر indexهای ماژولار.
 
-ظ…ط³غŒط±ظ‡ط§غŒ ط؛غŒط±ظ…ط¬ط§ط²:
-import ظ…ط³طھظ‚غŒظ… ط§ط² ظ…ط³غŒط± ظپط§غŒظ„ ط¯ط§ط®ظ„غŒ (ظ…ط«ظ„ط§ظ‹ @/components/modian/ui/icons,
- غŒط§ `@/components/modian/common/search/SearchByFilters` ط¯ط± طµظپط­ط§طھ) ظ…ع¯ط± ط¯ط§ط®ظ„ ط®ظˆط¯ ظ…ط§عکظˆظ„â€Œظ‡ط§غŒ ط³ط·ط­ ظ¾ط§غŒغŒظ†.
+مسیرهای غیرمجاز:
+import مستقیم از مسیر فایل داخلی (مثلاً @/components/modian/ui/icons,
+ یا `@/components/modian/common/search/SearchByFilters` در صفحات) مگر داخل خود ماژول‌های سطح پایین.
 
-- ط§غŒظ† ط³غŒط§ط³طھ طھظˆط³ط· ESLint rule no-restricted-imports enforce ظ…غŒâ€Œط´ظˆط¯ ظˆ ط¨ط§غŒط¯ ط¯ط± ط³ظ†ط¯ ط¨ظ‡â€Œطµظˆط±طھ طµط±غŒط­ ط«ط¨طھ ط´ظˆط¯.
-- ط¯ط±ط¨ط§ط±ظ‡ظ” import/order:
-ع¯ط±ظˆظ‡â€Œط¨ظ†ط¯غŒ importظ‡ط§:
-builtin â†’ external â†’ internal â†’ parent â†’ sibling â†’ index
-ط¨غŒظ† ظ‡ط± ع¯ط±ظˆظ‡ غŒع© ط®ط· ط®ط§ظ„غŒ ظ„ط§ط²ظ… ط§ط³طھ.
-ط§غŒظ† ظ‚ط§ط¹ط¯ظ‡ ط¨ط±ط§غŒ غŒع©â€Œط¯ط³طھâ€Œط´ط¯ظ† importظ‡ط§غŒ طµظپط­ط§طھ ظ…ظˆط¯غŒط§ظ† (ط¨ظ‡â€Œط®طµظˆطµ طµظپط­ط§طھ ط¬ط¯غŒط¯ invoices, old-Invoices, purchase-announcements, contracts) ط§ط¹ظ…ط§ظ„ ط´ط¯ظ‡ ظˆ lint ط±ظˆغŒ ط¢ظ† ظ†ط¸ط§ط±طھ ظ…غŒâ€Œع©ظ†ط¯.
--  ظˆط¶ط¹غŒطھ ظپط¹ظ„غŒ lint ط¯ط± main:
- - ط¯ط± ط­ط§ظ„ ط­ط§ط¶ط± `npm run lint:ci` ط±ظˆغŒ ط¨ط±ظ†ع† `main` ط¨ط¯ظˆظ† ط®ط·ط§ ظˆ ط¨ط¯ظˆظ† ظ‡غŒع† ظ‡ط´ط¯ط§ط± ظپط¹ط§ظ„غŒ ط§ط¬ط±ط§ ظ…غŒâ€Œط´ظˆط¯.
- - ط§غŒظ† ظˆط¶ط¹غŒطھ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† baseline ط±ط³ظ…غŒ ظ¾ط±ظˆعکظ‡ ط«ط¨طھ ظ…غŒâ€Œط´ظˆط¯ط›
-   ظ‡ط± ط¨ط±ظ†ع† ط¬ط¯غŒط¯ (feature/chore/...) ظ…ظˆط¸ظپ ط§ط³طھ ط¨ط¯ظˆظ† ط§ط¶ط§ظپظ‡â€Œع©ط±ط¯ظ† ظ‡ط´ط¯ط§ط±/ط®ط·ط§غŒ ط¬ط¯غŒط¯ ط¨ظ‡ main ط§ط¯ط؛ط§ظ… ط´ظˆط¯.
- - ط¯ط± طµظˆط±طھ ظ„ط²ظˆظ…طŒ ط¨ط³طھظ‡â€Œظ‡ط§غŒ طھظ…غŒط²ع©ط§ط±غŒ ط¨ط¹ط¯غŒ ظپظ‚ط· ط¨ط±ط§غŒ ط­ظپط¸ ط§غŒظ† baseline (ظˆ ظ†ظ‡ ط±ط³غŒط¯ظ† ط¨ظ‡ ط¢ظ†) ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œط´ظˆظ†ط¯.
+- این سیاست توسط ESLint rule no-restricted-imports enforce می‌شود و باید در سند به‌صورت صریح ثبت شود.
+- دربارهٔ import/order:
+گروه‌بندی importها:
+builtin → external → internal → parent → sibling → index
+بین هر گروه یک خط خالی لازم است.
+این قاعده برای یک‌دست‌شدن importهای صفحات مودیان (به‌خصوص صفحات جدید invoices, old-Invoices, purchase-announcements, contracts) اعمال شده و lint روی آن نظارت می‌کند.
+-  وضعیت فعلی lint در main:
+ - در حال حاضر `npm run lint:ci` روی برنچ `main` بدون خطا و بدون هیچ هشدار فعالی اجرا می‌شود.
+ - این وضعیت به‌عنوان baseline رسمی پروژه ثبت می‌شود؛
+   هر برنچ جدید (feature/chore/...) موظف است بدون اضافه‌کردن هشدار/خطای جدید به main ادغام شود.
+ - در صورت لزوم، بسته‌های تمیزکاری بعدی فقط برای حفظ این baseline (و نه رسیدن به آن) استفاده می‌شوند.
 
 
-### 23.5) ظˆط¶ط¹غŒطھ Search Suite ظˆ ط±غŒط³ع© ظ¾غŒع†غŒط¯ع¯غŒ
+### 23.5) وضعیت Search Suite و ریسک پیچیدگی
 
-- ط¯ط± ط¨ط®ط´ ظ…ط±ط¨ظˆط· ط¨ظ‡ SearchByFilters ظˆ InvoicesSearchHeaderطŒ ظ†ع©ط§طھ ط²غŒط± ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ظ…غŒâ€Œط´ظˆط¯:
-ط´ط§ط®ظ‡â€Œظ‡ط§غŒ ط´ط±ط·غŒ ط¨ط±ط§غŒ ط³ظ†ط§ط±غŒظˆظ‡ط§غŒ ظ…ط®طھظ„ظپ ط§ط¶ط§ظپظ‡ ط´ط¯ظ‡â€Œط§ظ†ط¯:
-طµظپط­ط§طھ ظ†ط³ظ„ ظپط¹ظ„غŒ طµظˆط±طھط­ط³ط§ط¨â€Œظ‡ط§ (invoices/*)
-طµظپط­ط§طھ old-Invoices (old-Invoices/*)
-طµظپط­ط§طھ ط§ط¹ظ„ط§ظ…غŒظ‡â€Œظ‡ط§غŒ ط®ط±غŒط¯ (purchase-announcements/*)
-طµظپط­ط§طھ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§ (contracts/contracting/* ط¯ط± ط­ط§ظ„ ط­ط§ط¶ط±)
-ط±غŒط³ع©:
-ع©ط§ظ…ظ¾ظˆظ†ظ†طھ SearchByFilters ط¨ظ‡â€Œط¯ظ„غŒظ„ ط´ط§ط®ظ‡â€Œظ‡ط§غŒ ط´ط±ط·غŒ ظ…طھط¹ط¯ط¯ ظ¾غŒع†غŒط¯ظ‡ ط´ط¯ظ‡ ظˆ ط¯ط± refactorظ‡ط§غŒ ط¨ط¹ط¯غŒ ظ†غŒط§ط² ط¨ظ‡ طھط³طھâ€Œظ‡ط§غŒ ظˆط§ط­ط¯/ط§ط³ظ†ظ¾â€Œط´ط§طھ ط¯ط§ط±ط¯ طھط§ ط±ع¯ط±ط³غŒظˆظ† ط§غŒط¬ط§ط¯ ظ†ط´ظˆط¯.
-ظ¾غŒط´ظ†ظ‡ط§ط¯:
-ط¯ط± طµظˆط±طھ ط§ظپط²ط§غŒط´ ط³ظ†ط§ط±غŒظˆظ‡ط§طŒ ط¬ط¯ط§ط³ط§ط²غŒ configظ‡ط§ (ظ…ط«ظ„ط§ظ‹ per-module config ط¨ط±ط§غŒ ط³طھظˆظ†â€Œظ‡ط§ ظˆ ظپغŒظ„ط¯ظ‡ط§) ط¯ط± غŒع© آ«Config Registryآ» ط¨ط±ط§غŒ ع©غŒطھ UI ط¨ط±ط±ط³غŒ ط´ظˆط¯.
+- در بخش مربوط به SearchByFilters و InvoicesSearchHeader، نکات زیر به‌روزرسانی می‌شود:
+شاخه‌های شرطی برای سناریوهای مختلف اضافه شده‌اند:
+صفحات نسل فعلی صورتحساب‌ها (invoices/*)
+صفحات old-Invoices (old-Invoices/*)
+صفحات اعلامیه‌های خرید (purchase-announcements/*)
+صفحات قراردادها (contracts/contracting/* در حال حاضر)
+ریسک:
+کامپوننت SearchByFilters به‌دلیل شاخه‌های شرطی متعدد پیچیده شده و در refactorهای بعدی نیاز به تست‌های واحد/اسنپ‌شات دارد تا رگرسیون ایجاد نشود.
+پیشنهاد:
+در صورت افزایش سناریوها، جداسازی configها (مثلاً per-module config برای ستون‌ها و فیلدها) در یک «Config Registry» برای کیت UI بررسی شود.
 
-### 23.6) ع†ع©â€Œظ„غŒط³طھ ط§ط¶ط§ظپظ‡â€Œع©ط±ط¯ظ† طµظپط­ظ‡ظ” ط¬ط¯غŒط¯ ط¯ط± ظ…ظˆط¯غŒط§ظ† (ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ)
+### 23.6) چک‌لیست اضافه‌کردن صفحهٔ جدید در مودیان (به‌روزرسانی)
 
-- ظ¾غŒط´ ط§ط² ط³ط§ط®طھ طµظپط­ظ‡ظ” ط¬ط¯غŒط¯:
-ظ…ط³غŒط± ط¯ط±ط³طھ ط²غŒط± src/app/simulators/modian ط§ظ†طھط®ط§ط¨ ط´ظˆط¯:
-ظ…ط«ظ„ contracts/...طŒ purchase-announcements/...طŒ old-Invoices/... ظˆ ط؛غŒط±ظ‡.
-- ظ‡ظ†ع¯ط§ظ… ظ¾غŒط§ط¯ظ‡â€Œط³ط§ط²غŒ طµظپط­ظ‡:
-ط§ع¯ط± طµظپط­ظ‡ ع©ظ„ط§غŒظ†طھغŒ ط§ط³طھ ظˆ ط§ط² ظ‡ظˆع© ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ط¯طŒ ط§ظ„ع¯ظˆغŒ آ«Server Wrapper + Client Componentآ» ط±ط¹ط§غŒطھ ط´ظˆط¯.
-ط¨ط±ط§غŒ ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ UI:
-ط§ط² @/components/modian/ui import ط´ظˆط¯.
-ط¨ط±ط§غŒ ط§ط¬ط²ط§غŒ ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ظ…ط´طھط±ع©:
-ط§ط² @/components/modian/common import ط´ظˆط¯.
-ط§ع¯ط± طµظپط­ظ‡ ظ†غŒط§ط² ط¨ظ‡ Search Suite ط¯ط§ط±ط¯:
-ظپظ‚ط· ط§ط² InvoicesSearchHeader ظˆ SearchByFilters/SearchByTaxId (ط§ط² Barrel) ط§ط³طھظپط§ط¯ظ‡ ط´ظˆط¯ط›
- ط§ط² ع©ظ¾غŒâ€Œع©ط±ط¯ظ† ظپط±ظ…â€Œظ‡ط§/ظپغŒظ„طھط±ظ‡ط§غŒ ط¬ط¯غŒط¯ ط®ظˆط¯ط¯ط§ط±غŒ ط´ظˆط¯.
+- پیش از ساخت صفحهٔ جدید:
+مسیر درست زیر src/app/simulators/modian انتخاب شود:
+مثل contracts/...، purchase-announcements/...، old-Invoices/... و غیره.
+- هنگام پیاده‌سازی صفحه:
+اگر صفحه کلاینتی است و از هوک استفاده می‌کند، الگوی «Server Wrapper + Client Component» رعایت شود.
+برای کامپوننت‌های UI:
+از @/components/modian/ui import شود.
+برای اجزای دامنه‌ای مشترک:
+از @/components/modian/common import شود.
+اگر صفحه نیاز به Search Suite دارد:
+فقط از InvoicesSearchHeader و SearchByFilters/SearchByTaxId (از Barrel) استفاده شود؛
+ از کپی‌کردن فرم‌ها/فیلترهای جدید خودداری شود.
 
-- ظ¾غŒط´ ط§ط² طھط­ظˆغŒظ„ ط¨ط±ظ†ع†:
-ط§ط¬ط±ط§غŒ npm run lint:ci ظˆ ط±ظپط¹ ظ‡ظ…ظ‡ظ” ط®ط·ط§ظ‡ط§ ظˆ ظ‡ط´ط¯ط§ط±ظ‡ط§غŒ ظ…ط±ط¨ظˆط· ط¨ظ‡ ظ…ط³غŒط± ظ…ظˆط¯غŒط§ظ† ط§ظ„ط²ط§ظ…غŒ ط§ط³طھ.
-ط¯ط± طµظˆط±طھ ط§ط¶ط§ظپظ‡â€Œط´ط¯ظ† ظ…ط³غŒط± ط¬ط¯غŒط¯:
-ط§ط³ع©ط±غŒظ¾طھ ط³ط§ط®طھط§ط± (docs:scan) ط§ط¬ط±ط§ ط´ظˆط¯ ظˆ ط¨ط®ط´â€Œظ‡ط§غŒ APP_TREE ظˆ COMPONENTS_TREE ط¯ط± ظ‡ظ…غŒظ† ط³ظ†ط¯ ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط´ظˆظ†ط¯.
+- پیش از تحویل برنچ:
+اجرای npm run lint:ci و رفع همهٔ خطاها و هشدارهای مربوط به مسیر مودیان الزامی است.
+در صورت اضافه‌شدن مسیر جدید:
+اسکریپت ساختار (docs:scan) اجرا شود و بخش‌های APP_TREE و COMPONENTS_TREE در همین سند به‌روزرسانی شوند.
 
-### 23.7) PR Gate / Definition of Done (ظ‚ط¨ظ„ ط§ط² Merge)
+### 23.7) PR Gate / Definition of Done (قبل از Merge)
 
-ط§غŒظ† ع†ع©â€Œظ„غŒط³طھ ط¨ط§غŒط¯ ط¯ط± طھظˆط¶غŒط­ط§طھ PR طھغŒع© ط¨ط®ظˆط±ط¯ ظˆ ظ…ط¹غŒط§ط± merge ط§ظ…ظ† ط§ط³طھ:
+این چک‌لیست باید در توضیحات PR تیک بخورد و معیار merge امن است:
 
-- [ ] **Sync ظ…ط³طھظ†ط¯ط§طھ ط³ط§ط®طھط§ط± ط¨ط§ tree**: ط§ع¯ط± route/component ط§ط¶ط§ظپظ‡/ط­ط°ظپ ط´ط¯:
-  - `npm run docs:scan` (طھظˆظ„غŒط¯ `app-tree.txt` ظˆ `components-tree.txt`)
-  - `npm run docs:all` (طھط²ط±غŒظ‚ ط®ظˆط¯ع©ط§ط± ط¯ط± ظ‡ظ…غŒظ† ط³ظ†ط¯)
-  - ظˆ ط§ط·ظ…غŒظ†ط§ظ† ط§ط² ط¢ظ¾ط¯غŒطھâ€Œط´ط¯ظ† ط¨ظ„ظˆع©â€Œظ‡ط§غŒ `APP_TREE` ظˆ `COMPONENTS_TREE` ط¯ط± ظ‡ظ…غŒظ† ظپط§غŒظ„
-- [ ] **Barrel-only ط¨ط±ط§غŒ Modian + ظ…ظ†ط¹ import ط¹ظ…غŒظ‚**:
-  - import ظپظ‚ط· ط§ط² Barrelظ‡ط§: `@/components/modian`طŒ `@/components/modian/ui`طŒ `@/components/modian/common` (ظˆ ط²غŒط±barrelظ‡ط§غŒ ط±ط³ظ…غŒ)
-  - import ظ…ط³طھظ‚غŒظ… ط§ط² ظپط§غŒظ„â€Œظ‡ط§غŒ ط¯ط§ط®ظ„غŒ ط²غŒط± `modian/*` ظ…ظ…ظ†ظˆط¹ (ESLint: `no-restricted-imports` + `import/order`)
-- [ ] **Baseline ط±ط³ظ…غŒ lint ط±ظˆغŒ main**:
-  - `npm run lint:ci` ط¨ط§غŒط¯ ط¨ط¯ظˆظ† error/warning ط¨ط§ط´ط¯
-  - PR ظ†ط¨ط§غŒط¯ warning/error ط¬ط¯غŒط¯ ظ†ط³ط¨طھ ط¨ظ‡ baseline آ«طµظپط± ظ‡ط´ط¯ط§ط±آ» ط±ظˆغŒ `main` ظˆط§ط±ط¯ ع©ظ†ط¯
-- [ ] **ط§ظ„ع¯ظˆغŒ Next App Router ط¨ط±ط§غŒ Client/Server + Suspense**:
-  - ط§ع¯ط± طµظپط­ظ‡/ع©ط§ظ…ظ¾ظˆظ†ظ†طھ ع©ظ„ط§غŒظ†طھ ط§ط² ظ‡ظˆع©â€Œظ‡ط§غŒغŒ ظ…ط«ظ„ `useSearchParams` ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ط¯طŒ ط¨ط§غŒط¯ ط¨ط§ ط§ظ„ع¯ظˆغŒ
-    آ«Server Wrapper + Client Componentآ» ظˆ `<Suspense>` ط¯ط± ظ„ط§غŒظ‡ظ” ط³ط±ظˆط±غŒ ظ¾ظˆط´ط´ ط¯ط§ط¯ظ‡ ط´ظˆط¯ (ط¨ط±ط§غŒ ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² `CSR bailout` / `missing-suspense-with-csr-bailout`)
+- [ ] **Sync مستندات ساختار با tree**: اگر route/component اضافه/حذف شد:
+  - `npm run docs:scan` (تولید `app-tree.txt` و `components-tree.txt`)
+  - `npm run docs:all` (تزریق خودکار در همین سند)
+  - و اطمینان از آپدیت‌شدن بلوک‌های `APP_TREE` و `COMPONENTS_TREE` در همین فایل
+- [ ] **Barrel-only برای Modian + منع import عمیق**:
+  - import فقط از Barrelها: `@/components/modian`، `@/components/modian/ui`، `@/components/modian/common` (و زیرbarrelهای رسمی)
+  - import مستقیم از فایل‌های داخلی زیر `modian/*` ممنوع (ESLint: `no-restricted-imports` + `import/order`)
+- [ ] **Baseline رسمی lint روی main**:
+  - `npm run lint:ci` باید بدون error/warning باشد
+  - PR نباید warning/error جدید نسبت به baseline «صفر هشدار» روی `main` وارد کند
+- [ ] **الگوی Next App Router برای Client/Server + Suspense**:
+  - اگر صفحه/کامپوننت کلاینت از هوک‌هایی مثل `useSearchParams` استفاده می‌کند، باید با الگوی
+    «Server Wrapper + Client Component» و `<Suspense>` در لایهٔ سروری پوشش داده شود (برای جلوگیری از `CSR bailout` / `missing-suspense-with-csr-bailout`)
 
 ---
 
-## 24) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ±غ°/غ°غ¶ (طھع©ظ…غŒظ„ ظ…ظ†ظˆغŒ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§)
+## 24) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۰/۰۶ (تکمیل منوی قراردادها)
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14041006.txt` ظˆ ط§ط¯ط§ظ…ظ‡ظ” ع¯ط²ط§ط±ط´â€Œظ‡ط§غŒ طھع©ظ…غŒظ„غŒ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§. îˆ€fileciteîˆ‚turn12file2îˆ‚turn12file0îˆپ
+بر اساس فایل `team2-status-report-14041006.txt` و ادامهٔ گزارش‌های تکمیلی قراردادها. fileciteturn12file2turn12file0
 
-### 24.1) ظ…ط³غŒط±ظ‡ط§ ظˆ طµظپط­ط§طھ ط¯ط±ع¯غŒط± (Contracts)
+### 24.1) مسیرها و صفحات درگیر (Contracts)
 
-- طھع©ظ…غŒظ„ ظ…ظ†ظˆغŒ ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§ ظˆ ط§طµظ„ط§ط­ ظ…ط³غŒط±/Flow آ«ط«ط¨طھ ظ‚ط±ط§ط±ط¯ط§ط¯ ط¬ط¯غŒط¯آ» ط¯ط± ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§غŒ ط­ظ‚â€Œط§ظ„ط¹ظ…ظ„ع©ط§ط±غŒ. îˆ€fileciteîˆ‚turn12file2îˆپ
-- ظ…ط³غŒط±ظ‡ط§غŒ ط§طµظ„غŒ ع©ظ‡ ط¯ط± ط§غŒظ† ط¯ظˆط±ظ‡ ط¯ط±ع¯غŒط± ط¨ظˆط¯ظ‡â€Œط§ظ†ط¯: îˆ€fileciteîˆ‚turn12file0îˆپ
+- تکمیل منوی قراردادها و اصلاح مسیر/Flow «ثبت قرارداد جدید» در قراردادهای حق‌العملکاری. fileciteturn12file2
+- مسیرهای اصلی که در این دوره درگیر بوده‌اند: fileciteturn12file0
   - `src/app/simulators/modian/contracts/commission/page.tsx`
   - `src/app/simulators/modian/contracts/commission/new/page.tsx`
   - `src/app/simulators/modian/contracts/contracting/page.tsx`
   - `src/app/simulators/modian/contracts/contracting/new/page.tsx`
 
-> غŒط§ط¯ط¯ط§ط´طھ: Snapshotظ‡ط§غŒ APP_TREE/COMPONENTS_TREE ع©ظ‡ ط§ط² `app-tree.txt` ظˆ `components-tree.txt` طھظˆظ„غŒط¯ ط´ط¯ظ‡â€Œط§ظ†ط¯طŒ
-ظ…ظ…ع©ظ† ط§ط³طھ ظ‡ظ†ظˆط² ظ…ط³غŒط± `contracts/commission/new` ط±ط§ ظ†ط´ط§ظ† ظ†ط¯ظ‡ظ†ط¯ط› ط¯ط± ط§ظˆظ„غŒظ† ط¨ط±ظˆط²ط±ط³ط§ظ†غŒ treeظ‡ط§ ط¨ط§غŒط¯ ط¨ط§ط²طھظˆظ„غŒط¯ ط´ظˆظ†ط¯. îˆ€fileciteîˆ‚turn12file0îˆپ
+> یادداشت: Snapshotهای APP_TREE/COMPONENTS_TREE که از `app-tree.txt` و `components-tree.txt` تولید شده‌اند،
+ممکن است هنوز مسیر `contracts/commission/new` را نشان ندهند؛ در اولین بروزرسانی treeها باید بازتولید شوند. fileciteturn12file0
 
-### 24.2) Barrelظ‡ط§ ظˆ ط³غŒط§ط³طھ Import (common/search + common/table)
+### 24.2) Barrelها و سیاست Import (common/search + common/table)
 
-- ط¯ط± ط±ط§ط³طھط§غŒ ط³غŒط§ط³طھ آ«ط¹ط¯ظ… ط§غŒظ…ظ¾ظˆط±طھ ظ…ط³طھظ‚غŒظ… ط§ط² ظپط§غŒظ„â€Œظ‡ط§غŒ ط¯ط§ط®ظ„غŒ ط²غŒط± `modian/*`آ»طŒ طھغŒظ… ظ…ظˆط¯غŒط§ظ† ظ…ظˆط§ط±ط¯ ط²غŒط± ط±ط§ ط§ط¶ط§ظپظ‡/ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ع©ط±ط¯: îˆ€fileciteîˆ‚turn12file0îˆ‚turn12file2îˆپ
+- در راستای سیاست «عدم ایمپورت مستقیم از فایل‌های داخلی زیر `modian/*`»، تیم مودیان موارد زیر را اضافه/به‌روزرسانی کرد: fileciteturn12file0turn12file2
   - `src/components/modian/common/search/index.ts` (Update)
   - `src/components/modian/common/table/index.ts` (New)
 
-- ظ†ع©طھظ‡ظ” lint: ع¯ط²ط§ط±ط´ ط´ط¯ظ‡ ع©ظ‡ Rule ظپط¹ظ„غŒ `no-restricted-imports` ط­طھغŒ ط±ظˆغŒ Barrelظ‡ط§غŒ طھط§ط²ظ‡â€Œط§ط¶ط§ظپظ‡â€Œط´ط¯ظ‡ ظ‡ظ… Warning ظ…غŒâ€Œط¯ظ‡ط¯ط›
-  ظ¾غŒط´ظ†ظ‡ط§ط¯ طھغŒظ…: ط§طµظ„ط§ط­ ظ…ط±ع©ط²غŒ Rule (Allowlist ع©ط±ط¯ظ† Barrelظ‡ط§) ظˆ ط§ط³طھظپط§ط¯ظ‡ظ” ظ…ظˆظ‚طھ ط§ط² `eslint-disable-next-line` ظپظ‚ط· ط¨ط±ط§غŒ unblock طھط­ظˆغŒظ„. îˆ€fileciteîˆ‚turn12file0îˆ‚turn12file13îˆپ
+- نکتهٔ lint: گزارش شده که Rule فعلی `no-restricted-imports` حتی روی Barrelهای تازه‌اضافه‌شده هم Warning می‌دهد؛
+  پیشنهاد تیم: اصلاح مرکزی Rule (Allowlist کردن Barrelها) و استفادهٔ موقت از `eslint-disable-next-line` فقط برای unblock تحویل. fileciteturn12file0turn12file13
 
-### 24.3) ع©غŒطھ UI ظ…ظˆط¯غŒط§ظ† â€” ع©ط§ظ…ظ¾ظˆظ†ظ†طھâ€Œظ‡ط§غŒ ظ…طµط±ظپâ€Œط´ط¯ظ‡/ط¯ط±ع¯غŒط± ط¯ط± ظ‚ط±ط§ط±ط¯ط§ط¯ظ‡ط§
+### 24.3) کیت UI مودیان — کامپوننت‌های مصرف‌شده/درگیر در قراردادها
 
 - `Stepper`
 - `SearchByFilters`
@@ -1606,128 +1606,128 @@ builtin â†’ external â†’ internal â†’ parent â†’ sibling â�
 - `ContractsContractTypeField`
 - `ColumnsVisibilityBar`
 - `ScrollableTableShell`
-- `EmptyTableRow` îˆ€fileciteîˆ‚turn12file0îˆپ
+- `EmptyTableRow` fileciteturn12file0
 
 
-## 25) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ±غ°/غ±غ· (Requests + Tax Bills UI Flow)
+## 25) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۰/۱۷ (Requests + Tax Bills UI Flow)
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„ `team2-status-report-14041017.txt`.
+بر اساس فایل `team2-status-report-14041017.txt`.
 
-### 25.1) ط¯ط§ظ…ظ†ظ‡ طھط؛غŒغŒط±ط§طھ (ط¯ط± ط³ط·ط­ ط³ط§ط®طھط§ط±/ظ…ط³غŒط±ظ‡ط§)
+### 25.1) دامنه تغییرات (در سطح ساختار/مسیرها)
 
-- ع¯ط²ط§ط±ط´ ط§غŒظ† ط¯ظˆط±ظ‡ ظ…ط±ط¨ظˆط· ط¨ظ‡ **UI/Flow** ط¯ط± ظ…ط³غŒط±ظ‡ط§غŒ ظ…ظˆط¯غŒط§ظ† ط¨ظˆط¯ظ‡ ط§ط³طھ (ظ†ظ‡ ط§ظپط²ظˆط¯ظ† endpoint ط¨ع©â€Œط§ظ†ط¯).
-- ظ…ط³غŒط±ظ‡ط§غŒ ظ…ط±طھط¨ط· ط¯ط± ط§ط³ظ†ظ¾â€Œط´ط§طھ `app-tree.txt` ظ‚ط§ط¨ظ„ ظ…ط´ط§ظ‡ط¯ظ‡â€Œط§ظ†ط¯ ظˆ ط¨ط§غŒط¯ ط¯ط± ط§ط³طھط§ظ†ط¯ط§ط±ط¯ط³ط§ط²غŒ Route Ownership
-  ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ط²غŒط±ط´ط§ط®ظ‡â€Œظ‡ط§غŒ ط±ط³ظ…غŒ ظ…ظˆط¯غŒط§ظ† ط­ظپط¸ ط´ظˆظ†ط¯:
+- گزارش این دوره مربوط به **UI/Flow** در مسیرهای مودیان بوده است (نه افزودن endpoint بک‌اند).
+- مسیرهای مرتبط در اسنپ‌شات `app-tree.txt` قابل مشاهده‌اند و باید در استانداردسازی Route Ownership
+  به‌عنوان زیرشاخه‌های رسمی مودیان حفظ شوند:
   - `src/app/simulators/modian/requests/increase-sales-limit/page.tsx`
   - `src/app/simulators/modian/requests/auto-reject-referred-invoices/page.tsx`
   - `src/app/simulators/modian/requests/defer-invoice-tax-effect/page.tsx`
   - `src/app/simulators/modian/tax-bills/page.tsx`
 
-### 25.2) ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§غŒ ط³ط§ط®طھط§ط±غŒ طھط«ط¨غŒطھâ€Œط´ط¯ظ‡ ط§ط² ع¯ط²ط§ط±ط´
+### 25.2) استانداردهای ساختاری تثبیت‌شده از گزارش
 
-- ظ…ظ†ظˆغŒ ع©ط´ظˆغŒغŒ آ«ط¯ط±ط®ظˆط§ط³طھâ€Œظ‡ط§آ» ط¨ط§غŒط¯ ط±ظپطھط§ط± **toggle-only** ط¯ط§ط´طھظ‡ ط¨ط§ط´ط¯ ظˆ ط§ط² redirect ط®ظˆط¯ع©ط§ط± ط¨ظ‡ ط§ظˆظ„غŒظ† ط²غŒط±ظ…ظ†ظˆ ظ¾ط±ظ‡غŒط² ط´ظˆط¯
-  (ط§ط³طھط§ظ†ط¯ط§ط±ط¯ UX/Navigation ط¨ط±ط§غŒ ط¬ظ„ظˆع¯غŒط±غŒ ط§ط² coupling ظ†ط§ط®ظˆط§ط³طھظ‡ ظ…ظ†ظˆ â†” route).
-- Flowظ‡ط§غŒ ع†ظ†ط¯ظ…ط±ط­ظ„ظ‡â€Œط§غŒ (ظ…ظˆط¯ط§ظ„â€Œظ‡ط§غŒ ظ¾ط´طھâ€Œط³ط±ظ‡ظ…) ط¨ط§غŒط¯ ط¯ط± ظ‡ظ…ط§ظ† route ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ظ†ع¯ظ‡ ط¯ط§ط´طھظ‡ ط´ظˆظ†ط¯ ظˆ ط§ط² ظ¾ط±ط§ع©ظ†ط¯ع¯غŒ state
-  ط¨غŒظ† ظ…ط³غŒط±ظ‡ط§غŒ ظ†ط§ظ…ط±طھط¨ط· ط¬ظ„ظˆع¯غŒط±غŒ ط´ظˆط¯.
-- ط§ط¹طھط¨ط§ط±ط³ظ†ط¬غŒâ€Œظ‡ط§غŒ ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ ط¯ط± ط­ط§ظ„ طھع©ظ…غŒظ„ (ظ…ط«ظ„ آ«ط´ظ†ط§ط³ظ‡ طµغŒط§ط¯ = 16 ط±ظ‚ظ…آ») ط¨ط§غŒط¯ طھط§ ط²ظ…ط§ظ† ظ†ظ‡ط§غŒغŒâ€Œط´ط¯ظ†طŒ ط¨ظ‡â€Œظˆط¶ظˆط­ ط¨ط§ ظˆط¶ط¹غŒطھ WIP
-  ط¯ط± ع¯ط²ط§ط±ط´/PR ط«ط¨طھ ط´ظˆظ†ط¯ طھط§ ط¨ط§ آ«ظ‚ط±ط§ط±ط¯ط§ط¯ ظ†ظ‡ط§غŒغŒآ» ط§ط´طھط¨ط§ظ‡ ظ†ط´ظˆظ†ط¯.
+- منوی کشویی «درخواست‌ها» باید رفتار **toggle-only** داشته باشد و از redirect خودکار به اولین زیرمنو پرهیز شود
+  (استاندارد UX/Navigation برای جلوگیری از coupling ناخواسته منو ↔ route).
+- Flowهای چندمرحله‌ای (مودال‌های پشت‌سرهم) باید در همان route دامنه‌ای نگه داشته شوند و از پراکندگی state
+  بین مسیرهای نامرتبط جلوگیری شود.
+- اعتبارسنجی‌های دامنه‌ای در حال تکمیل (مثل «شناسه صیاد = 16 رقم») باید تا زمان نهایی‌شدن، به‌وضوح با وضعیت WIP
+  در گزارش/PR ثبت شوند تا با «قرارداد نهایی» اشتباه نشوند.
 
-### 25.3) ع©ظ†طھط±ظ„ ط§ظ†ط­ط±ط§ظپ طھغŒظ…â€Œظ‡ط§ (Project Governance)
+### 25.3) کنترل انحراف تیم‌ها (Project Governance)
 
-- ظ‡ط± طھط؛غŒغŒط± UI ط¯ط± ط´ط§ط®ظ‡ `requests/*` غŒط§ `tax-bills` ع©ظ‡ ظ…ظ†ط¬ط± ط¨ظ‡ ط§ظپط²ظˆط¯ظ†/ط­ط°ظپ route ط´ظˆط¯طŒ ط§ظ„ط²ط§ظ…ط§ظ‹ ط¨ط§غŒط¯ ط¨ط§ ط¨ط§ط²طھظˆظ„غŒط¯
-  `app-tree.txt` ظˆ ظ‡ظ…ع¯ط§ظ…â€Œط³ط§ط²غŒ ظ‡ظ…غŒظ† ط³ظ†ط¯ ظ‡ظ…ط±ط§ظ‡ ط¨ط§ط´ط¯ (`docs:scan` / `docs:all`).
-- ع¯ط²ط§ط±ط´ ط§غŒظ† ط¯ظˆط±ظ‡ ط­ط§ظˆغŒ طھط­ظˆغŒظ„ UI/Flow ط§ط³طھط› ط¨ظ†ط§ط¨ط±ط§غŒظ† **ط¨ط¯ظˆظ† ظ…ط³طھظ†ط¯ endpoint ط¬ط¯ط§ع¯ط§ظ†ظ‡** ظ†ط¨ط§غŒط¯ ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† API-ready طھظپط³غŒط± ط´ظˆط¯.
+- هر تغییر UI در شاخه `requests/*` یا `tax-bills` که منجر به افزودن/حذف route شود، الزاماً باید با بازتولید
+  `app-tree.txt` و همگام‌سازی همین سند همراه باشد (`docs:scan` / `docs:all`).
+- گزارش این دوره حاوی تحویل UI/Flow است؛ بنابراین **بدون مستند endpoint جداگانه** نباید به‌عنوان API-ready تفسیر شود.
 
 ---
 
-## 26) ع¯ط²ط§ط±ط´ ظˆط¶ط¹غŒطھ طھغŒظ… ظ…ظˆط¯غŒط§ظ† â€” غ±غ´غ°غ´/غ±غ²/غ°غ¶ (ط²غŒط±ط³ط§ط®طھ Multi-tenant ط¯ط± ط¨ع©â€Œط§ظ†ط¯)
+## 26) گزارش وضعیت تیم مودیان — ۱۴۰۴/۱۲/۰۶ (زیرساخت Multi-tenant در بک‌اند)
 
-ط¨ط± ط§ط³ط§ط³ ظپط§غŒظ„â€Œظ‡ط§غŒ `team2-status-report-14041206.txt` ظˆ `team2-status2-report-14041206.txt`.
+بر اساس فایل‌های `team2-status-report-14041206.txt` و `team2-status2-report-14041206.txt`.
 
-### 26.1) طھط؛غŒغŒط±ط§طھ ط³ط§ط®طھط§ط±غŒ ط«ط¨طھâ€Œط´ط¯ظ‡ ط¯ط± ط¨ع©â€Œط§ظ†ط¯ (Infrastructure Layer)
+### 26.1) تغییرات ساختاری ثبت‌شده در بک‌اند (Infrastructure Layer)
 
-- ظ„ط§غŒظ‡ظ” context ط¯ط± ظ…ط³غŒط± `src/common/context/` ط¨ط±ط§غŒ ظ†ع¯ظ‡ط¯ط§ط±غŒ `businessId` ط¨ظ‡â€Œطµظˆط±طھ request-scoped ظ…ط³طھظ‚ط± ط´ط¯ظ‡ ط§ط³طھ:
+- لایهٔ context در مسیر `src/common/context/` برای نگهداری `businessId` به‌صورت request-scoped مستقر شده است:
   - `business-context.middleware.ts`
   - `business-context.module.ts`
   - `business-context.service.ts`
-- ظ„ط§غŒظ‡ظ” Prisma ظ†غŒط² ط¯ط§ط±ط§غŒ ط§ط¬ط²ط§غŒ ظ…ط±طھط¨ط· ط¨ط§ isolation ط§ط³طھ:
+- لایهٔ Prisma نیز دارای اجزای مرتبط با isolation است:
   - `src/prisma/businessIsolation.extension.ts`
   - `src/prisma/prisma.middleware.ts`
 
-### 26.2) ط§ط³طھط§ظ†ط¯ط§ط±ط¯ظ‡ط§غŒ ط³ط§ط®طھط§ط±غŒ/ط§ظ…ظ†غŒطھغŒ (ط§ظ„ط²ط§ظ…غŒ)
+### 26.2) استانداردهای ساختاری/امنیتی (الزامی)
 
-- `businessId` ط¨ط§غŒط¯ ظپظ‚ط· ط§ط² JWT ظˆط§ط±ط¯ Context ط´ظˆط¯ط› ط¯ط±غŒط§ظپطھ ط¢ظ† ط§ط² body/query/request ط¨ظ‡â€Œط¹ظ†ظˆط§ظ† ظ…ظ†ط¨ط¹ ط­ظ‚غŒظ‚طھ ظ…ظ…ظ†ظˆط¹ ط§ط³طھ.
-- ط§طھطµط§ظ„ middleware/context ط¨ط±ط§غŒ ظ‡ط± request ظ…ط­ط§ظپط¸طھâ€Œط´ط¯ظ‡ ط¨ط§غŒط¯ ط¬ط²ط، ط§ظ„ط²ط§ظ…ط§طھ ط¨ط§ط²ط¨غŒظ†غŒ ط³ط§ط®طھط§ط±غŒ ط¨ط§ط´ط¯
-  (ط¯ط± ط؛غŒط± ط§غŒظ† طµظˆط±طھ `getBusinessId()` ظ…ظ…ع©ظ† ط§ط³طھ `undefined` ط¨ط±ع¯ط±ط¯ط§ظ†ط¯).
-- ط¯ط± طھط³طھâ€Œظ‡ط§/ط¯ظ…ظˆظ‡ط§غŒ endpointظ‡ط§غŒ ظ…ط­ط§ظپط¸طھâ€Œط´ط¯ظ‡طŒ ظ†ظˆط¹ طھظˆع©ظ† (access vs refresh) ط¨ط§غŒط¯ طµط±غŒط­ط§ظ‹ ع©ظ†طھط±ظ„ ط´ظˆط¯ط›
-  ط§غŒظ† ظ…ظˆط±ط¯ ط§ع©ظ†ظˆظ† غŒع© ط±غŒط³ع© ط³ط§ط®طھط§ط±غŒ-ط¹ظ…ظ„غŒط§طھغŒ ط«ط¨طھâ€Œط´ط¯ظ‡ ط§ط³طھ.
+- `businessId` باید فقط از JWT وارد Context شود؛ دریافت آن از body/query/request به‌عنوان منبع حقیقت ممنوع است.
+- اتصال middleware/context برای هر request محافظت‌شده باید جزء الزامات بازبینی ساختاری باشد
+  (در غیر این صورت `getBusinessId()` ممکن است `undefined` برگرداند).
+- در تست‌ها/دموهای endpointهای محافظت‌شده، نوع توکن (access vs refresh) باید صریحاً کنترل شود؛
+  این مورد اکنون یک ریسک ساختاری-عملیاتی ثبت‌شده است.
 
-### 26.3) ط§ط«ط± ط±ظˆغŒ ظپط±ط¢غŒظ†ط¯ ط§ط³طھط§ظ†ط¯ط§ط±ط¯ط³ط§ط²غŒ ظ¾ط±ظˆعکظ‡ (ط¨ط±ط§غŒ ظ…ط¯غŒط± ظ¾ط±ظˆعکظ‡)
+### 26.3) اثر روی فرآیند استانداردسازی پروژه (برای مدیر پروژه)
 
-- طھط؛غŒغŒط±ط§طھ Multi-tenant ظپط§ط² ط§ظˆظ„ آ«ط²غŒط±ط³ط§ط®طھغŒآ» ظ‡ط³طھظ†ط¯ط› ط¨ظ†ط§ط¨ط±ط§غŒظ† طھغŒظ…â€Œظ‡ط§ ظ…ط¬ط§ط² ظ†غŒط³طھظ†ط¯ طھظپط³غŒط± ط¯ط§ظ…ظ†ظ‡â€Œط§غŒ/ظ…ط­طµظˆظ„غŒ ظ…ط³طھظ‚ظ„
-  (ظ…ط«ظ„ط§ظ‹ ط§ظ†طھط®ط§ط¨ business ظپط¹ط§ظ„) ط±ط§ ظ‚ط¨ظ„ ط§ط² طھطµظ…غŒظ… ط±ط³ظ…غŒ ظ¾ط±ظˆعکظ‡ ط¯ط± ع©ط¯ ط«ط§ط¨طھ ع©ظ†ظ†ط¯.
-- طھطµظ…غŒظ… ط¯ط±ط¨ط§ط±ظ‡ظ” ط§ط³طھط±ط§طھعکغŒ `active business` ط¨ط§غŒط¯ ط¨ظ‡â€Œطµظˆط±طھ ظ…ط±ع©ط²غŒ طھطµظˆغŒط¨ ظˆ ط³ظ¾ط³ ط¯ط± ظ…ط³طھظ†ط¯ط§طھ endpoint/structure
-  ط¨ظ‡â€Œط±ظˆط²ط±ط³ط§ظ†غŒ ط´ظˆط¯.
+- تغییرات Multi-tenant فاز اول «زیرساختی» هستند؛ بنابراین تیم‌ها مجاز نیستند تفسیر دامنه‌ای/محصولی مستقل
+  (مثلاً انتخاب business فعال) را قبل از تصمیم رسمی پروژه در کد ثابت کنند.
+- تصمیم دربارهٔ استراتژی `active business` باید به‌صورت مرکزی تصویب و سپس در مستندات endpoint/structure
+  به‌روزرسانی شود.
 
-### 26.4) Update (2026-02-27) â€” ظˆط¶ط¹غŒطھ ظپط¹ظ„غŒ ط´ط§ط®ظ‡â€Œظ‡ط§ ظˆ ط¢ظ…ط§ط¯ظ‡â€Œط³ط§ط²غŒ DB
-- ظ¾ط³ ط§ط² طھط«ط¨غŒطھ `businessId` ظˆ ط³ط¨ط² ط´ط¯ظ† build ط±ظˆغŒ `main`طŒ ط¨ط±ظ†ع†â€Œظ‡ط§غŒ ط§ط¶ط§ظپغŒ ط­ط°ظپ ظˆ ظپظ‚ط· ظ…ظˆط§ط±ط¯ ط²غŒط± ظ†ع¯ظ‡ ط¯ط§ط´طھظ‡ ط´ط¯ظ†ط¯:
+### 26.4) Update (2026-02-27) — وضعیت فعلی شاخه‌ها و آماده‌سازی DB
+- پس از تثبیت `businessId` و سبز شدن build روی `main`، برنچ‌های اضافی حذف و فقط موارد زیر نگه داشته شدند:
   - `main`
   - `feature/backend-db-integration-prep`
-- ظ‡ط¯ظپ ط¨ط±ظ†ع† DB integration prep:
-  - ط¢ظ…ط§ط¯ظ‡â€Œط³ط§ط²غŒ ظپط§غŒظ„â€Œظ‡ط§/ظ…ط§عکظˆظ„â€Œظ‡ط§ ط¨ط±ط§غŒ ط§طھطµط§ظ„ ع©ط§ظ…ظ„ ط¨ظ‡ DB ظˆ ط­ط°ظپ hardcodeظ‡ط§غŒ ظ…ظˆظ‚طھ (ظ…ط«ظ„ط§ظ‹ registrationId ظ¾غŒط´â€Œظپط±ط¶)
-  - طھط«ط¨غŒطھ ط¬ط±غŒط§ظ† Context â†’ Service â†’ Prisma ط¯ط± طھظ…ط§ظ… ط³ط±ظˆغŒط³â€Œظ‡ط§غŒ ظ…ط­ط§ظپط¸طھâ€Œط´ط¯ظ‡
+- هدف برنچ DB integration prep:
+  - آماده‌سازی فایل‌ها/ماژول‌ها برای اتصال کامل به DB و حذف hardcodeهای موقت (مثلاً registrationId پیش‌فرض)
+  - تثبیت جریان Context → Service → Prisma در تمام سرویس‌های محافظت‌شده
 
-### 26.5) Update (1405-03-13) â€” ط¨ظ‡ط¨ظˆط¯ ظ…طھط¯ findBusinessesByUserId
-طھط؛غŒغŒط±ط§طھ ط§ط¹ظ…ط§ظ„â€Œط´ط¯ظ‡ ط¯ط± `src/business/business.service.ts`:
-- ظ…طھط¯ `findBusinessesByUserId` ط¨ط±ظˆط²ط±ط³ط§ظ†غŒ ط´ط¯ طھط§ ظپغŒظ„ط¯ظ‡ط§غŒ `economicCode` ظˆ `trackingCode` ط±ط§ ظ†غŒط² ط¨ط§ط²ع¯ط±ط¯ط§ظ†ط¯.
-- ظ…ظ†ط·ظ‚ ط¬ط¯غŒط¯ ط¨ط±ط§غŒ ظ¾ط± ع©ط±ط¯ظ† ط§غŒظ† ظپغŒظ„ط¯ظ‡ط§:
-  1. ط§ظˆظ„ظˆغŒطھ ط¨ط§ ط¬ط¯ظˆظ„ `BusinessRegistration` (ط§ع¯ط± ط«ط¨طھâ€Œظ†ط§ظ… طھع©ظ…غŒظ„ ط´ط¯ظ‡ ط¨ط§ط´ط¯).
-  2. fallback ط¨ظ‡ ط¬ط¯ظˆظ„ `Business` (ط§ع¯ط± ط«ط¨طھâ€Œظ†ط§ظ… طھع©ظ…غŒظ„ ظ†ط´ط¯ظ‡ ط¨ط§ط´ط¯).
+### 26.5) Update (1405-03-13) — بهبود متد findBusinessesByUserId
+تغییرات اعمال‌شده در `src/business/business.service.ts`:
+- متد `findBusinessesByUserId` بروزرسانی شد تا فیلدهای `economicCode` و `trackingCode` را نیز بازگرداند.
+- منطق جدید برای پر کردن این فیلدها:
+  1. اولویت با جدول `BusinessRegistration` (اگر ثبت‌نام تکمیل شده باشد).
+  2. fallback به جدول `Business` (اگر ثبت‌نام تکمیل نشده باشد).
 
-### 26.6) Update (2026-07-20) â€” Business Ownership ظˆ Onboarding ط§طھظ…غŒع©
+### 26.6) Update (2026-07-20) — Business Ownership و Onboarding اتمیک
 
 #### Backend
 
 - `src/auth/auth.service.ts`
-  - Signup ظپظ‚ط· User ط§غŒط¬ط§ط¯ ظ…غŒâ€Œع©ظ†ط¯.
-  - Signin/Refresh ط¨ط±ط§غŒ User ط¨ط¯ظˆظ† Business ظ…ط¹طھط¨ط± ط§ط³طھ ظˆ `businessId` ظ…غŒâ€Œطھظˆط§ظ†ط¯ `null` ط¨ط§ط´ط¯.
+  - Signup فقط User ایجاد می‌کند.
+  - Signin/Refresh برای User بدون Business معتبر است و `businessId` می‌تواند `null` باشد.
 - `src/business/business.controller.ts`
-  - `POST /businesses/create` ط¨ط¯ظ†ظ‡ `RegistrationStep1Dto` ظ…غŒâ€Œع¯غŒط±ط¯.
-  - ظ¾ط³ ط§ط² ط§غŒط¬ط§ط¯ ظ…ظˆظپظ‚طŒ `access_token` طھط§ط²ظ‡ ط¨ط§ Business ط¬ط¯غŒط¯ طµط§ط¯ط± ظ…غŒâ€Œط´ظˆط¯.
+  - `POST /businesses/create` بدنه `RegistrationStep1Dto` می‌گیرد.
+  - پس از ایجاد موفق، `access_token` تازه با Business جدید صادر می‌شود.
 - `src/business/business.service.ts`
-  - ط§غŒط¬ط§ط¯ `Business`, `UserBusiness`, `TaxFile`, `BusinessContact` ظˆ `BusinessRegistration` ط¯ط± غŒع© Prisma Transaction ط§ظ†ط¬ط§ظ… ظ…غŒâ€Œط´ظˆط¯.
+  - ایجاد `Business`, `UserBusiness`, `TaxFile`, `BusinessContact` و `BusinessRegistration` در یک Prisma Transaction انجام می‌شود.
 - `src/business/dto/onboarding-step1.dto.ts`
-  - ظپغŒظ„ط¯ظ‡ط§غŒ ط§طµظ„غŒ non-emptyطŒ `Contact` طھط¹ط±غŒظپâ€Œط´ط¯ظ‡ ظˆ nestedطŒ ظˆ `workshopCode` ط§ط®طھغŒط§ط±غŒ ط§ط³طھ.
-- Migration ط¬ط¯غŒط¯ Prisma ط¯ط± ط§غŒظ† ظپط§ط² ط§غŒط¬ط§ط¯ ظ†ط´ط¯.
+  - فیلدهای اصلی non-empty، `Contact` تعریف‌شده و nested، و `workshopCode` اختیاری است.
+- Migration جدید Prisma در این فاز ایجاد نشد.
 
 #### Frontend
 
 - `src/app/api/business/create/route.ts`
-  - Body ظˆ Cookie ط±ط§ ط¨ظ‡ Backend ظپظˆط±ظˆط§ط±ط¯ ظˆ `Set-Cookie` ظ¾ط§ط³ط® ط±ط§ ظ…ظ†طھظ‚ظ„ ظ…غŒâ€Œع©ظ†ط¯.
+  - Body و Cookie را به Backend فوروارد و `Set-Cookie` پاسخ را منتقل می‌کند.
 - `src/app/business/onboarding/page.tsx`
-  - ظپظ‚ط· غŒع© Submit ط¨ظ‡ `/api/business/create` ط¯ط§ط±ط¯.
-  - Manual ظˆ Auto-fill ط§ط² غŒع© ظپط±ظ… ظˆ endpoint ظ…ط´طھط±ع© ط§ط³طھظپط§ط¯ظ‡ ظ…غŒâ€Œع©ظ†ظ†ط¯.
+  - فقط یک Submit به `/api/business/create` دارد.
+  - Manual و Auto-fill از یک فرم و endpoint مشترک استفاده می‌کنند.
 - `src/components/business/onboarding/OnboardingChoiceModal.tsx`
-  - ط§ظ†طھط®ط§ط¨ آ«طھع©ظ…غŒظ„ ط®ظˆط¯ع©ط§ط± ط¨ط§ ظ‚ط§ظ„ط¨ ط¢ظ…ظˆط²ط´غŒ ظ…ظ†ط¬غŒآ» غŒط§ آ«طھع©ظ…غŒظ„ ط¯ط³طھغŒ ظپط±ظ…آ».
+  - انتخاب «تکمیل خودکار با قالب آموزشی منجی» یا «تکمیل دستی فرم».
 - `src/components/business/onboarding/StepRegistration.tsx`
-  - ظپط±ظ… ظ…ط´طھط±ع© ظˆ ظ‚ط§ط¨ظ„ ظˆغŒط±ط§غŒط´ ظ‡ط± ط¯ظˆ ط±ظˆط´.
+  - فرم مشترک و قابل ویرایش هر دو روش.
 - `src/lib/validation/onboarding.schema.ts`
-  - Schema ظ…ط´طھط±ع©ط› `workshopCode` ط§ط®طھغŒط§ط±غŒ.
+  - Schema مشترک؛ `workshopCode` اختیاری.
 - `src/app/business/onboarding/step-1/page.tsx`
-  - ظ…ط³غŒط± ظ‚ط¯غŒظ…غŒ ط±ط§ ط¨ظ‡ `/business/onboarding` Redirect ظ…غŒâ€Œع©ظ†ط¯.
+  - مسیر قدیمی را به `/business/onboarding` Redirect می‌کند.
 
-#### ظˆط¶ط¹غŒطھ طھط³طھ ظˆ Git
+#### وضعیت تست و Git
 
-- Backend Build/Runtime: ظ…ظˆظپظ‚
-- Frontend Build/Runtime: ظ…ظˆظپظ‚
-- User A â€” Manual E2E: ظ…ظˆظپظ‚
-- User B â€” Auto-fill E2E ظˆ ظˆغŒط±ط§غŒط´ Template: ظ…ظˆظپظ‚
-- Isolation ط¨غŒظ† Businessظ‡ط§غŒ User A ظˆ User B: ظ…ظˆظپظ‚
+- Backend Build/Runtime: موفق
+- Frontend Build/Runtime: موفق
+- User A — Manual E2E: موفق
+- User B — Auto-fill E2E و ویرایش Template: موفق
+- Isolation بین Businessهای User A و User B: موفق
 - Frontend Commit: `89083b9 feat: add editable auto-fill onboarding template`
 - Frontend Branch: `feature/modian-component-structure-refactor`
 - Backend Branch: `migration/backend-architecture-v2`
-- طھط³طھâ€Œظ‡ط§غŒ ط¨ط§ظ‚غŒâ€Œظ…ط§ظ†ط¯ظ‡: Rollback ط¹ظ…ط¯غŒ TransactionطŒ Double SubmitطŒ Missing/Invalid Cookie ظˆ Business ط¯ظˆظ… ط¨ط±ط§غŒ FREE
-- Routeظ‡ط§غŒ `/api/business/onboarding/step-1` ظˆ `/api/business/switch` طھط§ ظ¾ط§غŒط§ظ† ط§غŒظ† طھط³طھâ€Œظ‡ط§ Legacy ط¨ط§ظ‚غŒ ظ…غŒâ€Œظ…ط§ظ†ظ†ط¯.
+- تست‌های باقی‌مانده: Rollback عمدی Transaction، Double Submit، Missing/Invalid Cookie و Business دوم برای FREE
+- Routeهای `/api/business/onboarding/step-1` و `/api/business/switch` تا پایان این تست‌ها Legacy باقی می‌مانند.
 
 ## Checkpoint: Stable Main Baseline After Business Creation Eligibility
 
@@ -1765,15 +1765,15 @@ The platform now performs an eligibility check before starting business creation
 Flow:
 
 Dashboard
-    â†“
+    ↓
 Frontend Eligibility Hook
-    â†“
+    ↓
 Next.js API Proxy
-    â†“
+    ↓
 Backend /businesses/create-eligibility
-    â†“
+    ↓
 BusinessService Eligibility Check
-    â†“
+    ↓
 UserBusiness ownership validation
 
 ---
@@ -1823,120 +1823,120 @@ Frontend main and Backend main are now synchronized and represent the current st
 <!-- BEGIN:APP_TREE -->
 ```txt
 src\app
-â”œâ”€ admin/
-â”‚  â””â”€ notices/
-â”‚     â”œâ”€ [id]/
-â”‚     â”‚  â””â”€ edit/
-â”‚     â”‚     â””â”€ page.tsx
-â”‚     â”œâ”€ new/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â””â”€ page.tsx
-â”œâ”€ api/
-â”‚  â”œâ”€ auth/
-â”‚  â”‚  â””â”€ logout/
-â”‚  â”‚     â””â”€ route.ts
-â”‚  â”œâ”€ csrf/
-â”‚  â”‚  â””â”€ route.ts
-â”‚  â”œâ”€ simulators/
-â”‚  â”‚  â””â”€ insurance/
-â”‚  â”‚     â””â”€ calculate/
-â”‚  â”‚        â””â”€ route.ts
-â”‚  â”œâ”€ telemetry/
-â”‚  â”‚  â””â”€ route.ts
-â”‚  â””â”€ utils/
-â”‚     â”œâ”€ today/
-â”‚     â”‚  â””â”€ route.ts
-â”‚     â””â”€ user-info/
-â”‚        â””â”€ route.ts
-â”œâ”€ auth/
-â”‚  â”œâ”€ signin/
-â”‚  â”‚  â””â”€ page.tsx
-â”‚  â””â”€ signup/
-â”‚     â””â”€ page.tsx
-â”œâ”€ auth-debug/
-â”‚  â””â”€ page.tsx
-â”œâ”€ dashboard/
-â”‚  â”œâ”€ layout.tsx
-â”‚  â”œâ”€ page.tsx
-â”‚  â””â”€ Topbar.client.tsx
-â”œâ”€ privacy/
-â”‚  â””â”€ page.tsx
-â”œâ”€ profile/
-â”‚  â””â”€ page.tsx
-â”œâ”€ business/
-â”‚  â””â”€ onboarding/
-â”‚     â”œâ”€ page.tsx
-â”‚     â”œâ”€ step-1/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â”œâ”€ step-2/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â””â”€ step/
-â”‚        â””â”€ 1/
-â”‚           â””â”€ route.ts
-â”œâ”€ simulators/
-â”‚  â”œâ”€ insurance/
-â”‚  â”‚  â”œâ”€ free/
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â””â”€ single/
-â”‚  â”‚     â””â”€ page.tsx
-â”‚  â”œâ”€ karpooshe/
-â”‚  â”‚  â””â”€ login/
-â”‚  â”‚     â””â”€ page.tsx
-â”‚  â”œâ”€ modian/
-â”‚  â”‚  â”œâ”€ declaration/
-â”‚  â”‚  â”‚  â”œâ”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ statement.tsx
-â”‚  â”‚  â”‚  â””â”€ summary.tsx
-â”‚  â”‚  â”œâ”€ home/
-â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ invoices/
-â”‚  â”‚  â”‚  â”œâ”€ buy/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ exports/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ files/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ sales/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â””â”€ layout.tsx
-â”‚  â”‚  â”œâ”€ login/
-â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ otp/
-â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ portal/
-â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ roles/
-â”‚  â”‚  â”‚  â”œâ”€ add/
-â”‚  â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â””â”€ layout.tsx
-â”‚  â”‚  â”œâ”€ users-roles/
-â”‚  â”‚  â”‚  â”œâ”€ add/
-â”‚  â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â””â”€ layout.tsx
-â”‚  â””â”€ salary-tax/
-â”‚     â”œâ”€ batch/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â”œâ”€ dashboard/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â”œâ”€ free/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â”œâ”€ login/
-â”‚     â”‚  â””â”€ page.tsx
-â”‚     â””â”€ pro/
-â”‚        â””â”€ page.tsx
-â”œâ”€ terms/
-â”‚  â””â”€ page.tsx
-â”œâ”€ head.tsx
-â”œâ”€ layout.tsx
-â””â”€ page.tsx
+├─ admin/
+│  └─ notices/
+│     ├─ [id]/
+│     │  └─ edit/
+│     │     └─ page.tsx
+│     ├─ new/
+│     │  └─ page.tsx
+│     └─ page.tsx
+├─ api/
+│  ├─ auth/
+│  │  └─ logout/
+│  │     └─ route.ts
+│  ├─ csrf/
+│  │  └─ route.ts
+│  ├─ simulators/
+│  │  └─ insurance/
+│  │     └─ calculate/
+│  │        └─ route.ts
+│  ├─ telemetry/
+│  │  └─ route.ts
+│  └─ utils/
+│     ├─ today/
+│     │  └─ route.ts
+│     └─ user-info/
+│        └─ route.ts
+├─ auth/
+│  ├─ signin/
+│  │  └─ page.tsx
+│  └─ signup/
+│     └─ page.tsx
+├─ auth-debug/
+│  └─ page.tsx
+├─ dashboard/
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ Topbar.client.tsx
+├─ privacy/
+│  └─ page.tsx
+├─ profile/
+│  └─ page.tsx
+├─ business/
+│  └─ onboarding/
+│     ├─ page.tsx
+│     ├─ step-1/
+│     │  └─ page.tsx
+│     ├─ step-2/
+│     │  └─ page.tsx
+│     └─ step/
+│        └─ 1/
+│           └─ route.ts
+├─ simulators/
+│  ├─ insurance/
+│  │  ├─ free/
+│  │  │  └─ page.tsx
+│  │  └─ single/
+│  │     └─ page.tsx
+│  ├─ karpooshe/
+│  │  └─ login/
+│  │     └─ page.tsx
+│  ├─ modian/
+│  │  ├─ declaration/
+│  │  │  ├─ page.tsx
+│  │  │  ├─ statement.tsx
+│  │  │  └─ summary.tsx
+│  │  ├─ home/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ invoices/
+│  │  │  ├─ buy/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ exports/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ files/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ sales/
+│  │  │  │  └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ login/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ otp/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ portal/
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ roles/
+│  │  │  ├─ add/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ users-roles/
+│  │  │  ├─ add/
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  └─ layout.tsx
+│  └─ salary-tax/
+│     ├─ batch/
+│     │  └─ page.tsx
+│     ├─ dashboard/
+│     │  └─ page.tsx
+│     ├─ free/
+│     │  └─ page.tsx
+│     ├─ login/
+│     │  └─ page.tsx
+│     └─ pro/
+│        └─ page.tsx
+├─ terms/
+│  └─ page.tsx
+├─ head.tsx
+├─ layout.tsx
+└─ page.tsx
 ```
 
 <!-- END:APP_TREE -->
@@ -1945,167 +1945,167 @@ src\app
 <!-- BEGIN:COMPONENTS_TREE -->
 ```txt
 src\components
-â”œâ”€ admin/
-â”‚  â””â”€ NoticeForm.tsx
-â”œâ”€ auth/
-â”‚  â”œâ”€ ChangePasswordForm.tsx
-â”‚  â””â”€ LoginForm.tsx
-â”œâ”€ common/
-â”‚  â”œâ”€ date/
-â”‚  â”‚  â””â”€ JalaliDateField.tsx
-â”‚  â”œâ”€ help/
-â”‚  â”‚  â”œâ”€ HelpModal.tsx
-â”‚  â”‚  â””â”€ HelpTrigger.tsx
-â”‚  â”œâ”€ Captcha.tsx
-â”‚  â”œâ”€ FaDigits.tsx
-â”‚  â”œâ”€ HelpGuideButton.tsx
-â”‚  â””â”€ InputField.tsx
-â”œâ”€ insurance/
-â”‚  â”œâ”€ InputGroup.tsx
-â”‚  â”œâ”€ InsuranceResultBox.tsx
-â”‚  â”œâ”€ InsuranceSingleForm.tsx
-â”‚  â””â”€ tax-result.interface.ts
-â”œâ”€ landing/
-â”‚  â”œâ”€ analytics.ts
-â”‚  â”œâ”€ ArticlePreview.tsx
-â”‚  â”œâ”€ ComparisonTable.tsx
-â”‚  â”œâ”€ DemoCard.tsx
-â”‚  â”œâ”€ FeatureCard.tsx
-â”‚  â”œâ”€ HeroSection.tsx
-â”‚  â”œâ”€ HowItWorks.tsx
-â”‚  â”œâ”€ LandingFooter.tsx
-â”‚  â”œâ”€ MiniAnchorNav.tsx
-â”‚  â”œâ”€ perf-metrics.ts
-â”‚  â”œâ”€ SocialProof.tsx
-â”‚  â””â”€ TrustStrip.tsx
-â”œâ”€ layout/
-â”œâ”€ modian/
-â”‚  â”œâ”€ admin/
-â”‚  â”‚  â”œâ”€ dashboard/
-â”‚  â”‚  â”‚  â””â”€ AdminDashboardHelpContent.tsx
-â”‚  â”‚  â””â”€ index.ts
-â”‚  â”œâ”€ auth/
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ ModianLoginForm.tsx
-â”‚  â”‚  â””â”€ ModianOtpForm.tsx
-â”‚  â”œâ”€ common/
-â”‚  â”‚  â”œâ”€ search/
-â”‚  â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”‚  â”œâ”€ InvoicesSearchHeader.tsx
-â”‚  â”‚  â”‚  â”œâ”€ SearchByFilters.tsx
-â”‚  â”‚  â”‚  â””â”€ SearchByTaxId.tsx
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ memoryKey.utils.ts
-â”‚  â”‚  â”œâ”€ ModianJalaliDateField.tsx
-â”‚  â”‚  â”œâ”€ ModianJalaliDatePicker.tsx
-â”‚  â”‚  â”œâ”€ SimulatorBadge.tsx
-â”‚  â”‚  â”œâ”€ Tabs.tsx
-â”‚  â”‚  â”œâ”€ ToolbarControls.tsx
-â”‚  â”‚  â”œâ”€ UploadPublicKeyModal.tsx
-â”‚  â”‚  â””â”€ useMemoryPublicKey.ts
-â”‚  â”œâ”€ declaration/
-â”‚  â”‚  â”œâ”€ DeclarationHelpContent.tsx
-â”‚  â”‚  â””â”€ index.ts
-â”‚  â”œâ”€ home/
-â”‚  â”‚  â”œâ”€ HomeHelpContent.tsx
-â”‚  â”‚  â””â”€ index.ts
-â”‚  â”œâ”€ layout/
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ ModianFooter.tsx
-â”‚  â”‚  â”œâ”€ ModianHeader.tsx
-â”‚  â”‚  â”œâ”€ ModianShell.tsx
-â”‚  â”‚  â””â”€ ModianSubHeader.tsx
-â”‚  â”œâ”€ otp/
-â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”œâ”€ portal/
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â””â”€ PortalHelpContent.tsx
-â”‚  â”œâ”€ roles/
-â”‚  â”‚  â””â”€ index.ts
-â”‚  â”œâ”€ taxfile/
-â”‚  â”‚  â”œâ”€ bank-accounts/
-â”‚  â”‚  â”‚  â”œâ”€ BankAccountsHelpContent.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ bills/
-â”‚  â”‚  â”‚  â”œâ”€ BillsHelpContent.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ memory-uid/
-â”‚  â”‚  â”‚  â”œâ”€ add/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ details/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ edit/
-â”‚  â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”‚  â”œâ”€ MemoryUidHelpContent.tsx
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ payments/
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ pos-uid/
-â”‚  â”‚  â”‚  â””â”€ page.tsx
-â”‚  â”‚  â”œâ”€ registration-information/
-â”‚  â”‚  â”‚  â”œâ”€ page.tsx
-â”‚  â”‚  â”‚  â””â”€ types.ts
-â”‚  â”‚  â”œâ”€ trusted-companies/
-â”‚  â”‚  â”‚  â”œâ”€ page.tsx
-â”‚  â”‚  â”‚  â””â”€ TrustedHelpContent.tsx
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ layout.tsx
-â”‚  â”‚  â”œâ”€ page.tsx
-â”‚  â”‚  â””â”€ TaxfileSubmenu.tsx
-â”‚  â”œâ”€ ui/
-â”‚  â”‚  â”œâ”€ Card.tsx
-â”‚  â”‚  â”œâ”€ FieldGrid.tsx
-â”‚  â”‚  â”œâ”€ FormField.tsx
-â”‚  â”‚  â”œâ”€ FormToolbar.tsx
-â”‚  â”‚  â”œâ”€ icons.tsx
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ PageShell.tsx
-â”‚  â”‚  â””â”€ Section.tsx
-â”‚  â”œâ”€ users-roles/
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â””â”€ UsersRolesHelpContent.tsx
-â”‚  â”œâ”€ workspace/
-â”‚  â”‚  â””â”€ index.ts
-â”‚  â”œâ”€ faq-data.ts
-â”‚  â”œâ”€ index.ts
-â”‚  â”œâ”€ karpooshe-code-search.tsx
-â”‚  â”œâ”€ menu-items.ts
-â”‚  â”œâ”€ ModianFaqTab.tsx
-â”‚  â”œâ”€ ModianHome.tsx
-â”‚  â”œâ”€ ModianNoticesTabs.tsx
-â”‚  â”œâ”€ ModianPortal.tsx
-â”‚  â”œâ”€ ModianQuickAccess.tsx
-â”‚  â”œâ”€ ModianSidebar.tsx
-â”‚  â””â”€ ModianWorkspace.tsx
-â”‚  â”œâ”€ ui/
-â”‚  â”‚  â”œâ”€ date/
-â”‚  â”‚  â”‚  â””â”€ ModianJalaliDatePicker.tsx
-â”‚  â”‚  â”œâ”€ Card.tsx
-â”‚  â”‚  â”œâ”€ FieldGrid.tsx
-â”‚  â”‚  â”œâ”€ FormField.tsx
-â”‚  â”‚  â”œâ”€ FormToolbar.tsx
-â”‚  â”‚  â”œâ”€ icons.tsx
-â”‚  â”‚  â”œâ”€ index.ts
-â”‚  â”‚  â”œâ”€ PageShell.tsx
-â”‚  â”‚  â”œâ”€ Section.tsx
-â”‚  â”‚  â”œâ”€ SimulatorBadge.tsx
-â”‚  â”‚  â”œâ”€ Tabs.tsx
-â”‚  â”‚  â”œâ”€ ToolbarControls.tsx
-â”‚  â”‚  â””â”€ UploadPublicKeyModal.tsx
-â”œâ”€ salary-tax/
-â”‚  â”œâ”€ page.tsx
-â”‚  â”œâ”€ SalaryTaxForm.tsx
-â”‚  â”œâ”€ SalaryTaxResult.tsx
-â”‚  â””â”€ SimulatorHeader.tsx
-â”œâ”€ simulators/
-â”‚  â””â”€ karpooshe/
-â”‚     â””â”€ KarpoosheLoginForm.tsx
-â”œâ”€ ui/
-â”‚  â”œâ”€ button.tsx
-â”‚  â”œâ”€ card.tsx
-â”‚  â”œâ”€ input.tsx
-â”‚  â””â”€ SkeletonLoader.tsx
-â””â”€ Stepper.tsx
+├─ admin/
+│  └─ NoticeForm.tsx
+├─ auth/
+│  ├─ ChangePasswordForm.tsx
+│  └─ LoginForm.tsx
+├─ common/
+│  ├─ date/
+│  │  └─ JalaliDateField.tsx
+│  ├─ help/
+│  │  ├─ HelpModal.tsx
+│  │  └─ HelpTrigger.tsx
+│  ├─ Captcha.tsx
+│  ├─ FaDigits.tsx
+│  ├─ HelpGuideButton.tsx
+│  └─ InputField.tsx
+├─ insurance/
+│  ├─ InputGroup.tsx
+│  ├─ InsuranceResultBox.tsx
+│  ├─ InsuranceSingleForm.tsx
+│  └─ tax-result.interface.ts
+├─ landing/
+│  ├─ analytics.ts
+│  ├─ ArticlePreview.tsx
+│  ├─ ComparisonTable.tsx
+│  ├─ DemoCard.tsx
+│  ├─ FeatureCard.tsx
+│  ├─ HeroSection.tsx
+│  ├─ HowItWorks.tsx
+│  ├─ LandingFooter.tsx
+│  ├─ MiniAnchorNav.tsx
+│  ├─ perf-metrics.ts
+│  ├─ SocialProof.tsx
+│  └─ TrustStrip.tsx
+├─ layout/
+├─ modian/
+│  ├─ admin/
+│  │  ├─ dashboard/
+│  │  │  └─ AdminDashboardHelpContent.tsx
+│  │  └─ index.ts
+│  ├─ auth/
+│  │  ├─ index.ts
+│  │  ├─ ModianLoginForm.tsx
+│  │  └─ ModianOtpForm.tsx
+│  ├─ common/
+│  │  ├─ search/
+│  │  │  ├─ index.ts
+│  │  │  ├─ InvoicesSearchHeader.tsx
+│  │  │  ├─ SearchByFilters.tsx
+│  │  │  └─ SearchByTaxId.tsx
+│  │  ├─ index.ts
+│  │  ├─ memoryKey.utils.ts
+│  │  ├─ ModianJalaliDateField.tsx
+│  │  ├─ ModianJalaliDatePicker.tsx
+│  │  ├─ SimulatorBadge.tsx
+│  │  ├─ Tabs.tsx
+│  │  ├─ ToolbarControls.tsx
+│  │  ├─ UploadPublicKeyModal.tsx
+│  │  └─ useMemoryPublicKey.ts
+│  ├─ declaration/
+│  │  ├─ DeclarationHelpContent.tsx
+│  │  └─ index.ts
+│  ├─ home/
+│  │  ├─ HomeHelpContent.tsx
+│  │  └─ index.ts
+│  ├─ layout/
+│  │  ├─ index.ts
+│  │  ├─ ModianFooter.tsx
+│  │  ├─ ModianHeader.tsx
+│  │  ├─ ModianShell.tsx
+│  │  └─ ModianSubHeader.tsx
+│  ├─ otp/
+│  │  └─ page.tsx
+│  ├─ portal/
+│  │  ├─ index.ts
+│  │  └─ PortalHelpContent.tsx
+│  ├─ roles/
+│  │  └─ index.ts
+│  ├─ taxfile/
+│  │  ├─ bank-accounts/
+│  │  │  ├─ BankAccountsHelpContent.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ bills/
+│  │  │  ├─ BillsHelpContent.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ memory-uid/
+│  │  │  ├─ add/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ details/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ edit/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ MemoryUidHelpContent.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ payments/
+│  │  │  └─ page.tsx
+│  │  ├─ pos-uid/
+│  │  │  └─ page.tsx
+│  │  ├─ registration-information/
+│  │  │  ├─ page.tsx
+│  │  │  └─ types.ts
+│  │  ├─ trusted-companies/
+│  │  │  ├─ page.tsx
+│  │  │  └─ TrustedHelpContent.tsx
+│  │  ├─ index.ts
+│  │  ├─ layout.tsx
+│  │  ├─ page.tsx
+│  │  └─ TaxfileSubmenu.tsx
+│  ├─ ui/
+│  │  ├─ Card.tsx
+│  │  ├─ FieldGrid.tsx
+│  │  ├─ FormField.tsx
+│  │  ├─ FormToolbar.tsx
+│  │  ├─ icons.tsx
+│  │  ├─ index.ts
+│  │  ├─ PageShell.tsx
+│  │  └─ Section.tsx
+│  ├─ users-roles/
+│  │  ├─ index.ts
+│  │  └─ UsersRolesHelpContent.tsx
+│  ├─ workspace/
+│  │  └─ index.ts
+│  ├─ faq-data.ts
+│  ├─ index.ts
+│  ├─ karpooshe-code-search.tsx
+│  ├─ menu-items.ts
+│  ├─ ModianFaqTab.tsx
+│  ├─ ModianHome.tsx
+│  ├─ ModianNoticesTabs.tsx
+│  ├─ ModianPortal.tsx
+│  ├─ ModianQuickAccess.tsx
+│  ├─ ModianSidebar.tsx
+│  └─ ModianWorkspace.tsx
+│  ├─ ui/
+│  │  ├─ date/
+│  │  │  └─ ModianJalaliDatePicker.tsx
+│  │  ├─ Card.tsx
+│  │  ├─ FieldGrid.tsx
+│  │  ├─ FormField.tsx
+│  │  ├─ FormToolbar.tsx
+│  │  ├─ icons.tsx
+│  │  ├─ index.ts
+│  │  ├─ PageShell.tsx
+│  │  ├─ Section.tsx
+│  │  ├─ SimulatorBadge.tsx
+│  │  ├─ Tabs.tsx
+│  │  ├─ ToolbarControls.tsx
+│  │  └─ UploadPublicKeyModal.tsx
+├─ salary-tax/
+│  ├─ page.tsx
+│  ├─ SalaryTaxForm.tsx
+│  ├─ SalaryTaxResult.tsx
+│  └─ SimulatorHeader.tsx
+├─ simulators/
+│  └─ karpooshe/
+│     └─ KarpoosheLoginForm.tsx
+├─ ui/
+│  ├─ button.tsx
+│  ├─ card.tsx
+│  ├─ input.tsx
+│  └─ SkeletonLoader.tsx
+└─ Stepper.tsx
 ```
 
 
