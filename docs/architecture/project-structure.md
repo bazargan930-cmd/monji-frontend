@@ -583,15 +583,67 @@ npm run docs:all       # docs:scan + docs:update-structure
 
 - همه‌ی مسیرها زیر `src/` قرار می‌گیرند.
 - ماژول‌ها (شبیه‌سازها) تحت `src/app/simulators/*`:
-  - `modian`  (سامانه مودیان)
-  - `salary-tax`  (سامانه مالیات بر حقوق)
-  - `insurance`  (سامانه بیمه تأمین اجتماعی)
-- کامپوننت‌های اشتراکی/ماژولار در `src/components/*` با **نام‌گذاری ماژول‌محور و لایه‌بندی واضح**:
-  - `src/components/layout/*` — شِل/هدر/ساب‌هدر سراسری سایت
-  - `src/components/modian/layout/*` — شِل/هدر اختصاصی ماژول مودیان
-  - `src/components/salary-tax/layout/*` — شِل/هدر اختصاصی مالیات بر حقوق
-  - `src/components/insurance/layout/*` — شِل/هدر اختصاصی بیمه
-  - سایر اجزاء ماژول‌ها به تفکیک همان ماژول: `src/components/modian/...`، `src/components/salary-tax/...`، ...
+ همه‌ی مسیرها زیر `src/` قرار می‌گیرند.
+
+ معماری Frontend بر اساس تفکیک بین **Shared/Core Components** و **Platform Features**
+ سازمان‌دهی می‌شود.
+
+ **Shared/Core Components**
+
+ مسیر:
+
+ `src/components/*`
+
+ برای اجزای عمومی، UI مشترک و Domainهای قابل استفاده توسط چند Platform استفاده می‌شود.
+
+ نمونه‌های Shared/Core:
+
+ - `src/components/ui/*`
+ - `src/components/common/*`
+ - `src/components/business/*`
+
+ نکته:
+
+ `Business` یک Platform مستقل نیست؛
+ بلکه یک Shared Core Domain است که توسط Platformهای مختلف استفاده می‌شود.
+
+ Platformهای مصرف‌کننده شامل:
+
+ - Modian
+ - Insurance
+ - Salary Tax
+
+بنابراین Business در `src/components` باقی می‌ماند و به `src/features`
+ منتقل نمی‌شود.
+
+ **Platform Features**
+
+ مسیر:
+
+ `src/features/*`
+
+ برای Platformهای مستقل و Featureهای دامنه‌ای استفاده می‌شود.
+
+ **Route Layer**
+
+ مسیر:
+
+ `src/app/*`
+
+ مسئول ساختار URL، Routing و Composition لایه‌های Next.js است.
+
+ مسیرهای Platform مانند:
+
+ `src/app/simulators/modian/*`
+
+ صرفاً لایه Route بوده و منطق و Componentهای Domain را از Feature مربوطه مصرف می‌کنند.
+
+ وضعیت Migration:
+
+ - `Modian` به ساختار Feature-Based منتقل شده است:
+   `src/features/modian/*`
+
+ - Platformهای دیگر در مراحل بعدی Migration خواهند شد.
 
 **یادداشت تغییر ساختاری (مودیان):**
 - مسیر استاندارد «پروندهٔ مالیاتی» از این به بعد **بدون سگمنت ادمین** است:
