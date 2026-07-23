@@ -78,7 +78,15 @@
 > **یادداشت فرانت (Next 15):** صفحات فوق که کلاینتی هستند و از `useSearchParams` استفاده می‌کنند باید زیر یک `layout.tsx` محلی با `<Suspense>` رندر شوند تا خطای *missing-suspense-with-csr-bailout* در بیلد رخ ندهد. همچنین در صفحات کلاینت به‌جای `next/headers` از `GET /api/utils/user-info` استفاده کنید.
 
 > **یادداشت جدید:** ساختار «مودیان» اکنون ماژولار شده و تمام شِل‌ها و هدرهای اختصاصی در مسیر
-`src/features/modian/layout/` قرار دارند. مسیرهای قبلی در `src/components/modian/layout/` فقط برای صفحات اصلی (Site-level) باقی مانده‌اند.
+`src/features/modian/layout/` قرار دارند.
+
+`src/components/modian/layout/` دیگر مسیر مرجع ماژول مودیان نیست و فقط در صورت وجود کد Legacy باید به‌عنوان مسیر تاریخی در نظر گرفته شود.
+
+تمام صفحات جدید مودیان باید از Feature مربوطه در:
+
+`src/features/modian/*`
+
+مصرف کنند.
 
 > برای صفحات کلاینتی مانند `otp`, `portal`, `users-roles/add`، ساختار `page.tsx (Server)` + `PageClient.tsx (Client)` استفاده شده تا خطای
 `useSearchParams()` و CSR bailout رفع شود.
