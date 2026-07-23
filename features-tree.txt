@@ -1,0 +1,135 @@
+\---modian
+    |   faq-data.ts
+    |   index.ts
+    |   karpooshe-code-search.tsx
+    |   menu-items.ts
+    |   ModianFaqTab.tsx
+    |   ModianHome.tsx
+    |   ModianNoticesTabs.tsx
+    |   ModianPortal.tsx
+    |   ModianQuickAccess.tsx
+    |   ModianSidebar.tsx
+    |   ModianWorkspace.tsx
+    |
+    +---admin
+    |   |   index.ts
+    |   |
+    |   \---dashboard
+    |           AdminDashboardHelpContent.tsx
+    |
+    +---auth
+    |       index.ts
+    |       ModianLoginForm.tsx
+    |       ModianOtpForm.tsx
+    |
+    +---common
+    |   |   index.ts
+    |   |   InvoiceDetailSection.tsx
+    |   |   memoryKey.utils.ts
+    |   |   ModianJalaliDateField.tsx
+    |   |   useMemoryPublicKey.ts
+    |   |
+    |   +---date
+    |   |       jalali-utils.ts
+    |   |
+    |   +---search
+    |   |       index.ts
+    |   |       InvoicesSearchHeader.tsx
+    |   |       SearchByFilters.tsx
+    |   |       SearchByTaxId.tsx
+    |   |
+    |   \---table
+    |           ColumnsVisibilityBar.tsx
+    |           EmptyTableRow.tsx
+    |           index.ts
+    |           ScrollableTableShell.tsx
+    |
+    +---declaration
+    |       DeclarationHelpContent.tsx
+    |       index.ts
+    |
+    +---home
+    |       HomeHelpContent.tsx
+    |       index.ts
+    |
+    +---layout
+    |       index.ts
+    |       ModianFooter.tsx
+    |       ModianHeader.tsx
+    |       ModianShell.tsx
+    |       ModianSubHeader.tsx
+    |
+    +---otp
+    |       Otppage.tsx
+    |
+    +---portal
+    |       index.ts
+    |       PortalHelpContent.tsx
+    |
+    +---roles
+    |       index.ts
+    |
+    +---taxfile
+    |   |   index.ts
+    |   |   TaxfileLayoutView.tsx
+    |   |   TaxfilePageView.tsx
+    |   |   TaxfileSubmenu.tsx
+    |   |
+    |   +---bank-accounts
+    |   |       BankAccountsHelpContent.tsx
+    |   |       BankAccountsPage.tsx
+    |   |
+    |   +---bills
+    |   |       BillsHelpContent.tsx
+    |   |       BillsPage.tsx
+    |   |
+    |   +---memory-uid
+    |   |   |   Memory-uidpage.tsx
+    |   |   |   MemoryUidHelpContent.tsx
+    |   |   |
+    |   |   +---add
+    |   |   |       Addpage.tsx
+    |   |   |
+    |   |   +---details
+    |   |   |       Detailspage.tsx
+    |   |   |
+    |   |   \---edit
+    |   |           page.tsx
+    |   |
+    |   +---payments
+    |   |       PaymentsPage.tsx
+    |   |
+    |   +---pos-uid
+    |   |       page.tsx
+    |   |
+    |   +---registration-information
+    |   |       RegistrationInformationPage.tsx
+    |   |       types.ts
+    |   |
+    |   \---trusted-companies
+    |           TrustedCompaniesPage.tsx
+    |           TrustedHelpContent.tsx
+    |
+    +---ui
+    |   |   Card.tsx
+    |   |   FieldGrid.tsx
+    |   |   FormField.tsx
+    |   |   FormToolbar.tsx
+    |   |   icons.tsx
+    |   |   index.ts
+    |   |   PageShell.tsx
+    |   |   Section.tsx
+    |   |   SimulatorBadge.tsx
+    |   |   Tabs.tsx
+    |   |   ToolbarControls.tsx
+    |   |   UploadPublicKeyModal.tsx
+    |   |
+    |   \---date
+    |           ModianJalaliDatePicker.tsx
+    |
+    +---users-roles
+    |       index.ts
+    |       UsersRolesHelpContent.tsx
+    |
+    \---workspace
+            index.ts

@@ -1,229 +1,606 @@
-src\app
-├─ admin/
-│  └─ notices/
-│     ├─ [id]/
-│     │  └─ edit/
-│     │     └─ page.tsx
-│     ├─ new/
-│     │  └─ page.tsx
-│     └─ page.tsx
-├─ api/
-│  ├─ auth/
-│  │  └─ logout/
-│  │     └─ route.ts
-│  ├─ business/
-│  │  ├─ create/
-│  │  │  └─ route.ts
-│  │  ├─ onboarding/
-│  │  │  └─ step-1/
-│  │  │     └─ route.ts
-│  │  └─ switch/
-│  │     └─ route.ts
-│  ├─ csrf/
-│  │  └─ route.ts
-│  ├─ simulators/
-│  │  ├─ insurance/
-│  │  │  └─ calculate/
-│  │  │     └─ route.ts
-│  │  └─ modian/
-│  │     └─ login/
-│  │        └─ route.ts
-│  ├─ telemetry/
-│  │  └─ route.ts
-│  └─ utils/
-│     ├─ today/
-│     │  └─ route.ts
-│     └─ user-info/
-│        └─ route.ts
-├─ auth/
-│  ├─ signin/
-│  │  └─ page.tsx
-│  └─ signup/
-│     └─ page.tsx
-├─ auth-debug/
-│  └─ page.tsx
-├─ business/
-│  ├─ onboarding/
-│  │  ├─ step/
-│  │  │  └─ 1/
-│  │  │     └─ route.ts
-│  │  ├─ step-1/
-│  │  │  └─ page.tsx
-│  │  ├─ step-2/
-│  │  │  └─ page.tsx
-│  │  └─ page.tsx
-│  └─ registration-status/
-│     └─ route.ts
-├─ dashboard/
-│  ├─ layout.tsx
-│  ├─ page.tsx
-│  └─ Topbar.client.tsx
-├─ privacy/
-│  └─ page.tsx
-├─ profile/
-│  └─ page.tsx
-├─ simulators/
-│  ├─ insurance/
-│  │  ├─ free/
-│  │  │  └─ page.tsx
-│  │  └─ single/
-│  │     └─ page.tsx
-│  ├─ karpooshe/
-│  │  └─ login/
-│  │     └─ page.tsx
-│  ├─ modian/
-│  │  ├─ (with-shell)/
-│  │  │  ├─ contracts/
-│  │  │  │  ├─ commission/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ new/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ contracting/
-│  │  │  │     ├─ detail/
-│  │  │  │     │  └─ page.tsx
-│  │  │  │     ├─ new/
-│  │  │  │     │  └─ page.tsx
-│  │  │  │     └─ page.tsx
-│  │  │  ├─ dashboard/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ declaration/
-│  │  │  │  ├─ complete/
-│  │  │  │  │  ├─ calculation/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ credit/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ final/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ purchase/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ sale/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ details/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ feedback/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ green-tax/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ summary/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ page.tsx
-│  │  │  │  ├─ statement.tsx
-│  │  │  │  └─ summary.tsx
-│  │  │  ├─ home/
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ invoices/
-│  │  │  │  ├─ buy/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ exports/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ files/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ sales/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ layout.tsx
-│  │  │  ├─ old-Invoices/
-│  │  │  │  ├─ buy/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ exports/
-│  │  │  │  │  ├─ detail/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ sales/
-│  │  │  │     ├─ detail/
-│  │  │  │     │  └─ page.tsx
-│  │  │  │     └─ page.tsx
-│  │  │  ├─ purchase-announcements/
-│  │  │  │  ├─ bourse/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ imports/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ requests/
-│  │  │  │  ├─ auto-reject-referred-invoices/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ defer-invoice-tax-effect/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ increase-sales-limit/
-│  │  │  │     └─ page.tsx
-│  │  │  ├─ roles/
-│  │  │  │  ├─ add/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  └─ layout.tsx
-│  │  │  ├─ tax-bills/
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ taxfile/
-│  │  │  │  ├─ bank-accounts/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ bills/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ memory-uid/
-│  │  │  │  │  ├─ add/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ details/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ payments/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ registration/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ trusted/
-│  │  │  │  │  ├─ add/
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ trusted-companies/
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ users-roles/
-│  │  │  │  ├─ add/
-│  │  │  │  │  ├─ layout.tsx
-│  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ layout.tsx
-│  │  │  │  └─ page.tsx
-│  │  │  └─ layout.tsx
-│  │  ├─ login/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ otp/
-│  │  │  └─ page.tsx
-│  │  ├─ portal/
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  └─ layout.tsx
-│  ├─ platform-check/
-│  │  └─ page.tsx
-│  └─ salary-tax/
-│     ├─ batch/
-│     │  └─ page.tsx
-│     ├─ dashboard/
-│     │  └─ page.tsx
-│     ├─ free/
-│     │  └─ page.tsx
-│     ├─ login/
-│     │  └─ page.tsx
-│     └─ pro/
-│        └─ page.tsx
-├─ terms/
-│  └─ page.tsx
-├─ head.tsx
-├─ layout.tsx
-└─ page.tsx
+|   favicon.ico
+|   globals.css
+|   middleware.ts
+|
++---app
+|   |   head.tsx
+|   |   layout.tsx
+|   |   page.tsx
+|   |
+|   +---admin
+|   |   \---notices
+|   |       |   page.tsx
+|   |       |
+|   |       +---new
+|   |       |       page.tsx
+|   |       |
+|   |       \---[id]
+|   |           \---edit
+|   |                   page.tsx
+|   |
+|   +---api
+|   |   +---auth
+|   |   |   \---logout
+|   |   |           route.ts
+|   |   |
+|   |   +---business
+|   |   |   +---create
+|   |   |   |       route.ts
+|   |   |   |
+|   |   |   +---create-eligibility
+|   |   |   |       route.ts
+|   |   |   |
+|   |   |   +---onboarding
+|   |   |   |   \---step-1
+|   |   |   |           route.ts
+|   |   |   |
+|   |   |   \---switch
+|   |   |           route.ts
+|   |   |
+|   |   +---csrf
+|   |   |       route.ts
+|   |   |
+|   |   +---simulators
+|   |   |   +---insurance
+|   |   |   |   \---calculate
+|   |   |   |           route.ts
+|   |   |   |
+|   |   |   \---modian
+|   |   |       \---login
+|   |   |               route.ts
+|   |   |
+|   |   +---telemetry
+|   |   |       route.ts
+|   |   |
+|   |   \---utils
+|   |       +---today
+|   |       |       route.ts
+|   |       |
+|   |       \---user-info
+|   |               route.ts
+|   |
+|   +---auth
+|   |   +---signin
+|   |   |       page.tsx
+|   |   |
+|   |   \---signup
+|   |           page.tsx
+|   |
+|   +---auth-debug
+|   |       page.tsx
+|   |
+|   +---business
+|   |   +---onboarding
+|   |   |   |   page.tsx
+|   |   |   |
+|   |   |   +---step
+|   |   |   |   \---1
+|   |   |   |           route.ts
+|   |   |   |
+|   |   |   +---step-1
+|   |   |   |       page.tsx
+|   |   |   |
+|   |   |   \---step-2
+|   |   |           page.tsx
+|   |   |
+|   |   \---registration-status
+|   |           route.ts
+|   |
+|   +---dashboard
+|   |       layout.tsx
+|   |       page.tsx
+|   |       Topbar.client.tsx
+|   |
+|   +---privacy
+|   |       page.tsx
+|   |
+|   +---profile
+|   |       page.tsx
+|   |
+|   +---simulators
+|   |   +---insurance
+|   |   |   +---free
+|   |   |   |       page.tsx
+|   |   |   |
+|   |   |   \---single
+|   |   |           page.tsx
+|   |   |
+|   |   +---karpooshe
+|   |   |   \---login
+|   |   |           page.tsx
+|   |   |
+|   |   +---modian
+|   |   |   |   layout.tsx
+|   |   |   |
+|   |   |   +---(with-shell)
+|   |   |   |   |   layout.tsx
+|   |   |   |   |
+|   |   |   |   +---contracts
+|   |   |   |   |   +---commission
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---detail
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---new
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---contracting
+|   |   |   |   |       |   page.tsx
+|   |   |   |   |       |
+|   |   |   |   |       +---detail
+|   |   |   |   |       |       page.tsx
+|   |   |   |   |       |
+|   |   |   |   |       \---new
+|   |   |   |   |               page.tsx
+|   |   |   |   |
+|   |   |   |   +---dashboard
+|   |   |   |   |       layout.tsx
+|   |   |   |   |       page.tsx
+|   |   |   |   |
+|   |   |   |   +---declaration
+|   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   statement.tsx
+|   |   |   |   |   |   summary.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---complete
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---calculation
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---credit
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---final
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---purchase
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---sale
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---details
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---feedback
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---green-tax
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---summary
+|   |   |   |   |           page.tsx
+|   |   |   |   |
+|   |   |   |   +---home
+|   |   |   |   |       layout.tsx
+|   |   |   |   |       page.tsx
+|   |   |   |   |
+|   |   |   |   +---invoices
+|   |   |   |   |   |   layout.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---buy
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---detail
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---exports
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---detail
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---files
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---sales
+|   |   |   |   |       |   page.tsx
+|   |   |   |   |       |
+|   |   |   |   |       \---detail
+|   |   |   |   |               page.tsx
+|   |   |   |   |
+|   |   |   |   +---old-Invoices
+|   |   |   |   |   +---buy
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---detail
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---exports
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---detail
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---sales
+|   |   |   |   |       |   page.tsx
+|   |   |   |   |       |
+|   |   |   |   |       \---detail
+|   |   |   |   |               page.tsx
+|   |   |   |   |
+|   |   |   |   +---purchase-announcements
+|   |   |   |   |   |   page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---bourse
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---imports
+|   |   |   |   |           page.tsx
+|   |   |   |   |
+|   |   |   |   +---requests
+|   |   |   |   |   +---auto-reject-referred-invoices
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---defer-invoice-tax-effect
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---increase-sales-limit
+|   |   |   |   |           page.tsx
+|   |   |   |   |
+|   |   |   |   +---roles
+|   |   |   |   |   |   layout.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---add
+|   |   |   |   |           layout.tsx
+|   |   |   |   |           page.tsx
+|   |   |   |   |
+|   |   |   |   +---tax-bills
+|   |   |   |   |       page.tsx
+|   |   |   |   |
+|   |   |   |   +---taxfile
+|   |   |   |   |   |   layout.tsx
+|   |   |   |   |   |   page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---bank-accounts
+|   |   |   |   |   |       layout.tsx
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---bills
+|   |   |   |   |   |       layout.tsx
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---memory-uid
+|   |   |   |   |   |   |   layout.tsx
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   +---add
+|   |   |   |   |   |   |       page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---details
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---payments
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---registration
+|   |   |   |   |   |       layout.tsx
+|   |   |   |   |   |       page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   +---trusted
+|   |   |   |   |   |   |   layout.tsx
+|   |   |   |   |   |   |   page.tsx
+|   |   |   |   |   |   |
+|   |   |   |   |   |   \---add
+|   |   |   |   |   |           page.tsx
+|   |   |   |   |   |
+|   |   |   |   |   \---trusted-companies
+|   |   |   |   |           page.tsx
+|   |   |   |   |
+|   |   |   |   \---users-roles
+|   |   |   |       |   layout.tsx
+|   |   |   |       |   page.tsx
+|   |   |   |       |
+|   |   |   |       \---add
+|   |   |   |               layout.tsx
+|   |   |   |               page.tsx
+|   |   |   |
+|   |   |   +---login
+|   |   |   |       layout.tsx
+|   |   |   |       page.tsx
+|   |   |   |
+|   |   |   +---otp
+|   |   |   |       page.tsx
+|   |   |   |
+|   |   |   \---portal
+|   |   |           layout.tsx
+|   |   |           page.tsx
+|   |   |
+|   |   +---platform-check
+|   |   |       page.tsx
+|   |   |
+|   |   \---salary-tax
+|   |       +---batch
+|   |       |       page.tsx
+|   |       |
+|   |       +---dashboard
+|   |       |       page.tsx
+|   |       |
+|   |       +---free
+|   |       |       page.tsx
+|   |       |
+|   |       +---login
+|   |       |       page.tsx
+|   |       |
+|   |       \---pro
+|   |               page.tsx
+|   |
+|   \---terms
+|           page.tsx
+|
++---components
+|   |   Stepper.tsx
+|   |
+|   +---admin
+|   |       NoticeForm.tsx
+|   |
+|   +---auth
+|   |       ChangePasswordForm.tsx
+|   |       LoginForm.tsx
+|   |
+|   +---business
+|   |   |   BusinessCreationEligibilityModal.tsx
+|   |   |
+|   |   \---onboarding
+|   |           AddBranchModal.tsx
+|   |           OnboardingChoiceModal.tsx
+|   |           Step2Tabs.tsx
+|   |           StepRegistration.tsx
+|   |
+|   +---common
+|   |   |   Captcha.tsx
+|   |   |   FaDigits.tsx
+|   |   |   HelpGuideButton.tsx
+|   |   |   InputField.tsx
+|   |   |
+|   |   +---date
+|   |   |       JalaliDateField.tsx
+|   |   |
+|   |   \---help
+|   |           HelpModal.tsx
+|   |           HelpTrigger.tsx
+|   |
+|   +---insurance
+|   |       InputGroup.tsx
+|   |       InsuranceResultBox.tsx
+|   |       InsuranceSingleForm.tsx
+|   |       tax-result.interface.ts
+|   |
+|   +---landing
+|   |       analytics.ts
+|   |       ArticlePreview.tsx
+|   |       ComparisonTable.tsx
+|   |       DemoCard.tsx
+|   |       FeatureCard.tsx
+|   |       HeroSection.tsx
+|   |       HowItWorks.tsx
+|   |       index.ts
+|   |       LandingFooter.tsx
+|   |       LandingShell.tsx
+|   |       MiniAnchorNav.tsx
+|   |       perf-metrics.ts
+|   |       SocialProof.tsx
+|   |       StickyPromoBar.tsx
+|   |       TrustStrip.tsx
+|   |
+|   +---salary-tax
+|   |       page.tsx
+|   |       SalaryTaxForm.tsx
+|   |       SalaryTaxResult.tsx
+|   |       SimulatorHeader.tsx
+|   |
+|   +---simulators
+|   |   \---karpooshe
+|   |           KarpoosheLoginForm.tsx
+|   |
+|   \---ui
+|           button.tsx
+|           card.tsx
+|           dialog.tsx
+|           input.tsx
+|           label.tsx
+|           SkeletonLoader.tsx
+|           table.tsx
+|           tabs.tsx
+|
++---constants
+|   \---help
+|           adminDashboardHelp.ts
+|
++---features
+|   \---modian
+|       |   faq-data.ts
+|       |   index.ts
+|       |   karpooshe-code-search.tsx
+|       |   menu-items.ts
+|       |   ModianFaqTab.tsx
+|       |   ModianHome.tsx
+|       |   ModianNoticesTabs.tsx
+|       |   ModianPortal.tsx
+|       |   ModianQuickAccess.tsx
+|       |   ModianSidebar.tsx
+|       |   ModianWorkspace.tsx
+|       |
+|       +---admin
+|       |   |   index.ts
+|       |   |
+|       |   \---dashboard
+|       |           AdminDashboardHelpContent.tsx
+|       |
+|       +---auth
+|       |       index.ts
+|       |       ModianLoginForm.tsx
+|       |       ModianOtpForm.tsx
+|       |
+|       +---common
+|       |   |   index.ts
+|       |   |   InvoiceDetailSection.tsx
+|       |   |   memoryKey.utils.ts
+|       |   |   ModianJalaliDateField.tsx
+|       |   |   useMemoryPublicKey.ts
+|       |   |
+|       |   +---date
+|       |   |       jalali-utils.ts
+|       |   |
+|       |   +---search
+|       |   |       index.ts
+|       |   |       InvoicesSearchHeader.tsx
+|       |   |       SearchByFilters.tsx
+|       |   |       SearchByTaxId.tsx
+|       |   |
+|       |   \---table
+|       |           ColumnsVisibilityBar.tsx
+|       |           EmptyTableRow.tsx
+|       |           index.ts
+|       |           ScrollableTableShell.tsx
+|       |
+|       +---declaration
+|       |       DeclarationHelpContent.tsx
+|       |       index.ts
+|       |
+|       +---home
+|       |       HomeHelpContent.tsx
+|       |       index.ts
+|       |
+|       +---layout
+|       |       index.ts
+|       |       ModianFooter.tsx
+|       |       ModianHeader.tsx
+|       |       ModianShell.tsx
+|       |       ModianSubHeader.tsx
+|       |
+|       +---otp
+|       |       Otppage.tsx
+|       |
+|       +---portal
+|       |       index.ts
+|       |       PortalHelpContent.tsx
+|       |
+|       +---roles
+|       |       index.ts
+|       |
+|       +---taxfile
+|       |   |   index.ts
+|       |   |   TaxfileLayoutView.tsx
+|       |   |   TaxfilePageView.tsx
+|       |   |   TaxfileSubmenu.tsx
+|       |   |
+|       |   +---bank-accounts
+|       |   |       BankAccountsHelpContent.tsx
+|       |   |       BankAccountsPage.tsx
+|       |   |
+|       |   +---bills
+|       |   |       BillsHelpContent.tsx
+|       |   |       BillsPage.tsx
+|       |   |
+|       |   +---memory-uid
+|       |   |   |   Memory-uidpage.tsx
+|       |   |   |   MemoryUidHelpContent.tsx
+|       |   |   |
+|       |   |   +---add
+|       |   |   |       Addpage.tsx
+|       |   |   |
+|       |   |   +---details
+|       |   |   |       Detailspage.tsx
+|       |   |   |
+|       |   |   \---edit
+|       |   |           page.tsx
+|       |   |
+|       |   +---payments
+|       |   |       PaymentsPage.tsx
+|       |   |
+|       |   +---pos-uid
+|       |   |       page.tsx
+|       |   |
+|       |   +---registration-information
+|       |   |       RegistrationInformationPage.tsx
+|       |   |       types.ts
+|       |   |
+|       |   \---trusted-companies
+|       |           TrustedCompaniesPage.tsx
+|       |           TrustedHelpContent.tsx
+|       |
+|       +---ui
+|       |   |   Card.tsx
+|       |   |   FieldGrid.tsx
+|       |   |   FormField.tsx
+|       |   |   FormToolbar.tsx
+|       |   |   icons.tsx
+|       |   |   index.ts
+|       |   |   PageShell.tsx
+|       |   |   Section.tsx
+|       |   |   SimulatorBadge.tsx
+|       |   |   Tabs.tsx
+|       |   |   ToolbarControls.tsx
+|       |   |   UploadPublicKeyModal.tsx
+|       |   |
+|       |   \---date
+|       |           ModianJalaliDatePicker.tsx
+|       |
+|       +---users-roles
+|       |       index.ts
+|       |       UsersRolesHelpContent.tsx
+|       |
+|       \---workspace
+|               index.ts
+|
++---generated
+|   \---prisma
+|       |   client.d.ts
+|       |   client.js
+|       |   default.d.ts
+|       |   default.js
+|       |   edge.d.ts
+|       |   edge.js
+|       |   index-browser.js
+|       |   index.d.ts
+|       |   index.js
+|       |   package.json
+|       |   query_engine-windows.dll.node
+|       |   query_engine_bg.js
+|       |   query_engine_bg.wasm
+|       |   schema.prisma
+|       |   wasm-edge-light-loader.mjs
+|       |   wasm-worker-loader.mjs
+|       |   wasm.d.ts
+|       |   wasm.js
+|       |
+|       \---runtime
+|               edge-esm.js
+|               edge.js
+|               index-browser.d.ts
+|               index-browser.js
+|               library.d.ts
+|               library.js
+|               react-native.js
+|               wasm-compiler-edge.js
+|               wasm-engine-edge.js
+|
++---hooks
+|       useBusinessCreationEligibility.ts
+|       useDigits.ts
+|       useUserInfo.ts
+|
++---lib
+|   |   brand.ts
+|   |   modianApi.ts
+|   |   utils.ts
+|   |
+|   +---api
+|   |       client.ts
+|   |       config.ts
+|   |       endpoints.ts
+|   |
+|   +---date
+|   |       jalali.ts
+|   |
+|   +---i18n
+|   |       digits.ts
+|   |
+|   \---validation
+|           onboarding.schema.ts
+|
+\---types
+        moment-jalaali.d.ts
+        onboarding.ts

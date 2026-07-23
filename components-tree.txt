@@ -1,61 +1,73 @@
-src\components
-├─ admin/
-│  └─ NoticeForm.tsx
-├─ auth/
-│  ├─ ChangePasswordForm.tsx
-│  └─ LoginForm.tsx
-├─ business/
-│  └─ onboarding/
-│     ├─ AddBranchModal.tsx
-│     ├─ OnboardingChoiceModal.tsx
-│     ├─ Step2Tabs.tsx
-│     └─ StepRegistration.tsx
-├─ common/
-│  ├─ date/
-│  │  └─ JalaliDateField.tsx
-│  ├─ help/
-│  │  ├─ HelpModal.tsx
-│  │  └─ HelpTrigger.tsx
-│  ├─ Captcha.tsx
-│  ├─ FaDigits.tsx
-│  ├─ HelpGuideButton.tsx
-│  └─ InputField.tsx
-├─ insurance/
-│  ├─ InputGroup.tsx
-│  ├─ InsuranceResultBox.tsx
-│  ├─ InsuranceSingleForm.tsx
-│  └─ tax-result.interface.ts
-├─ landing/
-│  ├─ analytics.ts
-│  ├─ ArticlePreview.tsx
-│  ├─ ComparisonTable.tsx
-│  ├─ DemoCard.tsx
-│  ├─ FeatureCard.tsx
-│  ├─ HeroSection.tsx
-│  ├─ HowItWorks.tsx
-│  ├─ index.ts
-│  ├─ LandingFooter.tsx
-│  ├─ LandingShell.tsx
-│  ├─ MiniAnchorNav.tsx
-│  ├─ perf-metrics.ts
-│  ├─ SocialProof.tsx
-│  ├─ StickyPromoBar.tsx
-│  └─ TrustStrip.tsx
-├─ salary-tax/
-│  ├─ page.tsx
-│  ├─ SalaryTaxForm.tsx
-│  ├─ SalaryTaxResult.tsx
-│  └─ SimulatorHeader.tsx
-├─ simulators/
-│  └─ karpooshe/
-│     └─ KarpoosheLoginForm.tsx
-├─ ui/
-│  ├─ button.tsx
-│  ├─ card.tsx
-│  ├─ dialog.tsx
-│  ├─ input.tsx
-│  ├─ label.tsx
-│  ├─ SkeletonLoader.tsx
-│  ├─ table.tsx
-│  └─ tabs.tsx
-└─ Stepper.tsx
+|   Stepper.tsx
+|
++---admin
+|       NoticeForm.tsx
+|
++---auth
+|       ChangePasswordForm.tsx
+|       LoginForm.tsx
+|
++---business
+|   |   BusinessCreationEligibilityModal.tsx
+|   |
+|   \---onboarding
+|           AddBranchModal.tsx
+|           OnboardingChoiceModal.tsx
+|           Step2Tabs.tsx
+|           StepRegistration.tsx
+|
++---common
+|   |   Captcha.tsx
+|   |   FaDigits.tsx
+|   |   HelpGuideButton.tsx
+|   |   InputField.tsx
+|   |
+|   +---date
+|   |       JalaliDateField.tsx
+|   |
+|   \---help
+|           HelpModal.tsx
+|           HelpTrigger.tsx
+|
++---insurance
+|       InputGroup.tsx
+|       InsuranceResultBox.tsx
+|       InsuranceSingleForm.tsx
+|       tax-result.interface.ts
+|
++---landing
+|       analytics.ts
+|       ArticlePreview.tsx
+|       ComparisonTable.tsx
+|       DemoCard.tsx
+|       FeatureCard.tsx
+|       HeroSection.tsx
+|       HowItWorks.tsx
+|       index.ts
+|       LandingFooter.tsx
+|       LandingShell.tsx
+|       MiniAnchorNav.tsx
+|       perf-metrics.ts
+|       SocialProof.tsx
+|       StickyPromoBar.tsx
+|       TrustStrip.tsx
+|
++---salary-tax
+|       page.tsx
+|       SalaryTaxForm.tsx
+|       SalaryTaxResult.tsx
+|       SimulatorHeader.tsx
+|
++---simulators
+|   \---karpooshe
+|           KarpoosheLoginForm.tsx
+|
+\---ui
+        button.tsx
+        card.tsx
+        dialog.tsx
+        input.tsx
+        label.tsx
+        SkeletonLoader.tsx
+        table.tsx
+        tabs.tsx
