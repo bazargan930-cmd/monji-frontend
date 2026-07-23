@@ -713,6 +713,20 @@ Migration این Platformها پس از تکمیل و تثبیت Modian انجا
   نگه‌داری می‌شود تا از بروز لینک شکسته جلوگیری گردد
 
 
+## Documentation Baseline
+
+این سند از این نقطه مرجع معماری فعلی Frontend است.
+
+اصول تثبیت‌شده:
+
+- `src/app/*` مسئول Route Layer و ساختار URL در Next.js است.
+- `src/features/*` محل نگهداری Platform Features و Domainهای اختصاصی هر پلتفرم است.
+- `src/components/*` برای Shared/Core Components و Domainهای مشترک استفاده می‌شود.
+- Modian به ساختار Feature-Based منتقل شده است.
+- Migration سایر Platformها (Insurance و Salary Tax) پس از تثبیت Modian انجام خواهد شد.
+- Business Domain به دلیل استفاده مشترک بین Platformها در `src/components/business/*` باقی می‌ماند.
+
+هر تغییر معماری جدید باید ابتدا در Documentation ثبت و سپس در ساختار پروژه اعمال شود.
 ---
 
 ## 3) الگوی صفحات (App Router) و *Client/Server*
