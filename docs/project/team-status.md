@@ -24,7 +24,8 @@ Worktree: ghaaanoon-frontend-structure
 
 Status: ACTIVE
 
-Current Task: Establish Team Governance and Development Workflow
+Current Task:
+Maintain Architecture Governance, Documentation and Development Coordination
 
 ------------------------------------------------------------------------
 
@@ -34,9 +35,10 @@ Branch: feature/modian-development-phase
 
 Worktree: ghaaanoon-frontend-modian
 
-Status: ACTIVE
+Status: READY_FOR_DEVELOPMENT
 
-Current Task: TBD
+Current Task:
+Define and execute first Modian Feature Task
 
 ------------------------------------------------------------------------
 
@@ -46,9 +48,10 @@ Branch: feature/landing-development-phase
 
 Worktree: ghaaanoon-frontend-landing
 
-Status: ACTIVE
+Status: READY_FOR_DEVELOPMENT
 
-Current Task: TBD
+Current Task:
+Define and execute first Landing Feature Task
 
 ------------------------------------------------------------------------
 
@@ -74,6 +77,12 @@ Merge به main فقط توسط Structure Team انجام می‌شود.
 
 تیم‌ها مجاز به Commit و Push Branch خود هستند، اما Merge مستقیم به main
 ممنوع است.
+
+## Feature Development Baseline
+
+All frontend feature development starts from:
+
+baseline/frontend-development-teams-ready-2026-07-24
 
 ------------------------------------------------------------------------
 
