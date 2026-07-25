@@ -110,13 +110,18 @@ Modian Team
 
 Status:
 
-READY
+IN PROGRESS
+
+Active Task:
+
+TASK-0001 - Modian Registration Information Phase 2 Integration
 
 Objectives:
 
--   توسعه Featureهای اختصاصی Modian
--   تکمیل Integration با Backend
--   حفظ Architecture Rules
+- توسعه Featureهای اختصاصی Modian
+- تکمیل Integration با Backend
+- حفظ Architecture Rules
+- اتصال تدریجی صفحات Modian به Backend و Database
 
 ------------------------------------------------------------------------
 

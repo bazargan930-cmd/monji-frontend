@@ -26,7 +26,22 @@ Feature Development Phase
 ## Status
 
 ```
-READY
+ACTIVE
+```
+
+---
+
+# Active Feature Development
+
+Current Feature:
+TASK-0001 - Modian Registration Information Phase 2 Integration
+
+Owner:
+Modian Team
+
+Supporting Areas:
+Backend Controlled Development
+Structure Team
 ```
 
 ---

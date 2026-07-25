@@ -151,6 +151,28 @@ Merge Backend به main فقط پس از:
 
 ---
 
+# Cross-Layer Feature Control
+
+Featureهایی که همزمان شامل:
+
+- Frontend
+- Backend
+- Database
+- API Contract
+
+هستند باید قبل از Implementation دارای:
+
+- Task Definition
+- Impact Review
+- Ownership Confirmation
+- Documentation Update
+
+باشند.
+
+Merge این Featureها فقط پس از Review تیم‌های مرتبط انجام می‌شود.
+
+---
+
 # Development Flow
 
 فرآیند استاندارد:
