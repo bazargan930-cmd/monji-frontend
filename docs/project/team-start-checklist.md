@@ -41,6 +41,32 @@ feee171
 
 قبل از شروع توسعه، اعضای تیم باید اسناد زیر را مطالعه کنند:
 
+# Context Package
+
+قبل از شروع Chat یا Task جدید، Context Package پروژه باید بررسی شود.
+
+مسیر:
+
+docs/project/context/
+
+فایل‌ها:
+
+- MONJI-CONTEXT.md
+
+هدف:
+شناخت وضعیت کلی پروژه، قوانین اصلی و محدودیت‌های مهم.
+
+- MONJI-TECHNICAL-MAP.md
+
+هدف:
+شناخت نقشه فنی سطح بالا و محل قرارگیری Domainها.
+
+- MONJI-CHANGELOG.md
+
+هدف:
+شناخت تغییرات مهم اخیر که روی تصمیم‌ها و Context پروژه اثر دارند.
+
+
 ## Architecture
 
 ```
