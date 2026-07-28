@@ -1,0 +1,216 @@
+Decision Record
+Monji Education Market Entry Strategy v1
+Date
+
+2026-07-27
+
+Decision ID
+DEC-EDU-001
+Decision Type
+Product Strategy / Business Model Decision
+Context
+
+Monji در فاز اول توسعه با هدف ایجاد یک پلتفرم شبیه‌سازی شده از سامانه مودیان توسعه می‌یابد.
+
+مخاطبان اصلی فاز اول:
+
+دانشجویان و فارغ‌التحصیلان حسابداری
+کارکنان امور مالی شرکت‌ها
+
+در ادامه، آموزشگاه‌های حسابداری به عنوان یک بازار سازمانی بالقوه شناسایی شدند.
+
+Initial Consideration
+
+دو مسیر برای ورود به بازار آموزشگاه‌ها بررسی شد:
+
+گزینه A
+
+ایجاد سریع زیرساخت کامل B2B:
+
+پنل آموزشگاه
+مدیریت دانشجویان
+خرید عمده
+گزارش پیشرفت
+گزینه B
+
+ورود مرحله‌ای از طریق:
+
+Referral Program
+Campaign Code
+همکاری آموزشی محدود
+
+بدون ایجاد ساختار سازمانی کامل.
+
+Decision
+
+تصمیم گرفته شد:
+
+در فاز اول:
+
+آموزشگاه‌ها به عنوان:
+
+Channel Partner / Referral Partner
+
+دیده شوند.
+
+نه:
+
+B2B Platform Customer
+Strategy
+
+مسیر پیشنهادی:
+
+آموزشگاه
+    |
+    |
+معرفی Monji
+    |
+    |
+دانشجو
+    |
+    |
+ثبت‌نام با کد معرفی
+    |
+    |
+استفاده از Monji
+Reasoning
+
+دلایل تصمیم:
+
+1- کاهش ریسک توسعه
+
+عدم نیاز فوری به:
+
+Organization Model
+Partner Dashboard
+Student Management
+Bulk Subscription System
+2- اعتبارسنجی بازار
+
+قبل از سرمایه‌گذاری روی B2B باید مشخص شود:
+
+آیا آموزشگاه‌ها حاضر به معرفی هستند؟
+آیا دانشجویان تبدیل به کاربر می‌شوند؟
+چه مدل همکاری جذاب‌تر است؟
+3- حفظ تمرکز فاز اول
+
+تمرکز اصلی:
+
+B2C Learning Experience
+
+باقی می‌ماند.
+
+Impact Analysis
+Landing
+
+تأثیر:
+
+Medium
+
+تغییرات:
+
+آموزشگاه‌ها از Persona اصلی حذف می‌شوند.
+پیام اصلی Landing روی دانشجو و حسابدار باقی می‌ماند.
+امکان CTA محدود برای همکاری آموزشی در نظر گرفته می‌شود.
+Product Roadmap
+
+تأثیر:
+
+High
+
+Phase 2:
+
+Education Partnership
+
+به عنوان مسیر توسعه آینده ثبت می‌شود.
+
+Frontend
+
+تأثیر فعلی:
+
+Low
+
+نیاز فوری:
+
+ندارد.
+
+Backend
+
+تأثیر فعلی:
+
+No Impact
+
+Database
+
+تأثیر فعلی:
+
+No Impact
+
+API
+
+تأثیر فعلی:
+
+No Impact
+
+Future Consideration
+
+در صورت موفقیت مدل Referral:
+
+ممکن است در Phase 2 نیاز باشد:
+
+Partner Account
+Training Center Entity
+Student Groups
+Subscription Management
+Partner Reporting
+
+طراحی شود.
+
+اما در این مرحله هیچ تغییر معماری پیشنهاد نمی‌شود.
+
+Business Model Hypothesis
+
+مدل آزمایشی:
+
+آموزشگاه:
+
+ارزش دریافت می‌کند:
+
+ارزش افزوده برای دانشجویان
+اعتبار آموزشی
+امکان معرفی ابزار حرفه‌ای
+دانشجو:
+
+ارزش دریافت می‌کند:
+
+دسترسی آسان‌تر
+مزیت ویژه
+تجربه عملی
+Monji:
+
+ارزش دریافت می‌کند:
+
+جذب کاربر
+کانال توزیع کم‌هزینه
+ارتباط با بازار آموزشی
+Status
+Decision:
+Approved for Product Strategy Direction
+
+Implementation:
+Not Started
+
+Architecture Change:
+None
+
+Documentation Update:
+Required after approval
+
+Success Criteria
+
+این تصمیم در صورت مشاهده موارد زیر بازبینی خواهد شد:
+
+- تعداد آموزشگاه‌های علاقه‌مند به همکاری
+- تعداد ثبت‌نام موفق از طریق Referral Code
+- نرخ تبدیل دانشجوی معرفی‌شده
+- درخواست واقعی برای امکانات B2B
